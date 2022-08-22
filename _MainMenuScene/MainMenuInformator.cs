@@ -15,11 +15,6 @@ namespace TacticalPanicCode
         private GameObject saves;
         private GameObject options;
 
-        void Awake()
-        {
-            SingletoneCheck(this);
-        }
-
         public static GameObject GetBaner()
         {
             return instance.baner;
