@@ -1,32 +1,29 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace TacticalPanicCode
+public class BanerMenuOperator : MonoBehaviour
 {
-    public class BanerMenuOperator : MonoBehaviour
+    public void Play()
     {
-        public void Play()
-        {
-            MainMenuManager.SwitchPanels(MenuMarks.saves);
-        }
+        MainMenuManager.SwitchPanels(MenuMarks.saves);
+    }
 
-        public void Options()
-        {
-            MainMenuManager.SwitchPanels(MenuMarks.options);
-        }
+    public void Options()
+    {
+        MainMenuManager.SwitchPanels(MenuMarks.options);
+    }
 
-        public void Credits()
-        {
-            MainMenuManager.SwitchPanels(MenuMarks.credits);
-        }
+    public void Credits()
+    {
+        MainMenuManager.SwitchPanels(MenuMarks.credits);
+    }
 
-        public void QuitGame()
-        {
+    public void QuitGame()
+    {
 #if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
-        }
     }
 }

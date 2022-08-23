@@ -1,8 +1,6 @@
-namespace TacticalPanicCode
+
+public interface IScenePanel
 {
-    public interface IScenePanel
-    {
-        public void DiactiveAllPanels();
-        public void BasicPanelSettings();
-    }
+    public void DiactiveAllPanels();
+    public void BasicPanelSettings();
 }
