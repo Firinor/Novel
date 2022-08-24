@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System;
 using System.Text;
 
 using StagePosition = DialogInformator.SpeakersPhrase.PositionOnTheStage;
@@ -96,7 +95,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             string phrase = speakersPhrase.text;
             for (int j = 0; j < phrase.Length; j++)
             {
-                strindBuilder.Append(speakersPhrase.text[j]);
+                strindBuilder.Append(phrase[j]);
                 text.text = strindBuilder.ToString();
                 if (skipText)
                 {
