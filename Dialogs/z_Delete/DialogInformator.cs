@@ -17,8 +17,6 @@ public class DialogInformator : ScriptableObject
     [System.Serializable]
     public class SpeakersPhrase
     {
-        public enum PositionOnTheStage { Left, Center, Right, OffScene, Off }
-
         public Sprite background;
         public CharacterInformator Speaker;
         public PositionOnTheStage Position;

@@ -5,8 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using System.Text;
 
-using StagePosition = DialogInformator.SpeakersPhrase.PositionOnTheStage;
-
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
     [SerializeField]
@@ -78,7 +76,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         {
             DialogInformator.SpeakersPhrase speakersPhrase = dialog[i];
 
-            if (speakersPhrase.Position == StagePosition.Off)
+            if (speakersPhrase.Position == PositionOnTheStage.Off)
             {
                 LeaveTheStage(speakersPhrase.Speaker);
                 continue;
@@ -206,13 +204,13 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         activeSpeaker.ToTheForeground();
     }
 
-    private Transform GetSpeakerParent(StagePosition position)
+    private Transform GetSpeakerParent(PositionOnTheStage position)
     {
         return position switch
         {
-            StagePosition.Left => leftSpeaker.transform,
-            StagePosition.Right => rightSpeaker.transform,
-            StagePosition.Center => centerSpeaker.transform,
+            PositionOnTheStage.Left => leftSpeaker.transform,
+            PositionOnTheStage.Right => rightSpeaker.transform,
+            PositionOnTheStage.Center => centerSpeaker.transform,
             _ => centerSpeaker.transform,
         };
     }
