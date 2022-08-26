@@ -4,11 +4,16 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Text;
+using System.Numerics;
+using System.Threading.Tasks;
+using System;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
     [SerializeField]
     private GameObject speakerPrefab;
+    [SerializeField]
+    private GameObject APlaqueWithTheName;
     [Space]
     [SerializeField]
     private Image background;
@@ -21,10 +26,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     [SerializeField]
     private TextMeshProUGUI speakerName;
     [SerializeField]
-    private TextMeshPro text;
+    private TextMeshProUGUI textMeshPro;
     [SerializeField]
     private float lettersDelay;
-    private WaitForSeconds delay;
     [SerializeField]
     private Image nextArrow;
 
@@ -48,80 +52,46 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     public static GameObject Left { get { return instance.leftSpeaker; } }
     public static GameObject Center { get { return instance.centerSpeaker; } }
     public static GameObject Right { get { return instance.rightSpeaker; } }
-    public static string Text { get { return instance.text.text; } set { instance.text.text = value; } }
-    public static Sprite Background { get { return instance.background.sprite; } set { instance.background.sprite = value; } }
 
-    void Awake()
+    public void SetLettersDelay(float delta)
     {
-        SingletoneCheck(this);
-        SetDelay(lettersDelay);
+        lettersDelay = delta;
     }
-
-    public void SetDelay(float time)
+    public async Task PrintText(string text)
     {
-        delay = new WaitForSeconds(time);
-    }
-
-    public void StartCoroutineDialog(DialogInformator dialog)
-    {
-        StartCoroutine(StartDialog(dialog));
-    }
-
-    public IEnumerator StartDialog(DialogInformator dialog)
-    {
-        ClearAllSpeakers();
         nextInput = false;
         skipText = false;
-        for (int i = 0; i < dialog.Length; i++)
+        nextArrow.enabled = false;
+
+        strindBuilder.Clear();
+
+        textMeshPro.text = strindBuilder.ToString();
+
+        for (int j = 0; j < text.Length; j++)
         {
-            DialogInformator.SpeakersPhrase speakersPhrase = dialog[i];
-
-            if (speakersPhrase.Position == PositionOnTheStage.Off)
-            {
-                LeaveTheStage(speakersPhrase.Speaker);
-                continue;
-            }
-
-            strindBuilder.Clear();
-            nextArrow.enabled = false;
-            nextInput = false;
-            text.text = strindBuilder.ToString();
-
-            SetBackground(speakersPhrase.background);
-            CharacterInformator speaker = CheckSpeaker(speakersPhrase);
-            SetActiveSpeaker(speaker);
-            string phrase = speakersPhrase.text;
-            for (int j = 0; j < phrase.Length; j++)
-            {
-                strindBuilder.Append(phrase[j]);
-                text.text = strindBuilder.ToString();
-                if (skipText)
-                {
-                    break;
-                }
-                if (nextInput)
-                {
-                    j = phrase.Length;
-                    text.text = speakersPhrase.text;
-                    nextInput = false;
-                }
-                yield return delay;
-            }
-            nextArrow.enabled = true;
-            while (!nextInput)
-            {
-                if (skipText)
-                {
-                    break;
-                }
-                yield return null;
-            }
+            strindBuilder.Append(text[j]);
+            textMeshPro.text = strindBuilder.ToString();
             if (skipText)
             {
                 break;
             }
+            if (nextInput)
+            {
+                j = text.Length;
+                textMeshPro.text = text;
+                nextInput = false;
+            }
+            await Task.Delay((int)(lettersDelay * 1000));
         }
-        EndOfDialog();
+        nextArrow.enabled = true;
+        while (!nextInput)
+        {
+            if (skipText)
+            {
+                break;
+            }
+            await Task.Yield();
+        }
     }
 
     private void LeaveTheStage(CharacterInformator speaker)
@@ -166,34 +136,15 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
     }
 
-    private CharacterInformator CheckSpeaker(DialogInformator.SpeakersPhrase speakersPhrase)
-    {
-        CharacterInformator speaker = speakersPhrase.Speaker;
-        if (!speakers.ContainsKey(speaker))
-        {
-            GameObject newSpeaker = Instantiate(speakerPrefab, GetSpeakerParent(speakersPhrase.Position));
-            speakers.Add(speakersPhrase.Speaker, newSpeaker.GetComponent<SpeakerOperator>());
-            speakers[speaker].SetImage(speaker);
-        }
-        else
-        {
-            speakers[speaker].transform.SetParent(GetSpeakerParent(speakersPhrase.Position));
-        }
-
-        speakerName.text = speaker.Name;
-
-        return speaker;
-    }
-
-    private void SetBackground(Sprite background)
+    public void SetBackground(Sprite background)
     {
         if (background != null)
             this.background.sprite = background;
     }
 
-    private void SetActiveSpeaker(CharacterInformator speaker)
+    public void SetActiveSpeaker(CharacterInformator speaker)
     {
-        if (speaker == null)
+        if (speaker == null || !speakers.ContainsKey(speaker))
             return;
         if (activeSpeaker == speakers[speaker])
             return;

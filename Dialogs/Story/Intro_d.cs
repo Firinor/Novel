@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Intro_d : DialogNode
@@ -34,21 +35,23 @@ public class Intro_d : DialogNode
         return Header[(int)PlayerManager.Language];
     }
 
-    public override void StartDialog()
+    public override async void StartDialog()
     {
-        NoName("");
+        base.StartDialog();
 
-        NoName("...");
+        await PrintText("");
 
-        NoName("Это базовая пустая сцена!");
+        await PrintText("...");
 
-        Say(Speaker, "Привет!");
+        await PrintText("Это базовая пустая сцена!");
 
-        Say(Speaker, "Так говорит персонаж без присутствия на сцене.");
+        await Say(Speaker, "Привет!");
+
+        await Say(Speaker, "Так говорит персонаж без присутствия на сцене.");
 
         Show(Uysyf, PositionOnTheStage.Center);
 
-        Say(Uysyf, "Так говорит персонаж появившийся по середине сцены.");
+        await Say(Uysyf, "Так говорит персонаж появившийся по середине сцены.");
 
         Show(Artur, PositionOnTheStage.Center);
         Show(Knight, PositionOnTheStage.Left);
@@ -56,14 +59,14 @@ public class Intro_d : DialogNode
         Show(Orc, PositionOnTheStage.Right);
         Show(Mark, PositionOnTheStage.Right);
 
-        Say(Uysyf, "Одновременно на сцене может быть не более 6 персонажей. Персонажи не могут повторяться.");
-        Say(Olivia, "Говорящий персонаж выделяется на фоне других.");
+        await Say(Uysyf, "Одновременно на сцене может быть не более 6 персонажей. Персонажи не могут повторяться.");
+        await Say(Olivia, "Говорящий персонаж выделяется на фоне других.");
 
         Scene(Lab);
-        Say(Olivia, "Вот так выглядит задник.");
+        await Say(Olivia, "Вот так выглядит задник.");
 
         SceneOff();
-        Say(Olivia, "Задники и персонажей можно отключать.");
+        await Say(Olivia, "Задники и персонажей можно отключать.");
 
         Scene(Island);
 
@@ -72,19 +75,19 @@ public class Intro_d : DialogNode
         Hide(Olivia);
         Hide(Orc);
 
-        Say(Uysyf, "Задники могут меняться");
+        await Say(Uysyf, "Задники могут меняться");
 
         Scene(Tavern);
 
-        Say(Olivia, "Персонажи умеют говорить из-за сцены.");
+        await Say(Olivia, "Персонажи умеют говорить из-за сцены.");
 
         Show(Mark, PositionOnTheStage.Left);
 
-        NoName("Персонажи умеют перемещаться по сцене. Марк переместился с правой стороны экрана на левую.");
+        await PrintText("Персонажи умеют перемещаться по сцене. Марк переместился с правой стороны экрана на левую.");
 
-        Say(Mark, "Марк это я)");
+        await Say(Mark, "Марк это я)");
 
-        Say(Mark, "Есть возможность выбрать из нескольких вариантов ответов:");
+        await Say(Mark, "Есть возможность выбрать из нескольких вариантов ответов:");
 
         Fork();
     }

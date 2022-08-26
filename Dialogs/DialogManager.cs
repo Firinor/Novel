@@ -10,16 +10,11 @@ public class DialogManager : SinglBehaviour<DialogManager>
     void Awake()
     {
         SingletoneCheck(this);
+        dialogOperator.SingletoneCheck(dialogOperator);
     }
 
-    public void StartDialog(DialogButtonOperator dialog)
-    {
-        StartCoroutineDialog(dialog);
-    }
-
-    public void StartCoroutineDialog(IDialog dialog)
+    public static void ActivateDialog()
     {
         instance.dialog.SetActive(true);
-        instance.dialogOperator.StartCoroutineDialog(dialog.Dialog);
     }
 }

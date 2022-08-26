@@ -1,7 +1,8 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public enum PositionOnTheStage { Left, Center, Right, OffScene, Off }
+public enum PositionOnTheStage { Left, Center, Right, OffScene }
 
 public abstract class DialogNode : MonoBehaviour
 {
@@ -9,8 +10,12 @@ public abstract class DialogNode : MonoBehaviour
     private DialogNode[] Choices;
     [SerializeField]
     private string DescriptionOfSelection;
+    private DialogOperator dialogOperator;
 
-
+    void Awake()
+    {
+        dialogOperator = DialogOperator.instance;
+    }
     public virtual string GetHeader()
     {
         return "ERROR!!!";
@@ -18,6 +23,7 @@ public abstract class DialogNode : MonoBehaviour
 
     public virtual void StartDialog()
     {
+        DialogManager.ActivateDialog();
         CleareAll();
     }
 
@@ -28,14 +34,14 @@ public abstract class DialogNode : MonoBehaviour
         //music off
     }
 
-    public void NoName(string text)
+    public Task PrintText(string text)
     {
-
+        return dialogOperator.PrintText(text);
     }
 
     public void Scene(Sprite sprite)
     {
-
+        dialogOperator.SetBackground(sprite);
     }
 
     public void SceneOff()
@@ -43,9 +49,10 @@ public abstract class DialogNode : MonoBehaviour
 
     }
 
-    public void Say(CharacterInformator character, string text)
+    public Task Say(CharacterInformator character, string text)
     {
-
+        dialogOperator.SetActiveSpeaker(character);
+        return PrintText(text);
     }
 
     public void Show(CharacterInformator character, PositionOnTheStage position)

@@ -12,7 +12,7 @@ public class ChoiceB_d : DialogNode
 
     public override void StartDialog()
     {
-        CleareAll();
+        base.StartDialog();
 
         Scene(scene);
         Show(Artur, PositionOnTheStage.Center);
