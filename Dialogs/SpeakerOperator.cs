@@ -15,7 +15,7 @@ public class SpeakerOperator : MonoBehaviour
     [SerializeField]
     private Vector3 scaleOnBackground;
 
-    internal void SetImage(CharacterInformator speaker)
+    internal void SetCharacter(CharacterInformator speaker)
     {
         image.sprite = speaker.unitSprite;
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 
@@ -33,8 +34,18 @@ public abstract class DialogNode : MonoBehaviour
         HideAll();
         //music off
     }
-
-    public Task PrintText(string text)
+    public Task Say(CharacterInformator character, string text)
+    {
+        dialogOperator.SetPlaqueName(character);
+        dialogOperator.SetActiveSpeaker(character);
+        return PrintText(text);
+    }
+    public Task Say(string text)
+    {
+        dialogOperator.SetPlaqueName();
+        return PrintText(text);
+    }
+    private Task PrintText(string text)
     {
         return dialogOperator.PrintText(text);
     }
@@ -46,27 +57,20 @@ public abstract class DialogNode : MonoBehaviour
 
     public void SceneOff()
     {
-
+        dialogOperator.OffBackground();
     }
-
-    public Task Say(CharacterInformator character, string text)
-    {
-        dialogOperator.SetActiveSpeaker(character);
-        return PrintText(text);
-    }
-
     public void Show(CharacterInformator character, PositionOnTheStage position)
     {
-        
+        dialogOperator.AddSpeaker(character, position);
     }
 
     public void Hide(CharacterInformator character)
     {
-        
+        dialogOperator.RemoveSpeaker(character);
     }
     public void HideAll()
     {
-
+        dialogOperator.ClearAllSpeakers();
     }
 
     public void Fork()

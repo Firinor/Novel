@@ -13,10 +13,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     [SerializeField]
     private GameObject speakerPrefab;
     [SerializeField]
-    private GameObject APlaqueWithTheName;
+    private GameObject plaqueWithTheName;
     [Space]
     [SerializeField]
-    private Image background;
+    private SpriteRenderer background;
+    [SerializeField]
+    private Sprite defaultSprite;
     [SerializeField]
     private GameObject leftSpeaker;
     [SerializeField]
@@ -24,13 +26,13 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     [SerializeField]
     private GameObject rightSpeaker;
     [SerializeField]
-    private TextMeshProUGUI speakerName;
+    private TextMeshPro speakerName;
     [SerializeField]
-    private TextMeshProUGUI textMeshPro;
+    private TextMeshPro textMeshPro;
     [SerializeField]
     private float lettersDelay;
     [SerializeField]
-    private Image nextArrow;
+    private SpriteRenderer nextArrow;
 
     private StringBuilder strindBuilder = new StringBuilder();
 
@@ -94,7 +96,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
     }
 
-    private void LeaveTheStage(CharacterInformator speaker)
+    public void RemoveSpeaker(CharacterInformator speaker)
     {
         SpeakerOperator speakerOperator = null;
 
@@ -113,8 +115,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         gameObject.SetActive(false);
     }
 
-    private void ClearAllSpeakers()
+    public void ClearAllSpeakers()
     {
+        plaqueWithTheName.SetActive(false);
         speakers.Clear();
 
         List<SpeakerOperator> gameObjectToDelete = new List<SpeakerOperator>();
@@ -136,23 +139,59 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
     }
 
+    public void AddSpeaker(CharacterInformator speaker, PositionOnTheStage position)
+    {
+        if (speaker == null)
+            return;
+
+        if (!speakers.ContainsKey(speaker))
+        {
+            var speakerOperator = Instantiate(speakerPrefab, GetSpeakerParent(position)).GetComponent<SpeakerOperator>();
+            speakerOperator.SetCharacter(speaker);
+            speakers.Add(speaker, speakerOperator);
+        }
+
+        SetActiveSpeaker(speaker);
+    }
+
     public void SetBackground(Sprite background)
     {
         if (background != null)
             this.background.sprite = background;
     }
+    public void OffBackground()
+    {
+        background.sprite = defaultSprite;
+    }
 
     public void SetActiveSpeaker(CharacterInformator speaker)
     {
-        if (speaker == null || !speakers.ContainsKey(speaker))
+        if(speakers.ContainsKey(speaker))
+            SetActiveSpeaker(speakers[speaker]);
+    }
+    public void SetActiveSpeaker(SpeakerOperator speaker)
+    {
+        if (speaker == null || !speakers.ContainsValue(speaker))
             return;
-        if (activeSpeaker == speakers[speaker])
+        if (activeSpeaker == speaker)
             return;
         if (activeSpeaker != null)
             activeSpeaker.ToTheBackground();
 
-        activeSpeaker = speakers[speaker];
+        activeSpeaker = speaker;
         activeSpeaker.ToTheForeground();
+    }
+
+    public void SetPlaqueName(CharacterInformator speaker = null)
+    {
+        if (speaker == null)
+        {
+            plaqueWithTheName.SetActive(false);
+            return;
+        }
+
+        plaqueWithTheName.SetActive(true);
+        speakerName.text = speaker.Name;
     }
 
     private Transform GetSpeakerParent(PositionOnTheStage position)

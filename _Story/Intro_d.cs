@@ -39,11 +39,11 @@ public class Intro_d : DialogNode
     {
         base.StartDialog();
 
-        await PrintText("");
+        await Say("");
 
-        await PrintText("...");
+        await Say("...");
 
-        await PrintText("Это базовая пустая сцена!");
+        await Say("Это базовая пустая сцена!");
 
         await Say(Speaker, "Привет!");
 
@@ -83,7 +83,7 @@ public class Intro_d : DialogNode
 
         Show(Mark, PositionOnTheStage.Left);
 
-        await PrintText("Персонажи умеют перемещаться по сцене. Марк переместился с правой стороны экрана на левую.");
+        await Say("Персонажи умеют перемещаться по сцене. Марк переместился с правой стороны экрана на левую.");
 
         await Say(Mark, "Марк это я)");
 
