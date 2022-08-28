@@ -61,7 +61,8 @@ public abstract class DialogNode : MonoBehaviour
     }
     public void Show(CharacterInformator character, PositionOnTheStage position)
     {
-        dialogOperator.AddSpeaker(character, position);
+        dialogOperator.AddSpeaker(character);
+        dialogOperator.SetPosition(character, position);
     }
 
     public void Hide(CharacterInformator character)

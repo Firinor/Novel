@@ -1,34 +1,39 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SpeakerOperator : MonoBehaviour
 {
     [SerializeField]
-    private Image image;
+    private SpriteRenderer image;
     [SerializeField]
     private Transform imageTransform;
     [SerializeField]
     private Color speakerOnBackgroundColor;
     [SerializeField]
     private Vector3 scaleOnBackground;
+    
+    private float unitScale;
+
+    private static int backgroundSortingOrder = 2;
+    private static int foregroundSortingOrder = 3;
 
     internal void SetCharacter(CharacterInformator speaker)
     {
         image.sprite = speaker.unitSprite;
+        unitScale = speaker.UnitScale;
+        ToTheBackground();
     }
 
     public void ToTheBackground()
     {
         image.color = speakerOnBackgroundColor;
-        imageTransform.localScale = scaleOnBackground;
+        image.sortingOrder = backgroundSortingOrder;
+        imageTransform.localScale = scaleOnBackground * unitScale;
     }
 
     public void ToTheForeground()
     {
         image.color = Color.white;
-        imageTransform.localScale = Vector3.one;
+        image.sortingOrder = foregroundSortingOrder;
+        imageTransform.localScale = Vector3.one * unitScale;
     }
 }

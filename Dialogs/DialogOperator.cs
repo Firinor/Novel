@@ -7,6 +7,7 @@ using System.Text;
 using System.Numerics;
 using System.Threading.Tasks;
 using System;
+using UnityEngine.UIElements;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
@@ -139,19 +140,27 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
     }
 
-    public void AddSpeaker(CharacterInformator speaker, PositionOnTheStage position)
+    public void AddSpeaker(CharacterInformator speaker)
     {
         if (speaker == null)
             return;
 
         if (!speakers.ContainsKey(speaker))
         {
-            var speakerOperator = Instantiate(speakerPrefab, GetSpeakerParent(position)).GetComponent<SpeakerOperator>();
+            var speakerOperator = Instantiate(speakerPrefab, GetSpeakerParent()).GetComponent<SpeakerOperator>();
             speakerOperator.SetCharacter(speaker);
             speakers.Add(speaker, speakerOperator);
         }
+    }
+    public void SetPosition(CharacterInformator speaker, PositionOnTheStage position)
+    {
+        if (speaker == null)
+            return;
 
-        SetActiveSpeaker(speaker);
+        if (!speakers.ContainsKey(speaker))
+            return;
+
+        speakers[speaker].transform.SetParent(GetSpeakerParent(position));
     }
 
     public void SetBackground(Sprite background)
@@ -166,17 +175,24 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
     public void SetActiveSpeaker(CharacterInformator speaker)
     {
-        if(speakers.ContainsKey(speaker))
+        if (!speakers.ContainsKey(speaker))
+            SetActiveSpeaker((SpeakerOperator)null);
+        else
             SetActiveSpeaker(speakers[speaker]);
     }
     public void SetActiveSpeaker(SpeakerOperator speaker)
     {
-        if (speaker == null || !speakers.ContainsValue(speaker))
-            return;
         if (activeSpeaker == speaker)
             return;
         if (activeSpeaker != null)
+        {
             activeSpeaker.ToTheBackground();
+            activeSpeaker = null;
+        }
+        if (speaker == null)
+            return;
+        if (!speakers.ContainsValue(speaker))
+            return;
 
         activeSpeaker = speaker;
         activeSpeaker.ToTheForeground();
@@ -194,7 +210,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         speakerName.text = speaker.Name;
     }
 
-    private Transform GetSpeakerParent(PositionOnTheStage position)
+    private Transform GetSpeakerParent(PositionOnTheStage position = PositionOnTheStage.Center)
     {
         return position switch
         {
