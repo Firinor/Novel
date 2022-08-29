@@ -11,14 +11,14 @@ public class ChoiceA_d : DialogNode
     private Sprite scene;
 
 
-    public override void StartDialog()
+    public override async void StartDialog()
     {
         base.StartDialog();
 
         Scene(scene);
         Show(Artur, PositionOnTheStage.Center);
 
-        Say(Artur, "Был выбран вариант \"А\"");
+        await Say(Artur, "Был выбран вариант \"А\"");
 
         Fork();
     }

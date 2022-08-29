@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChoiceB_d : DialogNode
@@ -10,14 +8,14 @@ public class ChoiceB_d : DialogNode
     [SerializeField]
     private Sprite scene;
 
-    public override void StartDialog()
+    public override async void StartDialog()
     {
         base.StartDialog();
 
         Scene(scene);
         Show(Artur, PositionOnTheStage.Center);
 
-        Say(Artur, "Был выбран вариант \"Б\"");
+        await Say(Artur, "Был выбран вариант \"Б\"");
 
         Fork();
     }

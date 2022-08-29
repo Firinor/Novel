@@ -1,18 +1,18 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.UI;
 using System.Text;
-using System.Numerics;
 using System.Threading.Tasks;
 using System;
-using UnityEngine.UIElements;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
     [SerializeField]
     private GameObject speakerPrefab;
+    [SerializeField]
+    private GameObject buttonPrefab;
+    [SerializeField]
+    private GameObject buttonParent;
     [SerializeField]
     private GameObject plaqueWithTheName;
     [Space]
@@ -111,7 +111,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             Destroy(speakerOperator.gameObject);
     }
 
-    private void EndOfDialog()
+    public void EndOfDialog()
     {
         gameObject.SetActive(false);
     }
@@ -219,5 +219,21 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             PositionOnTheStage.Center => centerSpeaker.transform,
             _ => centerSpeaker.transform,
         };
+    }
+
+    public void HideAllWays()
+    {
+        var childs = buttonParent.GetComponentsInChildren<DialogButtonOperator>();
+
+        foreach (DialogButtonOperator child in childs)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public void CreateWayButton(DialogNode dialogNode)
+    {
+        GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
+        button.GetComponent<DialogButtonOperator>().SetWay(dialogNode);
     }
 }

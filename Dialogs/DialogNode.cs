@@ -1,25 +1,27 @@
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 
 public abstract class DialogNode : MonoBehaviour
 {
     [SerializeField]
-    private DialogNode[] Choices;
+    private string[] Header = new string[2] { "русское название", "english name" };
     [SerializeField]
     private string DescriptionOfSelection;
+    [SerializeField]
+    private DialogNode[] Choices;
     private DialogOperator dialogOperator;
+
+    public string Description { get { return DescriptionOfSelection; } }
 
     void Awake()
     {
         dialogOperator = DialogOperator.instance;
     }
-    public virtual string GetHeader()
+    public string GetHeader()
     {
-        return "ERROR!!!";
+        return Header[(int)PlayerManager.Language];
     }
 
     public virtual void StartDialog()
@@ -32,8 +34,15 @@ public abstract class DialogNode : MonoBehaviour
     {
         SceneOff();
         HideAll();
+        HideAllWays();
         //music off
     }
+
+    private void HideAllWays()
+    {
+        dialogOperator.HideAllWays();
+    }
+
     public Task Say(CharacterInformator character, string text)
     {
         dialogOperator.SetPlaqueName(character);
@@ -78,17 +87,19 @@ public abstract class DialogNode : MonoBehaviour
     {
         if (Choices == null || Choices.Length < 1)
         {
-
+            dialogOperator.EndOfDialog();
+            return;
         }
 
         if (Choices.Length == 1)
         {
-
+            Choices[0].StartDialog();
+            return;
         }
 
         for(int i = 0; i < Choices.Length; i++)
         {
-
+            dialogOperator.CreateWayButton(Choices[i]);
         }
     }
 }

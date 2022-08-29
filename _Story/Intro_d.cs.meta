@@ -14,7 +14,7 @@ MonoImporter:
   - Lab: {fileID: 21300000, guid: a81814d972e6f204cb51d61f683edc0d, type: 3}
   - Island: {fileID: 21300000, guid: 6a6c9775ce4bd5e4b9a377b05100188b, type: 3}
   - Tavern: {fileID: 21300000, guid: 2facf94ef40388c468631a3b1253a679, type: 3}
-  executionOrder: 0
+  executionOrder: 2100
   icon: {instanceID: 0}
   userData: 
   assetBundleName: 

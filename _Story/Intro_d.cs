@@ -5,10 +5,6 @@ using UnityEngine;
 public class Intro_d : DialogNode
 {
     [SerializeField]
-    private string[] Header = new
-        string[2] { "Начать", "Start" };
-
-    [SerializeField]
     private CharacterInformator Speaker;
     [SerializeField]
     private CharacterInformator Artur;
@@ -29,11 +25,6 @@ public class Intro_d : DialogNode
     private Sprite Island;
     [SerializeField]
     private Sprite Tavern;
-
-    public override string GetHeader()
-    {
-        return Header[(int)PlayerManager.Language];
-    }
 
     public override async void StartDialog()
     {
@@ -62,18 +53,19 @@ public class Intro_d : DialogNode
         await Say(Uysyf, "Одновременно на сцене может быть не более 6 персонажей. Персонажи не могут повторяться.");
         await Say(Olivia, "Говорящий персонаж выделяется на фоне других.");
 
+        Hide(Artur);
+        Hide(Knight);
+        Hide(Orc);
+
         Scene(Lab);
+
         await Say(Olivia, "Вот так выглядит задник.");
 
         SceneOff();
         await Say(Olivia, "Задники и персонажей можно отключать.");
 
         Scene(Island);
-
-        Hide(Artur);
-        Hide(Knight);
         Hide(Olivia);
-        Hide(Orc);
 
         await Say(Uysyf, "Задники могут меняться");
 
