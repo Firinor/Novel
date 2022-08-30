@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
@@ -82,11 +81,7 @@ public class SceneManager : SinglBehaviour<SceneManager>
     private static void ExitAction()
     {
         int SceneIndex = GetScene();
-        if (SceneIndex == 2)//"BattleScene"
-        {
-            LoadScene("WorldMap");
-        }
-        else if (SceneIndex == 1)//"WorldMap"
+        if (SceneIndex == 1)//"ReadingRoom"
         {
             LoadScene("MainMenu");
         }
@@ -108,9 +103,9 @@ public class SceneManager : SinglBehaviour<SceneManager>
     public static void CheckingTheScene()
     {
         int SceneIndex = GetScene();
-        if (SceneIndex == 1)//"Story"
+        if (SceneIndex == 1)//"ReadingRoom"
         {
-            //FindObjectOfType<WorldMenuManager>().SetAllInstance();
+            FindObjectOfType<ReadingRoomManager>().SetAllInstance();
             instance.optionsOperator.SetAcriveOfExitButton(true);
         }
         else if (SceneIndex == 0)//"MainMenu"

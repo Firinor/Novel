@@ -52,8 +52,8 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
         }
         else if (OpenSceneFlag)
         {
-            if (currentPlayTime == 0)
-                SceneManager.CheckingTheScene();
+            //if (currentPlayTime == 0)
+            //    SceneManager.CheckingTheScene();
             currentPlayTime += Time.deltaTime;
             float presentage = currentPlayTime / playTime;
             float Diameter = Mathf.Lerp(0f, endPortalPosition, curve.Evaluate(presentage));

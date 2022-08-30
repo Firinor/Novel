@@ -39,6 +39,6 @@ public class SaveChoosingOperator : MonoBehaviour
         }
 
         MainMenuManager.SwitchPanels(MenuMarks.off);
-        SceneManager.LoadScene("WorldMap");
+        SceneManager.LoadScene("ReadingRoom");
     }
 }
