@@ -6,9 +6,8 @@ public class SinglBehaviour<T> : MonoBehaviour
 
     public void SingletoneCheck(T instance)
     {
-        if (SinglBehaviour<T>.instance != null)
+        if (SinglBehaviour<T>.instance != null && !SinglBehaviour<T>.instance.Equals(instance))
         {
-            //Debug.LogError(typeof(T).ToString());
             Destroy(gameObject);
             return;
         }

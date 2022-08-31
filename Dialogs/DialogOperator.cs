@@ -49,6 +49,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private static bool skipText;
     public static void SkipText()
     {
+        Debug.Log("!");
         skipText = true;
     }
 
