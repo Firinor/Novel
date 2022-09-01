@@ -4,6 +4,7 @@ using TMPro;
 using System.Text;
 using System.Threading.Tasks;
 using System;
+using UnityEngine.UI;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
@@ -17,7 +18,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private GameObject plaqueWithTheName;
     [Space]
     [SerializeField]
-    private SpriteRenderer background;
+    private Image background;
     [SerializeField]
     private Sprite defaultSprite;
     [SerializeField]
@@ -27,13 +28,13 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     [SerializeField]
     private GameObject rightSpeaker;
     [SerializeField]
-    private TextMeshPro speakerName;
+    private TextMeshProUGUI speakerName;
     [SerializeField]
-    private TextMeshPro textMeshPro;
+    private TextMeshProUGUI textMeshPro;
     [SerializeField]
     private float lettersDelay;
     [SerializeField]
-    private SpriteRenderer nextArrow;
+    private Image nextArrow;
 
     private StringBuilder strindBuilder = new StringBuilder();
 
