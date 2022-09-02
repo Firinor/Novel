@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
@@ -8,15 +6,8 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     private GameObject map;
     [SerializeField]
     private GameObject dialog;
-    private GameObject options;
 
-    public static GameObject GetMap()
-    {
-        return instance.map;
-    }
+    public static GameObject GetMap() => instance.map;
 
-    public static GameObject GetDialog()
-    {
-        return instance.dialog;
-    }
+    public static GameObject GetDialog() => instance.dialog;
 }

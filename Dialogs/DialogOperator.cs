@@ -3,7 +3,6 @@ using UnityEngine;
 using TMPro;
 using System.Text;
 using System.Threading.Tasks;
-using System;
 using UnityEngine.UI;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
@@ -17,6 +16,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     [SerializeField]
     private GameObject plaqueWithTheName;
     [Space]
+    [SerializeField]
+    private Canvas canvas;
     [SerializeField]
     private Image background;
     [SerializeField]
@@ -37,27 +38,21 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private Image nextArrow;
 
     private StringBuilder strindBuilder = new StringBuilder();
-
     private Dictionary<CharacterInformator, SpeakerOperator> speakers = new Dictionary<CharacterInformator, SpeakerOperator>();
-    private SpeakerOperator activeSpeaker = null;
+    private SpeakerOperator activeSpeaker;
 
     private static bool nextInput;
-    public static void NextInput()
-    {
-        nextInput = true;
-    }
+    public static void NextInput() => nextInput = true;
 
     private static bool skipText;
-    public static void SkipText()
-    {
-        Debug.Log("!");
-        skipText = true;
-    }
+    public static void SkipText() => skipText = true;
 
+    public static int OrderLayer { get { return instance.canvas.sortingOrder; } }
     public static GameObject Left { get { return instance.leftSpeaker; } }
     public static GameObject Center { get { return instance.centerSpeaker; } }
     public static GameObject Right { get { return instance.rightSpeaker; } }
 
+    #region Text
     public void SetLettersDelay(float delta)
     {
         lettersDelay = delta;
@@ -98,7 +93,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             await Task.Yield();
         }
     }
+    #endregion
 
+    #region Speakers
     public void RemoveSpeaker(CharacterInformator speaker)
     {
         SpeakerOperator speakerOperator = null;
@@ -112,12 +109,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         if (speakerOperator != null)
             Destroy(speakerOperator.gameObject);
     }
-
-    public void EndOfDialog()
-    {
-        gameObject.SetActive(false);
-    }
-
     public void ClearAllSpeakers()
     {
         plaqueWithTheName.SetActive(false);
@@ -133,7 +124,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             Destroy(speaker.gameObject);
         }
     }
-
     private void AllSpeakersIn(List<SpeakerOperator> gameObjectToDelete, GameObject side)
     {
         foreach (SpeakerOperator gameObject in side.GetComponentsInChildren<SpeakerOperator>())
@@ -141,7 +131,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             gameObjectToDelete.Add(gameObject);
         }
     }
-
     public void AddSpeaker(CharacterInformator speaker)
     {
         if (speaker == null)
@@ -164,17 +153,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
         speakers[speaker].transform.SetParent(GetSpeakerParent(position));
     }
-
-    public void SetBackground(Sprite background)
-    {
-        if (background != null)
-            this.background.sprite = background;
-    }
-    public void OffBackground()
-    {
-        background.sprite = defaultSprite;
-    }
-
     public void SetActiveSpeaker(CharacterInformator speaker)
     {
         if (!speakers.ContainsKey(speaker))
@@ -199,7 +177,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         activeSpeaker = speaker;
         activeSpeaker.ToTheForeground();
     }
-
     public void SetPlaqueName(CharacterInformator speaker = null)
     {
         if (speaker == null)
@@ -211,7 +188,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         plaqueWithTheName.SetActive(true);
         speakerName.text = speaker.Name;
     }
-
     private Transform GetSpeakerParent(PositionOnTheStage position = PositionOnTheStage.Center)
     {
         return position switch
@@ -222,7 +198,21 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             _ => centerSpeaker.transform,
         };
     }
+    #endregion
 
+    #region Background
+    public void SetBackground(Sprite background)
+    {
+        if (background != null)
+            this.background.sprite = background;
+    }
+    public void OffBackground()
+    {
+        background.sprite = defaultSprite;
+    }
+    #endregion
+
+    #region Ways
     public void HideAllWays()
     {
         var childs = buttonParent.GetComponentsInChildren<DialogButtonOperator>();
@@ -238,4 +228,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
         button.GetComponent<DialogButtonOperator>().SetWay(dialogNode);
     }
+    #endregion
+
+    public void Options() => ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
+    public void EndOfDialog() => gameObject.SetActive(false);
 }

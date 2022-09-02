@@ -1,11 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpeakerOperator : MonoBehaviour
 {
     [SerializeField]
-    private SpriteRenderer image;
+    private Image image;
     [SerializeField]
     private Transform imageTransform;
+    [SerializeField]
+    private Canvas imageCanvas;
     [SerializeField]
     private Color speakerOnBackgroundColor;
     [SerializeField]
@@ -19,6 +22,7 @@ public class SpeakerOperator : MonoBehaviour
     internal void SetCharacter(CharacterInformator speaker)
     {
         image.sprite = speaker.unitSprite;
+        image.SetNativeSize();
         unitScale = speaker.UnitScale;
         ToTheBackground();
     }
@@ -26,14 +30,14 @@ public class SpeakerOperator : MonoBehaviour
     public void ToTheBackground()
     {
         image.color = speakerOnBackgroundColor;
-        image.sortingOrder = backgroundSortingOrder;
+        imageCanvas.sortingOrder = DialogOperator.OrderLayer + backgroundSortingOrder;
         imageTransform.localScale = scaleOnBackground * unitScale;
     }
 
     public void ToTheForeground()
     {
         image.color = Color.white;
-        image.sortingOrder = foregroundSortingOrder;
+        imageCanvas.sortingOrder = DialogOperator.OrderLayer + foregroundSortingOrder;
         imageTransform.localScale = Vector3.one * unitScale;
     }
 }
