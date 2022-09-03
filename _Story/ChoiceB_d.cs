@@ -17,6 +17,8 @@ public class ChoiceB_d : DialogNode
 
         await Say(Artur, "Был выбран вариант \"Б\"");
 
+        await Say(Artur, "На карте диалогов видно, что по завершению этого диалога, вновь начнётся \"Начальный диалог\"");
+
         Fork();
     }
 

@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -45,17 +46,26 @@ public abstract class DialogNode : MonoBehaviour
 
     public Task Say(CharacterInformator character, string text)
     {
+        if (DialogManager.IsCancellationRequested)
+            return Task.CompletedTask;
+
         dialogOperator.SetPlaqueName(character);
         dialogOperator.SetActiveSpeaker(character);
         return PrintText(text);
     }
     public Task Say(string text)
     {
+        if (DialogManager.IsCancellationRequested)
+            return Task.CompletedTask;
+
         dialogOperator.SetPlaqueName();
         return PrintText(text);
     }
     private Task PrintText(string text)
     {
+        if (DialogManager.IsCancellationRequested)
+            return Task.CompletedTask;
+
         return dialogOperator.PrintText(text);
     }
 

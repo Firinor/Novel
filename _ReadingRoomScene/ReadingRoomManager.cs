@@ -26,7 +26,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
 
     public static void SwitchPanels(ReadingRoomMarks mark)
     {
-        instance.DiactiveAllPanels();
+        //instance.DiactiveAllPanels();
         switch (mark)
         {
             case ReadingRoomMarks.map:

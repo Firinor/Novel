@@ -20,6 +20,8 @@ public class ChoiceA_d : DialogNode
 
         await Say(Artur, "Был выбран вариант \"А\"");
 
+        await Say(Artur, "Далее нет диалога, поэтому мы возвращаемся на карту всех диалогов");
+
         Fork();
     }
 

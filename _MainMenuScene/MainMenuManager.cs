@@ -56,7 +56,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 
     public void DiactiveAllPanels()
     {
-        baner.SetActive(false);
+        //baner.SetActive(false);
         credits.SetActive(false);
         saves.SetActive(false);
         SceneManager.DiactiveAllPanels();

@@ -4,6 +4,7 @@ using TMPro;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
+using System.Threading;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
@@ -81,6 +82,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
                 textMeshPro.text = text;
                 nextInput = false;
             }
+            if (DialogManager.IsCancellationRequested)
+                break;
             await Task.Delay((int)(lettersDelay * 1000));
         }
         nextArrow.enabled = true;
@@ -90,6 +93,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             {
                 break;
             }
+            if (DialogManager.IsCancellationRequested)
+                break;
             await Task.Yield();
         }
     }
@@ -231,5 +236,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     #endregion
 
     public void Options() => ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
-    public void EndOfDialog() => gameObject.SetActive(false);
+    public void EndOfDialog()
+    {
+        DialogManager.StopDialog();
+        gameObject.SetActive(false);
+    }
 }

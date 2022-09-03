@@ -106,12 +106,10 @@ public class SceneManager : SinglBehaviour<SceneManager>
         if (SceneIndex == 1)//"ReadingRoom"
         {
             FindObjectOfType<ReadingRoomManager>().SetAllInstance();
-            instance.optionsOperator.SetAcriveOfExitButton(true);
         }
         else if (SceneIndex == 0)//"MainMenu"
         {
             FindObjectOfType<MainMenuManager>().SetAllInstance();
-            instance.optionsOperator.SetAcriveOfExitButton(false);
         }
         else
         {

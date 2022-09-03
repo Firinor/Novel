@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class OptionsOperator : SinglBehaviour<OptionsOperator>
 {
     [SerializeField]
-    private GameObject exitButton;
-    [SerializeField]
     private AudioMixerGroup mixerMasterGroup;
     [SerializeField]
     public Slider sensitivitySlider;
@@ -20,16 +18,11 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
 
     public void Return()
     {
-        SceneManager.SwitchPanels(SceneDirection.basic);
+        gameObject.SetActive(false);
     }
     public void Exit()
     {
         SceneManager.SwitchPanels(SceneDirection.exit);
-    }
-
-    public void SetAcriveOfExitButton(bool b)
-    {
-        exitButton.SetActive(b);
     }
 
     public void KeyBind()
