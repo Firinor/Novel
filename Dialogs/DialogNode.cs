@@ -95,6 +95,9 @@ public abstract class DialogNode : MonoBehaviour
 
     public void Fork()
     {
+        if (DialogManager.IsCancellationRequested)
+            return;
+
         if (Choices == null || Choices.Length < 1)
         {
             dialogOperator.EndOfDialog();
