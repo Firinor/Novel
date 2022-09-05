@@ -20,6 +20,7 @@ public class CharacterInformator : ScriptableObject
 
     [Tooltip("The growth coefficient can be adjusted using the prefab SpeakerAncor")]
     [SerializeField]
+    [Range(0f, 1f)]
     private float unitScale;
     public float UnitScale { get { return unitScale; } }
 }

@@ -4,6 +4,8 @@ using UnityEngine.UI;
 public class SpeakerOperator : MonoBehaviour
 {
     [SerializeField]
+    private RectTransform rectTransform;
+    [SerializeField]
     private Image image;
     [SerializeField]
     private Transform imageTransform;
@@ -13,11 +15,14 @@ public class SpeakerOperator : MonoBehaviour
     private Color speakerOnBackgroundColor;
     [SerializeField]
     private Vector3 scaleOnBackground;
-    
+    [SerializeField]
+    [Range(0f, 1f)]
     private float unitScale;
 
     private static int backgroundSortingOrder = 2;
     private static int foregroundSortingOrder = 3;
+    [SerializeField]
+    private bool onBackground;
 
     internal void SetCharacter(CharacterInformator speaker)
     {
@@ -29,15 +34,32 @@ public class SpeakerOperator : MonoBehaviour
 
     public void ToTheBackground()
     {
+        onBackground = true;
         image.color = speakerOnBackgroundColor;
         imageCanvas.sortingOrder = DialogOperator.OrderLayer + backgroundSortingOrder;
-        imageTransform.localScale = scaleOnBackground * unitScale;
+        ScaleUnit();
     }
 
     public void ToTheForeground()
     {
+        onBackground = false;
         image.color = Color.white;
         imageCanvas.sortingOrder = DialogOperator.OrderLayer + foregroundSortingOrder;
-        imageTransform.localScale = Vector3.one * unitScale;
+        ScaleUnit();
+    }
+
+    [ContextMenu("ScaleUnit")]
+    private void ScaleUnit()
+    {
+        float coefficient = DialogOperator.RectTransformHeight / image.preferredHeight;
+        switch (onBackground)
+        {
+            case true:
+                imageTransform.localScale = scaleOnBackground * coefficient * unitScale;
+                break;
+            case false:
+                imageTransform.localScale = Vector3.one * coefficient * unitScale;
+                break;
+        }
     }
 }

@@ -18,6 +18,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private GameObject plaqueWithTheName;
     [Space]
     [SerializeField]
+    private RectTransform rectTransform;
+    [SerializeField]
     private Canvas canvas;
     [SerializeField]
     private Image background;
@@ -48,6 +50,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private static bool skipText;
     public static void SkipText() => skipText = true;
 
+    public static float RectTransformHeight { get { return instance.rectTransform.rect.height; } }
     public static int OrderLayer { get { return instance.canvas.sortingOrder; } }
     public static GameObject Left { get { return instance.leftSpeaker; } }
     public static GameObject Center { get { return instance.centerSpeaker; } }
