@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class DialogButtonOperator : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshPro textMeshPro;
+    private TextMeshProUGUI textMeshPro;
     [SerializeField]
     private Button button;
 

@@ -96,11 +96,15 @@ public abstract class DialogNode : MonoBehaviour
     public void Fork()
     {
         if (DialogManager.IsCancellationRequested)
+        {
+            DialogOperator.skipText = false;
             return;
+        }
 
         if (Choices == null || Choices.Length < 1)
         {
-            dialogOperator.EndOfDialog();
+            DialogOperator.skipText = false;
+            dialogOperator.DialogExit();
             return;
         }
 
@@ -110,7 +114,8 @@ public abstract class DialogNode : MonoBehaviour
             return;
         }
 
-        for(int i = 0; i < Choices.Length; i++)
+        DialogOperator.skipText = false;
+        for (int i = 0; i < Choices.Length; i++)
         {
             dialogOperator.CreateWayButton(Choices[i]);
         }

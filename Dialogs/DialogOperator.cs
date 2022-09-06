@@ -44,11 +44,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private Dictionary<CharacterInformator, SpeakerOperator> speakers = new Dictionary<CharacterInformator, SpeakerOperator>();
     private SpeakerOperator activeSpeaker;
 
+    public static bool skipText;
     private static bool nextInput;
     public static void NextInput() => nextInput = true;
-
-    private static bool skipText;
-    public static void SkipText() => skipText = true;
 
     public static float RectTransformHeight { get { return instance.rectTransform.rect.height; } }
     public static int OrderLayer { get { return instance.canvas.sortingOrder; } }
@@ -64,7 +62,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     public async Task PrintText(string text)
     {
         nextInput = false;
-        skipText = false;
         nextArrow.enabled = false;
 
         strindBuilder.Clear();
@@ -82,13 +79,13 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             if (nextInput)
             {
                 j = text.Length;
-                textMeshPro.text = text;
                 nextInput = false;
             }
             if (DialogManager.IsCancellationRequested)
                 break;
             await Task.Delay((int)(lettersDelay * 1000));
         }
+        textMeshPro.text = text;
         nextArrow.enabled = true;
         while (!nextInput)
         {
@@ -238,8 +235,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     }
     #endregion
 
+    public void DialogSkip() => skipText = true;
     public void Options() => ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
-    public void EndOfDialog()
+    public void DialogExit()
     {
         DialogManager.StopDialog();
         gameObject.SetActive(false);
