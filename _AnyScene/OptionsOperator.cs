@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+public enum ScreenResolution { FullHD, QHD, UHD }
+
 public class OptionsOperator : SinglBehaviour<OptionsOperator>
 {
     [SerializeField]
@@ -80,7 +82,7 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
 
     public static OptionsParameters GetParameters()
     {
-        return new OptionsParameters(false, instance.volumeSlider.value, 0.5f, 0);
+        return new OptionsParameters(false, 0, instance.volumeSlider.value, 0.5f, 0);
     }
 
     public static void LoadOptions()
@@ -102,13 +104,15 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
 public struct OptionsParameters
 {
     public bool fullScreen;
+    public int screenResolution;
     public float volume;
     public float sensitivit;
     public int language;
 
-    public OptionsParameters(bool fullScreen, float volume, float sensitivit, int language)
+    public OptionsParameters(bool fullScreen, int screenResolution, float volume, float sensitivit, int language)
     {
         this.fullScreen = fullScreen;
+        this.screenResolution = screenResolution;
         this.volume = volume;
         this.sensitivit = sensitivit;
         this.language = language;
