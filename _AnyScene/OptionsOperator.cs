@@ -1,9 +1,8 @@
 using System;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-
-public enum ScreenResolution { FullHD, QHD, UHD }
 
 public class OptionsOperator : SinglBehaviour<OptionsOperator>
 {
@@ -27,10 +26,6 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
         SceneManager.SwitchPanels(SceneDirection.exit);
     }
 
-    public void KeyBind()
-    {
-
-    }
     public void Apply()
     {
 
@@ -39,10 +34,15 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
     {
 
     }
-    public void FullScreen()
+    public void FullScreen(Toggle toggle)
     {
-
+        OptionsManager.FullScreen = toggle.isOn;
     }
+    public void ScreenResolution(Dropdown dropdown)
+    {
+        OptionsManager.CurrentResolution = OptionsManager.ScreenResolution.FullHD;
+    }
+
     public void MouseSensitivity()
     {
 
