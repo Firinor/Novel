@@ -1,8 +1,8 @@
 using System;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using static OptionsManager;
 
 public class OptionsOperator : SinglBehaviour<OptionsOperator>
 {
@@ -36,11 +36,19 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
     }
     public void FullScreen(Toggle toggle)
     {
-        OptionsManager.FullScreen = toggle.isOn;
+        bool v = toggle.isOn;
+        OptionsManager.FullScreen = v;
+
+        if (!OnLoad)
+            SaveManager.SaveOptions();
     }
     public void ScreenResolution(Dropdown dropdown)
     {
-        OptionsManager.CurrentResolution = OptionsManager.ScreenResolution.FullHD;
+        int i = dropdown.value;
+        OptionsManager.CurrentScreenResolution = OptionsManager.GetResolution(i);
+
+        if (!OnLoad)
+            SaveManager.SaveOptions(ScreenResolution: i);
     }
 
     public void MouseSensitivity()
@@ -80,9 +88,9 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
             SaveManager.SaveOptions();
     }
 
-    public static OptionsParameters GetParameters()
+    public static OptionsParameters GetParameters(int ScreenResolutoin = -1)
     {
-        return new OptionsParameters(false, 0, instance.volumeSlider.value, 0.5f, 0);
+        return new OptionsParameters(OptionsManager.FullScreen, ScreenResolutoin, instance.volumeSlider.value, 0.5f, 0);
     }
 
     public static void LoadOptions()

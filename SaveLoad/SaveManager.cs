@@ -42,9 +42,9 @@ public class SaveManager : MonoBehaviour
     }
 
 
-    public static void SaveOptions()
+    public static void SaveOptions(int ScreenResolution = -1)
     {
-        Save<OptionsParameters>(GetOptionPath(), OptionsOperator.GetParameters());
+        Save<OptionsParameters>(GetOptionPath(), OptionsOperator.GetParameters(ScreenResolutoin: ScreenResolution));
     }
 
     public static OptionsParameters LoadOptions()
