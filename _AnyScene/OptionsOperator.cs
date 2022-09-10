@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using static OptionsManager;
 
 public class OptionsOperator : SinglBehaviour<OptionsOperator>
 {
