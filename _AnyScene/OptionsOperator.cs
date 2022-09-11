@@ -76,12 +76,16 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
         return instance.volumeSlider.value / 2 + .5f;
     }
 
-    public void Language()
+    public void Language(Dropdown dropdown)
     {
         if (instance == null)
             return;
-
-        PlayerManager.Language = 0;
+        Languages language = (Languages)dropdown.value;
+        if(PlayerManager.Language != language)
+        {
+            PlayerManager.Language = language;
+        }
+            
 
         if (!OnLoad)
             SaveManager.SaveOptions();

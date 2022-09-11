@@ -1,27 +1,60 @@
+using System;
 using System.Collections.Generic;
+using UnityEditor;
 
 public static class LanguageInformator
 {
-    private static Dictionary<string, Dictionary<Languages, string>> Texts
-        = new Dictionary<string, Dictionary<Languages, string>>()
-    {
-            ["Play"] = { { Languages.RU, "Старт" }, { Languages.EN, "Start" } },
-            ["Options"] = { { Languages.RU, "Настройки" }, { Languages.EN, "Options" } },
-            ["Credits"] = { { Languages.RU, "Создатели" }, { Languages.EN, "Credits" } },
-            ["Exit"] = { { Languages.RU, "Выход" }, { Languages.EN, "Exit" } },
-            ["Return"] = { { Languages.RU, "Продолжить" }, { Languages.EN, "Return" } },
-            ["Creators"] = { { 
-                    Languages.RU, "Разработчик: сир Фиринор Хисимеон" }, { 
-                    Languages.EN, "Developer: sir Firinor Hisimeon" } },
-            ["OptionsFullScreen"] = { { Languages.RU, "Настройки" }, { Languages.EN, "Options" } },
-            ["OptionsScreenResolution"] = { { Languages.RU, "Расширение экрана" }, { Languages.EN, "Screen resolution" } },
-            ["OptionsVolume"] = { { Languages.RU, "Звук" }, { Languages.EN, "Volume" } },
-            ["OptionsMouseSensitivity"] = { { Languages.RU, "Чувствительность мыши" }, { Languages.EN, "Mouse sensitivity" } },
-            ["OptionsLanguage"] = { { Languages.RU, "Язык" }, { Languages.EN, "Language" } },
+    // 0 - Русский язык
+    // 1 - English language
+    private static Dictionary<string, string[]> Texts
+        = new Dictionary<string, string[]>()
+        {
+            ["Play"] = 
+            Words( "Старт", "Start"),
+            ["Options"] = 
+            Words( "Настройки", "Options" ),
+            ["Credits"] = 
+            Words( "Создатели" , "Credits" ),
+            ["Exit"] = 
+            Words("Выход" , "Exit" ),
+            ["Return"] = 
+            Words( "Возврат" , "Return" ),
+            ["Creators"] = 
+            Words("Разработчик: сир Фиринор Хисимеон\n\n" +
+                "Сценарий: Марина Кнышенко",
+                "Developer: sir Firinor Hisimeon\n\n" +
+                "Narrative: Marina Knyshenko"),
+            ["OptionsFullScreen"] = 
+            Words( "Настройки" , "Options" ),
+            ["OptionsScreenResolution"] = 
+            Words( "Расширение экрана" , "Screen resolution" ),
+            ["OptionsVolume"] = 
+            Words( "Звук" , "Volume" ),
+            ["OptionsMouseSensitivity"] = 
+            Words( "Чувствительность мыши" , "Mouse sensitivity" ),
+            ["OptionsLanguage"] = 
+            Words( "Язык" , "Language" ),
+            ["Empty"] =
+            Words("Пусто", "Empty"),
+            ["RestoreDefaults"] =
+            Words("Сбросить по умолчанию", "Restore defaults"),
         };
 
-    public static string GetText(string name, Languages language)
+    private static string[] Words(string ru, string en)
     {
-        return Texts[name][language];
+        return new string[] { ru, en };
+    }
+
+    public static string GetText(string key)
+    {
+        return GetText(key, PlayerManager.Language);
+    }
+
+    private static string GetText(string key, Languages language)
+    {
+        if(Texts.ContainsKey(key))
+            return Texts[key][(int)language];
+
+        throw new Exception();
     }
 }
