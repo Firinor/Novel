@@ -44,24 +44,24 @@ public abstract class DialogNode : MonoBehaviour
         dialogOperator.HideAllWays();
     }
 
-    public Task Say(CharacterInformator character, string text)
+    public Task Say(CharacterInformator character, string text_ru, string text_en)
     {
         if (DialogManager.IsCancellationRequested)
             return Task.CompletedTask;
 
         dialogOperator.SetPlaqueName(character);
         dialogOperator.SetActiveSpeaker(character);
-        return PrintText(text);
+        return PrintText(new string[2] { text_ru , text_en });
     }
-    public Task Say(string text)
+    public Task Say(string text_ru, string text_en)
     {
         if (DialogManager.IsCancellationRequested)
             return Task.CompletedTask;
 
         dialogOperator.SetPlaqueName();
-        return PrintText(text);
+        return PrintText(new string[2] { text_ru, text_en });
     }
-    private Task PrintText(string text)
+    private Task PrintText(string[] text)
     {
         if (DialogManager.IsCancellationRequested)
             return Task.CompletedTask;

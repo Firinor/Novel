@@ -41,6 +41,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private Image nextArrow;
 
     private StringBuilder strindBuilder = new StringBuilder();
+    private bool SwichLanguage;
+    private string PrintableText;
     private Dictionary<CharacterInformator, SpeakerOperator> speakers = new Dictionary<CharacterInformator, SpeakerOperator>();
     private SpeakerOperator activeSpeaker;
 
@@ -54,13 +56,26 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     public static GameObject Center { get { return instance.centerSpeaker; } }
     public static GameObject Right { get { return instance.rightSpeaker; } }
 
+    #region Monobehaviour
+    void Awake()
+    {
+        LanguageManager.OnLanguageChange += ResetSpeakerNameAndText;
+    }
+    #endregion
+
     #region Text
+    private void ResetSpeakerNameAndText()
+    {
+        SwichLanguage = true;
+    }
+
     public void SetLettersDelay(float delta)
     {
         lettersDelay = delta;
     }
-    public async Task PrintText(string text)
+    public async Task PrintText(string[] text)
     {
+        PrintableText = TextByLanguage(text);
         nextInput = false;
         nextArrow.enabled = false;
 
@@ -68,9 +83,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
         textMeshPro.text = strindBuilder.ToString();
 
-        for (int j = 0; j < text.Length; j++)
+        for (int i = 1; i < PrintableText.Length; i++)
         {
-            strindBuilder.Append(text[j]);
+            strindBuilder.Append(PrintableText[i]);
             textMeshPro.text = strindBuilder.ToString();
             if (skipText)
             {
@@ -78,14 +93,20 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             }
             if (nextInput)
             {
-                j = text.Length;
+                i = PrintableText.Length;
                 nextInput = false;
             }
             if (DialogManager.IsCancellationRequested)
                 break;
+            if (SwichLanguage)
+            {
+                SwichLanguage = false;
+                i = 1;
+                PrintableText = TextByLanguage(text);
+            }
             await Task.Delay((int)(lettersDelay * 1000));
         }
-        textMeshPro.text = text;
+        textMeshPro.text = TextByLanguage(text);
         nextArrow.enabled = true;
         while (!nextInput)
         {
@@ -93,10 +114,20 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             {
                 break;
             }
+            if (SwichLanguage)
+            {
+                SwichLanguage = false;
+                textMeshPro.text = TextByLanguage(text);
+            }
             if (DialogManager.IsCancellationRequested)
                 break;
             await Task.Yield();
         }
+    }
+
+    private static string TextByLanguage(string[] text)
+    {
+        return text[(int)PlayerManager.Language];
     }
     #endregion
 

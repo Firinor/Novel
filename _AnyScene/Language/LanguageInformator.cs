@@ -11,31 +11,43 @@ public static class LanguageInformator
         {
             ["Play"] = 
             Words( "Старт", "Start"),
+
             ["Options"] = 
             Words( "Настройки", "Options" ),
+
             ["Credits"] = 
             Words( "Создатели" , "Credits" ),
+
             ["Exit"] = 
             Words("Выход" , "Exit" ),
+
             ["Return"] = 
             Words( "Возврат" , "Return" ),
+
             ["Creators"] = 
             Words("Разработчик: сир Фиринор Хисимеон\n\n" +
                 "Сценарий: Марина Кнышенко",
                 "Developer: sir Firinor Hisimeon\n\n" +
                 "Narrative: Marina Knyshenko"),
+
             ["OptionsFullScreen"] = 
             Words( "Настройки" , "Options" ),
+
             ["OptionsScreenResolution"] = 
             Words( "Расширение экрана" , "Screen resolution" ),
+
             ["OptionsVolume"] = 
             Words( "Звук" , "Volume" ),
+
             ["OptionsMouseSensitivity"] = 
             Words( "Чувствительность мыши" , "Mouse sensitivity" ),
+
             ["OptionsLanguage"] = 
             Words( "Язык" , "Language" ),
+
             ["Empty"] =
             Words("Пусто", "Empty"),
+
             ["RestoreDefaults"] =
             Words("Сбросить по умолчанию", "Restore defaults"),
         };

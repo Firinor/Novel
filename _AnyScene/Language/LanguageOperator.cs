@@ -6,7 +6,7 @@ public class LanguageOperator : MonoBehaviour
 {
     [SerializeField]
     private string Key;
-    private TextMeshProUGUI Text;
+    protected TextMeshProUGUI Text;
 
     void Awake()
     {
@@ -22,7 +22,7 @@ public class LanguageOperator : MonoBehaviour
         LanguageManager.OnLanguageChange -= SetText;
     }
 
-    void SetText()
+    protected virtual void SetText()
     {
         string text = LanguageInformator.GetText(Key);
         if(text != null)

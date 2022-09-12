@@ -18,9 +18,10 @@ public class ChoiceA_d : DialogNode
         Scene(scene);
         Show(Artur, PositionOnTheStage.Center);
 
-        await Say(Artur, "Был выбран вариант \"А\"");
+        await Say(Artur, "Был выбран вариант \"А\"", "The \"A\" option was selected");
 
-        await Say(Artur, "Далее нет диалога, поэтому мы возвращаемся на карту всех диалогов");
+        await Say(Artur, "Далее нет диалога, поэтому мы возвращаемся на карту всех диалогов", 
+            "Then there is no dialog, so we return to the map of all dialogs");
 
         Fork();
     }

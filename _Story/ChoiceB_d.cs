@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ChoiceB_d : DialogNode
@@ -15,9 +16,10 @@ public class ChoiceB_d : DialogNode
         Scene(scene);
         Show(Artur, PositionOnTheStage.Center);
 
-        await Say(Artur, "Был выбран вариант \"Б\"");
+        await Say(Artur, "Был выбран вариант \"Б\"", "Option \"B\" was selected");
 
-        await Say(Artur, "На карте диалогов видно, что по завершению этого диалога, вновь начнётся \"Начальный диалог\"");
+        await Say(Artur, "На карте диалогов видно, что по завершению этого диалога, вновь начнётся \"Начальный диалог\"",
+            "The dialog map shows that after the end of this dialog, it will start again \"Initial dialog\"");
 
         Fork();
     }
