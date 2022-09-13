@@ -67,6 +67,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private void ResetSpeakerNameAndText()
     {
         SwichLanguage = true;
+        ResetPlaqueName();
     }
 
     public void SetLettersDelay(float delta)
@@ -223,6 +224,13 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
         plaqueWithTheName.SetActive(true);
         speakerName.text = speaker.Name;
+    }
+    protected void ResetPlaqueName()
+    {
+        if(activeSpeaker != null)
+        {
+            SetPlaqueName(activeSpeaker.characterInformator);
+        }
     }
     private Transform GetSpeakerParent(PositionOnTheStage position = PositionOnTheStage.Center)
     {

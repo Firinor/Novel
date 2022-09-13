@@ -18,6 +18,7 @@ public class SpeakerOperator : MonoBehaviour
     [SerializeField]
     [Range(0f, 1f)]
     private float unitScale;
+    public CharacterInformator characterInformator { get; private set; }
 
     private static int backgroundSortingOrder = 2;
     private static int foregroundSortingOrder = 3;
@@ -26,6 +27,7 @@ public class SpeakerOperator : MonoBehaviour
 
     internal void SetCharacter(CharacterInformator speaker)
     {
+        characterInformator = speaker;
         image.sprite = speaker.unitSprite;
         image.SetNativeSize();
         unitScale = speaker.UnitScale;

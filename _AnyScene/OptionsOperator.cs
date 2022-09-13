@@ -8,8 +8,6 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
     [SerializeField]
     private AudioMixerGroup mixerMasterGroup;
     [SerializeField]
-    public Slider sensitivitySlider;
-    [SerializeField]
     public Slider volumeSlider;
     [SerializeField]
     private AnimationCurve curve;
@@ -23,11 +21,6 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
     public void Exit()
     {
         SceneManager.SwitchPanels(SceneDirection.exit);
-    }
-
-    public void Apply()
-    {
-
     }
     public void RestoreDefault()
     {
@@ -49,12 +42,6 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
         if (!OnLoad)
             SaveManager.SaveOptions(ScreenResolution: i);
     }
-
-    public void MouseSensitivity()
-    {
-
-    }
-
     public void MasterVolume()
     {
         if (instance == null)
@@ -66,7 +53,6 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
         if (!OnLoad)
             SaveManager.SaveOptions();
     }
-
     public static float GetVolume()
     {
         if (instance == null)
@@ -75,7 +61,6 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
         //volumeSlider minValue = -1, minValue = 1
         return instance.volumeSlider.value / 2 + .5f;
     }
-
     public void Language(Dropdown dropdown)
     {
         if (instance == null)
@@ -93,7 +78,7 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
 
     public static OptionsParameters GetParameters(int ScreenResolutoin = -1)
     {
-        return new OptionsParameters(OptionsManager.FullScreen, ScreenResolutoin, instance.volumeSlider.value, 0.5f, 0);
+        return new OptionsParameters(OptionsManager.FullScreen, ScreenResolutoin, instance.volumeSlider.value, 0);
     }
 
     public static void LoadOptions()
@@ -103,10 +88,10 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
 
         OnLoad = true;
         var parametrs = SaveManager.LoadOptions();
-        //fullScreen = parametrs.fullScreen;
+        //instance.fullScreen = parametrs.fullScreen;
+        //instance.screenResolution = parametrs.screenResolution;
         instance.volumeSlider.value = parametrs.volume;
-        instance.sensitivitySlider.value = parametrs.sensitivit;
-        //Language = parametrs.language;
+        //instance.language = parametrs.language;
         OnLoad = false;
     }
 }
@@ -117,15 +102,13 @@ public struct OptionsParameters
     public bool fullScreen;
     public int screenResolution;
     public float volume;
-    public float sensitivit;
     public int language;
 
-    public OptionsParameters(bool fullScreen, int screenResolution, float volume, float sensitivit, int language)
+    public OptionsParameters(bool fullScreen, int screenResolution, float volume, int language)
     {
         this.fullScreen = fullScreen;
         this.screenResolution = screenResolution;
         this.volume = volume;
-        this.sensitivit = sensitivit;
         this.language = language;
     }
 }
