@@ -7,6 +7,8 @@ public enum PositionOnTheStage { Left, Center, Right, OffScene }
 public abstract class DialogNode : MonoBehaviour
 {
     [SerializeField]
+    private int id;
+    [SerializeField]
     private string[] Header = new string[2] { "русское название", "english name" };
     [SerializeField]
     private string DescriptionOfSelection;
@@ -14,6 +16,7 @@ public abstract class DialogNode : MonoBehaviour
     private DialogNode[] Choices;
     private DialogOperator dialogOperator;
 
+    public int ID { get { return id; } }
     public string Description { get { return DescriptionOfSelection; } }
 
     void Awake()

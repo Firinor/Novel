@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 public class SaveManager : MonoBehaviour
 {
@@ -30,13 +31,13 @@ public class SaveManager : MonoBehaviour
 
     public static void CreateNewSave(int account)
     {
-        Save(GetPath(account), new SaveData(account));
+        Save(GetPath(account), new SaveData(account, null));
     }
 
     public static void Save(int account)
     {
         Data.Account = account;
-        //Data.Party = PlayerManager.GetPartyAsInts();
+        Data.Progress = PlayerManager.GetProgress();
 
         Save(GetPath(account), Data);
     }
@@ -111,10 +112,12 @@ public class SaveManager : MonoBehaviour
     public class SaveData
     {
         public int Account;
+        public Dictionary<int, bool> Progress;
 
-        public SaveData(int Account = -1)
+        public SaveData(int Account = -1, Dictionary<int, bool> Progress = null)
         {
             this.Account = Account;
+            this.Progress = Progress;
         }
     }
 }
