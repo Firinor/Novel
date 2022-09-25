@@ -18,7 +18,7 @@ public class SaveChoosingOperator : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            Jar[i].SetActive(saveManager.FileExists(i));
+            //Jar[i].SetActive(saveManager.FileExists(i));
         }
     }
 
@@ -31,11 +31,11 @@ public class SaveChoosingOperator : MonoBehaviour
     {
         if (Jar[i].activeSelf)
         {
-            SaveManager.Load(i);
+            //SaveManager.Load(i);
         }
         else
         {
-            SaveManager.CreateNewSave(i);
+            //SaveManager.CreateNewSave(i);
         }
 
         MainMenuManager.SwitchPanels(MenuMarks.off);

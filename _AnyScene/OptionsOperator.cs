@@ -87,10 +87,10 @@ public class OptionsOperator : SinglBehaviour<OptionsOperator>
             return;
 
         OnLoad = true;
-        var parametrs = SaveManager.LoadOptions();
+        //var parametrs = SaveManager.LoadOptions();
         //instance.fullScreen = parametrs.fullScreen;
         //instance.screenResolution = parametrs.screenResolution;
-        instance.volumeSlider.value = parametrs.volume;
+        //instance.volumeSlider.value = parametrs.volume;
         //instance.language = parametrs.language;
         OnLoad = false;
     }

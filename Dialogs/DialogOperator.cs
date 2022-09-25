@@ -84,7 +84,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
         textMeshPro.text = strindBuilder.ToString();
 
-        for (int i = 1; i < PrintableText.Length; i++)
+        for (int i = 0; i < PrintableText.Length; i++)
         {
             strindBuilder.Append(PrintableText[i]);
             textMeshPro.text = strindBuilder.ToString();
@@ -102,7 +102,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             if (SwichLanguage)
             {
                 SwichLanguage = false;
-                i = 1;
+                i = 0;
                 PrintableText = TextByLanguage(text);
             }
             await Task.Delay((int)(lettersDelay * 1000));
