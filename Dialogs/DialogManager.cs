@@ -20,10 +20,11 @@ public class DialogManager : SinglBehaviour<DialogManager>
         cancellationTokenSource = new CancellationTokenSource();
     }
 
-    public static void ActivateDialog()
+    public static void ActivateDialog(float dialogButtonXPosition)
     {
         instance.dialog.SetActive(true);
         instance.cancellationTokenSource = new CancellationTokenSource();
+        ReadingRoomManager.CheckMap(dialogButtonXPosition);
     }
 
     public static void StopDialog()

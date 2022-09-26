@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum ReadingRoomMarks { map, dialog, options, off };
@@ -61,5 +59,10 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     public void BasicPanelSettings()
     {
         SwitchPanels(ReadingRoomMarks.map);
+    }
+
+    public static void CheckMap(float dialogButtonXPosition)
+    {
+        ReadingRoomInformator.GetMapCanvasOperator().CorrectScrollbarPosition(dialogButtonXPosition);
     }
 }

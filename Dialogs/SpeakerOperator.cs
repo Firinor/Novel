@@ -30,6 +30,8 @@ public class SpeakerOperator : MonoBehaviour
         characterInformator = speaker;
         image.sprite = speaker.unitSprite;
         image.SetNativeSize();
+        if (speaker.UnitScale == 0)
+            Debug.LogError("Unit Scale = 0!");
         unitScale = speaker.UnitScale;
         ToTheBackground();
     }

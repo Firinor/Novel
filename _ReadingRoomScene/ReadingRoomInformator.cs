@@ -12,4 +12,6 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     public static GameObject GetMap() => instance.map;
 
     public static GameObject GetDialog() => instance.dialog;
+
+    public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
 }

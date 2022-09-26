@@ -30,7 +30,7 @@ public abstract class DialogNode : MonoBehaviour
 
     public virtual void StartDialog()
     {
-        DialogManager.ActivateDialog();
+        DialogManager.ActivateDialog(gameObject.GetComponent<RectTransform>().anchoredPosition.x);
         CleareAll();
     }
 
