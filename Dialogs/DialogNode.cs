@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 using UnityEngine;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
@@ -22,6 +23,7 @@ public abstract class DialogNode : MonoBehaviour
     void Awake()
     {
         dialogOperator = DialogOperator.instance;
+        GetComponent<Button>().onClick.AddListener(StartDialog);
     }
     public string GetHeader()
     {

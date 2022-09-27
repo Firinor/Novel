@@ -31,7 +31,7 @@ public static class LanguageInformator
                 "Narrative: Marina Knyshenko"),
 
             ["OptionsFullScreen"] = 
-            Words( "Настройки" , "Options" ),
+            Words( "Весь экран" , "Full screen"),
 
             ["OptionsScreenResolution"] = 
             Words( "Расширение экрана" , "Screen resolution" ),
