@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
+using Unity.Mathematics;
 
 public class AlchemicalIngredientOperator : MonoBehaviour, 
     IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -11,6 +14,8 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     private float frictionBraking;
     [SerializeField]
     private float border;
+    [SerializeField]
+    private Image image;
 
     private bool dragCard = false;
 
@@ -19,6 +24,9 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     private bool ingredientDrag;
     private int screenHeight;
     private int screenWidth;
+
+    private static Vector3 adjustment;
+    private static bool adjustmentBool = true;
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -33,14 +41,19 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
                 .Subscribe(_ => BackToScreen())
                 .AddTo(disposables);
 
-        screenHeight = Screen.height;
-        screenWidth = Screen.width;
+        screenHeight = Screen.height/2;
+        screenWidth = Screen.width/2;
+        if (adjustmentBool)
+        {
+            adjustment = new Vector3(screenWidth, screenHeight, 0);
+            adjustmentBool = false;
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         ingredientDrag = true;
-        lastPosition = Input.mousePosition;
+        lastPosition = Input.mousePosition - adjustment;
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             dragCard = true;
@@ -57,7 +70,7 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
         {
             //if (hit.point )
             //Vector3 pos = hit.point;
-            Vector3 pos = Input.mousePosition;
+            Vector3 pos = Input.mousePosition - adjustment;
             //pos.z = 0;
             lastPosition = transform.localPosition;
             transform.localPosition = pos;
@@ -90,21 +103,21 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
 
     private bool CheckOutOfBounce(Vector3 pos)
     {
-        return pos.x < 0 || pos.x > screenWidth || pos.y < 0 || pos.y > screenHeight;
+        return pos.x < -screenWidth || pos.x > screenWidth || pos.y < -screenHeight || pos.y > screenHeight;
     }
     private void BackToScreen()
     {
-        if (transform.localPosition.x < 0)
+        if (transform.localPosition.x < -screenWidth)
         {
-            transform.localPosition = new Vector3(0, transform.localPosition.y, transform.localPosition.z);
+            transform.localPosition = new Vector3(-screenWidth, transform.localPosition.y, transform.localPosition.z);
         }
         if (transform.localPosition.x > screenWidth)
         {
             transform.localPosition = new Vector3(screenWidth, transform.localPosition.y, transform.localPosition.z);
         }
-        if (transform.localPosition.y < 0)
+        if (transform.localPosition.y < -screenHeight)
         {
-            transform.localPosition = new Vector3( transform.localPosition.x, 0, transform.localPosition.z);
+            transform.localPosition = new Vector3( transform.localPosition.x, -screenHeight, transform.localPosition.z);
         }
         if (transform.localPosition.y > screenHeight)
         {
@@ -115,12 +128,12 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     private void CheckScreenBorders(Vector3 pos)
     {
         float x = pos.x + impulse.x;
-        if (x < 0 || x > screenWidth)
+        if (x < -screenWidth || x > screenWidth)
         {
             impulse.x = -impulse.x;
         }
         float y = pos.y + impulse.y;
-        if (y < 0 || y > screenHeight)
+        if (y < -screenHeight || y > screenHeight)
         {
             impulse.y = -impulse.y;
         }
@@ -128,11 +141,21 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
 
     internal void SetSprite(Sprite sprite)
     {
-        throw new NotImplementedException();
+        image.sprite = sprite;
+        image.SetNativeSize();
     }
 
-    internal void SetWinEvent()
+    internal void SetRandomImpulse(float forse)
     {
-        throw new NotImplementedException();
+        float randomForce = Random.value * forse;
+        float randomDirection = Random.value * 360 * Mathf.Deg2Rad;
+
+        impulse = new Vector3(math.cos(randomDirection), math.sin(randomDirection), 0) * randomForce;
+    }
+
+    internal void SetRecipeSprite(Sprite sprite)
+    {
+        SetSprite(sprite);
+        image.color = Color.black;
     }
 }

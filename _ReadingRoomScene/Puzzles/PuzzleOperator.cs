@@ -1,5 +1,9 @@
+using System;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
+using FirMath;
+using System.Collections.Generic;
 
 public class PuzzleOperator : MonoBehaviour
 {
@@ -7,9 +11,15 @@ public class PuzzleOperator : MonoBehaviour
     [SerializeField]
     private Image box;
     [SerializeField]
-    private GameObject IngredientPrefab;
+    private GameObject ingredientPrefab;
     [SerializeField]
-    private Transform IngredientParent;
+    private Transform ingredientParent;
+    [SerializeField]
+    private Transform recipeParent;
+    [SerializeField]
+    private int recipeIngredientCount = 5;
+    [SerializeField]
+    private float forseToIngredient;
 
     void Awake()
     {
@@ -23,20 +33,34 @@ public class PuzzleOperator : MonoBehaviour
     {
         box.sprite = puzzleInformator.OpenAlchemicalBox;
         box.SetNativeSize();
+        box.GetComponent<Button>().enabled = false;
 
-        Sprite[] AlchemicalIngredientssprites = puzzleInformator.AlchemicalIngredientssprites;
-        int length = AlchemicalIngredientssprites.Length;
+        Sprite[] AlchemicalIngredientsSprites = puzzleInformator.AlchemicalIngredientsSprites;
+        int length = AlchemicalIngredientsSprites.Length;
 
-        AlchemicalIngredientOperator keyIngredient = 
-            Instantiate(IngredientPrefab, IngredientParent).GetComponent<AlchemicalIngredientOperator>();
-        keyIngredient.SetSprite(AlchemicalIngredientssprites[0]);
-        keyIngredient.SetWinEvent();
+        List<int> recipe = new List<int>(GenerateNewRecipe(recipeIngredientCount, length));
 
-        for (int i = 1; i < length; i++)
+        for (int i = 0; i < length; i++)
         {
-            Instantiate(IngredientPrefab, IngredientParent)
-                .GetComponent<AlchemicalIngredientOperator>().SetSprite(AlchemicalIngredientssprites[i]);
+            AlchemicalIngredientOperator newIngridient 
+                = Instantiate(ingredientPrefab, ingredientParent)
+                .GetComponent<AlchemicalIngredientOperator>();
+            newIngridient.SetSprite(AlchemicalIngredientsSprites[i]);
+            newIngridient.SetRandomImpulse(forseToIngredient);
+
+            if (recipe.Contains(i))
+            {
+                AlchemicalIngredientOperator newRecipeIngridient
+                    = Instantiate(ingredientPrefab, recipeParent)
+                    .GetComponent<AlchemicalIngredientOperator>();
+                newRecipeIngridient.SetRecipeSprite(AlchemicalIngredientsSprites[i]);
+            }
         }
 
+    }
+
+    private int[] GenerateNewRecipe(int recipeIngredientCount, int length)
+    {
+        return GameMath.AFewCardsFromTheDeck(recipeIngredientCount, length);
     }
 }

@@ -2,9 +2,19 @@ using UnityEngine;
 
 public class PuzzleInformator : MonoBehaviour
 {
-    public Sprite[] AlchemicalIngredientssprites;
+    [SerializeField]
+    private Sprite[] alchemicalIngredientsSprites;
+    public Sprite[] AlchemicalIngredientsSprites { get => alchemicalIngredientsSprites; }
 
-    public Sprite ClosedAlchemicalBox;
+    [SerializeField]
+    private Sprite closedAlchemicalBox;
+    public Sprite ClosedAlchemicalBox { get => closedAlchemicalBox; }
 
-    public Sprite OpenAlchemicalBox;
+    [SerializeField]
+    private Sprite openAlchemicalBox;
+    public Sprite OpenAlchemicalBox { get => openAlchemicalBox; }
+
+    [SerializeField]
+    private RectTransform recipe;
+    public Vector2 RecipeWidthAndHeight { get => recipe.sizeDelta; }
 }
