@@ -16,5 +16,4 @@ public class PuzzleInformator : MonoBehaviour
 
     [SerializeField]
     private RectTransform recipe;
-    public Vector2 RecipeWidthAndHeight { get => recipe.sizeDelta; }
 }
