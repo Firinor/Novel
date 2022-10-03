@@ -20,14 +20,15 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     public bool black = false;
     private float timer;
     private const float FIFTH_SEC = 0.2f;
+    private const int ERROR_FORCE = 10;
 
     private Vector3 impulse;
     private Vector3 lastPosition;
     private bool ingredientDrag;
-    private int screenHeight;
-    private int screenWidth;
+    private static int screenHeight;
+    private static int screenWidth;
 
-    private static Vector3 adjustment;
+    public static Vector3 adjustment { get; private set; }
     private static bool adjustmentBool = true;
 
     private CompositeDisposable disposables = new CompositeDisposable();
@@ -47,10 +48,10 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
                 .Subscribe(_ => CheckLastPosition())
                 .AddTo(disposables);
 
-        screenHeight = Screen.height/2;
-        screenWidth = Screen.width/2;
         if (adjustmentBool)
         {
+            screenHeight = Screen.height/2;
+            screenWidth = Screen.width/2;
             adjustment = new Vector3(screenWidth, screenHeight, 0);
             adjustmentBool = false;
         }
@@ -108,7 +109,8 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
             }
             else
             {
-                SetRandomImpulse(puzzleOperator.ForseToIngredient * 2, randomForse: false);
+                puzzleOperator.Particles(transform.localPosition, success: false);
+                SetRandomImpulse(puzzleOperator.ForseToIngredient * ERROR_FORCE, randomForse: false);
             }
             return;
         }

@@ -52,10 +52,10 @@ namespace FirMath
         }
         private static List<int> Full(int i)
         {
-            List<int> result = new List<int>(i);
+            List<int> result = new List<int>(new int[i]);
             while (i > 0)
             {
-                result[i] = i;
+                result[i-1] = i;
                 i--;
             }
             return result;

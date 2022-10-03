@@ -1,10 +1,8 @@
 using System;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using FirMath;
 using System.Collections.Generic;
-using System.Collections;
 
 public class PuzzleOperator : MonoBehaviour
 {
@@ -19,6 +17,12 @@ public class PuzzleOperator : MonoBehaviour
     private Image box;
     [SerializeField]
     private GameObject ingredientPrefab;
+
+    [SerializeField]
+    private ParticleSystem errorParticleSystem;
+    [SerializeField]
+    private ParticleSystem successParticleSystem;
+
     [SerializeField]
     private Transform ingredientParent;
     [SerializeField]
@@ -40,6 +44,21 @@ public class PuzzleOperator : MonoBehaviour
         if(puzzleInformator == null)
         {
             puzzleInformator = GetComponent<PuzzleInformator>();
+        }
+    }
+
+    public void SetPuzzleInformationPackage(PuzzleInformationPackage puzzleInformationPackage)
+    {
+        switch (puzzleInformationPackage)
+        {
+            case PuzzleFindRecipeIngredientsPackage findRecipeIngredients:
+                recipeIngredientCount = findRecipeIngredients.RecipeDifficulty;
+                ingredientInBoxCount = findRecipeIngredients.IngredientsCount;
+                break;
+            case null:
+                break;
+            default:
+                break;
         }
     }
 
@@ -102,5 +121,19 @@ public class PuzzleOperator : MonoBehaviour
         }
 
         return impulse;
+    }
+
+    internal void Particles(Vector3 position, bool success)
+    {
+        if (success)
+        {
+            successParticleSystem.GetComponent<RectTransform>().localPosition = position;
+            successParticleSystem.Play();
+        }
+        else
+        {
+            errorParticleSystem.GetComponent<RectTransform>().localPosition = position;
+            errorParticleSystem.Play();
+        }
     }
 }
