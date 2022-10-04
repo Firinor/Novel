@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using Unity.Mathematics;
+using static UnityEditor.PlayerSettings;
 
 public class AlchemicalIngredientOperator : MonoBehaviour, 
     IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -13,50 +12,61 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     private float mass;
     [SerializeField]
     private Image image;
+    [SerializeField]
     private int keyIngredientNumber;
 
     private PuzzleOperator puzzleOperator;
     private bool drag = false;
-    public bool black = false;
     private float timer;
     private const float FIFTH_SEC = 0.2f;
     private const int ERROR_FORCE = 10;
 
     private Vector3 impulse;
     private Vector3 lastPosition;
-    private bool ingredientDrag;
+    private Vector3 startMousePosition;
+    private bool ingredientDrag = false;
     private static int screenHeight;
     private static int screenWidth;
 
-    public static Vector3 adjustment { get; private set; }
     private static bool adjustmentBool = true;
-
-    private CompositeDisposable disposables = new CompositeDisposable();
 
     void Awake()
     {
-        this.FixedUpdateAsObservable()
-                .Where(_ => !ingredientDrag && impulse != Vector3.zero)
-                .Subscribe(_ => ForseToIngredient())
-                .AddTo(disposables);
-        this.FixedUpdateAsObservable()
-                .Where(_ => !ingredientDrag && CheckOutOfBounce(transform.localPosition))
-                .Subscribe(_ => BackToScreen())
-                .AddTo(disposables);
-        this.UpdateAsObservable()
-                .Where(_ => ingredientDrag && EveryFifthSec())
-                .Subscribe(_ => CheckLastPosition())
-                .AddTo(disposables);
+        //this.FixedUpdateAsObservable()
+        //        .Where(_ => !ingredientDrag && impulse != Vector3.zero)
+        //        .Subscribe(_ => ForseToIngredient())
+        //        .AddTo(disposables);
+        //this.FixedUpdateAsObservable()
+        //        .Where(_ => !ingredientDrag && CheckOutOfBounce(transform.localPosition))
+        //        .Subscribe(_ => BackToScreen())
+        //        .AddTo(disposables);
+        //this.UpdateAsObservable()
+        //        .Where(_ => ingredientDrag && EveryFifthSec())
+        //        .Subscribe(_ => CheckLastPosition())
+        //        .AddTo(disposables);
 
         if (adjustmentBool)
         {
-            screenHeight = Screen.height/2;
-            screenWidth = Screen.width/2;
-            adjustment = new Vector3(screenWidth, screenHeight, 0);
+            screenHeight = Screen.height / 2;
+            screenWidth = Screen.width / 2;
             adjustmentBool = false;
         }
     }
-
+    void FixedUpdate()
+    {
+        if (!ingredientDrag)
+        {
+            if (impulse != Vector3.zero)
+                ForseToIngredient();
+            if (CheckOutOfBounce(transform.localPosition))
+                BackToScreen();
+        }
+    }
+    void Update()
+    {
+        if (ingredientDrag && EveryFifthSec())
+            CheckLastPosition();
+    }
     private bool EveryFifthSec()
     {
         timer += Time.deltaTime;
@@ -67,17 +77,16 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
         }
         return false;
     }
-
     private void CheckLastPosition()
     {
         lastPosition = transform.localPosition;
     }
-
     public void OnBeginDrag(PointerEventData eventData)
     {
         image.raycastTarget = false;
         ingredientDrag = true;
-        lastPosition = Input.mousePosition - adjustment;
+        CheckLastPosition();
+        startMousePosition = Input.mousePosition - transform.localPosition;
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             drag = true;
@@ -87,16 +96,13 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
             eventData.pointerDrag = null;
         }
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         if (drag && eventData.button == PointerEventData.InputButton.Left)
         {
-            Vector3 pos = Input.mousePosition - adjustment;
-            transform.localPosition = pos;
+            transform.localPosition = Input.mousePosition - startMousePosition;
         }
     }
-
     public void OnEndDrag(PointerEventData eventData)
     {
         ingredientDrag = false;
@@ -105,11 +111,13 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
         {
             if(keyIngredientNumber > 0)
             {
-                puzzleOperator.ActivateIngredient(this, keyIngredientNumber);
+                puzzleOperator.ActivateIngredient(keyIngredientNumber);
+                puzzleOperator.RemoveIngredient(this);
+                Destroy(gameObject);
             }
             else
             {
-                puzzleOperator.Particles(transform.localPosition, success: false);
+                puzzleOperator.Particles(Input.mousePosition, success: false);
                 SetRandomImpulse(puzzleOperator.ForseToIngredient * ERROR_FORCE, randomForse: false);
             }
             return;
@@ -117,7 +125,6 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
         impulse = (transform.localPosition - lastPosition) / mass;
         //Debug.Log(impulse + " " + impulse.x + " " + impulse.y);
     }
-
     private void ForseToIngredient()
     {
         Vector3 pos = transform.localPosition;
@@ -127,7 +134,6 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
 
         transform.localPosition = pos;
     }
-
     private bool CheckOutOfBounce(Vector3 pos)
     {
         return pos.x < -screenWidth || pos.x > screenWidth || pos.y < -screenHeight || pos.y > screenHeight;
@@ -164,7 +170,6 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
             impulse.y = -impulse.y;
         }
     }
-
     internal void SetPuzzleOperator(PuzzleOperator puzzleOperator)
     {
         this.puzzleOperator = puzzleOperator;
@@ -176,19 +181,43 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     }
     internal void SetRandomImpulse(float forse, bool randomForse = true)
     {
-        forse *= randomForse?Random.value:1;
+        forse *= randomForse?(0.2f + Random.value):1;
         float randomDirection = Random.value * 360 * Mathf.Deg2Rad;
 
         impulse = new Vector3(math.cos(randomDirection), math.sin(randomDirection), 0) * forse;
+    }
+    internal void SetImpulse(Vector3 impulse)
+    {
+        this.impulse = impulse;
+    }
+    internal void SetImpulse(float force, bool toZeroPoint = true)
+    {
+        if (!toZeroPoint)
+            return;
+
+        Vector3 resultVector = (Vector3.zero - transform.localPosition).normalized * force;
+        SetImpulse(resultVector);
     }
     internal void SetRecipeSprite(Sprite sprite)
     {
         SetSprite(sprite);
         image.color = Color.black;
+        image.raycastTarget = false;
         enabled = false;
     }
     internal void AddToRecipe(int number)
     {
         keyIngredientNumber = number;
+    }
+    internal void Success()
+    {
+        puzzleOperator.Particles(Camera.main.WorldToScreenPoint(transform.position),
+            success: true);
+        image.color = Color.white;
+    }
+    internal bool OnBox(float border)
+    {
+        Vector3 pos = transform.localPosition;
+        return Mathf.Abs(pos.x) < border && Mathf.Abs(pos.y) < border;
     }
 }

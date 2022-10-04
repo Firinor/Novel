@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Scene3_Puzzle : DialogNode
+public class FindRecipeIngredientsPuzzle : DialogNode
 {
     [SerializeField]
     private DialogNode successPuzzleDialog;
@@ -12,8 +12,10 @@ public class Scene3_Puzzle : DialogNode
     public override void StartDialog()
     {
         PuzzleFindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage
-            = new PuzzleFindRecipeIngredientsPackage(puzzlePackage.RecipeDifficulty,
-                puzzlePackage.IngredientsCount, successPuzzleDialog);
+            = new PuzzleFindRecipeIngredientsPackage(
+                puzzlePackage.RecipeDifficulty,
+                puzzlePackage.IngredientsCount, 
+                successPuzzleDialog);
         DialogOperator.SwithToPuzzle(puzzleFindRecipeIngredientsPackage);
     }
 }
