@@ -4,9 +4,11 @@ using UnityEngine.UI;
 using FirMath;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 
 public class PuzzleOperator : MonoBehaviour
 {
+    #region Fields
     private PuzzleInformator puzzleInformator;
 
     [SerializeField]
@@ -20,6 +22,8 @@ public class PuzzleOperator : MonoBehaviour
     private GameObject ingredientPrefab;
     [SerializeField]
     private GameObject victoryButton;
+    [SerializeField]
+    private GameObject failButton;
 
     [SerializeField]
     private ParticleSystem errorParticleSystem;
@@ -28,7 +32,6 @@ public class PuzzleOperator : MonoBehaviour
 
     [SerializeField]
     private Transform ingredientParent;
-    [SerializeField]
     private List<AlchemicalIngredientOperator> allIngredients;
     [SerializeField]
     private Transform recipeParent;
@@ -39,13 +42,25 @@ public class PuzzleOperator : MonoBehaviour
     [SerializeField]
     private int ingredientInBoxCount = 250;
     [SerializeField]
+    private float leftTime = 120;
+    [SerializeField]
     private float forseToIngredient;
+    private float acceleration = 0.02f;
     public float ForseToIngredient { get => forseToIngredient; }
 
     public bool PointerOnRecipe;
 
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+    private bool theTimerIsRunning;
+    private bool puzzleFailed;
+
     private List<int> recipe;
     private List<AlchemicalIngredientOperator> recipeList;
+
+    [SerializeField]
+    private AnimationManager animationManager;
+    #endregion
 
     void Awake()
     {
@@ -53,14 +68,88 @@ public class PuzzleOperator : MonoBehaviour
         {
             puzzleInformator = GetComponent<PuzzleInformator>();
         }
-
-        CreateRecipe();
     }
 
-    private void CreateRecipe()
+    void OnEnable()
+    {
+        ClearPuzzle();
+        PlayStartAnimations();
+    }
+
+    private void PlayStartAnimations()
+    {
+        animationManager.PlayStart();
+    }
+
+    void Update()
+    {
+        if(theTimerIsRunning && leftTime > 0)
+        {
+            leftTime -= Time.deltaTime;
+            TextLeftTime();
+            if (leftTime <= 0)
+            {
+                theTimerIsRunning = false;
+                LosePuzzle();
+            }
+        }
+    }
+
+    private void TextLeftTime()
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(leftTime);
+        DateTime dateTime = new DateTime(1,1,1,0, timeSpan.Minutes, timeSpan.Seconds);
+        timerText.text = $"{dateTime:m:ss}";
+    }
+
+    private void LosePuzzle()
+    {
+        puzzleFailed = true;
+        DeleteIngredientsInList(allIngredients);
+        failButton.SetActive(true);
+    }
+    private void ClearPuzzle()
+    {
+        victoryButton.SetActive(false);
+        failButton.SetActive(false);
+        CloseBox();
+        box.GetComponent<Button>().enabled = true;
+        DeleteAllIngredients();
+        ResetTimer();
+        puzzleFailed = false;
+        CreateNewRecipe();
+    }
+    private void ResetTimer()
+    {
+        theTimerIsRunning = false;
+        bool leftSomeTime = leftTime > 0;
+        timerText.enabled = leftSomeTime;
+        if(leftSomeTime)
+            TextLeftTime();
+    }
+    private void DeleteAllIngredients()
+    {
+        DeleteIngredientsInList(recipeList);
+        DeleteIngredientsInList(allIngredients);
+        
+    }
+    private void DeleteIngredientsInList(List<AlchemicalIngredientOperator> ingredientsList)
+    {
+        if (ingredientsList != null)
+        {
+            foreach (AlchemicalIngredientOperator ingredient in ingredientsList)
+                Destroy(ingredient.gameObject);
+
+            ingredientsList.Clear();
+        }
+    }
+
+    private void CreateNewRecipe()
     {
         ClearRecipe();
         Sprite[] alchemicalIngredientsSprites = puzzleInformator.AlchemicalIngredientsSprites;
+
+        ingredientInBoxCount = Math.Min(ingredientInBoxCount, alchemicalIngredientsSprites.Length);
 
         recipe = GenerateNewRecipe(recipeIngredientCount, ingredientInBoxCount);
         recipeList = new List<AlchemicalIngredientOperator>();
@@ -93,6 +182,7 @@ public class PuzzleOperator : MonoBehaviour
             case PuzzleFindRecipeIngredientsPackage findRecipeIngredients:
                 recipeIngredientCount = findRecipeIngredients.RecipeDifficulty;
                 ingredientInBoxCount = findRecipeIngredients.IngredientsCount;
+                leftTime = findRecipeIngredients.AllottedTime;
                 break;
             case null:
                 break;
@@ -103,11 +193,11 @@ public class PuzzleOperator : MonoBehaviour
 
     public void StartFindObjectPuzzle()
     {
-        box.sprite = puzzleInformator.OpenAlchemicalBox;
-        box.SetNativeSize();
-        box.GetComponent<Button>().enabled = false;
+        OpenBox();
+        theTimerIsRunning = leftTime > 0;
 
         Sprite[] alchemicalIngredientsSprites = puzzleInformator.AlchemicalIngredientsSprites;
+        allIngredients = new List<AlchemicalIngredientOperator>();
 
         for (int i = 0; i < ingredientInBoxCount; i++)
         {
@@ -128,37 +218,57 @@ public class PuzzleOperator : MonoBehaviour
     public async void FinishFindObjectPuzzle()
     {
         await HarvestAllIngredients();
+        CloseBox();
 
+        await Task.Delay(500);
+        victoryButton.SetActive(true);
+    }
+
+    private void CloseBox()
+    {
         box.sprite = puzzleInformator.ClosedAlchemicalBox;
         box.SetNativeSize();
+    }
+    private void OpenBox()
+    {
+        box.sprite = puzzleInformator.OpenAlchemicalBox;
+        box.SetNativeSize();
+        box.GetComponent<Button>().enabled = false;
     }
 
     private async Task HarvestAllIngredients()
     {
-        float border = 0;
+        float border = 0; 
+        float force = 0;
+
+        List<AlchemicalIngredientOperator> ingredientsToDestroy = new List<AlchemicalIngredientOperator>();
 
         while (allIngredients!=null && allIngredients.Count > 0)
         {
-            List<AlchemicalIngredientOperator> ingredientsToDestroy = new List<AlchemicalIngredientOperator>();
             foreach (AlchemicalIngredientOperator ingredient in allIngredients)
             {
                 if (ingredient.OnBox(border))
                 {
+                    ingredient.SetImpulse(0, toZeroPoint: true);
                     ingredientsToDestroy.Add(ingredient);
-                    Destroy(ingredient.gameObject, 1f);
                 }
                 else
                 {
-                    ingredient.SetImpulse(border, toZeroPoint: true);
+                    ingredient.SetImpulse(force, toZeroPoint: true);
                 }
             }
             foreach(AlchemicalIngredientOperator ingredient in ingredientsToDestroy)
             {
                 allIngredients.Remove(ingredient);
             }
-            border += 0.02f;
+            border += acceleration;
+            force += acceleration;
 
             await Task.Yield();
+        }
+        foreach (AlchemicalIngredientOperator ingredient in ingredientsToDestroy)
+        {
+            Destroy(ingredient.gameObject);
         }
     }
 
@@ -169,11 +279,13 @@ public class PuzzleOperator : MonoBehaviour
 
     internal void ActivateIngredient(int keyIngredientNumber)
     {
+        if (puzzleFailed)
+            return;
+
         bool TheRecipeIsReady = recipeOperator.ActivateIngredient(keyIngredientNumber);
         if (TheRecipeIsReady)
         {
             FinishFindObjectPuzzle();
-            victoryButton.SetActive(true);
         }
     }
 
@@ -206,5 +318,10 @@ public class PuzzleOperator : MonoBehaviour
     internal void RemoveIngredient(AlchemicalIngredientOperator alchemicalIngredientOperator)
     {
         allIngredients.Remove(alchemicalIngredientOperator);
+    }
+
+    public void Options()
+    {
+        ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
     }
 }

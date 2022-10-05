@@ -181,7 +181,7 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     }
     internal void SetRandomImpulse(float forse, bool randomForse = true)
     {
-        forse *= randomForse?(0.2f + Random.value):1;
+        forse *= randomForse?Random.value:1;
         float randomDirection = Random.value * 360 * Mathf.Deg2Rad;
 
         impulse = new Vector3(math.cos(randomDirection), math.sin(randomDirection), 0) * forse;
@@ -192,8 +192,14 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     }
     internal void SetImpulse(float force, bool toZeroPoint = true)
     {
-        if (!toZeroPoint)
+        if (force == 0)
+        {
+            SetImpulse(Vector3.zero);
             return;
+        }
+
+        if (!toZeroPoint)
+            force *= -1;
 
         Vector3 resultVector = (Vector3.zero - transform.localPosition).normalized * force;
         SetImpulse(resultVector);

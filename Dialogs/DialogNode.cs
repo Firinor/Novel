@@ -36,6 +36,12 @@ public abstract class DialogNode : MonoBehaviour
         CleareAll();
     }
 
+    public void StartDialog(int index)
+    {
+        if(Choices != null && (Choices.Length - 1) >= index)
+            Choices[index].StartDialog();
+    }
+
     public void CleareAll()
     {
         SceneOff();

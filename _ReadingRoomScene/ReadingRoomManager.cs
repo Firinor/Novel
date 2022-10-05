@@ -28,11 +28,13 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
 
     public static void SwitchPanels(ReadingRoomMarks mark)
     {
-        //instance.DiactiveAllPanels();
+        if(mark != ReadingRoomMarks.options)
+            instance.DiactiveAllPanels();
+
         switch (mark)
         {
             case ReadingRoomMarks.map:
-                map.SetActive(true);
+                //map.SetActive(true);
                 break;
             case ReadingRoomMarks.dialog:
                 dialog.SetActive(true);
@@ -58,7 +60,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
 
     public void DiactiveAllPanels()
     {
-        map.SetActive(false);
+        //map.SetActive(false);
         dialog.SetActive(false);
         puzzle.SetActive(false);
         SceneManager.DiactiveAllPanels();

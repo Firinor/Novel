@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class PuzzleFindRecipeIngredientsPackage : PuzzleInformationPackage
 {
-    public PuzzleFindRecipeIngredientsPackage(int recipeDifficulty, int ingredientsCount,
+    public PuzzleFindRecipeIngredientsPackage(int recipeDifficulty, int ingredientsCount, float allottedTime,
         DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
         : base(successPuzzleDialog, failedPuzzleDialog)
     {
@@ -27,6 +27,7 @@ public class PuzzleFindRecipeIngredientsPackage : PuzzleInformationPackage
 
         this.recipeDifficulty = recipeDifficulty;
         this.ingredientsCount = ingredientsCount;
+        this.allottedTime = Math.Max(allottedTime, 0);
     }
     [SerializeField]
     [Range(1, 10)]
@@ -34,6 +35,11 @@ public class PuzzleFindRecipeIngredientsPackage : PuzzleInformationPackage
     [SerializeField]
     [Range(10, 1024)]
     private int ingredientsCount = 2;
+    [SerializeField]
+    [Range(0, 1024)]
+    private float allottedTime = 0;
+
     public int RecipeDifficulty { get => recipeDifficulty; }
     public int IngredientsCount { get => ingredientsCount; }
+    public float AllottedTime { get => allottedTime; }
 }

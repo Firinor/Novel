@@ -14,7 +14,8 @@ public class FindRecipeIngredientsPuzzle : DialogNode
         PuzzleFindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage
             = new PuzzleFindRecipeIngredientsPackage(
                 puzzlePackage.RecipeDifficulty,
-                puzzlePackage.IngredientsCount, 
+                puzzlePackage.IngredientsCount,
+                puzzlePackage.AllottedTime,
                 successPuzzleDialog);
         DialogOperator.SwithToPuzzle(puzzleFindRecipeIngredientsPackage);
     }
