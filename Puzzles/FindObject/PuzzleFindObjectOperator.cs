@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 
-public class PuzzleOperator : MonoBehaviour
+public class PuzzleFindObjectOperator : MonoBehaviour
 {
     #region Fields
     private PuzzleInformator puzzleInformator;

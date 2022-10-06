@@ -3,7 +3,7 @@ using UnityEngine;
 public class FromPuzzleToDialog : DialogNode
 {
     [SerializeField]
-    private PuzzleOperator puzzleOperator;
+    private PuzzleFindObjectOperator puzzleOperator;
     public override void StartDialog()
     {
         puzzleOperator.PuzzleExit();

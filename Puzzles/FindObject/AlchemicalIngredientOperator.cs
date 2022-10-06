@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using Unity.Mathematics;
-using static UnityEditor.PlayerSettings;
+//using static UnityEditor.PlayerSettings;
 
 public class AlchemicalIngredientOperator : MonoBehaviour, 
     IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -15,7 +15,7 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
     [SerializeField]
     private int keyIngredientNumber;
 
-    private PuzzleOperator puzzleOperator;
+    private PuzzleFindObjectOperator puzzleOperator;
     private bool drag = false;
     private float timer;
     private const float FIFTH_SEC = 0.2f;
@@ -170,7 +170,7 @@ public class AlchemicalIngredientOperator : MonoBehaviour,
             impulse.y = -impulse.y;
         }
     }
-    internal void SetPuzzleOperator(PuzzleOperator puzzleOperator)
+    internal void SetPuzzleOperator(PuzzleFindObjectOperator puzzleOperator)
     {
         this.puzzleOperator = puzzleOperator;
     }

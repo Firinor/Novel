@@ -8,7 +8,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     private static GameObject map;
     private static GameObject dialog;
     private static GameObject puzzle;
-    private static PuzzleOperator puzzleOperator;
+    private static PuzzleFindObjectOperator puzzleOperator;
 
     private ReadingRoomInformator readingRoomInformator;
 

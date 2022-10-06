@@ -10,7 +10,7 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     [SerializeField]
     private GameObject puzzle;
     [SerializeField]
-    private PuzzleOperator puzzleOperator;
+    private PuzzleFindObjectOperator puzzleOperator;
     [SerializeField]
     private PuzzleInformator puzzleInformator;
     [SerializeField]
@@ -19,7 +19,7 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     public static GameObject GetMap() => instance.map;
     public static GameObject GetDialog() => instance.dialog;
     public static GameObject GetPuzzle() => instance.puzzle;
-    public static PuzzleOperator GetPuzzleOperator() => instance.puzzleOperator;
+    public static PuzzleFindObjectOperator GetPuzzleOperator() => instance.puzzleOperator;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class RecipeOperator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
-    private PuzzleOperator puzzleOperator;
+    private PuzzleFindObjectOperator puzzleOperator;
     [SerializeField]
     private Image image;
     [SerializeField]
