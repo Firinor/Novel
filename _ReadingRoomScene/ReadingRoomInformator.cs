@@ -8,9 +8,13 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     [SerializeField]
     private GameObject dialog;
     [SerializeField]
-    private GameObject puzzle;
+    private GameObject puzzleFindObject;
     [SerializeField]
-    private PuzzleFindObjectOperator puzzleOperator;
+    private GameObject puzzleTetraQuestion;
+    [SerializeField]
+    private PuzzleFindObjectOperator puzzleFindObjectOperator;
+    [SerializeField]
+    private PuzzleTetraQuestionOperator puzzleTetraQuestionOperator;
     [SerializeField]
     private PuzzleInformator puzzleInformator;
     [SerializeField]
@@ -18,8 +22,10 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
 
     public static GameObject GetMap() => instance.map;
     public static GameObject GetDialog() => instance.dialog;
-    public static GameObject GetPuzzle() => instance.puzzle;
-    public static PuzzleFindObjectOperator GetPuzzleOperator() => instance.puzzleOperator;
+    public static GameObject GetPuzzleFindObject() => instance.puzzleFindObject;
+    public static GameObject GetPuzzleTetraQuestion() => instance.puzzleTetraQuestion;
+    public static PuzzleFindObjectOperator GetPuzzleFindObjectOperator() => instance.puzzleFindObjectOperator;
+    public static PuzzleTetraQuestionOperator GetPuzzleTetraQuestionOperator() => instance.puzzleTetraQuestionOperator;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;

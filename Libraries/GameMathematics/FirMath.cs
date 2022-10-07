@@ -60,5 +60,18 @@ namespace FirMath
             }
             return result;
         }
+        public static List<T> ShuffleTheCards<T>(List<T> cards)
+        {
+            for (int i = cards.Count - 1; i >= 1; i--)
+            {
+                int j = Random.Range(0, i + 1);
+
+                T temporary = cards[j];
+                cards[j] = cards[i];
+                cards[i] = temporary;
+            }
+
+            return cards;
+        }
     }
 }

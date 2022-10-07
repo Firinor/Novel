@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 
-public class PuzzleFindObjectOperator : MonoBehaviour
+public class PuzzleFindObjectOperator : PuzzleOperator
 {
     #region Fields
     private PuzzleInformator puzzleInformator;
@@ -20,10 +20,6 @@ public class PuzzleFindObjectOperator : MonoBehaviour
     private Image box;
     [SerializeField]
     private GameObject ingredientPrefab;
-    [SerializeField]
-    private GameObject victoryButton;
-    [SerializeField]
-    private GameObject failButton;
 
     [SerializeField]
     private ParticleSystem errorParticleSystem;
@@ -53,7 +49,6 @@ public class PuzzleFindObjectOperator : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI timerText;
     private bool theTimerIsRunning;
-    private bool puzzleFailed;
 
     private List<int> recipe;
     private List<AlchemicalIngredientOperator> recipeList;
@@ -102,13 +97,13 @@ public class PuzzleFindObjectOperator : MonoBehaviour
         timerText.text = $"{dateTime:m:ss}";
     }
 
-    private void LosePuzzle()
+    public override void LosePuzzle()
     {
         puzzleFailed = true;
         DeleteIngredientsInList(allIngredients);
         failButton.SetActive(true);
     }
-    private void ClearPuzzle()
+    public override void ClearPuzzle()
     {
         victoryButton.SetActive(false);
         failButton.SetActive(false);
@@ -175,23 +170,14 @@ public class PuzzleFindObjectOperator : MonoBehaviour
         }
     }
 
-    public void SetPuzzleInformationPackage(PuzzleInformationPackage puzzleInformationPackage)
+    public void SetPuzzleInformationPackage(PuzzleFindRecipeIngredientsPackage puzzleInformationPackage)
     {
-        switch (puzzleInformationPackage)
-        {
-            case PuzzleFindRecipeIngredientsPackage findRecipeIngredients:
-                recipeIngredientCount = findRecipeIngredients.RecipeDifficulty;
-                ingredientInBoxCount = findRecipeIngredients.IngredientsCount;
-                leftTime = findRecipeIngredients.AllottedTime;
-                break;
-            case null:
-                break;
-            default:
-                break;
-        }
+        recipeIngredientCount = puzzleInformationPackage.RecipeDifficulty;
+        ingredientInBoxCount = puzzleInformationPackage.IngredientsCount;
+        leftTime = puzzleInformationPackage.AllottedTime;
     }
 
-    public void StartFindObjectPuzzle()
+    public override void StartPuzzle()
     {
         OpenBox();
         theTimerIsRunning = leftTime > 0;
@@ -215,7 +201,7 @@ public class PuzzleFindObjectOperator : MonoBehaviour
         }
     }
 
-    public async void FinishFindObjectPuzzle()
+    public override async void FinishPuzzle()
     {
         await HarvestAllIngredients();
         CloseBox();
@@ -285,7 +271,7 @@ public class PuzzleFindObjectOperator : MonoBehaviour
         bool TheRecipeIsReady = recipeOperator.ActivateIngredient(keyIngredientNumber);
         if (TheRecipeIsReady)
         {
-            FinishFindObjectPuzzle();
+            FinishPuzzle();
         }
     }
 
@@ -310,7 +296,7 @@ public class PuzzleFindObjectOperator : MonoBehaviour
         particleSystem.Play();
     }
 
-    public void PuzzleExit()
+    public override void PuzzleExit()
     {
         gameObject.SetActive(false);
     }
@@ -320,7 +306,7 @@ public class PuzzleFindObjectOperator : MonoBehaviour
         allIngredients.Remove(alchemicalIngredientOperator);
     }
 
-    public void Options()
+    public override void Options()
     {
         ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
     }
