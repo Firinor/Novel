@@ -24,7 +24,6 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
     private Sprite victoryButtonSprite;
     [SerializeField]
     private Sprite failButtonSprite;
-    private int correctAnswer = -1;
 
     [SerializeField]
     private Question question;
@@ -32,11 +31,6 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
     void Awake()
     {
         answersArray = new TextMeshProUGUI[4] { answer_A, answer_B, answer_C, answer_D};
-    }
-
-    public void Answer(int answer)
-    {
-        
     }
 
     void OnEnable()
@@ -48,23 +42,21 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
     {
         gameObject.SetActive(false);
     }
-    public override void LosePuzzle()
-    {
-        puzzleFailed = true;
-        failButton.SetActive(true);
-    }
+
     public override void Options()
     {
         ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
     }
-    public override void ClearPuzzle()
-    {
-        victoryButton.SetActive(false);
-        failButton.SetActive(false);
-        puzzleFailed = false;
-    }
+    //public override void ClearPuzzle()
+    //{
+    //    victoryButton.SetActive(false);
+    //    failButton.SetActive(false);
+    //    puzzleFailed = false;
+    //}
     public override void StartPuzzle()
     {
+        ClearPuzzle();
+
         questionText.text = question.QuestionText;
 
         List<int> answers = new List<int>{ -1 };
@@ -83,20 +75,30 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
 
         for (int i = 0; i < 4; i++)
         {
+            Button.ButtonClickedEvent buttonEvent = answersArray[i].GetComponentInParent<Button>().onClick;
+            buttonEvent.RemoveAllListeners();
             if (answers[i] == -1)
             {
                 answersArray[i].text = question.CorrectAnswer;
+                buttonEvent.AddListener(FinishPuzzle);
             }
             else
             {
                 answersArray[i].text = question.WrongAnswers[answers[i]];
+                buttonEvent.AddListener(LosePuzzle);
             }
         }
     }
 
     public override void FinishPuzzle()
     {
-        victoryButton.SetActive(true);
+        if(!puzzleFailed)
+            victoryButton.SetActive(true);
+    }
+    public override void LosePuzzle()
+    {
+        puzzleFailed = true;
+        failButton.SetActive(true);
     }
 
     internal void SetPuzzleInformationPackage(PuzzleTetraQuestionPackage tetraQuestion)
