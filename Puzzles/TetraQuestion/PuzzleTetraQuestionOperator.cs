@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using FirMath;
 using System.Collections.Generic;
+using System;
+using System.Collections;
 
 public class PuzzleTetraQuestionOperator : PuzzleOperator
 {
@@ -24,6 +26,8 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
     private Sprite victoryButtonSprite;
     [SerializeField]
     private Sprite failButtonSprite;
+
+    private int correctAnswer;
 
     [SerializeField]
     private Question question;
@@ -79,8 +83,9 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
             buttonEvent.RemoveAllListeners();
             if (answers[i] == -1)
             {
+                correctAnswer = i;
                 answersArray[i].text = question.CorrectAnswer;
-                buttonEvent.AddListener(FinishPuzzle);
+                buttonEvent.AddListener(SuccessfullySolvePuzzle);
             }
             else
             {
@@ -90,10 +95,11 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
         }
     }
 
-    public override void FinishPuzzle()
+    public override void SuccessfullySolvePuzzle()
     {
         if(!puzzleFailed)
             victoryButton.SetActive(true);
+
     }
     public override void LosePuzzle()
     {
@@ -104,5 +110,19 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
     internal void SetPuzzleInformationPackage(PuzzleTetraQuestionPackage tetraQuestion)
     {
         question = tetraQuestion.Question;
+    }
+
+    private IEnumerator AnswerCoroutine()
+    {
+        var wait = new WaitForSeconds(1);
+        yield return wait;
+
+        
+    }
+
+    public void SetPlayerAnswer(int button)
+    {
+        bool success = correctAnswer == button;
+
     }
 }

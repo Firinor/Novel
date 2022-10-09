@@ -33,7 +33,7 @@ public class PuzzleOperator : MonoBehaviour
         
     }
 
-    public virtual void FinishPuzzle()
+    public virtual void SuccessfullySolvePuzzle()
     {
         victoryButton.SetActive(true);
     }

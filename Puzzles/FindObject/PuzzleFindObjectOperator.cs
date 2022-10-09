@@ -201,7 +201,7 @@ public class PuzzleFindObjectOperator : PuzzleOperator
         }
     }
 
-    public override async void FinishPuzzle()
+    public override async void SuccessfullySolvePuzzle()
     {
         await HarvestAllIngredients();
         CloseBox();
@@ -271,7 +271,7 @@ public class PuzzleFindObjectOperator : PuzzleOperator
         bool TheRecipeIsReady = recipeOperator.ActivateIngredient(keyIngredientNumber);
         if (TheRecipeIsReady)
         {
-            FinishPuzzle();
+            SuccessfullySolvePuzzle();
         }
     }
 
