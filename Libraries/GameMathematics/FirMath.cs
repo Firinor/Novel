@@ -55,8 +55,8 @@ namespace FirMath
             List<int> result = new List<int>(new int[i]);
             while (i > 0)
             {
-                result[i-1] = i;
                 i--;
+                result[i] = i;
             }
             return result;
         }

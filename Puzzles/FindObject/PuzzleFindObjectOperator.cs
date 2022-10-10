@@ -175,6 +175,9 @@ public class PuzzleFindObjectOperator : PuzzleOperator
         recipeIngredientCount = puzzleInformationPackage.RecipeDifficulty;
         ingredientInBoxCount = puzzleInformationPackage.IngredientsCount;
         leftTime = puzzleInformationPackage.AllottedTime;
+        SetVictoryDialogNode(puzzleInformationPackage.successPuzzleDialog);
+        SetFailDialogNode(puzzleInformationPackage.failedPuzzleDialog);
+        SetBackground(puzzleInformationPackage.puzzleBackground);
     }
 
     public override void StartPuzzle()

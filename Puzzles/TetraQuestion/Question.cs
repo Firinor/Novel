@@ -4,6 +4,9 @@ using UnityEngine;
 public class Question : ScriptableObject
 {
     [SerializeField]
+    private Sprite sprite;
+    public Sprite Sprite { get => sprite; }
+    [SerializeField]
     [Multiline(10)]
     private string questionText;
     public string QuestionText { get => questionText; }

@@ -1,27 +1,32 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-using FirMath;
-using System.Collections.Generic;
+﻿using FirMath;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleTetraQuestionOperator : PuzzleOperator
 {
-    public enum answer { A, B, C, D }
     [SerializeField]
     private Image background;
     [SerializeField]
+    private Image questionImage;
+    [SerializeField]
     private TextMeshProUGUI questionText;
     [SerializeField]
-    private TextMeshProUGUI answer_A;
+    private Answer answer_A;
     [SerializeField]
-    private TextMeshProUGUI answer_B;
+    private Answer answer_B;
     [SerializeField]
-    private TextMeshProUGUI answer_C;
+    private Answer answer_C;
     [SerializeField]
-    private TextMeshProUGUI answer_D;
-    private TextMeshProUGUI[] answersArray;
+    private Answer answer_D;
+    private Answer[] answersArray;
+    [SerializeField]
+    private Sprite defaultButtonSprite;
+    [SerializeField]
+    private Sprite pickedButtonSprite;
     [SerializeField]
     private Sprite victoryButtonSprite;
     [SerializeField]
@@ -34,9 +39,8 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
 
     void Awake()
     {
-        answersArray = new TextMeshProUGUI[4] { answer_A, answer_B, answer_C, answer_D};
+        answersArray = new Answer[4] { answer_A, answer_B, answer_C, answer_D};
     }
-
     void OnEnable()
     {
         StartPuzzle();
@@ -51,17 +55,28 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
     {
         ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
     }
-    //public override void ClearPuzzle()
-    //{
-    //    victoryButton.SetActive(false);
-    //    failButton.SetActive(false);
-    //    puzzleFailed = false;
-    //}
+    public override void ClearPuzzle()
+    {
+        questionImage.enabled = false;
+        SetEnabledAllButtons(true);
+        SetDefaultSpriteToAllButtons();
+        victoryButton.SetActive(false);
+        failButton.SetActive(false);
+        puzzleFailed = false;
+    }
     public override void StartPuzzle()
     {
         ClearPuzzle();
 
         questionText.text = question.QuestionText;
+
+        if(question.Sprite != null)
+        {
+            questionImage.enabled = true;
+            questionImage.sprite = question.Sprite;
+            questionImage.SetNativeSize();
+        }
+        
 
         List<int> answers = new List<int>{ -1 };
         //{-1}
@@ -79,22 +94,19 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
 
         for (int i = 0; i < 4; i++)
         {
-            Button.ButtonClickedEvent buttonEvent = answersArray[i].GetComponentInParent<Button>().onClick;
+            Button.ButtonClickedEvent buttonEvent = answersArray[i].Button.onClick;
             buttonEvent.RemoveAllListeners();
             if (answers[i] == -1)
             {
                 correctAnswer = i;
-                answersArray[i].text = question.CorrectAnswer;
-                buttonEvent.AddListener(SuccessfullySolvePuzzle);
+                answersArray[i].Text.text = question.CorrectAnswer;
             }
             else
             {
-                answersArray[i].text = question.WrongAnswers[answers[i]];
-                buttonEvent.AddListener(LosePuzzle);
+                answersArray[i].Text.text = question.WrongAnswers[answers[i]];
             }
         }
     }
-
     public override void SuccessfullySolvePuzzle()
     {
         if(!puzzleFailed)
@@ -103,26 +115,72 @@ public class PuzzleTetraQuestionOperator : PuzzleOperator
     }
     public override void LosePuzzle()
     {
-        puzzleFailed = true;
         failButton.SetActive(true);
     }
-
-    internal void SetPuzzleInformationPackage(PuzzleTetraQuestionPackage tetraQuestion)
+    public void SetPuzzleInformationPackage(PuzzleTetraQuestionPackage tetraQuestion)
     {
         question = tetraQuestion.Question;
+        SetVictoryDialogNode(tetraQuestion.successPuzzleDialog);
+        SetFailDialogNode(tetraQuestion.failedPuzzleDialog);
+        SetBackground(tetraQuestion.puzzleBackground);
     }
 
-    private IEnumerator AnswerCoroutine()
+    private IEnumerator ButtonAnimating(int button, Sprite newSprite, Action action = null)
     {
-        var wait = new WaitForSeconds(1);
-        yield return wait;
+        Image image = answersArray[button].Image;
+        Sprite oldImage = image.sprite;
 
-        
+        WaitForSeconds wait = new WaitForSeconds(.4f);
+
+        yield return wait;
+        image.sprite = newSprite;
+        yield return wait;
+        image.sprite = oldImage;
+        yield return wait;
+        image.sprite = newSprite;
+        yield return wait;
+        image.sprite = oldImage;
+        yield return wait;
+        image.sprite = newSprite;
+
+        action?.Invoke();
     }
 
     public void SetPlayerAnswer(int button)
     {
-        bool success = correctAnswer == button;
+        SetEnabledAllButtons(false);
+        answersArray[button].Image.sprite = pickedButtonSprite;
+        puzzleFailed = button != correctAnswer;
+        if (puzzleFailed)
+        {
+            StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite));
+            StartCoroutine(ButtonAnimating(button, failButtonSprite, LosePuzzle));
+        }
+        else
+        {
+            StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite, SuccessfullySolvePuzzle));
+        }
+    }
+    private void SetEnabledAllButtons(bool enabled)
+    {
+        foreach(Answer answer in answersArray)
+        {
+            answer.Button.enabled = enabled;
+        }
+    }
+    private void SetDefaultSpriteToAllButtons()
+    {
+        foreach (Answer answer in answersArray)
+        {
+            answer.Image.sprite = defaultButtonSprite;
+        }
+    }
 
+    [Serializable]
+    private class Answer
+    {
+        public TextMeshProUGUI Text;
+        public Image Image;
+        public Button Button;
     }
 }

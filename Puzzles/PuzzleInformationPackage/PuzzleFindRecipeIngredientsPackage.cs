@@ -5,8 +5,8 @@ using UnityEngine;
 public class PuzzleFindRecipeIngredientsPackage : PuzzleInformationPackage
 {
     public PuzzleFindRecipeIngredientsPackage(int recipeDifficulty, int ingredientsCount, float allottedTime,
-        DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
-        : base(successPuzzleDialog, failedPuzzleDialog)
+        Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+        : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
     {
         if(ingredientsCount > puzzleInformator.AlchemicalIngredientsSprites.Length)
         {

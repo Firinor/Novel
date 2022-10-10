@@ -5,7 +5,7 @@ public enum ReadingRoomMarks { map, dialog, puzzleFindObject, puzzleTetraQuestio
 
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel
 {
-    private static GameObject map;
+    //private static GameObject map;
     private static GameObject dialog;
     private static GameObject puzzleFindObject;
     private static GameObject puzzleTetraQuestion;
@@ -22,7 +22,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         readingRoomInformator = GetComponent<ReadingRoomInformator>();
         readingRoomInformator.SingletoneCheck(readingRoomInformator);//Singltone
 
-        map = ReadingRoomInformator.GetMap();
+        //map = ReadingRoomInformator.GetMap();
         dialog = ReadingRoomInformator.GetDialog();
         puzzleFindObject = ReadingRoomInformator.GetPuzzleFindObject();
         puzzleTetraQuestion = ReadingRoomInformator.GetPuzzleTetraQuestion();

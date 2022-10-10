@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class TetraQuestionPuzzle : DialogNode
 {
@@ -7,6 +8,8 @@ public class TetraQuestionPuzzle : DialogNode
     [SerializeField]
     private DialogNode failedPuzzleDialog;
     [SerializeField]
+    private Sprite puzzleBackground;
+    [SerializeField]
     private PuzzleTetraQuestionPackage puzzlePackage;
 
     public override void StartDialog()
@@ -14,6 +17,7 @@ public class TetraQuestionPuzzle : DialogNode
         PuzzleTetraQuestionPackage puzzleTetraQuestionPackage
             = new PuzzleTetraQuestionPackage(
                 puzzlePackage.Question,
+                puzzleBackground,
                 successPuzzleDialog);
         DialogOperator.SwithToPuzzle(puzzleTetraQuestionPackage);
     }

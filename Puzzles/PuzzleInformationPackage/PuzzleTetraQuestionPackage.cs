@@ -5,8 +5,8 @@ using UnityEngine;
 public class PuzzleTetraQuestionPackage : PuzzleInformationPackage
 {
     public PuzzleTetraQuestionPackage(Question question,
-        DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
-        : base(successPuzzleDialog, failedPuzzleDialog)
+        Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+        : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
     {
         this.question = question;
     }

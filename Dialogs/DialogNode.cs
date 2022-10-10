@@ -1,7 +1,7 @@
-using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 
@@ -14,7 +14,7 @@ public abstract class DialogNode : MonoBehaviour
     [SerializeField]
     private string DescriptionOfSelection;
     [SerializeField]
-    private DialogNode[] Choices;
+    private List<DialogNode> Choices;
     private DialogOperator dialogOperator;
 
     public int ID { get { return id; } }
@@ -25,11 +25,19 @@ public abstract class DialogNode : MonoBehaviour
         dialogOperator = DialogOperator.instance;
         GetComponent<Button>().onClick.AddListener(StartDialog);
     }
+    public void AddChoice(DialogNode dialogNode)
+    {
+        if(Choices == null || Choices.Count == 0)
+        {
+            Choices = new List<DialogNode>();
+        }
+
+        Choices.Add(dialogNode);
+    }
     public string GetHeader()
     {
         return Header[(int)PlayerManager.Language];
     }
-
     public virtual void StartDialog()
     {
         DialogManager.ActivateDialog(gameObject.GetComponent<RectTransform>().anchoredPosition.x);
@@ -38,8 +46,8 @@ public abstract class DialogNode : MonoBehaviour
 
     public void StartDialog(int index)
     {
-        if(Choices != null && (Choices.Length - 1) >= index)
-            Choices[index].StartDialog();
+        if(Choices != null && (Choices.Count - 1) >= index)
+            Choices[index]?.StartDialog();
     }
 
     public void CleareAll()
@@ -112,21 +120,21 @@ public abstract class DialogNode : MonoBehaviour
             return;
         }
 
-        if (Choices == null || Choices.Length < 1)
+        if (Choices == null || Choices.Count < 1)
         {
             DialogOperator.skipText = false;
             dialogOperator.DialogExit();
             return;
         }
 
-        if (Choices.Length == 1)
+        if (Choices.Count == 1)
         {
             Choices[0].StartDialog();
             return;
         }
 
         DialogOperator.skipText = false;
-        for (int i = 0; i < Choices.Length; i++)
+        for (int i = 0; i < Choices.Count; i++)
         {
             dialogOperator.CreateWayButton(Choices[i]);
         }

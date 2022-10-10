@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PuzzleOperator : MonoBehaviour
 {
@@ -8,6 +8,8 @@ public class PuzzleOperator : MonoBehaviour
     protected GameObject victoryButton;
     [SerializeField]
     protected GameObject failButton;
+    [SerializeField]
+    protected Image backgroundImage;
 
     public virtual void PuzzleExit()
     {
@@ -36,5 +38,18 @@ public class PuzzleOperator : MonoBehaviour
     public virtual void SuccessfullySolvePuzzle()
     {
         victoryButton.SetActive(true);
+    }
+
+    protected virtual void SetVictoryDialogNode(DialogNode dialogNode)
+    {
+        victoryButton.GetComponent<FromPuzzleToDialog>().AddChoice(dialogNode);
+    }
+    protected virtual void SetFailDialogNode(DialogNode dialogNode)
+    {
+        failButton.GetComponent<FromPuzzleToDialog>().AddChoice(dialogNode);
+    }
+    protected virtual void SetBackground(Sprite sprite)
+    {
+        backgroundImage.sprite = sprite;
     }
 }

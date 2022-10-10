@@ -7,6 +7,8 @@ public class FindRecipeIngredientsPuzzle : DialogNode
     [SerializeField]
     private DialogNode failedPuzzleDialog;
     [SerializeField]
+    private Sprite puzzleBackground;
+    [SerializeField]
     private PuzzleFindRecipeIngredientsPackage puzzlePackage;
 
     public override void StartDialog()
@@ -16,6 +18,7 @@ public class FindRecipeIngredientsPuzzle : DialogNode
                 puzzlePackage.RecipeDifficulty,
                 puzzlePackage.IngredientsCount,
                 puzzlePackage.AllottedTime,
+                puzzleBackground,
                 successPuzzleDialog);
         DialogOperator.SwithToPuzzle(puzzleFindRecipeIngredientsPackage);
     }
