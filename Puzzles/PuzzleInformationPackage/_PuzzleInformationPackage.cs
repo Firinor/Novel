@@ -1,24 +1,22 @@
 ﻿using UnityEngine;
 
-public enum PuzzleEnum {FindRecipeIngredients, FindСonstellation, AQuestionWithAnswers };
-
-public abstract class PuzzleInformationPackage
+namespace Puzzle
 {
-    protected PuzzleInformationPackage(Sprite puzzleBackground, 
-        DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+    public enum PuzzleEnum { FindRecipeIngredients, FindСonstellation, AQuestionWithAnswers };
+
+    public abstract class InformationPackage
     {
-        this.successPuzzleDialog = successPuzzleDialog;
-        this.failedPuzzleDialog = failedPuzzleDialog;
-        this.puzzleBackground = puzzleBackground;
+        protected InformationPackage(Sprite puzzleBackground,
+            DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+        {
+            this.successPuzzleDialog = successPuzzleDialog;
+            this.failedPuzzleDialog = failedPuzzleDialog;
+            this.puzzleBackground = puzzleBackground;
+        }
 
-        puzzleInformator = ReadingRoomInformator.GetPuzzleInformator();
+        public DialogNode successPuzzleDialog { get; }
+        public DialogNode failedPuzzleDialog { get; }
+        public Sprite puzzleBackground { get; }
+
     }
-
-    public DialogNode successPuzzleDialog { get; }
-    public DialogNode failedPuzzleDialog { get; }
-    public Sprite puzzleBackground { get; }
-
-    protected PuzzleInformator puzzleInformator { get; }
-    
 }
-

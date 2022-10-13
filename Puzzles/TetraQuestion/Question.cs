@@ -1,26 +1,29 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Questions/Question", fileName = "new question")]
-public class Question : ScriptableObject
+namespace Puzzle.TetraQuestion
 {
-    [SerializeField]
-    private Sprite sprite;
-    public Sprite Sprite { get => sprite; }
-    [SerializeField]
-    [Multiline(10)]
-    private string questionText;
-    public string QuestionText { get => questionText; }
-    [SerializeField]
-    private string correctAnswer;
-    public string CorrectAnswer { get => correctAnswer; }
-    [SerializeField]
-    private string[] wrongAnswers = new string[3];
-    public string[] WrongAnswers { get => wrongAnswers; }
-
-    public Question(string questionText, string correctAnswer, string[] wrongAnswers)
+    [CreateAssetMenu(menuName = "Puzzles/Question", fileName = "new question")]
+    public class Question : ScriptableObject
     {
-        this.questionText = questionText;
-        this.correctAnswer = correctAnswer;
-        this.wrongAnswers = wrongAnswers;
+        [SerializeField]
+        private Sprite sprite;
+        public Sprite Sprite { get => sprite; }
+        [SerializeField]
+        [Multiline(10)]
+        private string questionText;
+        public string QuestionText { get => questionText; }
+        [SerializeField]
+        private string correctAnswer;
+        public string CorrectAnswer { get => correctAnswer; }
+        [SerializeField]
+        private string[] wrongAnswers = new string[3];
+        public string[] WrongAnswers { get => wrongAnswers; }
+
+        public Question(string questionText, string correctAnswer, string[] wrongAnswers)
+        {
+            this.questionText = questionText;
+            this.correctAnswer = correctAnswer;
+            this.wrongAnswers = wrongAnswers;
+        }
     }
 }

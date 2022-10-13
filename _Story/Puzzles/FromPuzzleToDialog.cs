@@ -1,3 +1,4 @@
+using Puzzle;
 using UnityEngine;
 
 public class FromPuzzleToDialog : DialogNode

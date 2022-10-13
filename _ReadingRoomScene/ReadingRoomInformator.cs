@@ -1,4 +1,6 @@
-using System;
+using Puzzle.FindDifferences;
+using Puzzle.FindObject;
+using Puzzle.TetraQuestion;
 using UnityEngine;
 
 public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
@@ -12,9 +14,13 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     [SerializeField]
     private GameObject puzzleTetraQuestion;
     [SerializeField]
-    private PuzzleFindObjectOperator puzzleFindObjectOperator;
+    private GameObject puzzleFindDifferences;
     [SerializeField]
-    private PuzzleTetraQuestionOperator puzzleTetraQuestionOperator;
+    private FindObjectOperator findObjectOperator;
+    [SerializeField]
+    private TetraQuestionOperator tetraQuestionOperator;
+    [SerializeField]
+    private FindDifferencesOperator findDifferencesOperator;
     [SerializeField]
     private PuzzleInformator puzzleInformator;
     [SerializeField]
@@ -24,8 +30,10 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     public static GameObject GetDialog() => instance.dialog;
     public static GameObject GetPuzzleFindObject() => instance.puzzleFindObject;
     public static GameObject GetPuzzleTetraQuestion() => instance.puzzleTetraQuestion;
-    public static PuzzleFindObjectOperator GetPuzzleFindObjectOperator() => instance.puzzleFindObjectOperator;
-    public static PuzzleTetraQuestionOperator GetPuzzleTetraQuestionOperator() => instance.puzzleTetraQuestionOperator;
+    public static GameObject GetPuzzleFindDifferences() => instance.puzzleFindDifferences;
+    public static FindObjectOperator GetPuzzleFindObjectOperator() => instance.findObjectOperator;
+    public static TetraQuestionOperator GetPuzzleTetraQuestionOperator() => instance.tetraQuestionOperator;
+    public static FindDifferencesOperator GetFindDifferenceOperator() => instance.findDifferencesOperator;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;

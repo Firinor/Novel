@@ -1,7 +1,7 @@
 using Puzzle;
 using UnityEngine;
 
-public class FindRecipeIngredientsPuzzle : DialogNode
+public class FindDifferencePuzzle : DialogNode
 {
     [SerializeField]
     private DialogNode successPuzzleDialog;
@@ -10,17 +10,16 @@ public class FindRecipeIngredientsPuzzle : DialogNode
     [SerializeField]
     private Sprite puzzleBackground;
     [SerializeField]
-    private FindRecipeIngredientsPackage puzzlePackage;
+    private FindDifferencePackage puzzlePackage;
 
     public override void StartDialog()
     {
-        FindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage
-            = new FindRecipeIngredientsPackage(
-                puzzlePackage.RecipeDifficulty,
-                puzzlePackage.IngredientsCount,
+        FindDifferencePackage puzzleFindDifferencePackage
+            = new FindDifferencePackage(
+                puzzlePackage.DifferenceCount,
                 puzzlePackage.AllottedTime,
                 puzzleBackground,
                 successPuzzleDialog);
-        DialogOperator.SwithToPuzzle(puzzleFindRecipeIngredientsPackage);
+        DialogOperator.SwithToPuzzle(puzzleFindDifferencePackage);
     }
 }

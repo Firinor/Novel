@@ -1,19 +1,23 @@
-﻿using System;
+﻿using Puzzle.TetraQuestion;
+using System;
 using UnityEngine;
 
-[Serializable]
-public class PuzzleTetraQuestionPackage : PuzzleInformationPackage
+namespace Puzzle
 {
-    public PuzzleTetraQuestionPackage(Question question,
-        Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
-        : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
+    [Serializable]
+    public class TetraQuestionPackage : InformationPackage
     {
-        this.question = question;
+        public TetraQuestionPackage(Question question,
+            Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+            : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
+        {
+            this.question = question;
+        }
+
+        [SerializeField]
+        private Question question;
+
+        public Question Question { get => question; }
+
     }
-
-    [SerializeField]
-    private Question question;
-
-    public Question Question { get => question; }
-
 }

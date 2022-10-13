@@ -4,6 +4,7 @@ using TMPro;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
+using Puzzle;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
@@ -283,8 +284,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		DialogManager.StopDialog();
 		gameObject.SetActive(false);
 	}
-	public static void SwithToPuzzle(PuzzleInformationPackage puzzleInformationPackage)
+	public static void SwithToPuzzle(InformationPackage informationPackage)
 	{
-		ReadingRoomManager.SwithToPuzzle(puzzleInformationPackage);
+		ReadingRoomManager.SwithToPuzzle(informationPackage);
 	}
 }

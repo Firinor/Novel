@@ -1,5 +1,8 @@
 using System;
 using UnityEngine;
+using Puzzle;
+using Puzzle.FindObject;
+using Puzzle.TetraQuestion;
 
 public enum ReadingRoomMarks { map, dialog, puzzleFindObject, puzzleTetraQuestion, options, off };
 
@@ -9,8 +12,8 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     private static GameObject dialog;
     private static GameObject puzzleFindObject;
     private static GameObject puzzleTetraQuestion;
-    private static PuzzleFindObjectOperator puzzleFindObjectOperator;
-    private static PuzzleTetraQuestionOperator puzzleTetraQuestionOperator;
+    private static FindObjectOperator puzzleFindObjectOperator;
+    private static TetraQuestionOperator puzzleTetraQuestionOperator;
 
     private ReadingRoomInformator readingRoomInformator;
 
@@ -84,15 +87,15 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         ReadingRoomInformator.GetMapCanvasOperator().CorrectScrollbarPosition(dialogButtonXPosition);
     }
 
-    internal static void SwithToPuzzle(PuzzleInformationPackage puzzleInformationPackage)
+    internal static void SwithToPuzzle(InformationPackage puzzleInformationPackage)
     {
         switch (puzzleInformationPackage)
         {
-            case PuzzleFindRecipeIngredientsPackage findRecipeIngredients:
+            case FindRecipeIngredientsPackage findRecipeIngredients:
                 puzzleFindObjectOperator.SetPuzzleInformationPackage(findRecipeIngredients);
                 SwitchPanels(ReadingRoomMarks.puzzleFindObject);
                 break;
-            case PuzzleTetraQuestionPackage tetraQuestion:
+            case TetraQuestionPackage tetraQuestion:
                 puzzleTetraQuestionOperator.SetPuzzleInformationPackage(tetraQuestion);
                 SwitchPanels(ReadingRoomMarks.puzzleTetraQuestion);
                 break;
