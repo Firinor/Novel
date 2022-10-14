@@ -9,8 +9,8 @@ namespace Puzzle.FindDifferences
     public class FindDifferencesOperator : PuzzleOperator
     {
         #region Fields
-        [SerializeField]
-        private ImageOperator imageOperator;
+
+
         [SerializeField]
         private GameObject differencePrefab;
         [SerializeField]
@@ -19,14 +19,15 @@ namespace Puzzle.FindDifferences
         private ParticleSystem successParticleSystem;
 
         [SerializeField]
-        private Transform differenceParent;
+        public ImageOperator imageOperator;
         private List<DifferenceOperator> allDifferences;
         [SerializeField]
-        private int differencesCount = 5;
+        private ImageWithDifferences imageWithDifferences;
         [SerializeField]
+        private int differencesCount = 5;
         private int differencesFound;
         [SerializeField]
-        private ObjectiveOperator objectiveText;
+        private ObjectiveOperator objectiveOperator;
 
         [SerializeField]
         private float leftTime = 120;
@@ -75,7 +76,9 @@ namespace Puzzle.FindDifferences
         {
             victoryButton.SetActive(false);
             failButton.SetActive(false);
-            imageOperator.DisableButton();
+            imageOperator.EnableButton();
+            imageOperator.ClearImages();
+            DeleteAllDifference();
             ResetTimer();
             ResetObjectives();
             puzzleFailed = false;
@@ -102,12 +105,10 @@ namespace Puzzle.FindDifferences
                 allDifferences.Clear();
             }
         }
-        private void CreateNew()
-        {
 
-        }
         public void SetPuzzleInformationPackage(FindDifferencePackage puzzleInformationPackage)
         {
+            imageWithDifferences = puzzleInformationPackage.ImageWithDifferences;
             differencesCount = puzzleInformationPackage.DifferenceCount;
             leftTime = puzzleInformationPackage.AllottedTime;
             SetVictoryDialogNode(puzzleInformationPackage.successPuzzleDialog);
@@ -116,20 +117,13 @@ namespace Puzzle.FindDifferences
         }
         public override void StartPuzzle()
         {
-            OpenBox();
+            imageOperator.DisableButton();
+            imageOperator.CreateImages(imageWithDifferences, differencePrefab);
             theTimerIsRunning = leftTime > 0;
         }
         public override void SuccessfullySolvePuzzle()
         {
             victoryButton.SetActive(true);
-        }
-        private void CloseBox()
-        {
-
-        }
-        private void OpenBox()
-        {
-            imageOperator.EnableButton();
         }
         private List<int> GenerateNewRecipe(int recipeIngredientCount, int length)
         {

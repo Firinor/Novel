@@ -2,8 +2,6 @@
 
 namespace Puzzle
 {
-    public enum PuzzleEnum { FindRecipeIngredients, FindСonstellation, AQuestionWithAnswers };
-
     public abstract class InformationPackage
     {
         protected InformationPackage(Sprite puzzleBackground,

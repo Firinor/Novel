@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Puzzle.FindDifferences;
+using System;
 using UnityEngine;
 
 namespace Puzzle
@@ -24,6 +25,9 @@ namespace Puzzle
             this.allottedTime = Math.Max(allottedTime, 0);
         }
         [SerializeField]
+        private ImageWithDifferences imageWithDifferences;
+
+        [SerializeField]
         [Range(3, 1024)]
         private int differenceCount = 3;
         [SerializeField]
@@ -32,6 +36,6 @@ namespace Puzzle
 
         public int DifferenceCount { get => differenceCount; }
         public float AllottedTime { get => allottedTime; }
-
+        public ImageWithDifferences ImageWithDifferences { get => imageWithDifferences; }
     }
 }

@@ -46,6 +46,7 @@ namespace Puzzle.FindObject
         private float acceleration = 0.02f;
         public float ForseToIngredient { get => forseToIngredient; }
 
+        [HideInInspector]
         public bool PointerOnRecipe;
 
         [SerializeField]

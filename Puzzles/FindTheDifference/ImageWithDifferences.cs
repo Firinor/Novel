@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Puzzle.FindDifferences
@@ -16,13 +11,28 @@ namespace Puzzle.FindDifferences
         public Sprite Sprite { get => sprite; }
 
         [SerializeField]
-        private Sprite[] differences;
-        public Sprite[] Differences { get => differences; }
+        private Image[] differences;
+        public Image[] Differences { get => differences; }
 
-        public ImageWithDifferences(Sprite sprite, Sprite[] differences)
+        public ImageWithDifferences(Sprite sprite, Image[] differences)
         {
             this.sprite = sprite;
             this.differences = differences;
+        }
+
+        [Serializable]
+        public struct Image
+        {
+            public Sprite sprite;
+            public int xShift;
+            public int yShift;
+
+            public Image(Sprite sprite, Vector2 size)
+            {
+                this.sprite = sprite;
+                xShift = (int)size.x;
+                yShift = (int)size.y;
+            }
         }
     }
 }
