@@ -19,7 +19,8 @@ namespace Puzzle.FindDifferences
         private ParticleSystem successParticleSystem;
 
         [SerializeField]
-        public ImageOperator imageOperator;
+        private ImageOperator imageOperator;
+        private int minimumImageOffsetFromTheEdge = 30;//pixel
         private List<DifferenceOperator> allDifferences;
         [SerializeField]
         private ImageWithDifferences imageWithDifferences;
@@ -118,23 +119,23 @@ namespace Puzzle.FindDifferences
         public override void StartPuzzle()
         {
             imageOperator.DisableButton();
-            imageOperator.CreateImages(imageWithDifferences, differencePrefab);
+            imageOperator.CreateImages(imageWithDifferences, differencePrefab, minimumImageOffsetFromTheEdge);
             theTimerIsRunning = leftTime > 0;
         }
         public override void SuccessfullySolvePuzzle()
         {
             victoryButton.SetActive(true);
         }
-        private List<int> GenerateNewRecipe(int recipeIngredientCount, int length)
+        private List<int> GenerateNewDifferences(int differencesCount, int length)
         {
-            return GameMath.AFewCardsFromTheDeck(recipeIngredientCount, length);
+            return GameMath.AFewCardsFromTheDeck(differencesCount, length);
         }
-        internal void ActivateIngredient(int keyIngredientNumber)
+        internal void ActivateDifference(int keyDifferenceNumber)
         {
             if (puzzleFailed)
                 return;
 
-            bool TheRecipeIsReady = imageOperator.ActivateDifference(keyIngredientNumber);
+            bool TheRecipeIsReady = imageOperator.ActivateDifference(keyDifferenceNumber);
             if (TheRecipeIsReady)
             {
                 SuccessfullySolvePuzzle();
@@ -148,14 +149,6 @@ namespace Puzzle.FindDifferences
             rectTransform.localPosition = position;
 
             particleSystem.Play();
-        }
-        public override void PuzzleExit()
-        {
-            gameObject.SetActive(false);
-        }
-        public override void Options()
-        {
-            ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
         }
     }
 }

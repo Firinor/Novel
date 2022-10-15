@@ -15,6 +15,7 @@ namespace Puzzle
 
         public virtual void PuzzleExit()
         {
+            backgroundImage.enabled = false;
             gameObject.SetActive(false);
         }
         public virtual void LosePuzzle()

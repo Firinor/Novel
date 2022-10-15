@@ -5,6 +5,7 @@ using FirMath;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
+using UniRx.Triggers;
 
 namespace Puzzle.FindObject
 {
