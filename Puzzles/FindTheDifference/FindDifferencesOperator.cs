@@ -1,4 +1,5 @@
 using FirMath;
+using Puzzle.FindObject;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -28,7 +29,7 @@ namespace Puzzle.FindDifferences
         private int differencesCount = 5;
         private int differencesFound;
         [SerializeField]
-        private ObjectiveOperator objectiveOperator;
+        private ProgressOperator progressOperator;
 
         [SerializeField]
         private float leftTime = 120;
@@ -43,8 +44,14 @@ namespace Puzzle.FindDifferences
         void OnEnable()
         {
             ClearPuzzle();
+            CreateDifference—ounter();
             PlayStartAnimations();
         }
+        private void CreateDifference—ounter()
+        {
+            progressOperator.CreateProgress—ounter(differencesCount);
+        }
+
         private void PlayStartAnimations()
         {
             animationManager.PlayStart();

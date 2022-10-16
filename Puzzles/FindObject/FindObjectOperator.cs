@@ -72,6 +72,7 @@ namespace Puzzle.FindObject
         void OnEnable()
         {
             ClearPuzzle();
+            CreateNewRecipe();
             PlayStartAnimations();
         }
 
@@ -116,7 +117,6 @@ namespace Puzzle.FindObject
             DeleteAllIngredients();
             ResetTimer();
             puzzleFailed = false;
-            CreateNewRecipe();
         }
         private void ResetTimer()
         {
@@ -145,7 +145,7 @@ namespace Puzzle.FindObject
 
         private void CreateNewRecipe()
         {
-            ClearRecipe();
+            DeleteIngredientsInList(recipeList);
             Sprite[] alchemicalIngredientsSprites = puzzleInformator.AlchemicalIngredientsSprites;
 
             ingredientInBoxCount = Math.Min(ingredientInBoxCount, alchemicalIngredientsSprites.Length);
@@ -164,16 +164,6 @@ namespace Puzzle.FindObject
             }
             recipeOperator.SetResipe(recipeList);
         }
-
-        private void ClearRecipe()
-        {
-            if (recipeList != null)
-                foreach (AlchemicalIngredientOperator ingredient in recipeList)
-                {
-                    Destroy(ingredient.gameObject);
-                }
-        }
-
         public void SetPuzzleInformationPackage(FindRecipeIngredientsPackage puzzleInformationPackage)
         {
             recipeIngredientCount = puzzleInformationPackage.RecipeDifficulty;
