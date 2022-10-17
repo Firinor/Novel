@@ -49,6 +49,7 @@ namespace Puzzle.FindDifferences
         }
         private void CreateDifferenceÑounter()
         {
+            differencesCount = Math.Min(imageWithDifferences.Differences.Length, differencesCount);
             progressOperator.CreateProgressÑounter(differencesCount);
         }
 
@@ -88,7 +89,6 @@ namespace Puzzle.FindDifferences
             imageOperator.ClearImages();
             DeleteAllDifference();
             ResetTimer();
-            ResetObjectives();
             puzzleFailed = false;
         }
         private void ResetTimer()
@@ -98,10 +98,6 @@ namespace Puzzle.FindDifferences
             timerText.enabled = leftSomeTime;
             if (leftSomeTime)
                 TextLeftTime();
-        }
-        private void ResetObjectives()
-        {
-
         }
         private void DeleteAllDifference()
         {
@@ -126,7 +122,8 @@ namespace Puzzle.FindDifferences
         public override void StartPuzzle()
         {
             imageOperator.DisableButton();
-            imageOperator.CreateImages(imageWithDifferences, differencePrefab, minimumImageOffsetFromTheEdge);
+            imageOperator.CreateImages(imageWithDifferences, differencesCount,
+                differencePrefab, minimumImageOffsetFromTheEdge);
             theTimerIsRunning = leftTime > 0;
         }
         public override void SuccessfullySolvePuzzle()

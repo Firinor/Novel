@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FirMath;
+using System;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,20 +56,21 @@ namespace Puzzle.FindDifferences
             button.enabled = v;
         }
 
-        public void CreateImages(ImageWithDifferences imageWithDifferences, GameObject differencePrefab, int offset)
+        public void CreateImages(ImageWithDifferences imageWithDifferences, int differenceCount,
+            GameObject differencePrefab, int offset)
         {
             horizontalLayoutGroup.spacing = offset;
-            float canvas_x = rectTransform.rect.width - offset * 3;//left, center, right
-            float canvas_y = rectTransform.rect.height - offset * 2;//top, bottom
+            float canvas_x = (rectTransform.rect.width - offset * 3)/2;//left, center, right (2 images in a row)
+            float canvas_y = rectTransform.rect.height - offset * 2;//top, bottom (1 image on collum)
 
             Sprite mainSprite = imageWithDifferences.Sprite;
             float image_x = mainSprite.textureRect.width;
             float image_y = mainSprite.textureRect.height;
 
-            float ratio_x =  canvas_x / image_x;
-            float ratio_y =  canvas_y / image_y;
+            float ratio_x = canvas_x / image_x;
+            float ratio_y = canvas_y / image_y;
 
-            float scaleRatio = Math.Max(ratio_x, ratio_y);
+            float scaleRatio = Math.Min(ratio_x, ratio_y);
 
             leftImage.enabled = true;
             leftImage.sprite = mainSprite;
@@ -77,6 +80,25 @@ namespace Puzzle.FindDifferences
             rightImage.sprite = mainSprite;
             rightImage.SetNativeSize();
             rightImage.GetComponent<RectTransform>().sizeDelta *= scaleRatio;
+
+            var differences = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
+            foreach (var difference in differences)
+            {
+                Transform parent = GameMath.HeadsOrTails() ? leftImage.transform : rightImage.transform;
+                GameObject newDifference = Instantiate(differencePrefab, parent);
+
+                var differenceComponent = imageWithDifferences.Differences[difference];
+
+                Image differenceImage = newDifference.GetComponent<Image>();
+                differenceImage.sprite = differenceComponent.sprite;
+                differenceImage.SetNativeSize();
+
+                RectTransform differenceRectTransform = newDifference.GetComponent<RectTransform>();
+                differenceRectTransform.sizeDelta *= scaleRatio;
+                differenceRectTransform.anchoredPosition =
+                    new Vector3(differenceComponent.xShift * scaleRatio, differenceComponent.yShift * scaleRatio, 0);
+
+            }
         }
 
         public void ClearImages()

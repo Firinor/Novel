@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
@@ -72,6 +73,11 @@ namespace FirMath
             }
 
             return cards;
+        }
+
+        public static bool HeadsOrTails()
+        {
+            return Random.Range(0, 2)==0 ? true: false;
         }
     }
 }
