@@ -3,6 +3,7 @@ using Puzzle.FindObject;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UniRx;
 using UnityEngine;
 
 namespace Puzzle.FindDifferences
@@ -20,7 +21,7 @@ namespace Puzzle.FindDifferences
         private ParticleSystem successParticleSystem;
 
         [SerializeField]
-        private ImageOperator imageOperator;
+        private DetectiveDeskOperator imageOperator;
         private int minimumImageOffsetFromTheEdge = 30;//pixel
         private List<DifferenceOperator> allDifferences;
         [SerializeField]
@@ -38,7 +39,11 @@ namespace Puzzle.FindDifferences
         private bool theTimerIsRunning;
 
         [SerializeField]
+        private DoubleCursorOperator doubleCursorOperator;
+        [SerializeField]
         private AnimationManager animationManager;
+
+        private CompositeDisposable disposables;
         #endregion
 
         void OnEnable()
@@ -46,6 +51,17 @@ namespace Puzzle.FindDifferences
             ClearPuzzle();
             CreateDifferenceÑounter();
             PlayStartAnimations();
+
+            disposables = new CompositeDisposable();
+
+            Observable.EveryUpdate()
+                .Where(_ => EvidenceOperator.cursorOnImage)
+                .Subscribe(_ => MoveCursor())
+                .AddTo(disposables);
+            Observable.EveryUpdate()
+                .Where(_ => theTimerIsRunning && leftTime > 0)
+                .Subscribe(_ => TimerTick())
+                .AddTo(disposables);
         }
         private void CreateDifferenceÑounter()
         {
@@ -57,10 +73,8 @@ namespace Puzzle.FindDifferences
         {
             animationManager.PlayStart();
         }
-        void Update()
+        void TimerTick()
         {
-            if (theTimerIsRunning && leftTime > 0)
-            {
                 leftTime -= Time.deltaTime;
                 TextLeftTime();
                 if (leftTime <= 0)
@@ -68,8 +82,13 @@ namespace Puzzle.FindDifferences
                     theTimerIsRunning = false;
                     LosePuzzle();
                 }
-            }
         }
+
+        private void MoveCursor()
+        {
+            doubleCursorOperator.MoveCursor();
+        }
+
         private void TextLeftTime()
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(leftTime);
@@ -122,8 +141,10 @@ namespace Puzzle.FindDifferences
         public override void StartPuzzle()
         {
             imageOperator.DisableButton();
+            float imageOffset;
             imageOperator.CreateImages(imageWithDifferences, differencesCount,
-                differencePrefab, minimumImageOffsetFromTheEdge);
+                differencePrefab, minimumImageOffsetFromTheEdge, out imageOffset);
+            doubleCursorOperator.SetOffset(imageOffset);
             theTimerIsRunning = leftTime > 0;
         }
         public override void SuccessfullySolvePuzzle()
@@ -153,6 +174,11 @@ namespace Puzzle.FindDifferences
             rectTransform.localPosition = position;
 
             particleSystem.Play();
+        }
+
+        internal void SetCursorOnEvidence(CursorOnEvidence cursorOnEvidence)
+        {
+            doubleCursorOperator.cursorOnEvidence = cursorOnEvidence;
         }
     }
 }

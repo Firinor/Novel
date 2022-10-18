@@ -1,13 +1,13 @@
 ﻿using FirMath;
 using System;
+using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Puzzle.FindDifferences
 {
-    public class ImageOperator : MonoBehaviour
+    public class DetectiveDeskOperator : MonoBehaviour
     {
         [SerializeField]
         private Image startImage;
@@ -22,16 +22,22 @@ namespace Puzzle.FindDifferences
         private int frontLayer = 4200;
         private int backLayer = 4100;
 
+        private List<Rect> differencesRects;
+
         private Button button;
 
         [SerializeField]
         private Image leftImage;
         [SerializeField]
         private Image rightImage;
+        private EvidenceOperator leftEvidenceOperator;
+        private EvidenceOperator rightEvidenceOperator;
 
         void Awake()
         {
             button = GetComponent<Button>();
+            leftEvidenceOperator = leftImage.GetComponent<EvidenceOperator>();
+            rightEvidenceOperator = rightImage.GetComponent<EvidenceOperator>();
         }
         internal bool ActivateDifference(int keyIngredientNumber)
         {
@@ -57,10 +63,12 @@ namespace Puzzle.FindDifferences
         }
 
         public void CreateImages(ImageWithDifferences imageWithDifferences, int differenceCount,
-            GameObject differencePrefab, int offset)
+            GameObject differencePrefab, int offset, out float imageOffset)
         {
+            differencesRects = new List<Rect>();
+
             horizontalLayoutGroup.spacing = offset;
-            float canvas_x = (rectTransform.rect.width - offset * 3)/2;//left, center, right (2 images in a row)
+            float canvas_x = (rectTransform.rect.width - offset * 3) / 2;//left, center, right (2 images in a row)
             float canvas_y = rectTransform.rect.height - offset * 2;//top, bottom (1 image on collum)
 
             Sprite mainSprite = imageWithDifferences.Sprite;
@@ -76,12 +84,19 @@ namespace Puzzle.FindDifferences
             leftImage.sprite = mainSprite;
             leftImage.SetNativeSize();
             leftImage.GetComponent<RectTransform>().sizeDelta *= scaleRatio;
+            leftImage.GetComponent<RectTransform>().localPosition = new Vector3(-offset/2, 0);
             rightImage.enabled = true;
             rightImage.sprite = mainSprite;
             rightImage.SetNativeSize();
             rightImage.GetComponent<RectTransform>().sizeDelta *= scaleRatio;
+            rightImage.GetComponent<RectTransform>().localPosition = new Vector3(offset / 2, 0);
 
-            var differences = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
+            imageOffset = rightImage.GetComponent<RectTransform>().sizeDelta.x + offset;
+
+            leftEvidenceOperator.enabled = true;
+            rightEvidenceOperator.enabled = true;
+
+            List<int> differences = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
             foreach (var difference in differences)
             {
                 Transform parent = GameMath.HeadsOrTails() ? leftImage.transform : rightImage.transform;
@@ -96,8 +111,9 @@ namespace Puzzle.FindDifferences
                 RectTransform differenceRectTransform = newDifference.GetComponent<RectTransform>();
                 differenceRectTransform.sizeDelta *= scaleRatio;
                 differenceRectTransform.anchoredPosition =
-                    new Vector3(differenceComponent.xShift * scaleRatio, differenceComponent.yShift * scaleRatio, 0);
+                    new Vector2(differenceComponent.xShift * scaleRatio, differenceComponent.yShift * scaleRatio);
 
+                differencesRects.Add(new Rect(differenceRectTransform.offsetMin, differenceRectTransform.sizeDelta));
             }
         }
 
@@ -105,6 +121,8 @@ namespace Puzzle.FindDifferences
         {
             leftImage.enabled = false;
             rightImage.enabled = false;
+            leftEvidenceOperator.enabled = false;
+            rightEvidenceOperator.enabled = false;
         }
     }
 }
