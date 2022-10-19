@@ -11,8 +11,6 @@ namespace Puzzle.FindDifferences
     public class FindDifferencesOperator : PuzzleOperator
     {
         #region Fields
-
-
         [SerializeField]
         private GameObject differencePrefab;
         [SerializeField]
@@ -21,9 +19,9 @@ namespace Puzzle.FindDifferences
         private ParticleSystem successParticleSystem;
 
         [SerializeField]
-        private DetectiveDeskOperator imageOperator;
-        private int minimumImageOffsetFromTheEdge = 30;//pixel
-        private List<DifferenceOperator> allDifferences;
+        private DetectiveDeskOperator detectiveDeskOperator;
+        private int minimumImagePixelOffsetFromTheEdge = 30;
+        private List<GameObject> allDifferences;
         [SerializeField]
         private ImageWithDifferences imageWithDifferences;
         [SerializeField]
@@ -97,18 +95,18 @@ namespace Puzzle.FindDifferences
         }
         public override void LosePuzzle()
         {
-            puzzleFailed = true;
             failButton.SetActive(true);
         }
         public override void ClearPuzzle()
         {
             victoryButton.SetActive(false);
             failButton.SetActive(false);
-            imageOperator.EnableButton();
-            imageOperator.ClearImages();
+            detectiveDeskOperator.EnableButton();
+            detectiveDeskOperator.ClearImages();
+            doubleCursorOperator.DisableCursors();
             DeleteAllDifference();
             ResetTimer();
-            puzzleFailed = false;
+            differencesFound = 0;
         }
         private void ResetTimer()
         {
@@ -118,17 +116,16 @@ namespace Puzzle.FindDifferences
             if (leftSomeTime)
                 TextLeftTime();
         }
-        private void DeleteAllDifference()
+        public void DeleteAllDifference()
         {
             if (allDifferences != null)
             {
-                foreach (DifferenceOperator difference in allDifferences)
-                    Destroy(difference.gameObject);
+                foreach (GameObject difference in allDifferences)
+                    Destroy(difference);
 
                 allDifferences.Clear();
             }
         }
-
         public void SetPuzzleInformationPackage(FindDifferencePackage puzzleInformationPackage)
         {
             imageWithDifferences = puzzleInformationPackage.ImageWithDifferences;
@@ -140,33 +137,30 @@ namespace Puzzle.FindDifferences
         }
         public override void StartPuzzle()
         {
-            imageOperator.DisableButton();
-            float imageOffset;
-            imageOperator.CreateImages(imageWithDifferences, differencesCount,
-                differencePrefab, minimumImageOffsetFromTheEdge, out imageOffset);
-            doubleCursorOperator.SetOffset(imageOffset);
+            detectiveDeskOperator.DisableButton();
+            float offsetBetweenCursors;
+            detectiveDeskOperator.CreateImages(imageWithDifferences, differencesCount,
+                differencePrefab, minimumImagePixelOffsetFromTheEdge, out allDifferences, out offsetBetweenCursors);
+            doubleCursorOperator.SetOffset(offsetBetweenCursors);
             theTimerIsRunning = leftTime > 0;
         }
         public override void SuccessfullySolvePuzzle()
         {
             victoryButton.SetActive(true);
         }
-        private List<int> GenerateNewDifferences(int differencesCount, int length)
+        public void ActivateDifference(GameObject keyDifference)
         {
-            return GameMath.AFewCardsFromTheDeck(differencesCount, length);
-        }
-        internal void ActivateDifference(int keyDifferenceNumber)
-        {
-            if (puzzleFailed)
-                return;
+            differencesFound++;
+            progressOperator.AddProgress();
 
-            bool TheRecipeIsReady = imageOperator.ActivateDifference(keyDifferenceNumber);
-            if (TheRecipeIsReady)
+            
+
+            if (differencesFound == differencesCount)
             {
                 SuccessfullySolvePuzzle();
             }
         }
-        internal void Particles(Vector3 position, bool success)
+        public void Particles(Vector3 position, bool success)
         {
             ParticleSystem particleSystem = success ? successParticleSystem : errorParticleSystem;
 
@@ -176,9 +170,47 @@ namespace Puzzle.FindDifferences
             particleSystem.Play();
         }
 
-        internal void SetCursorOnEvidence(CursorOnEvidence cursorOnEvidence)
+        public void SetCursorOnEvidence(CursorOnEvidence cursorOnEvidence)
         {
             doubleCursorOperator.cursorOnEvidence = cursorOnEvidence;
+        }
+
+        public void EnableCursors()
+        {
+            doubleCursorOperator.EnableCursors();
+        }
+
+        public void DisableCursors()
+        {
+            doubleCursorOperator.DisableCursors();
+        }
+        public override void PuzzleExit()
+        {
+            Cursor.visible = true;
+            backgroundImage.enabled = false;
+            gameObject.SetActive(false);
+        }
+
+        internal void CheckTheEvidence(Vector2 pointOnImage)
+        {
+
+            foreach (var difference in allDifferences)
+            {
+                if (difference.GetComponent<RectTransform>().rect.Contains(pointOnImage))
+                {
+                    Particles(pointOnImage, true);
+                    ActivateDifference(difference);
+                    return;
+                }
+            }
+
+
+            ErrorShake(pointOnImage);
+        }
+
+        private void ErrorShake(Vector2 pointOnImage)
+        {
+            Particles(pointOnImage, false);
         }
     }
 }

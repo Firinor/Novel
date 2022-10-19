@@ -5,7 +5,6 @@ namespace Puzzle
 {
     public class PuzzleOperator : MonoBehaviour
     {
-        protected bool puzzleFailed;
         [SerializeField]
         protected GameObject victoryButton;
         [SerializeField]
@@ -20,7 +19,6 @@ namespace Puzzle
         }
         public virtual void LosePuzzle()
         {
-            puzzleFailed = true;
             failButton.SetActive(true);
         }
         public virtual void Options()
@@ -31,7 +29,6 @@ namespace Puzzle
         {
             victoryButton.SetActive(false);
             failButton.SetActive(false);
-            puzzleFailed = false;
         }
         public virtual void StartPuzzle()
         {

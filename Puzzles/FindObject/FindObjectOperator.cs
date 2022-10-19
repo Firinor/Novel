@@ -103,7 +103,6 @@ namespace Puzzle.FindObject
 
         public override void LosePuzzle()
         {
-            puzzleFailed = true;
             DeleteIngredientsInList(allIngredients);
             failButton.SetActive(true);
         }
@@ -115,7 +114,6 @@ namespace Puzzle.FindObject
             box.GetComponent<Button>().enabled = true;
             DeleteAllIngredients();
             ResetTimer();
-            puzzleFailed = false;
         }
         private void ResetTimer()
         {
@@ -261,9 +259,6 @@ namespace Puzzle.FindObject
 
         internal void ActivateIngredient(int keyIngredientNumber)
         {
-            if (puzzleFailed)
-                return;
-
             bool TheRecipeIsReady = recipeOperator.ActivateIngredient(keyIngredientNumber);
             if (TheRecipeIsReady)
             {

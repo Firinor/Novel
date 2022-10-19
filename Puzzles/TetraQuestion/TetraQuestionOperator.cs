@@ -62,7 +62,6 @@ namespace Puzzle.TetraQuestion
             SetDefaultSpriteToAllButtons();
             victoryButton.SetActive(false);
             failButton.SetActive(false);
-            puzzleFailed = false;
         }
         public override void StartPuzzle()
         {
@@ -109,9 +108,7 @@ namespace Puzzle.TetraQuestion
         }
         public override void SuccessfullySolvePuzzle()
         {
-            if (!puzzleFailed)
-                victoryButton.SetActive(true);
-
+            victoryButton.SetActive(true);
         }
         public override void LosePuzzle()
         {
@@ -150,8 +147,7 @@ namespace Puzzle.TetraQuestion
         {
             SetEnabledAllButtons(false);
             answersArray[button].Image.sprite = pickedButtonSprite;
-            puzzleFailed = button != correctAnswer;
-            if (puzzleFailed)
+            if (button != correctAnswer)
             {
                 StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite));
                 StartCoroutine(ButtonAnimating(button, failButtonSprite, LosePuzzle));

@@ -42,10 +42,12 @@ namespace Puzzle.FindDifferences
         {
             ClearProgressСounter();
 
+            indicators = new GameObject[count];
             сounterGoal = count;
             for (int i = 0; i < count; i++)
             {
-                Instantiate(indicatorPrefab, progressParent);
+                GameObject newIndicator = Instantiate(indicatorPrefab, progressParent);
+                indicators[i] = newIndicator;
             }
         }
 

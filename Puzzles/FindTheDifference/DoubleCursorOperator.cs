@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum CursorOnEvidence { left = -1, right = 1 }
 
@@ -10,6 +12,10 @@ namespace Puzzle.FindDifferences
         private Transform leftCursor;
         [SerializeField]
         private Transform rightCursor;
+        [SerializeField]
+        private Image leftCursorImage;
+        [SerializeField]
+        private Image rightCursorImage;
 
         private float offset;
 
@@ -26,7 +32,7 @@ namespace Puzzle.FindDifferences
                     break;
                 case CursorOnEvidence.right:
                     rightCursor.localPosition = Input.mousePosition;
-                    leftCursor.localPosition = Input.mousePosition - new Vector3(offset, 0, 0);
+                    leftCursor.localPosition = Input.mousePosition + new Vector3(-offset, 0, 0);
                     break;
             }
         }
@@ -34,6 +40,21 @@ namespace Puzzle.FindDifferences
         public void SetOffset(float offset)
         {
             this.offset = offset;
+        }
+
+        public void DisableCursors()
+        {
+            SwitchCursors(false);
+        }
+        public void EnableCursors()
+        {
+            SwitchCursors(true);
+        }
+
+        private void SwitchCursors(bool enable)
+        {
+            rightCursorImage.enabled = enable;
+            leftCursorImage.enabled = enable;
         }
     }
 }

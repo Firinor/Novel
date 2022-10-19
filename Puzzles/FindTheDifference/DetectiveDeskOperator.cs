@@ -22,6 +22,7 @@ namespace Puzzle.FindDifferences
         private int frontLayer = 4200;
         private int backLayer = 4100;
 
+        [SerializeField]
         private List<Rect> differencesRects;
 
         private Button button;
@@ -38,10 +39,6 @@ namespace Puzzle.FindDifferences
             button = GetComponent<Button>();
             leftEvidenceOperator = leftImage.GetComponent<EvidenceOperator>();
             rightEvidenceOperator = rightImage.GetComponent<EvidenceOperator>();
-        }
-        internal bool ActivateDifference(int keyIngredientNumber)
-        {
-            return true;
         }
 
         public void DisableButton()
@@ -63,9 +60,10 @@ namespace Puzzle.FindDifferences
         }
 
         public void CreateImages(ImageWithDifferences imageWithDifferences, int differenceCount,
-            GameObject differencePrefab, int offset, out float imageOffset)
+            GameObject differencePrefab, int offset, out List<GameObject> differencesGameObject, out float imageOffset)
         {
             differencesRects = new List<Rect>();
+            differencesGameObject = new List<GameObject>();
 
             horizontalLayoutGroup.spacing = offset;
             float canvas_x = (rectTransform.rect.width - offset * 3) / 2;//left, center, right (2 images in a row)
@@ -79,28 +77,24 @@ namespace Puzzle.FindDifferences
             float ratio_y = canvas_y / image_y;
 
             float scaleRatio = Math.Min(ratio_x, ratio_y);
-
-            leftImage.enabled = true;
-            leftImage.sprite = mainSprite;
-            leftImage.SetNativeSize();
-            leftImage.GetComponent<RectTransform>().sizeDelta *= scaleRatio;
-            leftImage.GetComponent<RectTransform>().localPosition = new Vector3(-offset/2, 0);
-            rightImage.enabled = true;
-            rightImage.sprite = mainSprite;
-            rightImage.SetNativeSize();
-            rightImage.GetComponent<RectTransform>().sizeDelta *= scaleRatio;
+            WorkToImage(leftImage, mainSprite, scaleRatio);
+            leftImage.GetComponent<RectTransform>().localPosition = new Vector3(-offset / 2, 0);
+            WorkToImage(rightImage, mainSprite, scaleRatio);
             rightImage.GetComponent<RectTransform>().localPosition = new Vector3(offset / 2, 0);
 
             imageOffset = rightImage.GetComponent<RectTransform>().sizeDelta.x + offset;
 
             leftEvidenceOperator.enabled = true;
+            leftEvidenceOperator.CalculateStartOfImage();
             rightEvidenceOperator.enabled = true;
+            rightEvidenceOperator.CalculateStartOfImage();
 
             List<int> differences = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
             foreach (var difference in differences)
             {
                 Transform parent = GameMath.HeadsOrTails() ? leftImage.transform : rightImage.transform;
                 GameObject newDifference = Instantiate(differencePrefab, parent);
+                differencesGameObject.Add(newDifference);
 
                 var differenceComponent = imageWithDifferences.Differences[difference];
 
@@ -115,6 +109,14 @@ namespace Puzzle.FindDifferences
 
                 differencesRects.Add(new Rect(differenceRectTransform.offsetMin, differenceRectTransform.sizeDelta));
             }
+        }
+
+        private void WorkToImage(Image image, Sprite sprite, float scaleRatio)
+        {
+            image.enabled = true;
+            image.sprite = sprite;
+            image.SetNativeSize();
+            image.GetComponent<RectTransform>().sizeDelta *= scaleRatio;
         }
 
         public void ClearImages()

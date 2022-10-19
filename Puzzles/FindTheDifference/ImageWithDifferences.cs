@@ -11,23 +11,23 @@ namespace Puzzle.FindDifferences
         public Sprite Sprite { get => sprite; }
 
         [SerializeField]
-        private Image[] differences;
-        public Image[] Differences { get => differences; }
+        private DifferencesStruct[] differences;
+        public DifferencesStruct[] Differences { get => differences; }
 
-        public ImageWithDifferences(Sprite sprite, Image[] differences)
+        public ImageWithDifferences(Sprite sprite, DifferencesStruct[] differences)
         {
             this.sprite = sprite;
             this.differences = differences;
         }
 
         [Serializable]
-        public struct Image
+        public struct DifferencesStruct
         {
             public Sprite sprite;
             public int xShift;
             public int yShift;
 
-            public Image(Sprite sprite, Vector2 size)
+            public DifferencesStruct(Sprite sprite, Vector2 size)
             {
                 this.sprite = sprite;
                 xShift = (int)size.x;
