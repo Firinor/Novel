@@ -10,20 +10,19 @@ namespace Puzzle.FindDifferences
     public class DetectiveDeskOperator : MonoBehaviour
     {
         [SerializeField]
+        private FindDifferencesOperator findDifferencesOperator;
+
+        [SerializeField]
         private Image startImage;
         [SerializeField]
         private TextMeshProUGUI textMeshProUGUI;
         [SerializeField]
         private RectTransform rectTransform;
         [SerializeField]
-        private Canvas canvas;
-        [SerializeField]
         private HorizontalLayoutGroup horizontalLayoutGroup;
-        private int frontLayer = 4200;
-        private int backLayer = 4100;
 
         [SerializeField]
-        private List<Rect> differencesRects;
+        private Dictionary<GameObject, Rect> differences;
 
         private Button button;
 
@@ -49,23 +48,20 @@ namespace Puzzle.FindDifferences
 
         public void EnableButton()
         {
-            ButtonStatus(true); 
+            ButtonStatus(true);
         }
 
         private void ButtonStatus(bool v)
         {
             textMeshProUGUI.enabled = v;
-            canvas.sortingOrder = v ? frontLayer : backLayer;
             button.enabled = v;
         }
 
         public void CreateImages(ImageWithDifferences imageWithDifferences, int differenceCount,
-            GameObject differencePrefab, int offset, out List<GameObject> differencesGameObject, out float imageOffset)
+            GameObject differencePrefab, int offset, out float imageOffset)
         {
-            differencesRects = new List<Rect>();
-            differencesGameObject = new List<GameObject>();
+            differences = new Dictionary<GameObject, Rect>();
 
-            horizontalLayoutGroup.spacing = offset;
             float canvas_x = (rectTransform.rect.width - offset * 3) / 2;//left, center, right (2 images in a row)
             float canvas_y = rectTransform.rect.height - offset * 2;//top, bottom (1 image on collum)
 
@@ -89,12 +85,11 @@ namespace Puzzle.FindDifferences
             rightEvidenceOperator.enabled = true;
             rightEvidenceOperator.CalculateStartOfImage();
 
-            List<int> differences = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
-            foreach (var difference in differences)
+            List<int> differencesIntList = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
+            foreach (var difference in differencesIntList)
             {
                 Transform parent = GameMath.HeadsOrTails() ? leftImage.transform : rightImage.transform;
                 GameObject newDifference = Instantiate(differencePrefab, parent);
-                differencesGameObject.Add(newDifference);
 
                 var differenceComponent = imageWithDifferences.Differences[difference];
 
@@ -107,7 +102,8 @@ namespace Puzzle.FindDifferences
                 differenceRectTransform.anchoredPosition =
                     new Vector2(differenceComponent.xShift * scaleRatio, differenceComponent.yShift * scaleRatio);
 
-                differencesRects.Add(new Rect(differenceRectTransform.offsetMin, differenceRectTransform.sizeDelta));
+                differences.Add(newDifference,
+                    new Rect(differenceRectTransform.offsetMin, differenceRectTransform.sizeDelta));
             }
         }
 
@@ -125,6 +121,32 @@ namespace Puzzle.FindDifferences
             rightImage.enabled = false;
             leftEvidenceOperator.enabled = false;
             rightEvidenceOperator.enabled = false;
+        }
+
+        internal void CheckTheEvidence(Vector2 pointOnImage, CursorOnEvidence cursorOnEvidence)
+        {
+            foreach(KeyValuePair<GameObject, Rect> difference in differences)
+            {
+                if (difference.Value.Contains(pointOnImage))
+                {
+                    findDifferencesOperator.ActivateDifference(difference.Key, cursorOnEvidence);
+                    differences.Remove(difference.Key);
+                    return;
+                }
+            }
+
+            findDifferencesOperator.ErrorShake(cursorOnEvidence);
+        }
+
+        public void DeleteAllDifference()
+        {
+            if (differences != null)
+            {
+                foreach (KeyValuePair<GameObject, Rect> difference in differences)
+                    Destroy(difference.Key);
+
+                differences.Clear();
+            }
         }
     }
 }

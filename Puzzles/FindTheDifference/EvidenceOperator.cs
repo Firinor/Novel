@@ -20,6 +20,8 @@ namespace Puzzle.FindDifferences
         private RectTransform fullScreenRectTransform;
         [SerializeField]
         private RectTransform detectiveDeskRectTransform;
+        [SerializeField]
+        private RectTransform evidencesRectTransform;
         private Vector2 startOfImage;
 
         public void CalculateStartOfImage()
@@ -47,7 +49,8 @@ namespace Puzzle.FindDifferences
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            findDifferencesOperator.CheckTheEvidence(eventData.position - startOfImage);
+            Vector2 evidences = evidencesRectTransform.anchoredPosition;
+            detectiveDeskOperator.CheckTheEvidence(eventData.position - startOfImage - evidences, cursorOnEvidence);
         }
     }
 }

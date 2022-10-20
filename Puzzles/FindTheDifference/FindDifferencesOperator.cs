@@ -1,5 +1,3 @@
-using FirMath;
-using Puzzle.FindObject;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -14,14 +12,24 @@ namespace Puzzle.FindDifferences
         [SerializeField]
         private GameObject differencePrefab;
         [SerializeField]
-        private ParticleSystem errorParticleSystem;
+        private ParticleSystem errorParticleSystem0;
         [SerializeField]
-        private ParticleSystem successParticleSystem;
+        private ParticleSystem errorParticleSystem1;
+        private Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>> errorParticleSystem;
+        [SerializeField]
+        private ParticleSystem successParticleSystem0;
+        [SerializeField]
+        private ParticleSystem successParticleSystem1;
+        private Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>> successParticleSystem;
+        float offsetBetweenCursors;
 
         [SerializeField]
         private DetectiveDeskOperator detectiveDeskOperator;
         private int minimumImagePixelOffsetFromTheEdge = 30;
-        private List<GameObject> allDifferences;
+
+        [SerializeField]
+        private ShakeOperator shakeOperator;
+
         [SerializeField]
         private ImageWithDifferences imageWithDifferences;
         [SerializeField]
@@ -44,6 +52,20 @@ namespace Puzzle.FindDifferences
         private CompositeDisposable disposables;
         #endregion
 
+        void Awake()
+        {
+            errorParticleSystem = new Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>>();
+            successParticleSystem = new Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>>();
+
+            errorParticleSystem.Add(0, new KeyValuePair<ParticleSystem, RectTransform>(errorParticleSystem0,
+                errorParticleSystem0.GetComponent<RectTransform>()));
+            errorParticleSystem.Add(1, new KeyValuePair<ParticleSystem, RectTransform>(errorParticleSystem1,
+                errorParticleSystem1.GetComponent<RectTransform>()));
+            successParticleSystem.Add(0, new KeyValuePair<ParticleSystem, RectTransform>(successParticleSystem0,
+                successParticleSystem0.GetComponent<RectTransform>()));
+            successParticleSystem.Add(1, new KeyValuePair<ParticleSystem, RectTransform>(successParticleSystem1,
+                successParticleSystem1.GetComponent<RectTransform>()));
+        }
         void OnEnable()
         {
             ClearPuzzle();
@@ -118,13 +140,7 @@ namespace Puzzle.FindDifferences
         }
         public void DeleteAllDifference()
         {
-            if (allDifferences != null)
-            {
-                foreach (GameObject difference in allDifferences)
-                    Destroy(difference);
-
-                allDifferences.Clear();
-            }
+            detectiveDeskOperator.DeleteAllDifference();
         }
         public void SetPuzzleInformationPackage(FindDifferencePackage puzzleInformationPackage)
         {
@@ -138,9 +154,8 @@ namespace Puzzle.FindDifferences
         public override void StartPuzzle()
         {
             detectiveDeskOperator.DisableButton();
-            float offsetBetweenCursors;
             detectiveDeskOperator.CreateImages(imageWithDifferences, differencesCount,
-                differencePrefab, minimumImagePixelOffsetFromTheEdge, out allDifferences, out offsetBetweenCursors);
+                differencePrefab, minimumImagePixelOffsetFromTheEdge, out offsetBetweenCursors);
             doubleCursorOperator.SetOffset(offsetBetweenCursors);
             theTimerIsRunning = leftTime > 0;
         }
@@ -148,8 +163,10 @@ namespace Puzzle.FindDifferences
         {
             victoryButton.SetActive(true);
         }
-        public void ActivateDifference(GameObject keyDifference)
+        public void ActivateDifference(GameObject keyDifference, CursorOnEvidence cursorOnEvidence)
         {
+            Particles(true, cursorOnEvidence);
+
             differencesFound++;
             progressOperator.AddProgress();
 
@@ -160,14 +177,22 @@ namespace Puzzle.FindDifferences
                 SuccessfullySolvePuzzle();
             }
         }
-        public void Particles(Vector3 position, bool success)
+
+        public void Particles(bool success, CursorOnEvidence cursorOnEvidence)
         {
-            ParticleSystem particleSystem = success ? successParticleSystem : errorParticleSystem;
+            Particles(success, Input.mousePosition, cursorOnEvidence);
+        }
+        public void Particles(bool success, Vector3 position, CursorOnEvidence cursorOnEvidence)
+        {
+            Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>> particleSystem
+                = success ? successParticleSystem : errorParticleSystem;
 
-            RectTransform rectTransform = particleSystem.GetComponent<RectTransform>();
-            rectTransform.localPosition = position;
+            particleSystem[0].Value.localPosition = position;
+            particleSystem[1].Value.localPosition = position 
+                + new Vector3(offsetBetweenCursors * -(int)cursorOnEvidence, 0,0);
 
-            particleSystem.Play();
+            particleSystem[0].Key.Play();
+            particleSystem[1].Key.Play();
         }
 
         public void SetCursorOnEvidence(CursorOnEvidence cursorOnEvidence)
@@ -191,26 +216,10 @@ namespace Puzzle.FindDifferences
             gameObject.SetActive(false);
         }
 
-        internal void CheckTheEvidence(Vector2 pointOnImage)
+        public void ErrorShake(CursorOnEvidence cursorOnEvidence)
         {
-
-            foreach (var difference in allDifferences)
-            {
-                if (difference.GetComponent<RectTransform>().rect.Contains(pointOnImage))
-                {
-                    Particles(pointOnImage, true);
-                    ActivateDifference(difference);
-                    return;
-                }
-            }
-
-
-            ErrorShake(pointOnImage);
-        }
-
-        private void ErrorShake(Vector2 pointOnImage)
-        {
-            Particles(pointOnImage, false);
+            Particles(false, cursorOnEvidence);
+            shakeOperator.SetErrorImpulse();
         }
     }
 }
