@@ -132,7 +132,7 @@ namespace Puzzle.FindObject
             Vector3 pos = transform.localPosition;
             CheckScreenBorders(pos);
             pos += impulse;
-            impulse = puzzleOperator.CheckImpulse(impulse);
+            impulse = puzzleOperator.CheckImpulse(ref pos, ref impulse);
 
             transform.localPosition = pos;
         }

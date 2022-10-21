@@ -1,11 +1,12 @@
+using FirUnityEditor;
 using System.Threading;
 using UnityEngine;
 
 public class DialogManager : SinglBehaviour<DialogManager>
 {
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject dialog;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private DialogOperator dialogOperator;
 
     private CancellationTokenSource cancellationTokenSource;

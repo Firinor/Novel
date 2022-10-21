@@ -1,4 +1,5 @@
 ﻿using FirMath;
+using FirUnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace Puzzle.TetraQuestion
 {
     public class TetraQuestionOperator : PuzzleOperator
     {
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Image questionImage;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private TextMeshProUGUI questionText;
         [SerializeField]
         private Answer answer_A;
@@ -23,13 +24,13 @@ namespace Puzzle.TetraQuestion
         [SerializeField]
         private Answer answer_D;
         private Answer[] answersArray;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Sprite defaultButtonSprite;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Sprite pickedButtonSprite;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Sprite victoryButtonSprite;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Sprite failButtonSprite;
 
         private int correctAnswer;
@@ -44,11 +45,6 @@ namespace Puzzle.TetraQuestion
         void OnEnable()
         {
             StartPuzzle();
-        }
-
-        public override void PuzzleExit()
-        {
-            gameObject.SetActive(false);
         }
 
         public override void Options()

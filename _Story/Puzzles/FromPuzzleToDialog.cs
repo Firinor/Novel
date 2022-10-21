@@ -1,13 +1,15 @@
-using Puzzle;
 using UnityEngine;
 
-public class FromPuzzleToDialog : DialogNode
+namespace Puzzle
 {
-    [SerializeField]
-    private PuzzleOperator puzzleOperator;
-    public override void StartDialog()
+    public class FromPuzzleToDialog : DialogNode
     {
-        puzzleOperator.PuzzleExit();
-        StartDialog(index: 0);
+        [SerializeField]
+        private PuzzleOperator puzzleOperator;
+        public override void StartDialog()
+        {
+            puzzleOperator.PuzzleExit();
+            StartDialog(index: 0);
+        }
     }
 }

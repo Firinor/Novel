@@ -1,5 +1,6 @@
 ﻿using FirMath;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -33,6 +34,10 @@ namespace Puzzle.FindDifferences
         private EvidenceOperator leftEvidenceOperator;
         private EvidenceOperator rightEvidenceOperator;
 
+        [SerializeField]
+        private float differenceShowingTime = 4;
+
+
         void Awake()
         {
             button = GetComponent<Button>();
@@ -45,7 +50,10 @@ namespace Puzzle.FindDifferences
             ButtonStatus(false);
 
         }
-
+        public void EndOfAnimation()
+        {
+            EnableButton();
+        }
         public void EnableButton()
         {
             ButtonStatus(true);
@@ -122,13 +130,22 @@ namespace Puzzle.FindDifferences
             leftEvidenceOperator.enabled = false;
             rightEvidenceOperator.enabled = false;
         }
+        public void DisableImages()
+        {
+            leftEvidenceOperator.DisableImage();
+            rightEvidenceOperator.DisableImage();
+        }
 
         internal void CheckTheEvidence(Vector2 pointOnImage, CursorOnEvidence cursorOnEvidence)
         {
+            if (!enabled)
+                return;
+
             foreach(KeyValuePair<GameObject, Rect> difference in differences)
             {
                 if (difference.Value.Contains(pointOnImage))
                 {
+                    StartCoroutine(ButtonAnimating(difference));
                     findDifferencesOperator.ActivateDifference(difference.Key, cursorOnEvidence);
                     differences.Remove(difference.Key);
                     return;
@@ -147,6 +164,26 @@ namespace Puzzle.FindDifferences
 
                 differences.Clear();
             }
+        }
+
+        private IEnumerator ButtonAnimating(KeyValuePair<GameObject, Rect> difference)
+        {
+            float deltaTime = 0.4f;
+            WaitForSeconds wait = new WaitForSeconds(deltaTime);
+            float timer = 0;
+
+            while (timer < differenceShowingTime)
+            {
+                yield return wait;
+                timer += deltaTime;
+                difference.Key.transform.SetParent(leftImage.transform);
+                difference.Key.GetComponent<RectTransform>().anchoredPosition = difference.Value.position;
+                yield return wait;
+                timer += deltaTime;
+                difference.Key.transform.SetParent(rightImage.transform);
+                difference.Key.GetComponent<RectTransform>().anchoredPosition = difference.Value.position;
+            }
+            Destroy(difference.Key);
         }
     }
 }

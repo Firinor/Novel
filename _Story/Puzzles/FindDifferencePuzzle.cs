@@ -1,25 +1,27 @@
-using Puzzle;
 using UnityEngine;
 
-public class FindDifferencePuzzle : DialogNode
+namespace Puzzle
 {
-    [SerializeField]
-    private DialogNode successPuzzleDialog;
-    [SerializeField]
-    private DialogNode failedPuzzleDialog;
-    [SerializeField]
-    private Sprite puzzleBackground;
-    [SerializeField]
-    private FindDifferencePackage puzzlePackage;
-
-    public override void StartDialog()
+    public class FindDifferencePuzzle : DialogNode
     {
-        FindDifferencePackage puzzleFindDifferencePackage
-            = new FindDifferencePackage(
-                puzzlePackage.DifferenceCount,
-                puzzlePackage.AllottedTime,
-                puzzleBackground,
-                successPuzzleDialog);
-        DialogOperator.SwithToPuzzle(puzzleFindDifferencePackage);
+        [SerializeField]
+        private DialogNode successPuzzleDialog;
+        [SerializeField]
+        private DialogNode failedPuzzleDialog;
+        [SerializeField]
+        private Sprite puzzleBackground;
+        [SerializeField]
+        private FindDifferencePackage puzzlePackage;
+
+        public override void StartDialog()
+        {
+            FindDifferencePackage puzzleFindDifferencePackage
+                = new FindDifferencePackage(
+                    puzzlePackage.DifferenceCount,
+                    puzzlePackage.AllottedTime,
+                    puzzleBackground,
+                    successPuzzleDialog);
+            DialogOperator.SwithToPuzzle(puzzleFindDifferencePackage);
+        }
     }
 }

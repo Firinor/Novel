@@ -1,25 +1,27 @@
-﻿using Puzzle;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TetraQuestionPuzzle : DialogNode
+namespace Puzzle
 {
-    [SerializeField]
-    private DialogNode successPuzzleDialog;
-    [SerializeField]
-    private DialogNode failedPuzzleDialog;
-    [SerializeField]
-    private Sprite puzzleBackground;
-    [SerializeField]
-    private TetraQuestionPackage puzzlePackage;
-
-    public override void StartDialog()
+    public class TetraQuestionPuzzle : DialogNode
     {
-        TetraQuestionPackage puzzleTetraQuestionPackage
-            = new TetraQuestionPackage(
-                puzzlePackage.Question,
-                puzzleBackground,
-                successPuzzleDialog);
-        DialogOperator.SwithToPuzzle(puzzleTetraQuestionPackage);
+        [SerializeField]
+        private DialogNode successPuzzleDialog;
+        [SerializeField]
+        private DialogNode failedPuzzleDialog;
+        [SerializeField]
+        private Sprite puzzleBackground;
+        [SerializeField]
+        private TetraQuestionPackage puzzlePackage;
+
+        public override void StartDialog()
+        {
+            TetraQuestionPackage puzzleTetraQuestionPackage
+                = new TetraQuestionPackage(
+                    puzzlePackage.Question,
+                    puzzleBackground,
+                    successPuzzleDialog);
+            DialogOperator.SwithToPuzzle(puzzleTetraQuestionPackage);
+        }
     }
 }
 

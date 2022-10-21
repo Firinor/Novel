@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using FirUnityEditor;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Puzzle
 {
     public class PuzzleOperator : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, NullCheck]
         protected GameObject victoryButton;
-        [SerializeField]
+        [SerializeField, NullCheck]
         protected GameObject failButton;
-        [SerializeField]
+        [SerializeField, NullCheck]
         protected Image backgroundImage;
 
         public virtual void PuzzleExit()
@@ -37,7 +38,13 @@ namespace Puzzle
 
         public virtual void SuccessfullySolvePuzzle()
         {
+            DeactivatePuzzle();
             victoryButton.SetActive(true);
+        }
+
+        protected virtual void DeactivatePuzzle()
+        {
+            
         }
 
         protected virtual void SetVictoryDialogNode(DialogNode dialogNode)
@@ -50,6 +57,7 @@ namespace Puzzle
         }
         protected virtual void SetBackground(Sprite sprite)
         {
+            backgroundImage.enabled = true;
             backgroundImage.sprite = sprite;
         }
     }

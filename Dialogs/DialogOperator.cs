@@ -5,41 +5,42 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using Puzzle;
+using FirUnityEditor;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
     #region Fields
-    [SerializeField]
+    [SerializeField, NullCheck]
 	private GameObject speakerPrefab;
-	[SerializeField]
-	private GameObject buttonPrefab;
-	[SerializeField]
-	private GameObject buttonParent;
-	[SerializeField]
-	private GameObject plaqueWithTheName;
+	[SerializeField, NullCheck]
+    private GameObject buttonPrefab;
+	[SerializeField, NullCheck]
+    private GameObject buttonParent;
+	[SerializeField, NullCheck]
+    private GameObject plaqueWithTheName;
 	[Space]
-	[SerializeField]
-	private RectTransform rectTransform;
-	[SerializeField]
-	private Canvas canvas;
-	[SerializeField]
-	private Image background;
-	[SerializeField]
-	private Sprite defaultSprite;
-	[SerializeField]
-	private GameObject leftSpeaker;
-	[SerializeField]
-	private GameObject centerSpeaker;
-	[SerializeField]
-	private GameObject rightSpeaker;
-	[SerializeField]
-	private TextMeshProUGUI speakerName;
-	[SerializeField]
-	private TextMeshProUGUI textMeshPro;
+	[SerializeField, NullCheck]
+    private RectTransform rectTransform;
+	[SerializeField, NullCheck]
+    private Canvas canvas;
+	[SerializeField, NullCheck]
+    private Image backgroundImage;
+	[SerializeField, NullCheck]
+    private Sprite defaultSprite;
+	[SerializeField, NullCheck]
+    private GameObject leftSpeaker;
+	[SerializeField, NullCheck]
+    private GameObject centerSpeaker;
+	[SerializeField, NullCheck]
+    private GameObject rightSpeaker;
+	[SerializeField, NullCheck]
+    private TextMeshProUGUI speakerName;
+	[SerializeField, NullCheck]
+    private TextMeshProUGUI textMeshPro;
 	[SerializeField]
 	private float lettersDelay;
-	[SerializeField]
-	private Image nextArrow;
+	[SerializeField, NullCheck]
+    private Image nextArrow;
 
 	private StringBuilder strindBuilder = new StringBuilder();
 	private bool SwichLanguage;
@@ -251,12 +252,16 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	public void SetBackground(Sprite background)
 	{
 		if (background != null)
-			this.background.sprite = background;
+		{
+			backgroundImage.enabled = true;
+            backgroundImage.sprite = background;
+        }
+			
 	}
 	public void OffBackground()
 	{
-		background.sprite = defaultSprite;
-	}
+        backgroundImage.enabled = false;
+    }
 	#endregion
 
 	#region Ways
@@ -282,7 +287,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	public void DialogExit()
 	{
 		DialogManager.StopDialog();
-		gameObject.SetActive(false);
+		OffBackground();
+        gameObject.SetActive(false);
 	}
 	public static void SwithToPuzzle(InformationPackage informationPackage)
 	{

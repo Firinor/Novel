@@ -11,6 +11,8 @@ namespace Puzzle
             Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
+            puzzleInformator = ReadingRoomInformator.GetPuzzleInformator();
+
             if (ingredientsCount > puzzleInformator.AlchemicalIngredientsSprites.Length)
             {
                 ingredientsCount = puzzleInformator.AlchemicalIngredientsSprites.Length;
@@ -31,8 +33,6 @@ namespace Puzzle
             this.recipeDifficulty = recipeDifficulty;
             this.ingredientsCount = ingredientsCount;
             this.allottedTime = Math.Max(allottedTime, 0);
-
-            puzzleInformator = ReadingRoomInformator.GetPuzzleInformator();
         }
         [SerializeField]
         [Range(1, 10)]

@@ -10,6 +10,8 @@ namespace Puzzle.FindDifferences
     {
         public static bool cursorOnImage = false;
 
+        private Image image;
+
         [SerializeField]
         private DetectiveDeskOperator detectiveDeskOperator;
         [SerializeField]
@@ -24,8 +26,13 @@ namespace Puzzle.FindDifferences
         private RectTransform evidencesRectTransform;
         private Vector2 startOfImage;
 
+        void Awake()
+        {
+            image = GetComponent<Image>();
+        }
         public void CalculateStartOfImage()
         {
+            image.raycastTarget = true;
             Rect fullScreenRect = fullScreenRectTransform.rect;
             Vector2 deskRest = detectiveDeskRectTransform.anchoredPosition;
             Vector2 evidenceRect = GetComponent<RectTransform>().offsetMin;
@@ -51,6 +58,11 @@ namespace Puzzle.FindDifferences
         {
             Vector2 evidences = evidencesRectTransform.anchoredPosition;
             detectiveDeskOperator.CheckTheEvidence(eventData.position - startOfImage - evidences, cursorOnEvidence);
+        }
+
+        public void DisableImage()
+        {
+            image.raycastTarget = false;
         }
     }
 }

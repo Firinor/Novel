@@ -1,3 +1,4 @@
+using FirUnityEditor;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -9,44 +10,45 @@ namespace Puzzle.FindDifferences
     public class FindDifferencesOperator : PuzzleOperator
     {
         #region Fields
-        [SerializeField]
+        [SerializeField, NullCheck]
         private GameObject differencePrefab;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private ParticleSystem errorParticleSystem0;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private ParticleSystem errorParticleSystem1;
         private Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>> errorParticleSystem;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private ParticleSystem successParticleSystem0;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private ParticleSystem successParticleSystem1;
         private Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>> successParticleSystem;
         float offsetBetweenCursors;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private DetectiveDeskOperator detectiveDeskOperator;
         private int minimumImagePixelOffsetFromTheEdge = 30;
 
-        [SerializeField]
-        private ShakeOperator shakeOperator;
+        
 
         [SerializeField]
         private ImageWithDifferences imageWithDifferences;
         [SerializeField]
         private int differencesCount = 5;
         private int differencesFound;
-        [SerializeField]
-        private ProgressOperator progressOperator;
-
+        
         [SerializeField]
         private float leftTime = 120;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private TextMeshProUGUI timerText;
         private bool theTimerIsRunning;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
+        private ShakeOperator shakeOperator;
+        [SerializeField, NullCheck]
+        private ProgressOperator progressOperator;
+        [SerializeField, NullCheck]
         private DoubleCursorOperator doubleCursorOperator;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private AnimationManager animationManager;
 
         private CompositeDisposable disposables;
@@ -117,13 +119,13 @@ namespace Puzzle.FindDifferences
         }
         public override void LosePuzzle()
         {
+            DeactivatePuzzle();
             failButton.SetActive(true);
         }
         public override void ClearPuzzle()
         {
             victoryButton.SetActive(false);
             failButton.SetActive(false);
-            detectiveDeskOperator.EnableButton();
             detectiveDeskOperator.ClearImages();
             doubleCursorOperator.DisableCursors();
             DeleteAllDifference();
@@ -153,6 +155,7 @@ namespace Puzzle.FindDifferences
         }
         public override void StartPuzzle()
         {
+            detectiveDeskOperator.enabled = true;
             detectiveDeskOperator.DisableButton();
             detectiveDeskOperator.CreateImages(imageWithDifferences, differencesCount,
                 differencePrefab, minimumImagePixelOffsetFromTheEdge, out offsetBetweenCursors);
@@ -161,7 +164,15 @@ namespace Puzzle.FindDifferences
         }
         public override void SuccessfullySolvePuzzle()
         {
+            DeactivatePuzzle();
             victoryButton.SetActive(true);
+        }
+        protected override void DeactivatePuzzle()
+        {
+            theTimerIsRunning = false;
+            detectiveDeskOperator.DisableImages();
+            detectiveDeskOperator.enabled = false;
+            doubleCursorOperator.DisableCursors();
         }
         public void ActivateDifference(GameObject keyDifference, CursorOnEvidence cursorOnEvidence)
         {
@@ -169,8 +180,6 @@ namespace Puzzle.FindDifferences
 
             differencesFound++;
             progressOperator.AddProgress();
-
-            
 
             if (differencesFound == differencesCount)
             {

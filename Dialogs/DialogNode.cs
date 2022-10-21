@@ -70,7 +70,7 @@ public abstract class DialogNode : MonoBehaviour
 
         dialogOperator.SetPlaqueName(character);
         dialogOperator.SetActiveSpeaker(character);
-        return PrintText(new string[2] { text_ru , text_en });
+        return PrintText(new string[2] { text_ru, text_en });
     }
     public Task Say(string text_ru, string text_en)
     {

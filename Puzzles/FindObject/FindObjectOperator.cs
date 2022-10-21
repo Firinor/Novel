@@ -5,6 +5,8 @@ using FirMath;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
+using FirUnityEditor;
+using static UnityEditor.PlayerSettings;
 
 namespace Puzzle.FindObject
 {
@@ -17,23 +19,26 @@ namespace Puzzle.FindObject
         private float ingredientFrictionBraking;
         [SerializeField]
         private float ingredientBorder;
+        private float recipeOffset;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Image box;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private GameObject ingredientPrefab;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private ParticleSystem errorParticleSystem;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private ParticleSystem successParticleSystem;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Transform ingredientParent;
         private List<AlchemicalIngredientOperator> allIngredients;
-        [SerializeField]
-        private Transform recipeParent;
-        [SerializeField]
+        [SerializeField, NullCheck]
+        private RectTransform helpButtonsRectTransform;
+        [SerializeField, NullCheck]
+        private RectTransform recipeParent;
+        [SerializeField, NullCheck]
         private RecipeOperator recipeOperator;
         [SerializeField]
         private int recipeIngredientCount = 5;
@@ -49,19 +54,22 @@ namespace Puzzle.FindObject
         [HideInInspector]
         public bool PointerOnRecipe;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private TextMeshProUGUI timerText;
         private bool theTimerIsRunning;
 
         private List<int> recipe;
         private List<AlchemicalIngredientOperator> recipeList;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private AnimationManager animationManager;
         #endregion
 
         void Awake()
         {
+            float screenOffset = Screen.height / 2;
+            recipeOffset = recipeParent.sizeDelta.y - screenOffset;
+
             if (puzzleInformator == null)
             {
                 puzzleInformator = GetComponent<PuzzleInformator>();
@@ -266,15 +274,22 @@ namespace Puzzle.FindObject
             }
         }
 
-        internal Vector3 CheckImpulse(Vector3 impulse)
+        internal Vector3 CheckImpulse(ref Vector3 pos, ref Vector3 impulse)
         {
-            impulse *= ingredientFrictionBraking;
+            if(BrakingField(ref pos))
+                impulse *= ingredientFrictionBraking;
+
             if (Math.Abs(impulse.x) < ingredientBorder && Math.Abs(impulse.y) < ingredientBorder)
             {
                 return Vector3.zero;
             }
 
             return impulse;
+        }
+
+        private bool BrakingField(ref Vector3 pos)
+        {
+            return pos.y > recipeOffset;
         }
 
         internal void Particles(Vector3 position, bool success)

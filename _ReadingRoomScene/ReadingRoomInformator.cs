@@ -1,3 +1,4 @@
+using FirUnityEditor;
 using Puzzle.FindDifferences;
 using Puzzle.FindObject;
 using Puzzle.TetraQuestion;
@@ -5,25 +6,25 @@ using UnityEngine;
 
 public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
 {
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject map;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject dialog;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject puzzleFindObject;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject puzzleTetraQuestion;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject puzzleFindDifferences;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private FindObjectOperator findObjectOperator;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private TetraQuestionOperator tetraQuestionOperator;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private FindDifferencesOperator findDifferencesOperator;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private PuzzleInformator puzzleInformator;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private MapCanvasOperator mapCanvasOperator;
 
     public static GameObject GetMap() => instance.map;
