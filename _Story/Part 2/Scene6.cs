@@ -1,59 +1,62 @@
 using UnityEngine;
 
-public class Scene6 : DialogNode
+namespace FirGames.StoryPart2
 {
-    [SerializeField]
-    private CharacterInformator Skull;
-    [SerializeField]
-    private CharacterInformator WhiteNecromant;
-    [SerializeField]
-    private CharacterInformator Yanus;
-
-    [SerializeField]
-    private Sprite Island;
-
-    public override async void StartDialog()
+    public class Scene6 : DialogNode
     {
-        base.StartDialog();
+        [SerializeField]
+        private CharacterInformator Skull;
+        [SerializeField]
+        private CharacterInformator WhiteNecromant;
+        [SerializeField]
+        private CharacterInformator Yanus;
 
-        Scene(Island);
+        [SerializeField]
+        private Sprite Island;
 
-        Show(Skull, PositionOnTheStage.Left);
+        public override async void StartDialog()
+        {
+            base.StartDialog();
 
-        await Say(Skull, "Кого я вижу?! Что тебе нужно, вестник смерти?", "");
+            Scene(Island);
 
-        Show(WhiteNecromant, PositionOnTheStage.Right);
+            Show(Skull, PositionOnTheStage.Left);
 
-        await Say(WhiteNecromant, "приветствую, дитя мое.", "");
+            await Say(Skull, "Кого я вижу?! Что тебе нужно, вестник смерти?", "");
 
-        await Say(Skull, "А со мной уже не надо здороваться, Янус? Я слышал, " +
-            "крестьяне на юго-западе несколькими деревнями собирали награду за твою голову.", "");
+            Show(WhiteNecromant, PositionOnTheStage.Right);
 
-        Hide(WhiteNecromant);
-        Show(Yanus, PositionOnTheStage.Right);
+            await Say(WhiteNecromant, "приветствую, дитя мое.", "");
 
-        await Say(Yanus, "энергии жизни и смерти как две стороны медали. " +
-            "Стаи саранчи грозили уничтожить посевы и обречь на голодную смерть весь юго-запад.", "");
+            await Say(Skull, "А со мной уже не надо здороваться, Янус? Я слышал, " +
+                "крестьяне на юго-западе несколькими деревнями собирали награду за твою голову.", "");
 
-        await Say(Yanus, "Я согласился помочь.", "");
+            Hide(WhiteNecromant);
+            Show(Yanus, PositionOnTheStage.Right);
 
-        await Say(Skull, "только вот вместе с саранчой вымерла целая деревня.", "");
+            await Say(Yanus, "энергии жизни и смерти как две стороны медали. " +
+                "Стаи саранчи грозили уничтожить посевы и обречь на голодную смерть весь юго-запад.", "");
 
-        await Say(Skull, "Судя по тому, что ты уже лет сто ходишь в одном и том же балахоне, " +
-            "твоя мудрость популярностью не пользуется. Зачем пожаловал?", "");
+            await Say(Yanus, "Я согласился помочь.", "");
 
-        await Say(Yanus, "дитя мое, хочу чтобы ты узнал печальную новость от меня.", "");
+            await Say(Skull, "только вот вместе с саранчой вымерла целая деревня.", "");
 
-        await Say(Yanus, "Твой отец, архимагистр ордена Познающих, был убит отравленной стрелой, " +
-            "когда начал открывать портал.", "");
+            await Say(Skull, "Судя по тому, что ты уже лет сто ходишь в одном и том же балахоне, " +
+                "твоя мудрость популярностью не пользуется. Зачем пожаловал?", "");
 
-        await Say(Yanus, "Сам портал разрушен и сейчас столица отрезана от других городов.", "");
+            await Say(Yanus, "дитя мое, хочу чтобы ты узнал печальную новость от меня.", "");
 
-        await Say(Skull, "вот так праздник в честь окончания магистратуры обернулся поминками.", "");
+            await Say(Yanus, "Твой отец, архимагистр ордена Познающих, был убит отравленной стрелой, " +
+                "когда начал открывать портал.", "");
 
-        await Say(Yanus, "нет времени предаваться скорби. " +
-            "Настали смутные времена и смерть архимагистра знаменует лишь начало противоборства могущественных сил.", "");
+            await Say(Yanus, "Сам портал разрушен и сейчас столица отрезана от других городов.", "");
 
-        Fork();
+            await Say(Skull, "вот так праздник в честь окончания магистратуры обернулся поминками.", "");
+
+            await Say(Yanus, "нет времени предаваться скорби. " +
+                "Настали смутные времена и смерть архимагистра знаменует лишь начало противоборства могущественных сил.", "");
+
+            Fork();
+        }
     }
 }

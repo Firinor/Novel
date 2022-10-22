@@ -1,18 +1,24 @@
 using UnityEngine;
 
-namespace FirGames.StoryPart1
+namespace FirGames.StoryPart2
 {
-    public class Scene6 : DialogNode
+    public class Scene13_3 : DialogNode
     {
+        [SerializeField]
+        private CharacterInformator Skull;
+        [SerializeField]
+        private CharacterInformator WhiteNecromant;
+        [SerializeField]
+        private CharacterInformator Yanus;
+
+        [SerializeField]
+        private Sprite Island;
+
         public override async void StartDialog()
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator WhiteNecromant = storyInformator.WhiteNecromant;
-            CharacterInformator Yanus = storyInformator.Yanus;
-
-            Scene(storyInformator.World);
+            Scene(Island);
 
             Show(Skull, PositionOnTheStage.Left);
 

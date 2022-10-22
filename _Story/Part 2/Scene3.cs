@@ -1,27 +1,45 @@
 using UnityEngine;
 
-public class Scene3 : DialogNode
+namespace FirGames.StoryPart2
 {
-    [SerializeField]
-    private CharacterInformator Skull;
-
-    [SerializeField]
-    private Sprite Island;
-
-    public override async void StartDialog()
+    public class Scene3 : DialogNode
     {
-        base.StartDialog();
+        public override async void StartDialog()
+        {
+            base.StartDialog();
 
-        Scene(Island);
+            CharacterInformator Skull = storyInformator.Skull;
+            CharacterInformator Yanus = storyInformator.Yanus;
 
-        Show(Skull, PositionOnTheStage.Center);
+            Scene(storyInformator.Memorial);
 
-        await Say(Skull, "Ты отличный хранитель знаний," +
-            " но все же будь осторожнее со своей безумной теорией о том, что портала Ушедших можно воссоздать.", "");
+            Show(Skull, PositionOnTheStage.Left);
+            Show(Yanus, PositionOnTheStage.Right);
 
-        await Say(Skull, "Маги ордена Познающих могут открывать древние порталы, " +
-            "но построить работающий портал еще никому не удавалось. Теперь проверим знания алхимии.", "");
+            await Say(Yanus, "Верно! В этом футляре стрела, убившая твоего отца. В суматохе мне удалось подменить ее.", "");
 
-        Fork();
+            await Say(Skull, "Зачем?", "");
+
+            await Say(Yanus, "В этом деле у каждого своя правда, но потерявший отца ребенок," +
+                " без сомнения захочет узнать истину, чтобы не ошибиться в своей мести.", "");
+
+            await Say(Skull, "Есть еще кое-что. Анализ яда необходимо провести как можно скорее," +
+                " а Варгус не позволит использовать для этих целей лабораторию ордена.", "");
+            await Say(Skull, "Мы не можем ждать 15 дней пока ты станешь архимагистром." +
+                " К тому времени яд распадется и мы никогда не узнаем истину.", "");
+            await Say(Skull, "Нужно найти другую лабораторию и у меня есть мысли по этому поводу." +
+                " Лорд Карлос крупный промышленник и один из самых богатых людей в Алфарахе.", "");
+            await Say(Skull, "Он много потерял из-за разрушения портала и теперь сильно заинтересован в его восстановлении.", "");
+            await Say(Skull, "Попробуем заручиться его поддержкой, но нужно быть осторожными," +
+                " потому что у лорда Карлоса два языка и тысяча лиц.", "");
+
+            await Say(Yanus, "После случая с багром и лодкой я взял смелого и внимательного" +
+                " подростка себе в ученики, но позже он влюбился в девушку.", "");
+            await Say(Yanus, "Когда я напомнил, что некромант не должен иметь привязанностей, будущий архимагистр выбрал любовь.", "");
+            await Say(Yanus, "Прощаясь он сказал мне, что хочет служить жизни." +
+                " Отомсти за своего отца и займи его место, чтобы жертва не была напрасной.", "");
+
+            Fork();
+        }
     }
 }

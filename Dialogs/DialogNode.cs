@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
+using FirGames;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 
@@ -16,12 +17,14 @@ public abstract class DialogNode : MonoBehaviour
     [SerializeField]
     private List<DialogNode> Choices;
     private DialogOperator dialogOperator;
+    protected StoryInformator storyInformator;
 
     public int ID { get { return id; } }
     public string Description { get { return DescriptionOfSelection; } }
 
-    void Awake()
+    protected void Awake()
     {
+        storyInformator = StoryInformator.instance;
         dialogOperator = DialogOperator.instance;
         GetComponent<Button>().onClick.AddListener(StartDialog);
     }

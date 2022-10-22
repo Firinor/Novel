@@ -4,38 +4,45 @@ namespace FirGames.StoryPart2
 {
     public class Scene1 : DialogNode
     {
-        [SerializeField]
-        private CharacterInformator Skull;
-        [SerializeField]
-        private CharacterInformator Archmagister;
-
-        [SerializeField]
-        private Sprite Lab;
-
         public override async void StartDialog()
         {
             base.StartDialog();
 
-            Scene(Lab);
+            CharacterInformator Varus = storyInformator.Varus;
+            CharacterInformator Skull = storyInformator.Skull;
 
-            Show(Archmagister, PositionOnTheStage.Right);
-
-            await Say(Archmagister, "ƒит€ мое, настал день твоего экзамена." +
-                " ¬ечером ты уже будешь признанным магистром и мы сможем отпраздновать.", "");
-
-            await Say(Archmagister, "ѕринимать экзамен будет наимудрейший беспристрастный основатель нашего ордена," +
-                " лучше других знающий к каким последстви€м приводит риск в нашем деле.", "");
+            Scene(storyInformator.Memorial);
 
             Show(Skull, PositionOnTheStage.Left);
 
-            await Say(Skull, "ѕопрошу без намеков! “о заклинание должно было сделать мен€ бессмертным.", "");
+            await Say(Skull, "Ќа поминках собрались все, и друзь€ и враги." +
+                " Ѕудь внимателен, кажетс€, ¬аргус, давний соперник твоего отца, собираетс€ о себе за€вить.", "");
 
-            await Say(Archmagister, "вы и стали бессмертным.", "");
+            await Say(Skull, "ќн мечтал о месте архимагистра долгие годы," +
+                " строил козни твоему покойному отцу и теперь не оставит теб€ в покое.", "");
 
-            await Say(Skull, "вот поживешь с мое.", "");
+            Hide(Skull);
 
-            await Say(Archmagister, "сейчас € должен открыть портал дл€ прохода торгового каравана в столицу. ќставл€ю вас." +
-                " ƒит€ мое, помни, что € горжусь тобой и все уже готово дл€ праздновани€.", "");
+            Show(Varus, PositionOnTheStage.Center);
+
+            await Say(Varus, "—мерть архимагистра ужасна€ трагеди€, он был дл€ нас примером воли, мудрости и милосерди€.", "");
+
+            await Say(Varus, "Ќадеюсь € смогу соответствовать высокой планке, установленной им дл€ главы нашего ордена.", "");
+
+            Show(Skull, PositionOnTheStage.Left);
+
+            await Say(Skull, "¬ыборов архимагистра еще не было. Ќе рано ли чистить лук к рыбе, когда она еще в озере.", "");
+
+            await Say(Varus, "≈сли ты о своем протеже, то у него недостаточно опыта.", "");
+
+            await Say(Varus, "–азве может стать архимагистором юный мечтатель," +
+                " призывающий выкинуть казну ордена на безнадежную идею строительства портала?", "");
+
+            Hide(Varus);
+
+            Show(Skull, PositionOnTheStage.Center);
+
+            await Say(Skull, " ак лучше ему ответить?", "");
 
             Fork();
         }

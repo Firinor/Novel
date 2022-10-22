@@ -1,29 +1,36 @@
 using UnityEngine;
 
-public class Scene2 : DialogNode
+namespace FirGames.StoryPart2
 {
-    [SerializeField]
-    private CharacterInformator Skull;
-
-    [SerializeField]
-    private Sprite Island;
-
-    public override async void StartDialog()
+    public class Scene2 : DialogNode
     {
-        base.StartDialog();
+        public override async void StartDialog()
+        {
+            base.StartDialog();
 
-        Scene(Island);
+            CharacterInformator Skull = storyInformator.Skull;
+            CharacterInformator Yanus = storyInformator.Yanus;
 
-        Show(Skull, PositionOnTheStage.Center);
+            Scene(storyInformator.Memorial);
 
-        await Say(Skull, "ќчень странно, что архимагистр ордена ѕознающих сам пошел открывать портал дл€ какого-то каравана," +
-            " когда есть цела€ команда таких как ты. ", "");
+            Show(Skull, PositionOnTheStage.Left);
+            Show(Yanus, PositionOnTheStage.Right);
 
-        await Say(Skull, "’от€ в наше неспокойное врем€, после смерти корол€, никому нельз€ довер€ть." +
-            " ƒл€ начала проверим базовые знани€.", "");
+            await Say(Yanus, "“ы дерзко повел себ€ сегодн€ на поминках.", "");
 
-        await Say(Skull, "—оздай мне сферу силы стандартного радиуса огненно-рыжего цвета с алыми вкраплени€ми.", "");
+            await Say(Skull, "Ќе более дерзко, чем ¬аргус, решивший, что пост архимагистра у него в кармане.", "");
 
-        Fork();
+            await Say(Yanus, "“вой отец был таким же. ћного лет назад в одной рыбацкой деревне € увидел" +
+                " как подросток предупреждал собиравшихс€ выйти в море рыбаков о надвигающейс€ буре.", "");
+            await Say(Yanus, "ќни, конечно, ему не поверили и с высоты своего возраста сказали не учить взрослых." +
+                " “огда юнец схватил багор и продыр€вил обшивку лодки.", "");
+            await Say(Yanus, "¬ ответ на такой поступок старший рыбак очень разозлилс€ и пообещал выпороть парн€," +
+                " если бури не будет. ѕодросток оказалс€ прав.", "");
+            await Say(Yanus, "“вой отец уже в ранней молодости обладал поразительной наблюдательностью.", "");
+            await Say(Yanus, "—воим поступком он спас жизни целой команды рыбаков, в том числе и своему отцу." +
+                " ѕроверим, унаследовал ли ты его внимательность.", "");
+
+            Fork();
+        }
     }
 }

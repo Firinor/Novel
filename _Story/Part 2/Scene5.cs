@@ -1,33 +1,36 @@
 using UnityEngine;
 
-public class Scene5 : DialogNode
+namespace FirGames.StoryPart2
 {
-    [SerializeField]
-    private CharacterInformator Skull;
-
-    [SerializeField]
-    private Sprite Island;
-
-    public override async void StartDialog()
+    public class Scene5 : DialogNode
     {
-        base.StartDialog();
+        [SerializeField]
+        private CharacterInformator Skull;
 
-        Scene(Island);
+        [SerializeField]
+        private Sprite Island;
 
-        Show(Skull, PositionOnTheStage.Center);
+        public override async void StartDialog()
+        {
+            base.StartDialog();
 
-        await Say(Skull, "Король умер, его сын - младенец. Наше будущее зависит от того, кто станет регентом ребенка.", "");
+            Scene(Island);
 
-        await Say(Skull, "Королева-мать Эрмингарда в столице, но ей подчиняется лишь горстка солдат.", "");
+            Show(Skull, PositionOnTheStage.Center);
 
-        await Say(Skull, "Младший брат покойного короля Аргуз командует войском, но сейчас он на границе воюет с орками, " +
-            "а до столицы идти больше месяца и то, если дождь дороги не размоет. Соображаешь?", "");
+            await Say(Skull, "Король умер, его сын - младенец. Наше будущее зависит от того, кто станет регентом ребенка.", "");
 
-        await Say(Skull, "Вот если бы кто-нибудь из ордена Познающих согласился открыть портал от границы до столицы не " +
-            "по расписанию, это могло бы сильно повлиять на расстановку сил.", "");
+            await Say(Skull, "Королева-мать Эрмингарда в столице, но ей подчиняется лишь горстка солдат.", "");
 
-        await Say(Skull, "Сам как думаешь, из кого получится лучший регент?", "");
+            await Say(Skull, "Младший брат покойного короля Аргуз командует войском, но сейчас он на границе воюет с орками, " +
+                "а до столицы идти больше месяца и то, если дождь дороги не размоет. Соображаешь?", "");
 
-        Fork();
+            await Say(Skull, "Вот если бы кто-нибудь из ордена Познающих согласился открыть портал от границы до столицы не " +
+                "по расписанию, это могло бы сильно повлиять на расстановку сил.", "");
+
+            await Say(Skull, "Сам как думаешь, из кого получится лучший регент?", "");
+
+            Fork();
+        }
     }
 }

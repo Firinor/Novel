@@ -4,17 +4,14 @@ namespace FirGames.StoryPart1
 {
     public class Scene1 : DialogNode
     {
-        [SerializeField]
-        private CharacterInformator Skull;
-        [SerializeField]
-        private CharacterInformator Archmagister;
-
-        [SerializeField]
-        private Sprite Lab;
-
         public override async void StartDialog()
         {
             base.StartDialog();
+
+            CharacterInformator Skull = storyInformator.Skull;
+            CharacterInformator Archmagister = storyInformator.Archmagister;
+
+            Sprite Lab = storyInformator.Lab;
 
             Scene(Lab);
 

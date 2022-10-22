@@ -1,24 +1,25 @@
 using UnityEngine;
 
-public class Scene4 : DialogNode
+namespace FirGames.StoryPart2
 {
-    [SerializeField]
-    private CharacterInformator Skull;
-
-    [SerializeField]
-    private Sprite Island;
-
-    public override async void StartDialog()
+    public class Scene4 : DialogNode
     {
-        base.StartDialog();
+        public override async void StartDialog()
+        {
+            base.StartDialog();
 
-        Scene(Island);
+            CharacterInformator Skull = storyInformator.Skull;
+            CharacterInformator Yanus = storyInformator.Yanus;
 
-        Show(Skull, PositionOnTheStage.Center);
+            Scene(storyInformator.Memorial);
 
-        await Say(Skull, "Я и не сомневался в твоих способностях. У тебя есть выбор:" +
-            " пройти следующее очень-очень сложное испытание или выслушать рассуждения старой черепушки о политике.", "");
+            Show(Skull, PositionOnTheStage.Left);
+            Show(Yanus, PositionOnTheStage.Right);
 
-        Fork();
+            await Say(Skull, "Я и не сомневался в твоих способностях. У тебя есть выбор:" +
+                " пройти следующее очень-очень сложное испытание или выслушать рассуждения старой черепушки о политике.", "");
+
+            Fork();
+        }
     }
 }
