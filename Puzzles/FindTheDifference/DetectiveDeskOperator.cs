@@ -1,4 +1,5 @@
 ﻿using FirMath;
+using FirUnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,40 +11,33 @@ namespace Puzzle.FindDifferences
 {
     public class DetectiveDeskOperator : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, NullCheck]
         private FindDifferencesOperator findDifferencesOperator;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Image startImage;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private TextMeshProUGUI textMeshProUGUI;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private RectTransform rectTransform;
-        [SerializeField]
-        private HorizontalLayoutGroup horizontalLayoutGroup;
 
         [SerializeField]
         private Dictionary<GameObject, Rect> differences;
 
+        [SerializeField, NullCheck]
         private Button button;
 
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Image leftImage;
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Image rightImage;
+        [SerializeField, NullCheck]
         private EvidenceOperator leftEvidenceOperator;
+        [SerializeField, NullCheck]
         private EvidenceOperator rightEvidenceOperator;
 
         [SerializeField]
         private float differenceShowingTime = 4;
-
-
-        void Awake()
-        {
-            button = GetComponent<Button>();
-            leftEvidenceOperator = leftImage.GetComponent<EvidenceOperator>();
-            rightEvidenceOperator = rightImage.GetComponent<EvidenceOperator>();
-        }
 
         public void DisableButton()
         {

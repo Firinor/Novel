@@ -17,6 +17,7 @@ namespace Puzzle
         {
             FindDifferencePackage puzzleFindDifferencePackage
                 = new FindDifferencePackage(
+                    puzzlePackage.ImageWithDifferences,
                     puzzlePackage.DifferenceCount,
                     puzzlePackage.AllottedTime,
                     puzzleBackground,

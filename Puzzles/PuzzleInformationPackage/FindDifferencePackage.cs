@@ -8,7 +8,7 @@ namespace Puzzle
     [Serializable]
     public class FindDifferencePackage : InformationPackage
     {
-        public FindDifferencePackage(int differenceCount, float allottedTime,
+        public FindDifferencePackage(ImageWithDifferences imageWithDifferences, int differenceCount, float allottedTime,
             Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
@@ -23,6 +23,7 @@ namespace Puzzle
 
             this.differenceCount = differenceCount;
             this.allottedTime = Math.Max(allottedTime, 0);
+            this.imageWithDifferences = imageWithDifferences;
         }
         [SerializeField]
         private ImageWithDifferences imageWithDifferences;

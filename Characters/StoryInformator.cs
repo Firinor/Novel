@@ -5,32 +5,44 @@ namespace FirGames
 {
     public class StoryInformator : SinglBehaviour<StoryInformator>
     {
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator Skull;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator WhiteNecromant;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator Yanus;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator Archmagister;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator Varus;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator LordCarlos;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator Karim;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public CharacterInformator GnomGuard;
 
         [Space]
-        [SerializeField, NullCheck]
+        [NullCheck]
         public Sprite Lab;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public Sprite World;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public Sprite Memorial;
-        [SerializeField, NullCheck]
+        [NullCheck]
         public Sprite Office;
+        [NullCheck]
+        public Sprite GnomeDoor;
+        [NullCheck]
+        public Sprite KarimRoom;
+        [NullCheck]
+        public Sprite Quarry;
+        [NullCheck]
+        public Sprite PortalOff;
+        [NullCheck]
+        public Sprite PortalOn;
+        [NullCheck]
+        public Sprite Castle;
 
         void Awake()
         {

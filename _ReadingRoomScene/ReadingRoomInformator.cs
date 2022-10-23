@@ -34,7 +34,7 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     public static GameObject GetPuzzleFindDifferences() => instance.puzzleFindDifferences;
     public static FindObjectOperator GetPuzzleFindObjectOperator() => instance.findObjectOperator;
     public static TetraQuestionOperator GetPuzzleTetraQuestionOperator() => instance.tetraQuestionOperator;
-    public static FindDifferencesOperator GetFindDifferenceOperator() => instance.findDifferencesOperator;
+    public static FindDifferencesOperator GetPuzzleFindDifferenceOperator() => instance.findDifferencesOperator;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;

@@ -3,8 +3,9 @@ using UnityEngine;
 using Puzzle;
 using Puzzle.FindObject;
 using Puzzle.TetraQuestion;
+using Puzzle.FindDifferences;
 
-public enum ReadingRoomMarks { map, dialog, puzzleFindObject, puzzleTetraQuestion, options, off };
+public enum ReadingRoomMarks { map, dialog, puzzleFindObject, puzzleTetraQuestion, puzzleFindDifferences, options, off };
 
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel
 {
@@ -12,8 +13,10 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     private static GameObject dialog;
     private static GameObject puzzleFindObject;
     private static GameObject puzzleTetraQuestion;
+    private static GameObject puzzleFindDifference;
     private static FindObjectOperator puzzleFindObjectOperator;
     private static TetraQuestionOperator puzzleTetraQuestionOperator;
+    private static FindDifferencesOperator puzzleFindDifferencesOperator;
 
     private ReadingRoomInformator readingRoomInformator;
 
@@ -29,8 +32,10 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         dialog = ReadingRoomInformator.GetDialog();
         puzzleFindObject = ReadingRoomInformator.GetPuzzleFindObject();
         puzzleTetraQuestion = ReadingRoomInformator.GetPuzzleTetraQuestion();
+        puzzleFindDifference = ReadingRoomInformator.GetPuzzleFindDifferences();
         puzzleFindObjectOperator = ReadingRoomInformator.GetPuzzleFindObjectOperator();
         puzzleTetraQuestionOperator = ReadingRoomInformator.GetPuzzleTetraQuestionOperator();
+        puzzleFindDifferencesOperator = ReadingRoomInformator.GetPuzzleFindDifferenceOperator();
     }
 
     public static void SwitchPanels(ReadingRoomMarks mark)
@@ -51,6 +56,9 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
                 break;
             case ReadingRoomMarks.puzzleTetraQuestion:
                 puzzleTetraQuestion.SetActive(true);
+                break;
+            case ReadingRoomMarks.puzzleFindDifferences:
+                puzzleFindDifference.SetActive(true);
                 break;
             case ReadingRoomMarks.options:
                 SceneManager.SwitchPanels(SceneDirection.options);
@@ -98,6 +106,10 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
             case TetraQuestionPackage tetraQuestion:
                 puzzleTetraQuestionOperator.SetPuzzleInformationPackage(tetraQuestion);
                 SwitchPanels(ReadingRoomMarks.puzzleTetraQuestion);
+                break;
+            case FindDifferencePackage findDifferenceImage:
+                puzzleFindDifferencesOperator.SetPuzzleInformationPackage(findDifferenceImage);
+                SwitchPanels(ReadingRoomMarks.puzzleFindDifferences);
                 break;
             case null:
                 break;
