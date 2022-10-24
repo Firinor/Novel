@@ -1,4 +1,5 @@
-﻿using Puzzle.FindObject;
+﻿using FirUnityEditor;
+using Puzzle.FindObject;
 using System;
 using UnityEngine;
 
@@ -7,16 +8,12 @@ namespace Puzzle
     [Serializable]
     public class FindRecipeIngredientsPackage : InformationPackage
     {
-        public FindRecipeIngredientsPackage(int recipeDifficulty, int ingredientsCount, float allottedTime,
+        public FindRecipeIngredientsPackage(Sprite[] ingredients, int recipeDifficulty, int ingredientsCount, float allottedTime,
             Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
-            puzzleInformator = ReadingRoomInformator.GetPuzzleInformator();
+            this.ingredients = ingredients;
 
-            if (ingredientsCount > puzzleInformator.AlchemicalIngredientsSprites.Length)
-            {
-                ingredientsCount = puzzleInformator.AlchemicalIngredientsSprites.Length;
-            }
             if (ingredientsCount < 2)
             {
                 ingredientsCount = 2;
@@ -43,11 +40,15 @@ namespace Puzzle
         [SerializeField]
         [Range(0, 1024)]
         private float allottedTime = 0;
+        [SerializeField, NullCheck]
+        private Sprite[] ingredients;
 
         public int RecipeDifficulty { get => recipeDifficulty; }
-        public int IngredientsCount { get => ingredientsCount; }
+        public int IngredientsCount { get => Math.Min(ingredients.Length, ingredientsCount); }
         public float AllottedTime { get => allottedTime; }
 
-        protected PuzzleInformator puzzleInformator { get; }
+        private enum IngredientsEnum { alchemical, cristals }
+
+        public Sprite[] Ingredients { get => ingredients; }
     }
 }

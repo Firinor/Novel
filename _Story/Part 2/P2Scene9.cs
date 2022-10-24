@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Quarry);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Karim, PositionOnTheStage.Right);
+            Show(Karim, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Skull, "Большое спасибо. Еще у нас есть просьба касательно лаборатории.", "");
 

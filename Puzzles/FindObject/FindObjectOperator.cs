@@ -40,6 +40,7 @@ namespace Puzzle.FindObject
         private RectTransform recipeParent;
         [SerializeField, NullCheck]
         private RecipeOperator recipeOperator;
+        private Sprite[] alchemicalIngredientsSprites;
         [SerializeField]
         private int recipeIngredientCount = 5;
         [SerializeField]
@@ -151,7 +152,6 @@ namespace Puzzle.FindObject
         private void CreateNewRecipe()
         {
             DeleteIngredientsInList(recipeList);
-            Sprite[] alchemicalIngredientsSprites = puzzleInformator.AlchemicalIngredientsSprites;
 
             ingredientInBoxCount = Math.Min(ingredientInBoxCount, alchemicalIngredientsSprites.Length);
 
@@ -171,6 +171,7 @@ namespace Puzzle.FindObject
         }
         public void SetPuzzleInformationPackage(FindRecipeIngredientsPackage puzzleInformationPackage)
         {
+            alchemicalIngredientsSprites = puzzleInformationPackage.Ingredients;
             recipeIngredientCount = puzzleInformationPackage.RecipeDifficulty;
             ingredientInBoxCount = puzzleInformationPackage.IngredientsCount;
             leftTime = puzzleInformationPackage.AllottedTime;
@@ -184,7 +185,6 @@ namespace Puzzle.FindObject
             OpenBox();
             theTimerIsRunning = leftTime > 0;
 
-            Sprite[] alchemicalIngredientsSprites = puzzleInformator.AlchemicalIngredientsSprites;
             allIngredients = new List<AlchemicalIngredientOperator>();
 
             for (int i = 0; i < ingredientInBoxCount; i++)
@@ -300,11 +300,6 @@ namespace Puzzle.FindObject
             rectTransform.localPosition = position;
 
             particleSystem.Play();
-        }
-
-        public override void PuzzleExit()
-        {
-            gameObject.SetActive(false);
         }
 
         internal void RemoveIngredient(AlchemicalIngredientOperator alchemicalIngredientOperator)

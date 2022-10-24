@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Memorial);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Varus, PositionOnTheStage.Center);
+            Show(Varus, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Skull, "Архимагистр должен соблюдать закон орден, а в нем четко прописано," +
                 " что выборы главы ордена проходят через 15 дней после смерти предыдущего, не раньше.", "");

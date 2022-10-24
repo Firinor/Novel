@@ -17,6 +17,7 @@ namespace Puzzle
         {
             FindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage
                 = new FindRecipeIngredientsPackage(
+                    puzzlePackage.Ingredients,
                     puzzlePackage.RecipeDifficulty,
                     puzzlePackage.IngredientsCount,
                     puzzlePackage.AllottedTime,

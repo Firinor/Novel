@@ -2,7 +2,7 @@
 
 namespace Puzzle
 {
-    public class TetraQuestionPuzzle : DialogNode
+    public class MultiTetraQuestionPuzzle : DialogNode
     {
         [SerializeField]
         private DialogNode successPuzzleDialog;
@@ -19,8 +19,7 @@ namespace Puzzle
                 = new TetraQuestionPackage(
                     puzzlePackage.Question,
                     puzzleBackground,
-                    successPuzzleDialog,
-                    failedPuzzleDialog);
+                    successPuzzleDialog);
             DialogOperator.SwithToPuzzle(puzzleTetraQuestionPackage);
         }
     }

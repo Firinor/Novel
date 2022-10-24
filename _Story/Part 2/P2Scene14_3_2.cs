@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Office);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(LordCarlos, PositionOnTheStage.Right);
+            Show(LordCarlos, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Skull, "—ожалеем, но дар управлени€ пространством врожденный.", "");
             await Say(Skull, "ћаги ордена ѕознающих могут научить только правильно пользоватьс€ данным природой талантом. " +

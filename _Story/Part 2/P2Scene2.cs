@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.World);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Yanus, PositionOnTheStage.Right);
+            Show(Yanus, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Yanus, "Ты дерзко повел себя сегодня на поминках.", "");
 

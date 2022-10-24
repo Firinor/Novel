@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Office);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(LordCarlos, PositionOnTheStage.Right);
+            Show(LordCarlos, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Skull, "Мы с радостью примем вашу дочь на обучение, остальное будет зависеть от магии.", "");
 

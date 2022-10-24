@@ -6,6 +6,10 @@ namespace FirMath
 {
     public static class GameMath
     {
+        public static int RandomCardFromTheDeck(int DeckLength)
+        {
+            return RandomCards(1, DeckLength)[0];
+        }
         public static List<int> AFewCardsFromTheDeck(int NumberOfCardsDrawn, int DeckLength, bool WithoutDuplicates = true)
         {
             if (NumberOfCardsDrawn <= 0 || DeckLength <= 0)
@@ -20,7 +24,7 @@ namespace FirMath
 
             return RandomCards(NumberOfCardsDrawn, DeckLength, WithoutDuplicates);
         }
-        private static List<int> RandomCards(int NumberOfCardsDrawn, int DeckLength, bool WithoutDuplicates)
+        private static List<int> RandomCards(int NumberOfCardsDrawn, int DeckLength, bool WithoutDuplicates = true)
         {
             List<int> result = new List<int>(new int[NumberOfCardsDrawn]);
             while (NumberOfCardsDrawn > 0)

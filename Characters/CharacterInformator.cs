@@ -23,4 +23,9 @@ public class CharacterInformator : ScriptableObject
     [Range(0f, 1f)]
     private float unitScale;
     public float UnitScale { get { return unitScale; } }
+
+    [Tooltip("Default view direction")]
+    [SerializeField]
+    private ViewDirection viewDirection;
+    public ViewDirection ViewDirection { get { return viewDirection; } }
 }

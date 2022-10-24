@@ -12,7 +12,7 @@ namespace FirGames.StoryPart2
 
             Scene(storyInformator.GnomeDoor);
 
-            Show(GnomGuard, PositionOnTheStage.Center);
+            Show(GnomGuard, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(GnomGuard, "Проходите и помните, что время господина Карима стоит очень дорого.", "");
 

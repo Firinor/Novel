@@ -23,7 +23,7 @@ namespace FirGames.StoryPart2
 
             Hide(Skull);
 
-            Show(Varus, PositionOnTheStage.Center);
+            Show(Varus, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Varus, "Смерть архимагистра ужасная трагедия, он был для нас примером воли, мудрости и милосердия.", "");
 

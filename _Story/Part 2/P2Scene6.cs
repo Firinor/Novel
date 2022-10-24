@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.KarimRoom);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Karim, PositionOnTheStage.Right);
+            Show(Karim, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Karim, "Приветствую вас!", "");
 

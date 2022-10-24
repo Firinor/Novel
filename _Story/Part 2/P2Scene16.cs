@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.KarimRoom);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Karim, PositionOnTheStage.Right);
+            Show(Karim, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Karim, "Это действительно шлем Богурта Железнозубого. Я всегда держу слово." +
                 " Лаборатория в вашем распоряжении.", "");

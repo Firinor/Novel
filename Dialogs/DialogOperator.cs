@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine.UI;
 using Puzzle;
 using FirUnityEditor;
+using System;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
@@ -33,7 +34,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private GameObject centerSpeaker;
 	[SerializeField, NullCheck]
     private GameObject rightSpeaker;
-	[SerializeField, NullCheck]
+    [SerializeField, NullCheck]
+    private TextMeshProUGUI sceneName;
+    [SerializeField, NullCheck]
     private TextMeshProUGUI speakerName;
 	[SerializeField, NullCheck]
     private TextMeshProUGUI textMeshPro;
@@ -134,6 +137,11 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		return text[(int)PlayerManager.Language];
 	}
+
+	public void SetSceneName(string name)
+	{
+		sceneName.text = name;
+    }
 	#endregion
 
 	#region Speakers
@@ -184,7 +192,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			speakers.Add(speaker, speakerOperator);
 		}
 	}
-	public void SetPosition(CharacterInformator speaker, PositionOnTheStage position)
+    public void SetPosition(CharacterInformator speaker, PositionOnTheStage position, ViewDirection viewDirection)
 	{
 		if (speaker == null)
 			return;
@@ -193,7 +201,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			return;
 
 		speakers[speaker].transform.SetParent(GetSpeakerParent(position));
-	}
+		speakers[speaker].transform.localScale = new Vector3((int)viewDirection*(int)speaker.ViewDirection, 1, 1);
+    }
 	public void SetActiveSpeaker(CharacterInformator speaker)
 	{
 		if (!speakers.ContainsKey(speaker))

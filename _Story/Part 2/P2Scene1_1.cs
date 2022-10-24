@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Memorial);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Varus, PositionOnTheStage.Center);
+            Show(Varus, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Skull, "Ты всегда заглядывался на место покойного архимагистра," +
                 " но тебе не стать главой ордена пока не докажешь свою невиновность в его смерти!", "");

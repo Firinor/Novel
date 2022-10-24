@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.GnomeDoor);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(GnomGuard, PositionOnTheStage.Right);
+            Show(GnomGuard, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Skull, "Мы к господину Кариму по срочному делу.", "");
 

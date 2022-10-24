@@ -11,11 +11,9 @@ namespace FirGames.StoryPart1
             CharacterInformator Skull = storyInformator.Skull;
             CharacterInformator Archmagister = storyInformator.Archmagister;
 
-            Sprite Lab = storyInformator.Lab;
+            Scene(storyInformator.Lab);
 
-            Scene(Lab);
-
-            Show(Archmagister, PositionOnTheStage.Right);
+            Show(Archmagister, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Archmagister, "Дитя мое, настал день твоего экзамена." +
                 " Вечером ты уже будешь признанным магистром и мы сможем отпраздновать.", "");

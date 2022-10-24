@@ -10,7 +10,7 @@ namespace FirGames.StoryPart2
 
             Scene(storyInformator.GnomeDoor);
 
-            Show(GnomGuard, PositionOnTheStage.Center);
+            Show(GnomGuard, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(GnomGuard, "Приходите завтра! Сейчас господин Карим занят.", "");
 

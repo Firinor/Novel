@@ -12,7 +12,7 @@ namespace FirGames.StoryPart2
 
             Scene(storyInformator.KarimRoom);
 
-            Show(Karim, PositionOnTheStage.Center);
+            Show(Karim, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Karim, "Идемте, я отведу вас в карьер.", "");
 

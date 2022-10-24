@@ -112,7 +112,7 @@ namespace Puzzle.TetraQuestion
         }
         public void SetPuzzleInformationPackage(TetraQuestionPackage tetraQuestion)
         {
-            question = tetraQuestion.Question;
+            question = tetraQuestion.GetRandomQuestion();
             SetVictoryDialogNode(tetraQuestion.successPuzzleDialog);
             SetFailDialogNode(tetraQuestion.failedPuzzleDialog);
             SetBackground(tetraQuestion.puzzleBackground);

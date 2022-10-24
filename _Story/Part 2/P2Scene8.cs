@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Quarry);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Karim, PositionOnTheStage.Right);
+            Show(Karim, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Karim, "Вот и карьер. Берите сколько нужно по смете и ни кристаллом больше.", "");
 

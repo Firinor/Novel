@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Memorial);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Yanus, PositionOnTheStage.Right);
+            Show(Yanus, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Yanus, "Верно! В этом футляре стрела, убившая твоего отца. В суматохе мне удалось подменить ее.", "");
 

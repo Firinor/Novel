@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using FirGames;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
+public enum ViewDirection { Right = 1, Left = -1 }
 
 public abstract class DialogNode : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public abstract class DialogNode : MonoBehaviour
     {
         DialogManager.ActivateDialog(gameObject.GetComponent<RectTransform>().anchoredPosition.x);
         CleareAll();
+        dialogOperator.SetSceneName(name);
     }
 
     public void StartDialog(int index)
@@ -100,10 +102,11 @@ public abstract class DialogNode : MonoBehaviour
     {
         dialogOperator.OffBackground();
     }
-    public void Show(CharacterInformator character, PositionOnTheStage position)
+    public void Show(CharacterInformator character, PositionOnTheStage position,
+        ViewDirection viewDirection = ViewDirection.Right)
     {
         dialogOperator.AddSpeaker(character);
-        dialogOperator.SetPosition(character, position);
+        dialogOperator.SetPosition(character, position, viewDirection);
     }
 
     public void Hide(CharacterInformator character)

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace FirGames.StoryPart1
 {
     public class P1Scene6 : DialogNode
@@ -18,7 +16,7 @@ namespace FirGames.StoryPart1
 
             await Say(Skull, " ого € вижу?! „то тебе нужно, вестник смерти?", "");
 
-            Show(WhiteNecromant, PositionOnTheStage.Right);
+            Show(WhiteNecromant, PositionOnTheStage.Center);
 
             await Say(WhiteNecromant, "приветствую, дит€ мое.", "");
 
@@ -26,7 +24,7 @@ namespace FirGames.StoryPart1
                 "кресть€не на юго-западе несколькими деревн€ми собирали награду за твою голову.", "");
 
             Hide(WhiteNecromant);
-            Show(Yanus, PositionOnTheStage.Right);
+            Show(Yanus, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Yanus, "энергии жизни и смерти как две стороны медали. " +
                 "—таи саранчи грозили уничтожить посевы и обречь на голодную смерть весь юго-запад.", "");

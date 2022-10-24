@@ -14,7 +14,7 @@ namespace FirGames.StoryPart2
             Scene(storyInformator.Office);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(LordCarlos, PositionOnTheStage.Right);
+            Show(LordCarlos, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(LordCarlos, "«начит ты тот самонаде€нный молодой маг, за€вл€ющий," +
                 " что порталы ”шедших можно не только открывать, но и строить?", "");

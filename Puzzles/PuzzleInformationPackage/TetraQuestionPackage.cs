@@ -1,13 +1,14 @@
 ﻿using Puzzle.TetraQuestion;
 using System;
 using UnityEngine;
+using FirMath;
 
 namespace Puzzle
 {
     [Serializable]
     public class TetraQuestionPackage : InformationPackage
     {
-        public TetraQuestionPackage(Question question,
+        public TetraQuestionPackage(Question[] question,
             Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
@@ -15,9 +16,13 @@ namespace Puzzle
         }
 
         [SerializeField]
-        private Question question;
+        private Question[] question;
 
-        public Question Question { get => question; }
+        public Question[] Question { get => question; }
 
+        public Question GetRandomQuestion()
+        {
+            return question[GameMath.RandomCardFromTheDeck(question.Length)];
+        }
     }
 }
