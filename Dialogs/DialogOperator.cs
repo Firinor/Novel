@@ -40,7 +40,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private TextMeshProUGUI speakerName;
 	[SerializeField, NullCheck]
     private TextMeshProUGUI textMeshPro;
-	[SerializeField]
+    [SerializeField, NullCheck]
+    private MapCanvasOperator mapCanvasOperator;
+    [SerializeField]
 	private float lettersDelay;
 	[SerializeField, NullCheck]
     private Image nextArrow;

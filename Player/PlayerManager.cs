@@ -29,7 +29,7 @@ public static class PlayerManager
 
     public static void SetProgress(DialogNode dialogNode)
     {
-        progress.Add(dialogNode.ID, true);
+        //progress.Add(dialogNode.ID, true);
         SaveManager.Save(Account);
     }
 

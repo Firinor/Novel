@@ -11,7 +11,7 @@ namespace FirGames.StoryPart2
             CharacterInformator Skull = storyInformator.Skull;
             CharacterInformator Yanus = storyInformator.Yanus;
 
-            Scene(storyInformator.Memorial);
+            Scene(storyInformator.World);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(Yanus, PositionOnTheStage.Right, ViewDirection.Left);

@@ -163,6 +163,20 @@ namespace Puzzle.FindDifferences
 
                 differences.Clear();
             }
+
+            DeleteAllChild(leftImage);
+            DeleteAllChild(rightImage);
+        }
+
+        private void DeleteAllChild(Image image)
+        {
+            Transform transform = image.transform;
+            int i = transform.childCount;
+            while (i > 0)
+            {
+                i--;
+                Destroy(transform.GetChild(i).gameObject);
+            }
         }
 
         private IEnumerator ButtonAnimating(KeyValuePair<GameObject, Rect> difference)

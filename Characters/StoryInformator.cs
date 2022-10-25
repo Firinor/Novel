@@ -28,6 +28,8 @@ namespace FirGames
         [NullCheck]
         public Sprite World;
         [NullCheck]
+        public Sprite FirePlace;
+        [NullCheck]
         public Sprite Memorial;
         [NullCheck]
         public Sprite Office;

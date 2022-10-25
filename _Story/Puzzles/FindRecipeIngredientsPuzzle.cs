@@ -15,6 +15,7 @@ namespace Puzzle
 
         public override void StartDialog()
         {
+            DialogOperator.skipText = false;
             FindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage
                 = new FindRecipeIngredientsPackage(
                     puzzlePackage.Ingredients,
@@ -22,7 +23,8 @@ namespace Puzzle
                     puzzlePackage.IngredientsCount,
                     puzzlePackage.AllottedTime,
                     puzzleBackground,
-                    successPuzzleDialog);
+                    successPuzzleDialog,
+                    failedPuzzleDialog);
             DialogOperator.SwithToPuzzle(puzzleFindRecipeIngredientsPackage);
         }
     }

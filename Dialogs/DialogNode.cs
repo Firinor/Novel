@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
 using FirGames;
+using FirUnityEditor;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 public enum ViewDirection { Right = 1, Left = -1 }
@@ -10,17 +11,16 @@ public enum ViewDirection { Right = 1, Left = -1 }
 public abstract class DialogNode : MonoBehaviour
 {
     [SerializeField]
-    private int id;
-    [SerializeField]
     private string[] Header = new string[2] { "русское название", "english name" };
     [SerializeField]
     private string DescriptionOfSelection;
     [SerializeField]
     private List<DialogNode> Choices;
+    
+
     private DialogOperator dialogOperator;
     protected StoryInformator storyInformator;
 
-    public int ID { get { return id; } }
     public string Description { get { return DescriptionOfSelection; } }
 
     protected void Awake()
@@ -29,13 +29,9 @@ public abstract class DialogNode : MonoBehaviour
         dialogOperator = DialogOperator.instance;
         GetComponent<Button>().onClick.AddListener(StartDialog);
     }
-    public void AddChoice(DialogNode dialogNode)
+    public void SetChoice(DialogNode dialogNode)
     {
-        if(Choices == null || Choices.Count == 0)
-        {
-            Choices = new List<DialogNode>();
-        }
-
+        Choices = new List<DialogNode>();
         Choices.Add(dialogNode);
     }
     public string GetHeader()
@@ -44,7 +40,7 @@ public abstract class DialogNode : MonoBehaviour
     }
     public virtual void StartDialog()
     {
-        DialogManager.ActivateDialog(gameObject.GetComponent<RectTransform>().anchoredPosition.x);
+        DialogManager.ActivateDialog(GetComponent<RectTransform>());
         CleareAll();
         dialogOperator.SetSceneName(name);
     }

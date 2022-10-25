@@ -49,11 +49,11 @@ namespace Puzzle
 
         protected virtual void SetVictoryDialogNode(DialogNode dialogNode)
         {
-            victoryButton.GetComponent<FromPuzzleToDialog>().AddChoice(dialogNode);
+            victoryButton.GetComponent<FromPuzzleToDialog>().SetChoice(dialogNode);
         }
         protected virtual void SetFailDialogNode(DialogNode dialogNode)
         {
-            failButton.GetComponent<FromPuzzleToDialog>().AddChoice(dialogNode);
+            failButton.GetComponent<FromPuzzleToDialog>().SetChoice(dialogNode);
         }
         protected virtual void SetBackground(Sprite sprite)
         {

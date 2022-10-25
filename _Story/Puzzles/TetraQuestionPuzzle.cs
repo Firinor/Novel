@@ -15,6 +15,7 @@ namespace Puzzle
 
         public override void StartDialog()
         {
+            DialogOperator.skipText = false;
             TetraQuestionPackage puzzleTetraQuestionPackage
                 = new TetraQuestionPackage(
                     puzzlePackage.Question,

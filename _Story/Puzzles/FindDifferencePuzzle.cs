@@ -15,13 +15,15 @@ namespace Puzzle
 
         public override void StartDialog()
         {
+            DialogOperator.skipText = false;
             FindDifferencePackage puzzleFindDifferencePackage
                 = new FindDifferencePackage(
                     puzzlePackage.ImageWithDifferences,
                     puzzlePackage.DifferenceCount,
                     puzzlePackage.AllottedTime,
                     puzzleBackground,
-                    successPuzzleDialog);
+                    successPuzzleDialog,
+                    failedPuzzleDialog);
             DialogOperator.SwithToPuzzle(puzzleFindDifferencePackage);
         }
     }

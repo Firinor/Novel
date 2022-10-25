@@ -90,9 +90,9 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         SwitchPanels(ReadingRoomMarks.map);
     }
 
-    public static void CheckMap(float dialogButtonXPosition)
+    public static void CheckMap(RectTransform dialogButtonRectTransform)
     {
-        ReadingRoomInformator.GetMapCanvasOperator().CorrectScrollbarPosition(dialogButtonXPosition);
+        ReadingRoomInformator.GetMapCanvasOperator().CorrectScrollbarPosition(dialogButtonRectTransform);
     }
 
     internal static void SwithToPuzzle(InformationPackage puzzleInformationPackage)

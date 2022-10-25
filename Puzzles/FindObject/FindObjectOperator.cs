@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using FirUnityEditor;
-using static UnityEditor.PlayerSettings;
 
 namespace Puzzle.FindObject
 {
@@ -310,6 +309,10 @@ namespace Puzzle.FindObject
         public override void Options()
         {
             ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
+        }
+        public void SkipPuzzle()
+        {
+            SuccessfullySolvePuzzle();
         }
     }
 }

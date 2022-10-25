@@ -1,29 +1,41 @@
+using FirUnityEditor;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MapCanvasOperator : MonoBehaviour
 {
-    //[SerializeField]
-    //private GameObject dialogParent;
-    //public GameObject GetDialogParent() => dialogParent;
-
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject socialBackground;
+    private RectTransform viewPort;
     private float width;
-    [SerializeField]
+    
+    [SerializeField, NullCheck]
     private Scrollbar horizontalScrollbar;
+    
 
     void Awake()
     {
-        width = socialBackground.GetComponent<RectTransform>().sizeDelta.x;
+        viewPort = socialBackground.GetComponent<RectTransform>();
+        width = viewPort.sizeDelta.x;
     }
 
     public void Options() => ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
     public void Exit() => SceneManager.SwitchPanels(SceneDirection.exit);
 
-    public void CorrectScrollbarPosition(float dialogButtonXPosition)
+    public void CorrectScrollbarPosition(RectTransform dialogButtonRectTransform)
     {
-        horizontalScrollbar.value = dialogButtonXPosition / width;
+        float dialogButtonXPosition = GetRecurrenceXPosition(dialogButtonRectTransform);
+        horizontalScrollbar.value = dialogButtonXPosition / (width-Screen.width/2);
+    }
+
+    private float GetRecurrenceXPosition(RectTransform dialogButtonRectTransform)
+    {
+        if(dialogButtonRectTransform != viewPort)
+        {
+            return dialogButtonRectTransform.offsetMin.x 
+                + GetRecurrenceXPosition(dialogButtonRectTransform.parent as RectTransform);
+        }
+        return 0;
     }
 }
