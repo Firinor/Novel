@@ -4,8 +4,10 @@ using Puzzle;
 using Puzzle.FindObject;
 using Puzzle.TetraQuestion;
 using Puzzle.FindDifferences;
+using Puzzle.StarMap;
 
-public enum ReadingRoomMarks { map, dialog, puzzleFindObject, puzzleTetraQuestion, puzzleFindDifferences, options, off };
+public enum ReadingRoomMarks { map, dialog, options, off,
+    puzzleFindObject, puzzleTetraQuestion, puzzleFindDifferences, puzzleStarMap};
 
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel
 {
@@ -14,9 +16,11 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     private static GameObject puzzleFindObject;
     private static GameObject puzzleTetraQuestion;
     private static GameObject puzzleFindDifference;
+    private static GameObject puzzleStarMap;
     private static FindObjectOperator puzzleFindObjectOperator;
     private static TetraQuestionOperator puzzleTetraQuestionOperator;
     private static FindDifferencesOperator puzzleFindDifferencesOperator;
+    private static StarMapOperator puzzleStarMapOperator;
 
     private ReadingRoomInformator readingRoomInformator;
 
@@ -30,12 +34,16 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
 
         //map = ReadingRoomInformator.GetMap();
         dialog = ReadingRoomInformator.GetDialog();
+
         puzzleFindObject = ReadingRoomInformator.GetPuzzleFindObject();
         puzzleTetraQuestion = ReadingRoomInformator.GetPuzzleTetraQuestion();
         puzzleFindDifference = ReadingRoomInformator.GetPuzzleFindDifferences();
+        puzzleStarMap = ReadingRoomInformator.GetPuzzleStarMap();
+
         puzzleFindObjectOperator = ReadingRoomInformator.GetPuzzleFindObjectOperator();
         puzzleTetraQuestionOperator = ReadingRoomInformator.GetPuzzleTetraQuestionOperator();
         puzzleFindDifferencesOperator = ReadingRoomInformator.GetPuzzleFindDifferenceOperator();
+        puzzleStarMapOperator = ReadingRoomInformator.GetPuzzleStarMapOperator();
     }
 
     public static void SwitchPanels(ReadingRoomMarks mark)
@@ -60,6 +68,9 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
             case ReadingRoomMarks.puzzleFindDifferences:
                 puzzleFindDifference.SetActive(true);
                 break;
+            case ReadingRoomMarks.puzzleStarMap:
+                puzzleStarMap.SetActive(true);
+                break;
             case ReadingRoomMarks.options:
                 SceneManager.SwitchPanels(SceneDirection.options);
                 break;
@@ -82,6 +93,8 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         dialog.SetActive(false);
         puzzleFindObject.SetActive(false);
         puzzleTetraQuestion.SetActive(false);
+        puzzleFindDifference.SetActive(false);
+        puzzleStarMap.SetActive(false);
         SceneManager.DiactiveAllPanels();
     }
 
@@ -110,6 +123,10 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
             case FindDifferencePackage findDifferenceImage:
                 puzzleFindDifferencesOperator.SetPuzzleInformationPackage(findDifferenceImage);
                 SwitchPanels(ReadingRoomMarks.puzzleFindDifferences);
+                break;
+            case StarMapPackage starMapPackage:
+                puzzleStarMapOperator.SetPuzzleInformationPackage(starMapPackage);
+                SwitchPanels(ReadingRoomMarks.puzzleStarMap);
                 break;
             case null:
                 break;

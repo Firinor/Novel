@@ -1,7 +1,9 @@
 using FirUnityEditor;
 using Puzzle.FindDifferences;
 using Puzzle.FindObject;
+using Puzzle.StarMap;
 using Puzzle.TetraQuestion;
+using System;
 using UnityEngine;
 
 public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
@@ -38,4 +40,14 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;
+
+    internal static GameObject GetPuzzleStarMap()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static StarMapOperator GetPuzzleStarMapOperator()
+    {
+        throw new NotImplementedException();
+    }
 }
