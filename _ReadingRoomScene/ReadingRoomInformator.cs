@@ -19,11 +19,15 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     [SerializeField, NullCheck]
     private GameObject puzzleFindDifferences;
     [SerializeField, NullCheck]
+    private GameObject puzzleStarMap;
+    [SerializeField, NullCheck]
     private FindObjectOperator findObjectOperator;
     [SerializeField, NullCheck]
     private TetraQuestionOperator tetraQuestionOperator;
     [SerializeField, NullCheck]
     private FindDifferencesOperator findDifferencesOperator;
+    [SerializeField, NullCheck]
+    private StarMapOperator starMapOperator;
     [SerializeField, NullCheck]
     private PuzzleInformator puzzleInformator;
     [SerializeField, NullCheck]
@@ -31,23 +35,16 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
 
     public static GameObject GetMap() => instance.map;
     public static GameObject GetDialog() => instance.dialog;
+
     public static GameObject GetPuzzleFindObject() => instance.puzzleFindObject;
     public static GameObject GetPuzzleTetraQuestion() => instance.puzzleTetraQuestion;
     public static GameObject GetPuzzleFindDifferences() => instance.puzzleFindDifferences;
+    public static GameObject GetPuzzleStarMap() => instance.puzzleStarMap;
     public static FindObjectOperator GetPuzzleFindObjectOperator() => instance.findObjectOperator;
     public static TetraQuestionOperator GetPuzzleTetraQuestionOperator() => instance.tetraQuestionOperator;
     public static FindDifferencesOperator GetPuzzleFindDifferenceOperator() => instance.findDifferencesOperator;
+    public static StarMapOperator GetPuzzleStarMapOperator() => instance.starMapOperator;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;
-
-    internal static GameObject GetPuzzleStarMap()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static StarMapOperator GetPuzzleStarMapOperator()
-    {
-        throw new NotImplementedException();
-    }
 }
