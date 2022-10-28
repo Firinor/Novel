@@ -1,6 +1,5 @@
 using FirUnityEditor;
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -12,8 +11,6 @@ namespace Puzzle.StarMap
     public class StarMapOperator : PuzzleOperator
     {
         #region Fields
-        [SerializeField, NullCheck]
-        private GameObject differencePrefab;
         
         [SerializeField]
         private float leftTime = 120;
@@ -46,7 +43,6 @@ namespace Puzzle.StarMap
                     LosePuzzle();
                 }
         }
-
         private void TextLeftTime()
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(leftTime);
