@@ -6,12 +6,18 @@ using UnityEngine;
 
 namespace Puzzle.StarMap
 {
-    public enum Hemisphere { Northern, Southern }
+    public enum Hemisphere { Northern, Southern, Winter, Spring, Summer, Autumn}
 
     public class StarMapOperator : PuzzleOperator
     {
         #region Fields
-        
+        [SerializeField, NullCheck]
+        private GameObject targetConstellation;
+        [SerializeField, NullCheck]
+        private GameObject starMap;
+        [SerializeField, NullCheck]
+        private GameObject helpMap;
+
         [SerializeField]
         private float leftTime = 120;
         [SerializeField, NullCheck]
@@ -92,9 +98,32 @@ namespace Puzzle.StarMap
 
         public override void PuzzleExit()
         {
-            Cursor.visible = true;
             backgroundImage.enabled = false;
             gameObject.SetActive(false);
+        }
+
+        public void OpenHelpMap()
+        {
+            if (!helpMap.activeSelf)
+            {
+                EnabledPuzzle(false);
+                EnabledHelpMap(true);
+            }
+        }
+        public void OpenStarMap()
+        {
+            EnabledHelpMap(false);
+            EnabledPuzzle(true);
+        }
+        private void EnabledHelpMap(bool v)
+        {
+            helpMap.SetActive(v);
+        }
+
+        private void EnabledPuzzle(bool v)
+        {
+            targetConstellation.SetActive(v);
+            starMap.SetActive(v);
         }
     }
 }
