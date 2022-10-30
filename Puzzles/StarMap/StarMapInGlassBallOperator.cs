@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class StarMapInGlassBallOperator : MonoBehaviour//, IPointerEnterHandler, IPointerExitHandler
+public class StarMapInGlassBallOperator : MonoBehaviour
 {
-    private bool mouseOnImage;
     [SerializeField, NullCheck]
     private GlassBallViewOperator glassBallViewOperator;
     [SerializeField, NullCheck]
     private RectTransform rectTransform;
+    [SerializeField, NullCheck]
+    private RectTransform cursorRectTransform;
     private Vector2 defaultSize;
 
     void Awake()
@@ -18,32 +19,18 @@ public class StarMapInGlassBallOperator : MonoBehaviour//, IPointerEnterHandler,
         defaultSize = rectTransform.sizeDelta;
     }
 
-    //public void OnPointerEnter(PointerEventData eventData)
-    //{
-    //    mouseOnImage = true;
-    //    Debug.Log("OnPointerEnter");
-    //}
-
-    //public void OnPointerExit(PointerEventData eventData)
-    //{
-    //    mouseOnImage = false;
-    //    Debug.Log("OnPointerExit");
-    //}
-
-    //void Update()
-    //{
-    //    if (mouseOnImage)
-    //    {
-    //        Debug.Log(Input.mouseScrollDelta);
-    //    }
-    //        if (mouseOnImage && Input.mouseScrollDelta != Vector2.zero)
-    //    {
-    //        glassBallViewOperator.ZoomScroll(Input.mouseScrollDelta);
-    //    }
-    //}
-
     public void SetImageScale(float value)
     {
         rectTransform.sizeDelta = defaultSize * value;
+    }
+
+    public RectTransform GetRectTransform()
+    {
+        return rectTransform;
+    }
+
+    public void SetCursorPosition(Vector2 point)
+    {
+        cursorRectTransform.anchoredPosition = point;
     }
 }
