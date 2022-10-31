@@ -1,4 +1,5 @@
 using FirUnityEditor;
+using Puzzle.StarMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ public class GlassBallViewOperator : MonoBehaviour
     private StarMapInGlassBallOperator starMapInGlassBallOperator;
     [SerializeField, NullCheck]
     private StarMapScrollRect starMapScrollRect;
+    [SerializeField, NullCheck]
+    private StarMapOperator starMapOperator;
 
     private Vector2 mousePoint;
     [SerializeField]
@@ -45,6 +48,7 @@ public class GlassBallViewOperator : MonoBehaviour
     public void SetCursorPosition(Vector2 localPoint)
     {
         starMapInGlassBallOperator.SetCursorPosition(localPoint);
+        starMapOperator.SetButtonActivity();
     }
 
     public void StartClick()

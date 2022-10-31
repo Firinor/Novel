@@ -3,6 +3,7 @@ using System;
 using TMPro;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Puzzle.StarMap
 {
@@ -17,6 +18,12 @@ namespace Puzzle.StarMap
         private GameObject starMap;
         [SerializeField, NullCheck]
         private GameObject helpMap;
+        [SerializeField, NullCheck]
+        private TargetOperator targetOperator;
+        [SerializeField, NullCheck]
+        private Image targetImage;
+        [SerializeField, NullCheck]
+        private StarMapInGlassBallOperator starMapInGlassBallOperator;
 
         [SerializeField]
         private float leftTime = 120;
@@ -64,8 +71,33 @@ namespace Puzzle.StarMap
         {
             victoryButton.SetActive(false);
             failButton.SetActive(false);
+            ResetPointerAndButton();
             ResetTimer();
         }
+        public void CheckAnswer()
+        {
+            Vector2Int point = starMapInGlassBallOperator.GetCursorPoint();
+            Color answer = targetImage.sprite.texture.GetPixel(point.x, point.y);
+            if(answer.a > 0.4f)
+            {
+                SuccessfullySolvePuzzle();
+            }
+            else
+            {
+                LosePuzzle();
+            }
+        }
+        private void ResetPointerAndButton()
+        {
+            targetOperator.SetButtonActivity(false);
+            starMapInGlassBallOperator.SetTargetActivity(false);
+            starMapInGlassBallOperator.SetCursorActivity(false);
+        }
+        public void SetButtonActivity()
+        {
+            targetOperator.SetButtonActivity(true);
+        }
+
         private void ResetTimer()
         {
             theTimerIsRunning = false;
