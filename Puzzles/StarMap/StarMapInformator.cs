@@ -1,4 +1,6 @@
+using Puzzle.StarMap;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum Constellation
@@ -97,13 +99,14 @@ public class StarMapInformator : MonoBehaviour
 {
     [SerializeField]
     public Sprite[] Constellations;
-    //[SerializeField]
-    //public Dictionary<string, Sprite> Constellation;
+    [SerializeField]
+    public ConstellationsVariant[] Hemispheres;
 }
 
 [Serializable]
 public class ConstellationsVariant
 {
-    public Constellation constellation;
-    public Sprite Answer;
+    public Hemisphere hemisphere;
+    public Sprite HemisphereSprite;
+    public Sprite[] Constellations;
 }
