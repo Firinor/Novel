@@ -24,6 +24,8 @@ namespace Puzzle.StarMap
         private Image targetImage;
         [SerializeField, NullCheck]
         private StarMapInGlassBallOperator starMapInGlassBallOperator;
+        [SerializeField, NullCheck]
+        private StarMapInformator starMapInformator;
 
         [SerializeField]
         private float leftTime = 120;
@@ -109,10 +111,19 @@ namespace Puzzle.StarMap
         public void SetPuzzleInformationPackage(StarMapPackage spatMapPackage)
         {
             leftTime = spatMapPackage.AllottedTime;
+            SetNewConstellation();
             SetVictoryDialogNode(spatMapPackage.successPuzzleDialog);
             SetFailDialogNode(spatMapPackage.failedPuzzleDialog);
             SetBackground(spatMapPackage.puzzleBackground);
         }
+
+        private void SetNewConstellation()
+        {
+            //starMapInformator.ChoseHemisphere();
+            //ChoseConstellation();
+            //RandomRotate();
+        }
+
         public override void StartPuzzle()
         {
             //keyOperator.CreateHint();
