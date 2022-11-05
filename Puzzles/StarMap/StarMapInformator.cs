@@ -108,5 +108,12 @@ public class ConstellationsVariant
 {
     public Hemisphere hemisphere;
     public Sprite HemisphereSprite;
-    public Sprite[] Constellations;
+    public AnswerSprite[] Answers;
+
+    [Serializable]
+    public class AnswerSprite
+    {
+        public Sprite sprite;
+        public Constellation constellation;
+    }
 }
