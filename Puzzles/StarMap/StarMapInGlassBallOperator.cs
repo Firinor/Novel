@@ -2,9 +2,11 @@ using FirUnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class StarMapInGlassBallOperator : MonoBehaviour
 {
@@ -58,5 +60,12 @@ public class StarMapInGlassBallOperator : MonoBehaviour
     {
         return new Vector2Int((int)(cursorRectTransform.anchoredPosition.x + defaultSize.x / 2),
                               (int)(cursorRectTransform.anchoredPosition.y + defaultSize.y / 2));
+    }
+
+    public void RandomRotate()
+    {
+        float rand = Random.Range(0, 360);
+        rectTransform.localRotation = Quaternion.Euler(0, 0, rand);
+        cursorRectTransform.localRotation = Quaternion.Euler(0, 0, -rand);
     }
 }

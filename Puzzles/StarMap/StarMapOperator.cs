@@ -121,7 +121,12 @@ namespace Puzzle.StarMap
         {
             //starMapInformator.ChoseHemisphere();
             //ChoseConstellation();
-            //RandomRotate();
+            RandomRotate();
+        }
+
+        private void RandomRotate()
+        {
+            starMapInGlassBallOperator.RandomRotate();
         }
 
         public override void StartPuzzle()
