@@ -119,7 +119,7 @@ namespace Puzzle.StarMap
 
         private void SetNewConstellation()
         {
-            //starMapInformator.ChoseHemisphere();
+            starMapInformator.ChoseHemisphere();
             //ChoseConstellation();
             RandomRotate();
         }

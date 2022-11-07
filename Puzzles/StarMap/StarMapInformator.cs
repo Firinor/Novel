@@ -101,19 +101,25 @@ public class StarMapInformator : MonoBehaviour
     public Sprite[] Constellations;
     [SerializeField]
     public ConstellationsVariant[] Hemispheres;
-}
 
-[Serializable]
-public class ConstellationsVariant
-{
-    public Hemisphere hemisphere;
-    public Sprite HemisphereSprite;
-    public AnswerSprite[] Answers;
-
-    [Serializable]
-    public class AnswerSprite
+    public void ChoseHemisphere()
     {
-        public Sprite sprite;
-        public Constellation constellation;
+        throw new NotImplementedException();
+    }
+    
+    [Serializable]
+    public class ConstellationsVariant
+    {
+        public Hemisphere hemisphere;
+        public Sprite HemisphereSprite;
+        public AnswerSprite[] Answers;
+
+        [Serializable]
+        public class AnswerSprite
+        {
+            public Sprite sprite;
+            public Constellation constellation;
+        }
     }
 }
+
