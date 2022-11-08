@@ -1,7 +1,8 @@
 using Puzzle.StarMap;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
+using static StarMapInformator.ConstellationsVariant;
+using Random = UnityEngine.Random;
 
 public enum Constellation
 {
@@ -97,21 +98,61 @@ public enum Constellation
 
 public class StarMapInformator : MonoBehaviour
 {
-    [SerializeField]
+    //[SerializeField]
     public Sprite[] Constellations;
-    [SerializeField]
+    //[SerializeField]
     public ConstellationsVariant[] Hemispheres;
 
-    public void ChoseHemisphere()
+    public ConstellationsVariant this[Hemisphere hemisphere]
     {
-        throw new NotImplementedException();
+        get {
+            foreach (ConstellationsVariant chosenHemisphere in Hemispheres)
+            {
+                if(chosenHemisphere.hemisphere == hemisphere)
+                {
+                    return chosenHemisphere;
+                }
+            }
+            return null;
+        }
     }
-    
+    public Sprite this[Constellation constellation]
+    {
+        get
+        {
+            foreach (Sprite ñonstellation in Constellations)
+            {
+                if(ñonstellation.name == constellation.ToString())
+                {
+                    return ñonstellation;
+                }
+            }
+            return null;
+        }
+    }
+
+    public Hemisphere ChoseHemisphere()
+    {
+        int i = Random.Range(0, Hemispheres.Length);
+        return Hemispheres[i].hemisphere;
+    }
+
+    public AnswerSprite ChoseAnswerSprite()
+    {
+        return ChoseAnswerSprite(ChoseHemisphere());
+    }
+        public AnswerSprite ChoseAnswerSprite(Hemisphere hemisphere)
+    {
+        AnswerSprite[] answers = this[hemisphere].Answers;
+        int i = Random.Range(0, answers.Length);
+        return answers[i];
+    }
+
     [Serializable]
     public class ConstellationsVariant
     {
         public Hemisphere hemisphere;
-        public Sprite HemisphereSprite;
+        public Sprite HemispherePuzzleSprite;
         public AnswerSprite[] Answers;
 
         [Serializable]

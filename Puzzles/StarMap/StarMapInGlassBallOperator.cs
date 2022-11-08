@@ -1,10 +1,5 @@
 using FirUnityEditor;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -16,6 +11,8 @@ public class StarMapInGlassBallOperator : MonoBehaviour
     private RectTransform rectTransform;
     [SerializeField, NullCheck]
     private RectTransform cursorRectTransform;
+    [SerializeField, NullCheck]
+    private Image puzzleImage;
     [SerializeField, NullCheck]
     private Image cursorImage;
     private Vector2 defaultSize;
@@ -32,6 +29,15 @@ public class StarMapInGlassBallOperator : MonoBehaviour
     {
         rectTransform.localScale = Vector3.one * value;
         cursorRectTransform.localScale = Vector3.one / value;
+    }
+    public void SetPuzzleSprite(Sprite sprite)
+    {
+        puzzleImage.sprite = sprite;
+        RandomRotate();
+    }
+    public void SetAnswerSprite(Sprite sprite)
+    {
+        targetImage.sprite = sprite;
     }
 
     public RectTransform GetRectTransform()
@@ -62,7 +68,7 @@ public class StarMapInGlassBallOperator : MonoBehaviour
                               (int)(cursorRectTransform.anchoredPosition.y + defaultSize.y / 2));
     }
 
-    public void RandomRotate()
+    private void RandomRotate()
     {
         float rand = Random.Range(0, 360);
         rectTransform.localRotation = Quaternion.Euler(0, 0, rand);

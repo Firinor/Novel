@@ -119,14 +119,28 @@ namespace Puzzle.StarMap
 
         private void SetNewConstellation()
         {
-            starMapInformator.ChoseHemisphere();
-            //ChoseConstellation();
-            RandomRotate();
+            Hemisphere hemisphere = starMapInformator.ChoseHemisphere();
+            StarMapInformator.ConstellationsVariant.AnswerSprite answerSprite = starMapInformator.ChoseAnswerSprite(hemisphere);
+            SetStarMapPuzzleContent(hemisphere);
+            SetStarMapAnswerSprite(answerSprite.sprite);
+            SetStarMapKeySprite(answerSprite.constellation);
         }
 
-        private void RandomRotate()
+        private void SetStarMapKeySprite(Constellation constellation)
         {
-            starMapInGlassBallOperator.RandomRotate();
+            Sprite sprite = starMapInformator[constellation];
+            targetOperator.SetAnswerKey(sprite);
+        }
+
+        private void SetStarMapAnswerSprite(Sprite sprite)
+        {
+            starMapInGlassBallOperator.SetAnswerSprite(sprite);
+        }
+
+        private void SetStarMapPuzzleContent(Hemisphere hemisphere)
+        {
+            Sprite sprite = starMapInformator[hemisphere].HemispherePuzzleSprite;
+            starMapInGlassBallOperator.SetPuzzleSprite(sprite);
         }
 
         public override void StartPuzzle()
