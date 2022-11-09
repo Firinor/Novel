@@ -1,5 +1,4 @@
-﻿using Puzzle.StarMap;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Puzzle
@@ -13,14 +12,12 @@ namespace Puzzle
         {
             this.allottedTime = Math.Max(allottedTime, 0);
         }
+
         [SerializeField]
         [Range(0, 1024)]
         private float allottedTime = 0;
-        [SerializeField]
-        private Hemisphere hemisphere;
 
         public float AllottedTime { get => allottedTime; }
-        public Hemisphere Hemisphere { get => hemisphere; }
     }
 }
 

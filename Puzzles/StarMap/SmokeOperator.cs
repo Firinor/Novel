@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class SmokeOperator : MonoBehaviour
+namespace Puzzle.StarMap
 {
-    public void OnAmimationFinish()
+    public class SmokeOperator : MonoBehaviour
     {
-        gameObject.SetActive(false);
+        public void OnAmimationFinish()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

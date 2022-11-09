@@ -23,6 +23,8 @@ namespace Puzzle.StarMap
         [SerializeField, NullCheck]
         private Image targetImage;
         [SerializeField, NullCheck]
+        private GlassBallViewOperator glassBallViewOperator;
+        [SerializeField, NullCheck]
         private StarMapInGlassBallOperator starMapInGlassBallOperator;
         [SerializeField, NullCheck]
         private StarMapInformator starMapInformator;
@@ -46,6 +48,8 @@ namespace Puzzle.StarMap
                 .Where(_ => theTimerIsRunning && leftTime > 0)
                 .Subscribe(_ => TimerTick())
                 .AddTo(disposables);
+
+            StartPuzzle();
         }
 
         void TimerTick()
@@ -78,6 +82,8 @@ namespace Puzzle.StarMap
         }
         public void CheckAnswer()
         {
+            glassBallViewOperator.ActivePuzzle = false;
+            targetImage.enabled = true;
             Vector2Int point = starMapInGlassBallOperator.GetCursorPoint();
             Color answer = targetImage.sprite.texture.GetPixel(point.x, point.y);
             if(answer.a > 0.4f)
@@ -147,6 +153,7 @@ namespace Puzzle.StarMap
         {
             //keyOperator.CreateHint();
             theTimerIsRunning = leftTime > 0;
+            glassBallViewOperator.ActivePuzzle = true;
         }
         public override void SuccessfullySolvePuzzle()
         {

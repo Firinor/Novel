@@ -31,6 +31,9 @@ public abstract class DialogNode : MonoBehaviour
     }
     public void SetChoice(DialogNode dialogNode)
     {
+        if (dialogNode == null)
+            return;
+
         Choices = new List<DialogNode>();
         Choices.Add(dialogNode);
     }
@@ -47,7 +50,7 @@ public abstract class DialogNode : MonoBehaviour
 
     public void StartDialog(int index)
     {
-        if(Choices != null && (Choices.Count - 1) >= index)
+        if(Choices != null && Choices.Count > index)
             Choices[index]?.StartDialog();
     }
 

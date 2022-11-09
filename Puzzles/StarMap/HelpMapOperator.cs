@@ -2,19 +2,21 @@ using FirUnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HelpMapOperator : MonoBehaviour
+namespace Puzzle.StarMap
 {
-    [SerializeField]
-    private Sprite[] maps;
-    [SerializeField, NullCheck]
-    private Image image;
-
-    public void SwitchMap(int i)
+    public class HelpMapOperator : MonoBehaviour
     {
-        if (maps != null && maps.Length > i)
+        [SerializeField]
+        private Sprite[] maps;
+        [SerializeField, NullCheck]
+        private Image image;
+
+        public void SwitchMap(int i)
         {
-            image.sprite = maps[i];
+            if (maps != null && maps.Length > i)
+            {
+                image.sprite = maps[i];
+            }
         }
     }
-
 }

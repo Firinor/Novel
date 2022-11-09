@@ -1,10 +1,11 @@
+using FirUnityEditor;
 using UnityEngine;
 
 namespace Puzzle
 {
     public class FromPuzzleToDialog : DialogNode
     {
-        [SerializeField]
+        [SerializeField, NullCheck]
         private PuzzleOperator puzzleOperator;
         public override void StartDialog()
         {
