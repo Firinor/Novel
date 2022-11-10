@@ -1,0 +1,16 @@
+{
+    "name": "StoryPart3",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6259aaa46ca942949949cb5fd7b0f013"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

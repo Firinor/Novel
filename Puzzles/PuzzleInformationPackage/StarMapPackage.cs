@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Puzzle
 {
@@ -7,7 +8,7 @@ namespace Puzzle
     public class StarMapPackage : InformationPackage
     {
         public StarMapPackage(float allottedTime,
-            Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             this.allottedTime = Math.Max(allottedTime, 0);

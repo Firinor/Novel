@@ -2,8 +2,6 @@ using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
-using FirGames;
-using FirUnityEditor;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 public enum ViewDirection { Right = 1, Left = -1 }

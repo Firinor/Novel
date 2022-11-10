@@ -118,8 +118,8 @@ namespace Puzzle.StarMap
         {
             leftTime = spatMapPackage.AllottedTime;
             SetNewConstellation();
-            SetVictoryDialogNode(spatMapPackage.successPuzzleDialog);
-            SetFailDialogNode(spatMapPackage.failedPuzzleDialog);
+            SetVictoryEvent(spatMapPackage.successPuzzleAction);
+            SetFailEvent(spatMapPackage.failedPuzzleAction);
             SetBackground(spatMapPackage.puzzleBackground);
         }
 

@@ -149,8 +149,8 @@ namespace Puzzle.FindDifferences
             imageWithDifferences = puzzleInformationPackage.ImageWithDifferences;
             differencesCount = puzzleInformationPackage.DifferenceCount;
             leftTime = puzzleInformationPackage.AllottedTime;
-            SetVictoryDialogNode(puzzleInformationPackage.successPuzzleDialog);
-            SetFailDialogNode(puzzleInformationPackage.failedPuzzleDialog);
+            SetVictoryEvent(puzzleInformationPackage.successPuzzleAction);
+            SetFailEvent(puzzleInformationPackage.failedPuzzleAction);
             SetBackground(puzzleInformationPackage.puzzleBackground);
         }
         public override void StartPuzzle()

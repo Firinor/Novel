@@ -2,6 +2,7 @@
 using Puzzle.FindObject;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Puzzle
 {
@@ -9,7 +10,7 @@ namespace Puzzle
     public class FindRecipeIngredientsPackage : InformationPackage
     {
         public FindRecipeIngredientsPackage(Sprite[] ingredients, int recipeDifficulty, int ingredientsCount, float allottedTime,
-            Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             this.ingredients = ingredients;

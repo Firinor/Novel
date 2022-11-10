@@ -1,6 +1,7 @@
 ﻿using Puzzle.FindDifferences;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Puzzle
 {
@@ -9,7 +10,7 @@ namespace Puzzle
     public class FindDifferencePackage : InformationPackage
     {
         public FindDifferencePackage(ImageWithDifferences imageWithDifferences, int differenceCount, float allottedTime,
-            Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             if (differenceCount > 15)//max difference on image

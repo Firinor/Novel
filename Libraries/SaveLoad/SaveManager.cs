@@ -1,20 +1,23 @@
-using UnityEngine;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Collections.Generic;
+using FirUnityEditor;
 using SaveLoadLib;
+using System.Collections.Generic;
+using UnityEngine;
 using static SaveLoadLib.GlobalSaveManager;
 
-public class SaveManager : MonoBehaviour
+public class SaveManager : SinglBehaviour<SaveManager>
 {
+    [SerializeField, NullCheck]
+    private OptionsOperator optionsOperator;
+
     public static SaveData Data;
 
     void Awake()
     {
-        OptionsOperator.LoadOptions();
+        SingletoneCheck(this);
+        optionsOperator.LoadOptions();
     }
 
-    internal static int PlayerAccount()
+    public static int PlayerAccount()
     {
         if (Data == null)
             return -1;
@@ -39,7 +42,7 @@ public class SaveManager : MonoBehaviour
     public static void SaveOptions(int ScreenResolution = -1)
     {
         Save<OptionsParameters>(GlobalSaveManager.GetOptionPath(),
-            OptionsOperator.GetParameters(ScreenResolutoin: ScreenResolution));
+            instance.optionsOperator.GetParameters(ScreenResolutoin: ScreenResolution));
     }
 
     [System.Serializable]

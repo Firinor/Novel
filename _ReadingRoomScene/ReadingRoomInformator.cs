@@ -3,7 +3,6 @@ using Puzzle.FindDifferences;
 using Puzzle.FindObject;
 using Puzzle.StarMap;
 using Puzzle.TetraQuestion;
-using System;
 using UnityEngine;
 
 public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>

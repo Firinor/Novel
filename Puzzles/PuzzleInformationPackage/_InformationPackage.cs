@@ -1,19 +1,21 @@
-﻿using UnityEngine;
+﻿using PlasticPipe.PlasticProtocol.Messages;
+using System;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace Puzzle
 {
     public abstract class InformationPackage
     {
         protected InformationPackage(Sprite puzzleBackground,
-            DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+            UnityAction successPuzzleAction, UnityAction failedPuzzleAction = null)
         {
-            this.successPuzzleDialog = successPuzzleDialog;
-            this.failedPuzzleDialog = failedPuzzleDialog;
+            this.successPuzzleAction += successPuzzleAction;
+            this.failedPuzzleAction += failedPuzzleAction;
             this.puzzleBackground = puzzleBackground;
         }
-
-        public DialogNode successPuzzleDialog { get; }
-        public DialogNode failedPuzzleDialog { get; }
+        public UnityAction successPuzzleAction;
+        public UnityAction failedPuzzleAction;
         public Sprite puzzleBackground { get; }
 
     }

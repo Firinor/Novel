@@ -1,12 +1,11 @@
+using FirUnityEditor;
+using Puzzle;
 using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using Puzzle;
-using FirUnityEditor;
-using System;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
@@ -40,8 +39,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private TextMeshProUGUI speakerName;
 	[SerializeField, NullCheck]
     private TextMeshProUGUI textMeshPro;
-    [SerializeField, NullCheck]
-    private MapCanvasOperator mapCanvasOperator;
+    //[SerializeField, NullCheck]
+    //private MapCanvasOperator mapCanvasOperator;
     [SerializeField]
 	private float lettersDelay;
 	[SerializeField, NullCheck]
@@ -294,15 +293,11 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	#endregion
 
 	public void DialogSkip() => skipText = true;
-	public void Options() => ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
+	public void Options() => DialogManager.Options();
 	public void DialogExit()
 	{
 		DialogManager.StopDialog();
 		OffBackground();
         gameObject.SetActive(false);
-	}
-	public static void SwithToPuzzle(InformationPackage informationPackage)
-	{
-		ReadingRoomManager.SwithToPuzzle(informationPackage);
 	}
 }

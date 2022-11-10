@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using FirMath;
+using UnityEngine.Events;
 
 namespace Puzzle
 {
@@ -9,7 +10,7 @@ namespace Puzzle
     public class TetraQuestionPackage : InformationPackage
     {
         public TetraQuestionPackage(Question[] question,
-            Sprite puzzleBackground, DialogNode successPuzzleDialog, DialogNode failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             this.question = question;

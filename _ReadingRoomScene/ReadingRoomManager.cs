@@ -9,7 +9,7 @@ using Puzzle.StarMap;
 public enum ReadingRoomMarks { map, dialog, options, off,
     puzzleFindObject, puzzleTetraQuestion, puzzleFindDifferences, puzzleStarMap};
 
-public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel
+public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel, IReadingSceneManager
 {
     //private static GameObject map;
     private static GameObject dialog;
@@ -72,7 +72,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
                 puzzleStarMap.SetActive(true);
                 break;
             case ReadingRoomMarks.options:
-                SceneManager.SwitchPanels(SceneDirection.options);
+                SceneManager.SwitchPanel(SceneDirection.options);
                 break;
             case ReadingRoomMarks.off:
                 break;
@@ -86,7 +86,10 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     {
         SwitchPanels((ReadingRoomMarks)mark);
     }
-
+    public void SwitchPanelsToOptions()
+    {
+        SwitchPanels(ReadingRoomMarks.options);
+    }
     public void DiactiveAllPanels()
     {
         //map.SetActive(false);
@@ -103,12 +106,12 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         SwitchPanels(ReadingRoomMarks.map);
     }
 
-    public static void CheckMap(RectTransform dialogButtonRectTransform)
+    public void CheckMap(RectTransform dialogButtonRectTransform)
     {
         ReadingRoomInformator.GetMapCanvasOperator().CorrectScrollbarPosition(dialogButtonRectTransform);
     }
 
-    internal static void SwithToPuzzle(InformationPackage puzzleInformationPackage)
+    public void SwithToPuzzle(InformationPackage puzzleInformationPackage)
     {
         switch (puzzleInformationPackage)
         {

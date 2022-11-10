@@ -1,5 +1,7 @@
 ﻿using FirUnityEditor;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Puzzle
@@ -24,7 +26,7 @@ namespace Puzzle
         }
         public virtual void Options()
         {
-            ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
+            PuzzleManager.Options();
         }
         public virtual void ClearPuzzle()
         {
@@ -47,13 +49,14 @@ namespace Puzzle
             
         }
 
-        protected virtual void SetVictoryDialogNode(DialogNode dialogNode)
+        protected virtual void SetVictoryEvent(UnityAction victoryAction)
         {
-            victoryButton.GetComponent<FromPuzzleToDialog>().SetChoice(dialogNode);
+
+            victoryButton.GetComponent<Button>().onClick.AddListener(victoryAction);
         }
-        protected virtual void SetFailDialogNode(DialogNode dialogNode)
+        protected virtual void SetFailEvent(UnityAction failAction)
         {
-            failButton.GetComponent<FromPuzzleToDialog>().SetChoice(dialogNode);
+            failButton.GetComponent<Button>().onClick.AddListener(failAction);
         }
         protected virtual void SetBackground(Sprite sprite)
         {

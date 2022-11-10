@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 public enum MenuMarks { baner, credits, saves, options, off };
@@ -39,9 +40,10 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
                 saves.SetActive(true);
                 break;
             case MenuMarks.options:
-                SceneManager.SwitchPanels(SceneDirection.options);
+                SceneManager.SwitchPanel(SceneDirection.options);
                 break;
             case MenuMarks.off:
+                SceneManager.SwitchPanel(SceneDirection.off);
                 break;
             default:
                 new Exception("Unrealized bookmark!");
@@ -49,7 +51,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
         }
     }
 
-    public void SwitchPanels(int mark)
+public void SwitchPanels(int mark)
     {
         SwitchPanels((MenuMarks)mark);
     }

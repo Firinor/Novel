@@ -1,6 +1,9 @@
 using FirUnityEditor;
+using Puzzle;
+using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DialogManager : SinglBehaviour<DialogManager>
 {
@@ -8,6 +11,8 @@ public class DialogManager : SinglBehaviour<DialogManager>
     private GameObject dialog;
     [SerializeField, NullCheck]
     private DialogOperator dialogOperator;
+    [SerializeField, NullCheck]
+    private IReadingSceneManager sceneManager;
 
     private CancellationTokenSource cancellationTokenSource;
 
@@ -25,11 +30,20 @@ public class DialogManager : SinglBehaviour<DialogManager>
     {
         instance.dialog.SetActive(true);
         instance.cancellationTokenSource = new CancellationTokenSource();
-        ReadingRoomManager.CheckMap(dialogButtonRectTransform);
+        instance.sceneManager.CheckMap(dialogButtonRectTransform);
     }
 
     public static void StopDialog()
     {
         instance.cancellationTokenSource.Cancel();
+    }
+
+    public static void Options()
+    {
+        instance.sceneManager.SwitchPanelsToOptions();
+    }
+    public static void SwithToPuzzle(InformationPackage informationPackage)
+    {
+        instance.sceneManager.SwithToPuzzle(informationPackage);
     }
 }

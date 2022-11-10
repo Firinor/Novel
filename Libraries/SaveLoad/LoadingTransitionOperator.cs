@@ -1,19 +1,21 @@
+using FirUnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperator>
 {
-    private static SceneManager sceneManager;
+    [SerializeField, NullCheck]
+    private ILoadingManager sceneManager;
     //private static bool needOpenSceneAnimation = false;
     private static bool CloseSceneFlag = false;
     private static bool OpenSceneFlag = false;
 
     [SerializeField]
     private Sprite[] pullOfSpaces;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private Image space;
     private static Sprite spaceSprite;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private Material loadingImageMaterial;
     [SerializeField]
     private AnimationCurve curve;
@@ -45,7 +47,7 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
             {
                 CloseSceneFlag = false;
                 OpenScene();
-                SceneManager.SetAllowSceneActivation(true);
+                sceneManager.SetAllowSceneActivation(true);
             }
         }
         else if (OpenSceneFlag)

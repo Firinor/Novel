@@ -174,8 +174,8 @@ namespace Puzzle.FindObject
             recipeIngredientCount = puzzleInformationPackage.RecipeDifficulty;
             ingredientInBoxCount = puzzleInformationPackage.IngredientsCount;
             leftTime = puzzleInformationPackage.AllottedTime;
-            SetVictoryDialogNode(puzzleInformationPackage.successPuzzleDialog);
-            SetFailDialogNode(puzzleInformationPackage.failedPuzzleDialog);
+            SetVictoryEvent(puzzleInformationPackage.successPuzzleAction);
+            SetFailEvent(puzzleInformationPackage.failedPuzzleAction);
             SetBackground(puzzleInformationPackage.puzzleBackground);
         }
 
@@ -306,10 +306,6 @@ namespace Puzzle.FindObject
             allIngredients.Remove(alchemicalIngredientOperator);
         }
 
-        public override void Options()
-        {
-            ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
-        }
         public void SkipPuzzle()
         {
             SuccessfullySolvePuzzle();

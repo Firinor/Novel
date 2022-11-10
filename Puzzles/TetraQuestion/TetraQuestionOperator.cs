@@ -46,11 +46,6 @@ namespace Puzzle.TetraQuestion
         {
             StartPuzzle();
         }
-
-        public override void Options()
-        {
-            ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
-        }
         public override void ClearPuzzle()
         {
             questionImage.enabled = false;
@@ -113,8 +108,8 @@ namespace Puzzle.TetraQuestion
         public void SetPuzzleInformationPackage(TetraQuestionPackage tetraQuestion)
         {
             question = tetraQuestion.GetRandomQuestion();
-            SetVictoryDialogNode(tetraQuestion.successPuzzleDialog);
-            SetFailDialogNode(tetraQuestion.failedPuzzleDialog);
+            SetVictoryEvent(tetraQuestion.successPuzzleAction);
+            SetFailEvent(tetraQuestion.failedPuzzleAction);
             SetBackground(tetraQuestion.puzzleBackground);
         }
 

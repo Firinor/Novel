@@ -21,7 +21,7 @@ public class MapCanvasOperator : MonoBehaviour
     }
 
     public void Options() => ReadingRoomManager.SwitchPanels(ReadingRoomMarks.options);
-    public void Exit() => SceneManager.SwitchPanels(SceneDirection.exit);
+    public void Exit() => SceneManager.SwitchPanel(SceneDirection.exit);
 
     public void CorrectScrollbarPosition(RectTransform dialogButtonRectTransform)
     {
