@@ -176,7 +176,7 @@ namespace Puzzle.FindObject
             leftTime = puzzleInformationPackage.AllottedTime;
             SetVictoryEvent(puzzleInformationPackage.successPuzzleAction);
             SetFailEvent(puzzleInformationPackage.failedPuzzleAction);
-            SetBackground(puzzleInformationPackage.puzzleBackground);
+            SetBackground(puzzleInformationPackage.PuzzleBackground);
         }
 
         public override void StartPuzzle()

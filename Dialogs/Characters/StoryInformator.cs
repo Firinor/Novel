@@ -19,6 +19,8 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public CharacterInformator Karim;
     [NullCheck]
     public CharacterInformator GnomGuard;
+    [NullCheck]
+    public CharacterInformator Tiir;
 
     [Space]
     [NullCheck]

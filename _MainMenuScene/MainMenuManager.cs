@@ -43,7 +43,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
                 SceneManager.SwitchPanel(SceneDirection.options);
                 break;
             case MenuMarks.off:
-                SceneManager.SwitchPanel(SceneDirection.off);
+                SceneManager.SwitchPanel(SceneDirection.exit);
                 break;
             default:
                 new Exception("Unrealized bookmark!");

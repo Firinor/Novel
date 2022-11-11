@@ -10,7 +10,7 @@ namespace Puzzle
     public class FindRecipeIngredientsPackage : InformationPackage
     {
         public FindRecipeIngredientsPackage(Sprite[] ingredients, int recipeDifficulty, int ingredientsCount, float allottedTime,
-            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             this.ingredients = ingredients;

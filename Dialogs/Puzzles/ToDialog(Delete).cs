@@ -1,6 +1,4 @@
 using FirUnityEditor;
-using Puzzle;
-using System;
 using UnityEngine;
 
 namespace Puzzle

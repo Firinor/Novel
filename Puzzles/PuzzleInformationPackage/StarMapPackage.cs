@@ -8,7 +8,7 @@ namespace Puzzle
     public class StarMapPackage : InformationPackage
     {
         public StarMapPackage(float allottedTime,
-            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             this.allottedTime = Math.Max(allottedTime, 0);

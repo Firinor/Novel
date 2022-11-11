@@ -120,7 +120,7 @@ namespace Puzzle.StarMap
             SetNewConstellation();
             SetVictoryEvent(spatMapPackage.successPuzzleAction);
             SetFailEvent(spatMapPackage.failedPuzzleAction);
-            SetBackground(spatMapPackage.puzzleBackground);
+            SetBackground(spatMapPackage.PuzzleBackground);
         }
 
         private void SetNewConstellation()

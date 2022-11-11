@@ -15,8 +15,15 @@ namespace Puzzle
 
         public override void StartDialog()
         {
+            bool successFunc = successPuzzleDialog != null;
+            bool failFunc = failedPuzzleDialog != null;
+
             DialogOperator.skipText = false;
-            FindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage
+            FindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage;
+
+            if (failFunc)
+            {
+                puzzleFindRecipeIngredientsPackage
                 = new FindRecipeIngredientsPackage(
                     puzzlePackage.Ingredients,
                     puzzlePackage.RecipeDifficulty,
@@ -25,6 +32,29 @@ namespace Puzzle
                     puzzleBackground,
                     successPuzzleDialog.StartDialog,
                     failedPuzzleDialog.StartDialog);
+            }
+            else if (successFunc)
+            {
+                puzzleFindRecipeIngredientsPackage
+                = new FindRecipeIngredientsPackage(
+                    puzzlePackage.Ingredients,
+                    puzzlePackage.RecipeDifficulty,
+                    puzzlePackage.IngredientsCount,
+                    puzzlePackage.AllottedTime,
+                    puzzleBackground,
+                    successPuzzleDialog.StartDialog);
+            }
+            else
+            {
+                puzzleFindRecipeIngredientsPackage
+                = new FindRecipeIngredientsPackage(
+                    puzzlePackage.Ingredients,
+                    puzzlePackage.RecipeDifficulty,
+                    puzzlePackage.IngredientsCount,
+                    puzzlePackage.AllottedTime,
+                    puzzleBackground);
+            }
+
             DialogManager.SwithToPuzzle(puzzleFindRecipeIngredientsPackage);
         }
     }

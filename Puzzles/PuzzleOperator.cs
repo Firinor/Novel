@@ -1,5 +1,4 @@
 ﻿using FirUnityEditor;
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -51,12 +50,19 @@ namespace Puzzle
 
         protected virtual void SetVictoryEvent(UnityAction victoryAction)
         {
-
-            victoryButton.GetComponent<Button>().onClick.AddListener(victoryAction);
+            Button button = victoryButton.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(PuzzleExit);
+            if(victoryAction != null)
+                button.onClick.AddListener(victoryAction);
         }
         protected virtual void SetFailEvent(UnityAction failAction)
         {
-            failButton.GetComponent<Button>().onClick.AddListener(failAction);
+            Button button = failButton.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(PuzzleExit);
+            if (failAction != null)
+                button.onClick.AddListener(failAction);
         }
         protected virtual void SetBackground(Sprite sprite)
         {

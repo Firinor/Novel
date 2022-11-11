@@ -10,7 +10,7 @@ namespace Puzzle
     public class TetraQuestionPackage : InformationPackage
     {
         public TetraQuestionPackage(Question[] question,
-            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             this.question = question;

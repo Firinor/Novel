@@ -110,7 +110,7 @@ namespace Puzzle.TetraQuestion
             question = tetraQuestion.GetRandomQuestion();
             SetVictoryEvent(tetraQuestion.successPuzzleAction);
             SetFailEvent(tetraQuestion.failedPuzzleAction);
-            SetBackground(tetraQuestion.puzzleBackground);
+            SetBackground(tetraQuestion.PuzzleBackground);
         }
 
         private IEnumerator ButtonAnimating(int button, Sprite newSprite, Action action = null)

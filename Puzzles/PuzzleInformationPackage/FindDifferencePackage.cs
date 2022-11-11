@@ -10,7 +10,7 @@ namespace Puzzle
     public class FindDifferencePackage : InformationPackage
     {
         public FindDifferencePackage(ImageWithDifferences imageWithDifferences, int differenceCount, float allottedTime,
-            Sprite puzzleBackground, UnityAction successPuzzleDialog, UnityAction failedPuzzleDialog = null)
+            Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             if (differenceCount > 15)//max difference on image

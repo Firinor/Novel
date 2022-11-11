@@ -22,6 +22,7 @@ public class DialogManager : SinglBehaviour<DialogManager>
     {
         SingletoneCheck(this);
         dialogOperator.SingletoneCheck(dialogOperator);
+        sceneManager = GetComponent<IReadingSceneManager>();
 
         cancellationTokenSource = new CancellationTokenSource();
     }

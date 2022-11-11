@@ -1,10 +1,12 @@
 using FirUnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperator>
 {
     [SerializeField, NullCheck]
+    private GameObject sceneManagerObject;
     private ILoadingManager sceneManager;
     //private static bool needOpenSceneAnimation = false;
     private static bool CloseSceneFlag = false;
@@ -28,6 +30,7 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
     void Awake()
     {
         SingletoneCheck(this);
+        sceneManager = sceneManagerObject.GetComponent<ILoadingManager>();
         space = GetComponentInChildren<Image>();
         space.sprite = spaceSprite;
         loadingImageMaterial.SetFloat("InPortal", 0f);

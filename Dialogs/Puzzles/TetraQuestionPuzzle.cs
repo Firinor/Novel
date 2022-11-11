@@ -15,13 +15,37 @@ namespace Puzzle
 
         public override void StartDialog()
         {
+            bool successFunc = successPuzzleDialog != null;
+            bool failFunc = failedPuzzleDialog != null;
+
             DialogOperator.skipText = false;
-            TetraQuestionPackage puzzleTetraQuestionPackage
+            TetraQuestionPackage puzzleTetraQuestionPackage;
+
+            if (failFunc)
+            {
+                puzzleTetraQuestionPackage
                 = new TetraQuestionPackage(
                     puzzlePackage.Question,
                     puzzleBackground,
                     successPuzzleDialog.StartDialog,
                     failedPuzzleDialog.StartDialog);
+            }
+            else if (successFunc)
+            {
+                puzzleTetraQuestionPackage
+                = new TetraQuestionPackage(
+                    puzzlePackage.Question,
+                    puzzleBackground,
+                    successPuzzleDialog.StartDialog);
+            }
+            else
+            {
+                puzzleTetraQuestionPackage
+                = new TetraQuestionPackage(
+                    puzzlePackage.Question,
+                    puzzleBackground);
+            }
+
             DialogManager.SwithToPuzzle(puzzleTetraQuestionPackage);
         }
     }

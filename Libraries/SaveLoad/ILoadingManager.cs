@@ -1,4 +1,4 @@
-public enum SceneDirection { basic, exit, options, changeScene, saves, off }
+public enum SceneDirection { basic, exit, options }//, changeScene, saves, off }
 
 public interface ILoadingManager
 {
