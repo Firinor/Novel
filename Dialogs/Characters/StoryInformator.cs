@@ -4,6 +4,8 @@ using UnityEngine;
 public class StoryInformator : SinglBehaviour<StoryInformator>
 {
     [NullCheck]
+    public CharacterInformator Voice;
+    [NullCheck]
     public CharacterInformator Skull;
     [NullCheck]
     public CharacterInformator WhiteNecromant;
@@ -12,13 +14,15 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     [NullCheck]
     public CharacterInformator Archmagister;
     [NullCheck]
-    public CharacterInformator Varus;
+    public CharacterInformator Vargus;
     [NullCheck]
     public CharacterInformator LordCarlos;
     [NullCheck]
     public CharacterInformator Karim;
     [NullCheck]
     public CharacterInformator GnomGuard;
+    [NullCheck]
+    public CharacterInformator HumanGuard;
     [NullCheck]
     public CharacterInformator Tiir;
 
@@ -45,6 +49,23 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public Sprite PortalOn;
     [NullCheck]
     public Sprite Castle;
+    [NullCheck]
+    public Sprite Fun;
+    [NullCheck]
+    public Sprite Prison;
+    [NullCheck]
+    public Sprite Prisoners—ell;
+    [NullCheck]
+    public Sprite BeginOfElvenForest;
+    [NullCheck]
+    public Sprite ElvenHut;
+    [NullCheck]
+    public Sprite TiirRoom;
+    [NullCheck]
+    public Sprite ElvenPalace;
+    [NullCheck]
+    public Sprite AtElvenPalace;
+
 
     void Awake()
     {

@@ -8,7 +8,7 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Varus = storyInformator.Varus;
+            CharacterInformator Vargus = storyInformator.Vargus;
             CharacterInformator Skull = storyInformator.Skull;
 
             Scene(storyInformator.Memorial);
@@ -23,22 +23,22 @@ namespace FirGames.StoryPart2
 
             Hide(Skull);
 
-            Show(Varus, PositionOnTheStage.Center, ViewDirection.Left);
+            Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
 
-            await Say(Varus, "—мерть архимагистра ужасна€ трагеди€, он был дл€ нас примером воли, мудрости и милосерди€.", "");
+            await Say(Vargus, "—мерть архимагистра ужасна€ трагеди€, он был дл€ нас примером воли, мудрости и милосерди€.", "");
 
-            await Say(Varus, "Ќадеюсь € смогу соответствовать высокой планке, установленной им дл€ главы нашего ордена.", "");
+            await Say(Vargus, "Ќадеюсь € смогу соответствовать высокой планке, установленной им дл€ главы нашего ордена.", "");
 
             Show(Skull, PositionOnTheStage.Left);
 
             await Say(Skull, "¬ыборов архимагистра еще не было. Ќе рано ли чистить лук к рыбе, когда она еще в озере.", "");
 
-            await Say(Varus, "≈сли ты о своем протеже, то у него недостаточно опыта.", "");
+            await Say(Vargus, "≈сли ты о своем протеже, то у него недостаточно опыта.", "");
 
-            await Say(Varus, "–азве может стать архимагистором юный мечтатель," +
+            await Say(Vargus, "–азве может стать архимагистором юный мечтатель," +
                 " призывающий выкинуть казну ордена на безнадежную идею строительства портала?", "");
 
-            Hide(Varus);
+            Hide(Vargus);
 
             Show(Skull, PositionOnTheStage.Center);
 

@@ -8,21 +8,21 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Varus = storyInformator.Varus;
+            CharacterInformator Vargus = storyInformator.Vargus;
             CharacterInformator Skull = storyInformator.Skull;
 
             Scene(storyInformator.Memorial);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Varus, PositionOnTheStage.Center, ViewDirection.Left);
+            Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Skull, "“ы всегда загл€дывалс€ на место покойного архимагистра," +
                 " но тебе не стать главой ордена пока не докажешь свою невиновность в его смерти!", "");
 
-            await Say(Varus, "я не собираюсь отчитыватьс€ перед летающим черепом и недорослем!" +
+            await Say(Vargus, "я не собираюсь отчитыватьс€ перед летающим черепом и недорослем!" +
                 " ѕо обычаю выборы архимагистра проход€т через 15 дней после смерти предыдущего.", "");
 
-            await Say(Varus, " ак только € займу место, которое по праву мое, то отправлю теб€ в архив," +
+            await Say(Vargus, " ак только € займу место, которое по праву мое, то отправлю теб€ в архив," +
                 " а молодого наглеца лишу звани€ магистра и выгоню из ордена за клевету!", "");
 
             Fork();

@@ -8,18 +8,18 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Varus = storyInformator.Varus;
+            CharacterInformator Vargus = storyInformator.Vargus;
             CharacterInformator Skull = storyInformator.Skull;
 
             Scene(storyInformator.Memorial);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Varus, PositionOnTheStage.Center, ViewDirection.Left);
+            Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Skull, "Архимагистр должен соблюдать закон орден, а в нем четко прописано," +
                 " что выборы главы ордена проходят через 15 дней после смерти предыдущего, не раньше.", "");
 
-            await Say(Varus, "Я знаю законы! Через 15 дней," +
+            await Say(Vargus, "Я знаю законы! Через 15 дней," +
                 " если молодой наглец не научится уважать старших, мы поговорим совсем по-другому.", "");
 
             Fork();
