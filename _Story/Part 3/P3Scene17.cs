@@ -7,23 +7,22 @@ namespace FirGames.StoryPart3
             base.StartDialog();
 
             CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
 
-            Scene(storyInformator.FirePlace);
+            Scene(storyInformator.AtElvenPalace);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
 
-            await Say(Vargus, "Собираете лавры?", "");
+            await Say(Skull, "Три: юноша, взрослый мужчина и старик. " +
+                "Отсюда три манеры поведения: игра, рассуждения и ворчание.", "");
 
-            await Say(Skull, "Мы тоже рады тебя видеть.", "");
+            await Say(Skull, "Я, кажется, понял, что происходит. " +
+                "Камни, из которых построена пирамида, поглощают магическую энергию.", "");
 
-            await Say(Vargus, "Вот, ознакомьтесь с приказом королевы.", "");
+            await Say(Skull, "Чем больше Тиир и компания пытались разрушить барьер, тем сильнее он становился." +
+                " Накопившаяся за многие года магия создала хаос, в котором мы оказались.", "");
 
-            await Say(Vargus, "До выборов нового архимагистра доступ к порталу будет только у меня и у моего помощника." +
-                " Строительство новых порталов должно согласовываться лично с королевой.", "");
-
-            await Say(Skull, "Даже не знаю, что тут сказать.", "");
+            await Say(Skull, "Нужно деактивировать хранилище, тогда энергия рассеется. " +
+                "Взгляни, под деревом плита с символами. Возможно, это ключ.", "");
 
             Fork();
         }

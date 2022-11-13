@@ -7,23 +7,15 @@ namespace FirGames.StoryPart3
             base.StartDialog();
 
             CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
 
-            Scene(storyInformator.FirePlace);
+            Scene(storyInformator.PortalOn);
 
-            Show(Skull, PositionOnTheStage.Left);
-            Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
+            Show(Skull, PositionOnTheStage.Center);
 
-            await Say(Vargus, "Собираете лавры?", "");
+            await Say(Skull, "У нас нет выбора. Либо станем друзьями этого сумасшедшего," +
+                " либо его подопытными. Если убьет - это надолго, если превратит в идиотов - это навсегда.", "");
 
-            await Say(Skull, "Мы тоже рады тебя видеть.", "");
-
-            await Say(Vargus, "Вот, ознакомьтесь с приказом королевы.", "");
-
-            await Say(Vargus, "До выборов нового архимагистра доступ к порталу будет только у меня и у моего помощника." +
-                " Строительство новых порталов должно согласовываться лично с королевой.", "");
-
-            await Say(Skull, "Даже не знаю, что тут сказать.", "");
+            await Say(Skull, "Теперь успокойся и давай помедитируем. Дыши глубже. Раз, два, три.", "");
 
             Fork();
         }

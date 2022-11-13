@@ -65,6 +65,8 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public Sprite ElvenPalace;
     [NullCheck]
     public Sprite AtElvenPalace;
+    [NullCheck]
+    public Sprite AtElvenPalace2;
 
 
     void Awake()

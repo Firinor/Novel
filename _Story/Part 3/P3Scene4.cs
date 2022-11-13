@@ -11,11 +11,11 @@ namespace FirGames.StoryPart3
 
             Scene(storyInformator.Fun);
 
-            Show(Skull, PositionOnTheStage.Right);
+            Show(Skull, PositionOnTheStage.Left);
 
             await Say(Skull, "Как это понимать?! Варгус и охранники играют в классики?! А это кто?!", "");
 
-            Show(Tiir, PositionOnTheStage.Left, ViewDirection.Left);
+            Show(Tiir, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Tiir, "Не стоит волноваться. Тот, кого вы назвали Варгус," +
                 " и стражники находятся в состоянии высшего блаженства.", "");

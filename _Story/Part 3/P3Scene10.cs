@@ -9,25 +9,12 @@ namespace FirGames.StoryPart3
             CharacterInformator Skull = storyInformator.Skull;
             CharacterInformator Tiir = storyInformator.Tiir;
 
-            Scene(storyInformator.ElvenPalace);
+            Scene(storyInformator.PortalOn);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(Tiir, PositionOnTheStage.Right, ViewDirection.Left);
 
-            await Say(Tiir, "Мы пришли.", "");
-
-            await Say(Skull, "Пирамида?", "");
-
-            await Say(Tiir, "Попробуйте сделать еще шаг.", "");
-
-            await Say(Skull, "...", "");
-            await Say("БАХ!", "");
-
-            await Say(Skull, "Я чуть не разбил свой череп!", "");
-
-            await Say(Tiir, "Невидимый барьер очень сильный.", "");
-
-            await Say(Skull, "Против магии порталов такой барьер бесполезен. Приступим к строительству.", "");
+            await Say(Skull, "Отлично, портал работает. Вперед.", "");
 
             Fork();
         }

@@ -7,23 +7,15 @@ namespace FirGames.StoryPart3
             base.StartDialog();
 
             CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
+            CharacterInformator Tiir = storyInformator.Tiir;
 
-            Scene(storyInformator.FirePlace);
+            Scene(storyInformator.AtElvenPalace2);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
+            Show(Tiir, PositionOnTheStage.Right, ViewDirection.Left);
 
-            await Say(Vargus, "Собираете лавры?", "");
-
-            await Say(Skull, "Мы тоже рады тебя видеть.", "");
-
-            await Say(Vargus, "Вот, ознакомьтесь с приказом королевы.", "");
-
-            await Say(Vargus, "До выборов нового архимагистра доступ к порталу будет только у меня и у моего помощника." +
-                " Строительство новых порталов должно согласовываться лично с королевой.", "");
-
-            await Say(Skull, "Даже не знаю, что тут сказать.", "");
+            await Say(Tiir, "Портал работает, но хранилище совершенно пустое. " +
+                "В любом случае, я благодарю вас от имени своего народа.", "");
 
             Fork();
         }
