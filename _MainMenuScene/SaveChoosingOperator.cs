@@ -36,7 +36,7 @@ public class SaveChoosingOperator : MonoBehaviour
             //SaveManager.CreateNewSave(i);
         }
 
-        MainMenuManager.SwitchPanels(MenuMarks.off);
+        //MainMenuManager.SwitchPanels(MenuMarks.baner);
         SceneManager.LoadScene("ReadingRoom");
     }
 }

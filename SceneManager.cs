@@ -1,7 +1,6 @@
 using System;
 using UnityEditor;
 using UnityEngine;
-
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
@@ -41,16 +40,20 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         return UnitySceneManager.GetActiveScene().buildIndex;
     }
 
-    public static bool MenuScene()
-    {
-        return GetScene() == 0;
-    }
-
     public static void LoadScene(string sceneName)
     {
         instance.operation = UnitySceneManager.LoadSceneAsync(sceneName);
+        //UnitySceneManager.s_AllowLoadScene = true;
         instance.SetAllowSceneActivation(false);
         instance.loadingTransitionOperator.LoadScene();
+    }
+
+    public bool TheSceneHasLoaded()
+    {
+        if (operation == null)
+            return false;
+
+        return operation.isDone;
     }
 
     public void SetAllowSceneActivation(bool v)

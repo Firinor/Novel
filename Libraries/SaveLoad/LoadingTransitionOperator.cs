@@ -49,14 +49,12 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
             if (Diameter >= endPortalPosition)
             {
                 CloseSceneFlag = false;
-                OpenScene();
                 sceneManager.SetAllowSceneActivation(true);
+                OpenScene();
             }
         }
-        else if (OpenSceneFlag)
+        else if (sceneManager.TheSceneHasLoaded() && OpenSceneFlag)
         {
-            //if (currentPlayTime == 0)
-            //    SceneManager.CheckingTheScene();
             currentPlayTime += Time.deltaTime;
             float presentage = currentPlayTime / playTime;
             float Diameter = Mathf.Lerp(0f, endPortalPosition, curve.Evaluate(presentage));

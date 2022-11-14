@@ -51,7 +51,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
         }
     }
 
-public void SwitchPanels(int mark)
+    public void SwitchPanels(int mark)
     {
         SwitchPanels((MenuMarks)mark);
     }

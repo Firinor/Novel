@@ -150,6 +150,7 @@ public abstract class DialogNode : MonoBehaviour
 
     protected void StopDialogSkip()
     {
-        dialogOperator.StopDialogSkip();
+        if(dialogOperator != null)
+            dialogOperator.StopDialogSkip();
     }
 }
