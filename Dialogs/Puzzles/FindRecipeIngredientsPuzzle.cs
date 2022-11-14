@@ -18,7 +18,7 @@ namespace Puzzle
             bool successFunc = successPuzzleDialog != null;
             bool failFunc = failedPuzzleDialog != null;
 
-            DialogOperator.skipText = false;
+            StopDialogSkip();
             FindRecipeIngredientsPackage puzzleFindRecipeIngredientsPackage;
 
             if (failFunc)

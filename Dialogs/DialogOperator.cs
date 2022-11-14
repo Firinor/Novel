@@ -1,11 +1,15 @@
 using FirUnityEditor;
 using Puzzle;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using static System.Net.Mime.MediaTypeNames;
+using Image = UnityEngine.UI.Image;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
 {
@@ -39,6 +43,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private TextMeshProUGUI speakerName;
 	[SerializeField, NullCheck]
     private TextMeshProUGUI textMeshPro;
+    [SerializeField, NullCheck]
+    private GameObject textCanvas;
     //[SerializeField, NullCheck]
     //private MapCanvasOperator mapCanvasOperator;
     [SerializeField]
@@ -53,7 +59,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		= new Dictionary<CharacterInformator, SpeakerOperator>();
 	private SpeakerOperator activeSpeaker;
 
-	public static bool skipText;
+    private static bool skipText;
 	private static bool nextInput;
 	public static void NextInput() => nextInput = true;
 
@@ -69,10 +75,32 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		LanguageManager.OnLanguageChange += ResetSpeakerNameAndText;
 	}
-	#endregion
 
-	#region Text
-	private void ResetSpeakerNameAndText()
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.RightArrow)
+            || Input.GetKeyDown(KeyCode.Space)
+            || Input.GetKeyDown(KeyCode.KeypadEnter)
+            || Input.GetKeyDown(KeyCode.Return))
+		{
+			NextInput();
+		}
+    }
+    #endregion
+
+    #region Text
+
+    private void HideText()
+    {
+        textCanvas.SetActive(false);
+    }
+
+    private void ShowText()
+    {
+        textCanvas.SetActive(true);
+    }
+
+    private void ResetSpeakerNameAndText()
 	{
 		SwichLanguage = true;
 		ResetPlaqueName();
@@ -266,9 +294,28 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			backgroundImage.enabled = true;
             backgroundImage.sprite = background;
         }
-			
+		
 	}
-	public void OffBackground()
+    public async Task ShowImage(Sprite sprite)
+	{
+		StopDialogSkip();
+        nextInput = false;
+		ClearAllSpeakers();
+        HideText();
+        SetBackground(sprite);
+        while (!nextInput)
+        {
+            if (skipText)
+                break;
+
+            if (DialogManager.IsCancellationRequested)
+                break;
+
+            await Task.Yield();
+        }
+        ShowText();
+    }
+    public void OffBackground()
 	{
         backgroundImage.enabled = false;
     }
@@ -292,6 +339,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	}
 	#endregion
 
+	public void StopDialogSkip() => skipText = false;
 	public void DialogSkip() => skipText = true;
 	public void Options() => DialogManager.Options();
 	public void DialogExit()

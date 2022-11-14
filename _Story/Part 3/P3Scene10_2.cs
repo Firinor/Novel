@@ -17,7 +17,7 @@ namespace FirGames.StoryPart3
 
             await Say(Skull, "Теперь успокойся и давай помедитируем. Дыши глубже. Раз, два, три.", "");
 
-            Fork();
+            Fork(soloButton: true);
         }
     }
 }

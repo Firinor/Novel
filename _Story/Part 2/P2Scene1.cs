@@ -21,7 +21,7 @@ namespace FirGames.StoryPart2
             await Say(Skull, "ќн мечтал о месте архимагистра долгие годы," +
                 " строил козни твоему покойному отцу и теперь не оставит теб€ в покое.", "");
 
-            Hide(Skull);
+            HideCharacter(Skull);
 
             Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
 
@@ -38,7 +38,7 @@ namespace FirGames.StoryPart2
             await Say(Vargus, "–азве может стать архимагистором юный мечтатель," +
                 " призывающий выкинуть казну ордена на безнадежную идею строительства портала?", "");
 
-            Hide(Vargus);
+            HideCharacter(Vargus);
 
             Show(Skull, PositionOnTheStage.Center);
 

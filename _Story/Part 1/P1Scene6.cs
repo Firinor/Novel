@@ -23,7 +23,7 @@ namespace FirGames.StoryPart1
             await Say(Skull, "А со мной уже не надо здороваться, Янус? Я слышал, " +
                 "крестьяне на юго-западе несколькими деревнями собирали награду за твою голову.", "");
 
-            Hide(WhiteNecromant);
+            HideCharacter(WhiteNecromant);
             Show(Yanus, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Yanus, "энергии жизни и смерти как две стороны медали. " +

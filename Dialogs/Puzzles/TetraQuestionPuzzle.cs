@@ -18,7 +18,7 @@ namespace Puzzle
             bool successFunc = successPuzzleDialog != null;
             bool failFunc = failedPuzzleDialog != null;
 
-            DialogOperator.skipText = false;
+            StopDialogSkip();
             TetraQuestionPackage puzzleTetraQuestionPackage;
 
             if (failFunc)

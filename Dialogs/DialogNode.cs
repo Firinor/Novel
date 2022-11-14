@@ -55,7 +55,7 @@ public abstract class DialogNode : MonoBehaviour
     public void CleareAll()
     {
         SceneOff();
-        HideAll();
+        HideAllSpeakers();
         HideAllWays();
         //music off
     }
@@ -106,40 +106,50 @@ public abstract class DialogNode : MonoBehaviour
         dialogOperator.SetPosition(character, position, viewDirection);
     }
 
-    public void Hide(CharacterInformator character)
+    public Task ShowImage(Sprite sprite)
+    {
+        return dialogOperator.ShowImage(sprite);
+    }
+
+    public void HideCharacter(CharacterInformator character)
     {
         dialogOperator.RemoveSpeaker(character);
     }
-    public void HideAll()
+    public void HideAllSpeakers()
     {
         dialogOperator.ClearAllSpeakers();
     }
 
-    public void Fork()
+    public void Fork(bool soloButton = false)
     {
         if (DialogManager.IsCancellationRequested)
         {
-            DialogOperator.skipText = false;
+            StopDialogSkip();
             return;
         }
 
         if (Choices == null || Choices.Count < 1)
         {
-            DialogOperator.skipText = false;
+            StopDialogSkip();
             dialogOperator.DialogExit();
             return;
         }
 
-        if (Choices.Count == 1)
+        if (!soloButton && Choices.Count == 1)
         {
             Choices[0].StartDialog();
             return;
         }
 
-        DialogOperator.skipText = false;
+        StopDialogSkip();
         for (int i = 0; i < Choices.Count; i++)
         {
             dialogOperator.CreateWayButton(Choices[i]);
         }
+    }
+
+    protected void StopDialogSkip()
+    {
+        dialogOperator.StopDialogSkip();
     }
 }
