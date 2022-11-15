@@ -40,11 +40,17 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         return UnitySceneManager.GetActiveScene().buildIndex;
     }
 
-    public static void LoadScene(string sceneName)
+    public static void PreLoadScene(string sceneName)
     {
         instance.operation = UnitySceneManager.LoadSceneAsync(sceneName);
-        //UnitySceneManager.s_AllowLoadScene = true;
         instance.SetAllowSceneActivation(false);
+    }
+
+    public static void LoadScene(string sceneName)
+    {
+        if (instance.operation == null || instance.operation.isDone)
+            PreLoadScene(sceneName);
+
         instance.loadingTransitionOperator.LoadScene();
     }
 
