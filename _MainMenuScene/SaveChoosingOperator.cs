@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SaveChoosingOperator : MonoBehaviour
 {
     [SerializeField]
     private SaveManager saveManager;
     [SerializeField]
-    private GameObject[] Jar;
+    private GameObject[] Jars;
 
     void Start()
     {
@@ -27,7 +29,8 @@ public class SaveChoosingOperator : MonoBehaviour
 
     public void LoadSave(int i)
     {
-        if (Jar[i].activeSelf)
+        DisableAllJars();
+        if (Jars[i].activeSelf)
         {
             //SaveManager.Load(i);
         }
@@ -38,5 +41,13 @@ public class SaveChoosingOperator : MonoBehaviour
 
         //MainMenuManager.SwitchPanels(MenuMarks.baner);
         SceneManager.LoadScene("ReadingRoom");
+    }
+
+    private void DisableAllJars()
+    {
+        foreach (GameObject jar in Jars)
+        {
+            jar.GetComponent<Button>().enabled = false;
+        }
     }
 }

@@ -29,10 +29,11 @@ namespace Puzzle.StarMap
             starMapScrollRect.SetGlassBallViewOperator(this);
         }
 
-        public void ZoomScroll(Vector2 mouseScrollDelta)
+        public float ZoomScroll(Vector2 mouseScrollDelta)
         {
             slider.value += scrollStep * (mouseScrollDelta.y > 0 ? 1 : -1);
             slider.value = Mathf.Clamp(slider.value, slider.minValue, slider.maxValue);
+            return slider.value;
         }
 
         public void SliderZoom()
@@ -68,7 +69,7 @@ namespace Puzzle.StarMap
         }
         public void ResetClick()
         {
-            mousePoint = new Vector2(-1, -1);
+            mousePoint = new Vector2(-2000, -2000);
         }
     }
 }

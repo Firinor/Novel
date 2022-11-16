@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
 
 namespace Puzzle.StarMap
 {
     public class StarMapScrollRect : ScrollRect, IPointerDownHandler, IPointerUpHandler
     {
         private GlassBallViewOperator glassBallViewOperator;
-        private Vector2 clickPoint;
 
         public void SetGlassBallViewOperator(GlassBallViewOperator glassBallViewOperator)
         {
@@ -16,7 +16,14 @@ namespace Puzzle.StarMap
 
         public override void OnScroll(PointerEventData data)
         {
-            glassBallViewOperator.ZoomScroll(Input.mouseScrollDelta);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(glassBallViewOperator.GetRectTransform(),
+                    Input.mousePosition, data.pressEventCamera, out Vector2 pointBeforeScaling);
+            float deltaScale = glassBallViewOperator.ZoomScroll(Input.mouseScrollDelta);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(glassBallViewOperator.GetRectTransform(),
+                    Input.mousePosition, data.pressEventCamera, out Vector2 pointAfterScaling);
+            Vector2 delta = pointBeforeScaling - pointAfterScaling;
+            delta *= deltaScale;
+            content.anchoredPosition -= delta;
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -32,7 +39,7 @@ namespace Puzzle.StarMap
             if (glassBallViewOperator.EndClickOnStartClick())
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(glassBallViewOperator.GetRectTransform(),
-                    eventData.position, eventData.pressEventCamera, out var localPoint);
+                    eventData.position, eventData.pressEventCamera, out Vector2 localPoint);
                 glassBallViewOperator.SetCursorPosition(localPoint);
             }
 
