@@ -10,6 +10,8 @@ namespace Puzzle.StarMap
         [SerializeField, NullCheck]
         private GlassBallViewOperator glassBallViewOperator;
         [SerializeField, NullCheck]
+        private StarMapScrollRect starMapScrollRect;
+        [SerializeField, NullCheck]
         private RectTransform rectTransform;
         [SerializeField, NullCheck]
         private RectTransform cursorRectTransform;
@@ -75,6 +77,7 @@ namespace Puzzle.StarMap
             float rand = Random.Range(0, 360);
             rectTransform.localRotation = Quaternion.Euler(0, 0, rand);
             cursorRectTransform.localRotation = Quaternion.Euler(0, 0, -rand);
+            starMapScrollRect.SetCoefficient(rand);
         }
     }
 }

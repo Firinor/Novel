@@ -1,13 +1,22 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static Codice.CM.WorkspaceServer.WorkspaceTreeDataStore;
 
 namespace Puzzle.StarMap
 {
     public class StarMapScrollRect : ScrollRect, IPointerDownHandler, IPointerUpHandler
     {
         private GlassBallViewOperator glassBallViewOperator;
+        private float cosCoefficient = 1;
+        private float sinCoefficient = 1;
+
+        public void SetCoefficient(float angle)
+        {
+            float radian = math.radians(angle);
+            cosCoefficient = math.cos(radian);
+            sinCoefficient = math.sin(radian);
+        }
 
         public void SetGlassBallViewOperator(GlassBallViewOperator glassBallViewOperator)
         {
@@ -16,13 +25,21 @@ namespace Puzzle.StarMap
 
         public override void OnScroll(PointerEventData data)
         {
+            //pointBeforeScaling
             RectTransformUtility.ScreenPointToLocalPointInRectangle(glassBallViewOperator.GetRectTransform(),
                     Input.mousePosition, data.pressEventCamera, out Vector2 pointBeforeScaling);
-            float deltaScale = glassBallViewOperator.ZoomScroll(Input.mouseScrollDelta);
+            //Scaling
+            float scaleValue = glassBallViewOperator.ZoomScroll(Input.mouseScrollDelta);
+            //pointAfterScaling
             RectTransformUtility.ScreenPointToLocalPointInRectangle(glassBallViewOperator.GetRectTransform(),
                     Input.mousePosition, data.pressEventCamera, out Vector2 pointAfterScaling);
+            //delta * scaleValue
             Vector2 delta = pointBeforeScaling - pointAfterScaling;
-            delta *= deltaScale;
+            delta *= scaleValue;
+            //We calculate the displacement taking into account the rotation
+            delta = new Vector2(delta.x * cosCoefficient + delta.y * -sinCoefficient,
+                                delta.y * cosCoefficient + delta.x * sinCoefficient);
+            //We shift the map to the mouse cursor
             content.anchoredPosition -= delta;
         }
 
