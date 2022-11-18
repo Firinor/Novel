@@ -7,11 +7,12 @@ namespace Puzzle
     [Serializable]
     public class StarMapPackage : InformationPackage
     {
-        public StarMapPackage(float allottedTime,
+        public StarMapPackage(float allottedTime, int difficulty,
             Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
             this.allottedTime = Math.Max(allottedTime, 0);
+            this.difficulty = difficulty;
         }
 
         [SerializeField]
@@ -19,6 +20,12 @@ namespace Puzzle
         private float allottedTime = 0;
 
         public float AllottedTime { get => allottedTime; }
+
+        [SerializeField]
+        [Range(0, 2)]
+        private int difficulty = 0;
+
+        public int Difficulty { get => difficulty; }
     }
 }
 

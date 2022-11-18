@@ -26,6 +26,7 @@ namespace Puzzle
                 sparMapPackage
                     = new StarMapPackage(
                         puzzlePackage.AllottedTime,
+                        puzzlePackage.Difficulty,
                         puzzleBackground,
                         successPuzzleDialog.StartDialog,
                         failedPuzzleDialog.StartDialog);
@@ -35,6 +36,7 @@ namespace Puzzle
                 sparMapPackage
                     = new StarMapPackage(
                         puzzlePackage.AllottedTime,
+                        puzzlePackage.Difficulty,
                         puzzleBackground,
                         successPuzzleDialog.StartDialog);
             }
@@ -43,6 +45,7 @@ namespace Puzzle
                 sparMapPackage
                     = new StarMapPackage(
                         puzzlePackage.AllottedTime,
+                        puzzlePackage.Difficulty,
                         puzzleBackground);
             }
             DialogManager.SwithToPuzzle(sparMapPackage);

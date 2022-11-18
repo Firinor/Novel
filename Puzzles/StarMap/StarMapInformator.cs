@@ -154,7 +154,7 @@ namespace Puzzle.StarMap
         public class ConstellationsVariant
         {
             public Hemisphere hemisphere;
-            public Sprite HemispherePuzzleSprite;
+            public Sprite[] HemispherePuzzleSprite;
             public AnswerSprite[] Answers;
 
             [Serializable]

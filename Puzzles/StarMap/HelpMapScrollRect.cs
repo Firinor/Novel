@@ -15,7 +15,20 @@ namespace Puzzle.StarMap
 
         public override void OnScroll(PointerEventData data)
         {
-            helpMapOperator.ZoomScroll(Input.mouseScrollDelta);
+            //pointBeforeScaling
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(),
+                    Input.mousePosition, data.pressEventCamera, out Vector2 pointBeforeScaling);
+            //Scaling
+            float scaleValue = helpMapOperator.ZoomScroll(Input.mouseScrollDelta);
+            //pointAfterScaling
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(),
+                    Input.mousePosition, data.pressEventCamera, out Vector2 pointAfterScaling);
+            //delta * scaleValue
+            Vector2 delta = pointBeforeScaling - pointAfterScaling;
+            delta *= scaleValue;
+            //We shift the map to the mouse cursor
+            content.anchoredPosition -= delta;
+            
         }
     }
 }

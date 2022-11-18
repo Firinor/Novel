@@ -17,6 +17,8 @@ namespace Puzzle.StarMap
         [SerializeField, NullCheck]
         private GameObject starMap;
         [SerializeField, NullCheck]
+        private GameObject nebula;
+        [SerializeField, NullCheck]
         private GameObject helpMap;
         [SerializeField, NullCheck]
         private TargetOperator targetOperator;
@@ -31,6 +33,8 @@ namespace Puzzle.StarMap
 
         [SerializeField]
         private float leftTime = 120;
+        [SerializeField, Range(0, 2)]
+        private int difficulty = 1;
         [SerializeField, NullCheck]
         private TextMeshProUGUI timerText;
         private bool theTimerIsRunning;
@@ -117,6 +121,7 @@ namespace Puzzle.StarMap
         public void SetPuzzleInformationPackage(StarMapPackage spatMapPackage)
         {
             leftTime = spatMapPackage.AllottedTime;
+            difficulty = spatMapPackage.Difficulty;
             SetNewConstellation();
             SetVictoryEvent(spatMapPackage.successPuzzleAction);
             SetFailEvent(spatMapPackage.failedPuzzleAction);
@@ -145,7 +150,7 @@ namespace Puzzle.StarMap
 
         private void SetStarMapPuzzleContent(Hemisphere hemisphere)
         {
-            Sprite sprite = starMapInformator[hemisphere].HemispherePuzzleSprite;
+            Sprite sprite = starMapInformator[hemisphere].HemispherePuzzleSprite[difficulty];
             starMapInGlassBallOperator.SetPuzzleSprite(sprite);
         }
 
@@ -193,6 +198,7 @@ namespace Puzzle.StarMap
         {
             targetConstellation.SetActive(v);
             starMap.SetActive(v);
+            nebula.SetActive(v);
         }
     }
 }
