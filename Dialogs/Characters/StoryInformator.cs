@@ -25,6 +25,23 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public CharacterInformator HumanGuard;
     [NullCheck]
     public CharacterInformator Tiir;
+    [NullCheck]
+    public CharacterInformator Ermingarda;
+    [NullCheck]
+    public CharacterInformator Arguz;
+    [NullCheck]
+    public CharacterInformator Vacela;
+    [NullCheck]
+    public CharacterInformator Bathyard;
+    [NullCheck]
+    public CharacterInformator Nogation;
+    [NullCheck]
+    public CharacterInformator Hurga;
+    [NullCheck]
+    public CharacterInformator Mercenary;
+    [NullCheck]
+    public CharacterInformator MagicianElector;
+
 
     [Space]
     [NullCheck]

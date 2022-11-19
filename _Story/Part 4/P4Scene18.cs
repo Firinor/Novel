@@ -1,6 +1,6 @@
 namespace FirGames.StoryPart4
 {
-    public class P4Scene1 : DialogNode
+    public class P4Scene18 : DialogNode
     {
         public override async void StartDialog()
         {
