@@ -8,10 +8,10 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Vargus = storyInformator.Vargus;
-            CharacterInformator Skull = storyInformator.Skull;
+            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Skull = Characters.Skull;
 
-            Scene(storyInformator.Memorial);
+            Scene(Backgrounds.Memorial);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);

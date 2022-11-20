@@ -17,13 +17,18 @@ public abstract class DialogNode : MonoBehaviour
     
 
     private DialogOperator dialogOperator;
-    protected StoryInformator storyInformator;
+    protected StoryInformator.Characters Characters;
+    protected StoryInformator.Backgrounds Backgrounds;
+    protected StoryInformator.SpecialImages SpecialImages;
 
     public string Description { get { return DescriptionOfSelection; } }
 
     protected void Awake()
     {
-        storyInformator = StoryInformator.instance;
+        StoryInformator storyInformator = StoryInformator.instance;
+        Characters = storyInformator.characters;
+        Backgrounds = storyInformator.backgrounds;
+        SpecialImages = storyInformator.specialImages;
         dialogOperator = DialogOperator.instance;
         GetComponent<Button>().onClick.AddListener(StartDialog);
     }
@@ -99,8 +104,21 @@ public abstract class DialogNode : MonoBehaviour
     {
         dialogOperator.OffBackground();
     }
-    public void Show(CharacterInformator character, PositionOnTheStage position,
-        ViewDirection viewDirection = ViewDirection.Right)
+    public void Show(CharacterInformator character, PositionOnTheStage position)
+    {
+        ViewDirection viewDirection;
+        if (position == PositionOnTheStage.Right)
+        {
+            viewDirection = ViewDirection.Left;
+        }
+        else
+        {
+            viewDirection = ViewDirection.Right;
+        }
+        Show(character, position, viewDirection);
+    }
+
+    public void Show(CharacterInformator character, PositionOnTheStage position, ViewDirection viewDirection)
     {
         dialogOperator.AddSpeaker(character);
         dialogOperator.SetPosition(character, position, viewDirection);

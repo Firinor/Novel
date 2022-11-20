@@ -6,11 +6,11 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = storyInformator.MagicianElector;
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
+            CharacterInformator MagicianElector = Characters.MagicianElector;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Vargus = Characters.Vargus;
 
-            Scene(storyInformator.FirePlace);
+            Scene(Backgrounds.FirePlace);
 
             Show(Skull, PositionOnTheStage.Center);
 
@@ -19,7 +19,7 @@ namespace FirGames.StoryPart4
 
             HideCharacter(Skull);
 
-            Scene(storyInformator.Lab);
+            Scene(Backgrounds.Lab);
 
             Show(MagicianElector, PositionOnTheStage.Center);
 

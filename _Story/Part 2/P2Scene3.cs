@@ -8,10 +8,10 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Yanus = storyInformator.Yanus;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Yanus = Characters.Yanus;
 
-            Scene(storyInformator.World);
+            Scene(Backgrounds.World);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(Yanus, PositionOnTheStage.Right, ViewDirection.Left);

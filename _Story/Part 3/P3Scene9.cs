@@ -6,10 +6,10 @@ namespace FirGames.StoryPart3
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Tiir = storyInformator.Tiir;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Tiir = Characters.Tiir;
 
-            Scene(storyInformator.ElvenPalace);
+            Scene(Backgrounds.ElvenPalace);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(Tiir, PositionOnTheStage.Right, ViewDirection.Left);

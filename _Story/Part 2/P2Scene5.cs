@@ -8,10 +8,10 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator GnomGuard = storyInformator.GnomGuard;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator GnomGuard = Characters.GnomGuard;
 
-            Scene(storyInformator.GnomeDoor);
+            Scene(Backgrounds.GnomeDoor);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(GnomGuard, PositionOnTheStage.Right, ViewDirection.Left);

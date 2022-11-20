@@ -6,45 +6,22 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = storyInformator.MagicianElector;
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator HumanGuard = Characters.HumanGuard;
 
-            Scene(storyInformator.FirePlace);
-
-            Show(Skull, PositionOnTheStage.Center);
-
-            await Say(Skull, "Настал день выборов нового архимагистра. " +
-                "Мы сделали все, что могли, остается ждать решения.", "");
-
-            HideCharacter(Skull);
-
-            Scene(storyInformator.Lab);
-
-            Show(MagicianElector, PositionOnTheStage.Center);
-
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Scene(Backgrounds.Lab);
 
             Show(Skull, PositionOnTheStage.Left);
+            Show(HumanGuard, PositionOnTheStage.Right);
 
-            await Say(Skull, "Молчат.", "");
+            await Say(HumanGuard, "Могу я войти?", "");
 
-            HideCharacter(Skull);
+            await Say(Skull, "Входи, если не боишься заснуть.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(HumanGuard, "Прошу прощения, архимагистр. Ее Величество Эрмингарда желает вас видеть.", "");
 
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Этого-то я и боялся. Два месяца от нее не было вестей, " +
+                "а сейчас сразу личная аудиенция. Дурной знак!", "");
 
             Fork();
         }

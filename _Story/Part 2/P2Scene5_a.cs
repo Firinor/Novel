@@ -8,9 +8,9 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator GnomGuard = storyInformator.GnomGuard;
+            CharacterInformator GnomGuard = Characters.GnomGuard;
 
-            Scene(storyInformator.GnomeDoor);
+            Scene(Backgrounds.GnomeDoor);
 
             Show(GnomGuard, PositionOnTheStage.Center, ViewDirection.Left);
 

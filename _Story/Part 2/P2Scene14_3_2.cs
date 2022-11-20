@@ -8,10 +8,10 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator LordCarlos = storyInformator.LordCarlos;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator LordCarlos = Characters.LordCarlos;
 
-            Scene(storyInformator.Office);
+            Scene(Backgrounds.Office);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(LordCarlos, PositionOnTheStage.Right, ViewDirection.Left);

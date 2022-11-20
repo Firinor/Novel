@@ -6,10 +6,10 @@ namespace FirGames.StoryPart3
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Tiir = storyInformator.Tiir;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Tiir = Characters.Tiir;
 
-            Scene(storyInformator.TiirRoom);
+            Scene(Backgrounds.TiirRoom);
 
             Show(Skull, PositionOnTheStage.Left);
             Show(Tiir, PositionOnTheStage.Right, ViewDirection.Left);
@@ -60,7 +60,7 @@ namespace FirGames.StoryPart3
 
             await Say(Skull, "Мы знаем гнома, который с радостью продаст флюорит без лишних вопросов.", "");
 
-            await ShowImage(storyInformator.TwoDaysHavePassed);
+            await ShowImage(SpecialImages.TwoDaysHavePassed);
 
             Fork();
         }

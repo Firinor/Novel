@@ -6,45 +6,21 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = storyInformator.MagicianElector;
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Vargus = Characters.Vargus;
 
-            Scene(storyInformator.FirePlace);
+            Scene(Backgrounds.Lab);
 
             Show(Skull, PositionOnTheStage.Center);
-
-            await Say(Skull, "Настал день выборов нового архимагистра. " +
-                "Мы сделали все, что могли, остается ждать решения.", "");
-
-            HideCharacter(Skull);
-
-            Scene(storyInformator.Lab);
-
-            Show(MagicianElector, PositionOnTheStage.Center);
-
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
-
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Молчат.", "");
-
-            HideCharacter(Skull);
-
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
-
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
             Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
 
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
+            await Say(Skull, "Не переживай, Варгус, тебя тоже ждет новая должность " +
+                "школьного учителя в деревне Нижние Мухоморы.", "");
+            await Say(Skull, "Тамошний климат способствует выветриванию эгоцентризма.", "");
 
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Vargus, "Вы обо мне еще услышате!", "");
+
+            await Say(Skull, "Надеюсь, отзывы родителей учеников о твоей работе будут хорошими.", "");
 
             Fork();
         }

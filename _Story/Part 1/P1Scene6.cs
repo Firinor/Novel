@@ -6,11 +6,11 @@ namespace FirGames.StoryPart1
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator WhiteNecromant = storyInformator.WhiteNecromant;
-            CharacterInformator Yanus = storyInformator.Yanus;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator WhiteNecromant = Characters.WhiteNecromant;
+            CharacterInformator Yanus = Characters.Yanus;
 
-            Scene(storyInformator.World);
+            Scene(Backgrounds.World);
 
             Show(Skull, PositionOnTheStage.Left);
 

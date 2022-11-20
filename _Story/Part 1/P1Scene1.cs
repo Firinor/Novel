@@ -8,10 +8,10 @@ namespace FirGames.StoryPart1
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Archmagister = storyInformator.Archmagister;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Archmagister = Characters.Archmagister;
 
-            Scene(storyInformator.Lab);
+            Scene(Backgrounds.Lab);
 
             Show(Archmagister, PositionOnTheStage.Right, ViewDirection.Left);
 

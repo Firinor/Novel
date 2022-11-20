@@ -6,20 +6,9 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = storyInformator.MagicianElector;
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
-
-            Scene(storyInformator.FirePlace);
-
-            Show(Skull, PositionOnTheStage.Center);
-
-            await Say(Skull, "Ќастал день выборов нового архимагистра. " +
-                "ћы сделали все, что могли, остаетс€ ждать решени€.", "");
-
-            HideCharacter(Skull);
-
-            Scene(storyInformator.Lab);
+            CharacterInformator MagicianElector = Characters.MagicianElector;
+            CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Vargus = Characters.Vargus;
 
             Show(MagicianElector, PositionOnTheStage.Center);
 

@@ -6,9 +6,9 @@ namespace FirGames.StoryPart3
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
+            CharacterInformator Skull = Characters.Skull;
 
-            Scene(storyInformator.BeginOfElvenForest);
+            Scene(Backgrounds.BeginOfElvenForest);
 
             Show(Skull, PositionOnTheStage.Center);
 

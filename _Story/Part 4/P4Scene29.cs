@@ -6,20 +6,8 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = storyInformator.MagicianElector;
-            CharacterInformator Skull = storyInformator.Skull;
-            CharacterInformator Vargus = storyInformator.Vargus;
-
-            Scene(storyInformator.FirePlace);
-
-            Show(Skull, PositionOnTheStage.Center);
-
-            await Say(Skull, "Ќастал день выборов нового архимагистра. " +
-                "ћы сделали все, что могли, остаетс€ ждать решени€.", "");
-
-            HideCharacter(Skull);
-
-            Scene(storyInformator.Lab);
+            CharacterInformator MagicianElector = Characters.MagicianElector;
+            CharacterInformator Skull = Characters.Skull;
 
             Show(MagicianElector, PositionOnTheStage.Center);
 
@@ -39,10 +27,6 @@ namespace FirGames.StoryPart4
 
             await Say(Skull, "Ёто он тебе. ƒавай на трибуну! " +
                 "я ни капельки не сомневалс€, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "“ы не имеешь права там сто€ть!   какому обману вы, мошенники, прибегли на этот раз?", "");
 
             await Say(Skull, "¬от и первое решение в новой должности наметилось.  ак ты поступишь?", "");
 

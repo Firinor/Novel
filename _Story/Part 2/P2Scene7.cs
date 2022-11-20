@@ -8,9 +8,9 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Karim = storyInformator.Karim;
+            CharacterInformator Karim = Characters.Karim;
 
-            Scene(storyInformator.KarimRoom);
+            Scene(Backgrounds.KarimRoom);
 
             Show(Karim, PositionOnTheStage.Center, ViewDirection.Left);
 

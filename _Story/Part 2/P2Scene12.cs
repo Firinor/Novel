@@ -8,9 +8,9 @@ namespace FirGames.StoryPart2
         {
             base.StartDialog();
 
-            CharacterInformator Skull = storyInformator.Skull;
+            CharacterInformator Skull = Characters.Skull;
 
-            Scene(storyInformator.PortalOn);
+            Scene(Backgrounds.PortalOn);
 
             Show(Skull, PositionOnTheStage.Center);
 
