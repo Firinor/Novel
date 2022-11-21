@@ -6,34 +6,23 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Nogation = Characters.Nogation;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Show(Skull, PositionOnTheStage.Center);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Scene(Backgrounds.Tents);
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Skull, "Теперь займемся пленным орком.", "");
 
-            await Say(Skull, "Молчат.", "");
+            Show(Nogation, PositionOnTheStage.Left);
 
-            HideCharacter(Skull);
+            await SayByName(Nogation, "Орк", "Orc",
+                "Я готов умереть, но не готов сдаться!", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
-
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Этот выдержит любые пытки, даже твое пенье. " +
+                "Тиир подарил тебе флакон своего зелья правды.", "");
+            await Say(Skull, "Испробуем на орке. Так, на футляре шифр. Тиир в своем репертуаре.", "");
 
             Fork();
         }

@@ -70,6 +70,16 @@ public abstract class DialogNode : MonoBehaviour
         dialogOperator.HideAllWays();
     }
 
+    public Task SayByName(CharacterInformator character, string name_ru, string name_en, string text_ru, string text_en)
+    {
+        if (DialogManager.IsCancellationRequested)
+            return Task.CompletedTask;
+
+        dialogOperator.SetPlaqueName(name_ru, name_en);
+        dialogOperator.SetActiveSpeaker(character);
+        return PrintText(new string[2] { text_ru, text_en });
+    }
+
     public Task Say(CharacterInformator character, string text_ru, string text_en)
     {
         if (DialogManager.IsCancellationRequested)

@@ -16,7 +16,7 @@ namespace FirGames.StoryPart2
             Show(Skull, PositionOnTheStage.Left);
             Show(Vargus, PositionOnTheStage.Center, ViewDirection.Left);
 
-            await Say(Skull, "Архимагистр должен соблюдать закон орден, а в нем четко прописано," +
+            await Say(Skull, "Архимагистр должен соблюдать закон ордена, а в нем четко прописано," +
                 " что выборы главы ордена проходят через 15 дней после смерти предыдущего, не раньше.", "");
 
             await Say(Vargus, "Я знаю законы! Через 15 дней," +

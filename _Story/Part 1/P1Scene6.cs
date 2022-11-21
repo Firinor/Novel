@@ -7,7 +7,6 @@ namespace FirGames.StoryPart1
             base.StartDialog();
 
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator WhiteNecromant = Characters.WhiteNecromant;
             CharacterInformator Yanus = Characters.Yanus;
 
             Scene(Backgrounds.World);
@@ -16,14 +15,14 @@ namespace FirGames.StoryPart1
 
             await Say(Skull, " ого € вижу?! „то тебе нужно, вестник смерти?", "");
 
-            Show(WhiteNecromant, PositionOnTheStage.Center);
+            Show(Yanus, PositionOnTheStage.Center);
 
-            await Say(WhiteNecromant, "приветствую, дит€ мое.", "");
+            await SayByName(Yanus, "Ѕелый некромант", "White necromant",
+                "ѕриветствую, дит€ мое.", "");
 
             await Say(Skull, "ј со мной уже не надо здороватьс€, янус? я слышал, " +
                 "кресть€не на юго-западе несколькими деревн€ми собирали награду за твою голову.", "");
 
-            HideCharacter(WhiteNecromant);
             Show(Yanus, PositionOnTheStage.Right, ViewDirection.Left);
 
             await Say(Yanus, "энергии жизни и смерти как две стороны медали. " +

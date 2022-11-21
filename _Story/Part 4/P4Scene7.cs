@@ -6,34 +6,21 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Mercenary = Characters.Mercenary;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Show(Mercenary, PositionOnTheStage.Left);
+            Show(Skull, PositionOnTheStage.Right, ViewDirection.Right);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Scene(Backgrounds.DesertPortalOn);
 
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Молчат.", "");
-
-            HideCharacter(Skull);
-
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
-
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Ни намека не присутствие людей. Очевидно, орки оттеснили" +
+                " войска Аргуза из этой части Карпатии.", "");
+            await Say(Skull, "Справится с обученным магом пространства сложно и наши сопровождающие это знают.", "");
+            await Say(Skull, "Двое-трое легкая мишень, но сразу двадцать наемников нам не одолеть." +
+                " Ох, вот были золотые времена: подписи с печатями, печати с подписями.", "");
+            await Say(Skull, "Хочу обратно в уютный кабинет архимагистра. Ладно, поныли и хватит." +
+                " Для начала предлагаю осмотреться.", "");
 
             Fork();
         }

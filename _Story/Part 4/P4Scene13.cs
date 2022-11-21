@@ -6,34 +6,17 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.Desert);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Show(Skull, PositionOnTheStage.Center);
 
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Молчат.", "");
-
-            HideCharacter(Skull);
-
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
-
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Честь честью, но воинам нужно платить, поэтому вождь отправил золото. " +
+                "Война затянулась, добычи становится меньше.", "");
+            await Say(Skull, "Странно что Вацела еще не отозвал своих головорезов. " +
+                "Неужели в этот раз он пришел не ограбить, а завоевать Карпатию?", "");
+            await Say(Skull, "Как бы то ни было, нам нужно отыскать лагерь герцога Аргуза и предупредить его о золоте.", "");
 
             Fork();
         }

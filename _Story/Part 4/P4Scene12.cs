@@ -6,34 +6,44 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Nogation = Characters.Nogation;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Show(Skull, PositionOnTheStage.Center);
+            Show(Nogation, PositionOnTheStage.Left);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Scene(Backgrounds.Tents);
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Skull, "Отмеряли дозу, развели водой, напоили, подождали. Если верить Тииру," +
+                " сейчас орк будет говорить только правду и на завтра ничего не вспомнит. Начнем. Вопрос первый. Кто ты?", "");
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Nogation, "Ногаций, ближник великого вождя Вацелы.", "");
 
-            HideCharacter(Skull);
+            await Say(Skull, "Что ты вез?", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Nogation, "Великий вождь приказывает темному шаману Хурге подготовиться." +
+                " Золото для армии отправят в ночь растущей луны по одной из трех дорог.", "");
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Skull, "Взгляни на письмо в сумке этого орка. " +
+                "Оно запечатано особой магией, которую использует королевская семья Алфараха.", "");
+            await Say(Skull, "Очень странно. Откуда Вацела знает такие заклинания?", "");
 
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
+            await Say(Nogation, "Темный шаман Хурга показал.", "");
 
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
+            await Say(Skull, "Кто это?", "");
 
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
+            await Say(Nogation, "Хурга один из полководцев Вацелы. Он владеет " +
+                "неизвестной магией, поэтому его прозвали темным шаманом.", "");
+            await Say(Nogation, "Хурга пришел десять лет назад, не сказав к какому роду принадлежит.", "");
+            await Say(Nogation, "Орки не доверяют тому, чьи предки не известны, но Хурга раскрыл " +
+                "много коварных ловушек собаки Аргуза, поэтому Вацела сделал Хургу командиром и…", "");
 
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Тиир говорил, что зелье действует час, но было сделано для людей." +
+                " Будем надеяться, Ногаций просто заснул.", "");
+            await Say(Skull, "Парочка из его бойцов все еще дышит. Подлечим их немного, чтобы раны не были смертельными.", "");
+            await Say(Skull, "Утром они решат, что угодили в засаду и победили, убедятся, что магическая печать на письме " +
+                "не сломана, потом продолжат свой путь.", "");
+            await Say(Skull, "Пусть доставят послание Хурге, чтобы у нас была возможность перехватить золото.", "");
 
             Fork();
         }

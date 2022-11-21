@@ -1,14 +1,10 @@
 using FirUnityEditor;
-using Puzzle;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static System.Net.Mime.MediaTypeNames;
 using Image = UnityEngine.UI.Image;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
@@ -267,7 +263,14 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		plaqueWithTheName.SetActive(true);
 		speakerName.text = speaker.Name;
 	}
-	protected void ResetPlaqueName()
+    public void SetPlaqueName(string name_ru, string name_en)
+    {
+		String[] names = { name_ru, name_en };
+        plaqueWithTheName.SetActive(true);
+        speakerName.text = TextByLanguage(names);
+    }
+
+    protected void ResetPlaqueName()
 	{
 		if(activeSpeaker != null)
 		{

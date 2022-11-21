@@ -25,6 +25,8 @@ namespace FirGames.StoryPart2
 
             await Say(Karim, "Удачи. Она вам понадобиться.", "");
 
+            await ShowImage(SpecialImages.TwoDaysHavePassed);
+
             Fork();
         }
     }

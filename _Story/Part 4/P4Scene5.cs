@@ -7,21 +7,37 @@ namespace FirGames.StoryPart4
             base.StartDialog();
 
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator HumanGuard = Characters.HumanGuard;
+            CharacterInformator Ermingarda = Characters.Ermingarda;
 
-            Scene(Backgrounds.Lab);
+            Scene(Backgrounds.ThroneRoom);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(HumanGuard, PositionOnTheStage.Right);
+            Show(Ermingarda, PositionOnTheStage.Center, ViewDirection.Left);
 
-            await Say(HumanGuard, "Могу я войти?", "");
+            await Say(Ermingarda, "Мы приветствуем архимагистра, инженера порталов, о котором говорит вся столица.", "");
 
-            await Say(Skull, "Входи, если не боишься заснуть.", "");
+            await Say(Skull, "Наше почтение, Ваше Величество.", "");
 
-            await Say(HumanGuard, "Прошу прощения, архимагистр. Ее Величество Эрмингарда желает вас видеть.", "");
+            await Say(Ermingarda, "Новый портал помог решить транспортную проблему" +
+                " в столице и мы желаем повторить удачный опыт на приграничных землях.", "");
 
-            await Say(Skull, "Этого-то я и боялся. Два месяца от нее не было вестей, " +
-                "а сейчас сразу личная аудиенция. Дурной знак!", "");
+            await Say(Skull, "То есть построить новый портал в Карпатии?", "");
+
+            await Say(Ermingarda, "В наше смутное время почти никому нельзя доверять." +
+                " Мы желаем, чтобы вы лично отправились в Карпатию.", "");
+            await Say(Ermingarda, "Узнайте, почему так долго нет вестей от моего деверя герцога Аргуза," +
+                " который мужественно защищает нашу землю от нашествия орков.", "");
+
+            await Say(Skull, "Члены ордена Познающих готовы служить Алфараху, но," +
+                " при всем уважении, возможно, есть более опытные воины?", "");
+
+            await Say(Ermingarda, "В приграничных землях важно не только воинское искусство, но и ум." +
+                " Двадцать моих лучших солдат будут обеспечивать вашу безопасность.", "");
+            await Say(Ermingarda, "Приказываю отправляться как можно скорее, потому что я очень волнуюсь за деверя.", "");
+
+            await Say(Skull, "Как прикажите.", "");
+
+            await ShowImage(SpecialImages.TwoDaysHavePassed);
 
             Fork();
         }
