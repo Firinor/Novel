@@ -6,29 +6,26 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
+            CharacterInformator Bathyard = Characters.Bathyard;
+            CharacterInformator Arguz = Characters.Arguz;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.CommanderInChiefsTent);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
-
+            Show(Bathyard, PositionOnTheStage.Left);
             Show(Skull, PositionOnTheStage.Left);
+            Show(Arguz, PositionOnTheStage.Right);
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Arguz, "Что ответил великий вождь Вацела?", "");
 
-            HideCharacter(Skull);
+            await Say(Bathyard, "Отец принял твое предложение, но Хурга нас предал.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Skull, "Есть план. Хурга рассчитывает застигнуть нас врасплох. " +
+                "Оставим в лагере соломенные чучела. Как только Хурга войдет в лагерь, ловушка захлопнется.", "");
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Arguz, "Скорее. Медлить нельзя.", "");
 
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await ShowImage(SpecialImages.TwoDaysHavePassed);
 
             Fork();
         }

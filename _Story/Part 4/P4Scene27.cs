@@ -6,34 +6,26 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Bathyard = Characters.Bathyard;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.Desert);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
-
+            Show(Bathyard, PositionOnTheStage.Right);
             Show(Skull, PositionOnTheStage.Left);
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Skull, "Батярд, по нашим расчетам Ногаций давно должен был передать Хурге приказ вождя.", "");
+            await Say(Skull, "Почему же мы до сих пор не встретили по дороге возвращающихся воинов?" +
+                " Войско орков не иголка, мы бы заметили.", "");
 
-            HideCharacter(Skull);
+            await Say(Bathyard, "Верно говоришь. Не к добру, что темный шаман медлит.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Skull, "Есть предложение сначала заглянуть в лагерь Хурги и разведать обстановку," +
+                " а уже потом отправиться к герцогу Аргузу.", "");
+            await Say(Skull, "Архимагистр наложит заклинение искажение пространства, чтобы мы смогли" +
+                " подобраться к Хурге незамеченными, а наши воины пока отдохнут.", "");
 
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Bathyard, "Мне нравятся опасные затеи! Давай свое заклинание.", "");
 
             Fork();
         }

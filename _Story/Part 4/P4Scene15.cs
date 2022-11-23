@@ -12,7 +12,7 @@ namespace FirGames.StoryPart4
             Scene(Backgrounds.BattleCamp);
 
             Show(Skull, PositionOnTheStage.Left);
-            Show(Arguz, PositionOnTheStage.Center);
+            Show(Arguz, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Arguz, "Вы и есть подмога из столицы?", "");
 

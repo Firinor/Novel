@@ -10,7 +10,7 @@ namespace FirGames.StoryPart4
             CharacterInformator Nogation = Characters.Nogation;
 
             Show(Skull, PositionOnTheStage.Center);
-            Show(Nogation, PositionOnTheStage.Left);
+            Show(Nogation, PositionOnTheStage.Right);
 
             Scene(Backgrounds.Tents);
 

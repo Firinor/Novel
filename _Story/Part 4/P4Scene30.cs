@@ -6,34 +6,46 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Bathyard = Characters.Bathyard;
+            CharacterInformator Arguz = Characters.Arguz;
+            CharacterInformator Hurga = Characters.Hurga;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.OrcCamp);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Show(Bathyard, PositionOnTheStage.Left);
+            Show(Skull, PositionOnTheStage.Center, ViewDirection.Right);
+            Show(Arguz, PositionOnTheStage.Left);
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Skull, "Все получилось как нельзя лучше! Хурга и его воины окружены " +
+                "со всех сторон! Они явно не ожидали такого поворота.", "");
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Bathyard, "Воины! Я, Батярд, сын Вацелы говорю вам, что Хурга предатель, ослушавшийся вождя." +
+                " Всех, кто будут рядом с ним, ждет смерть!", "");
 
-            HideCharacter(Skull);
+            await Say(Skull, "Смотри-ка, отошли. Честь честью, а жить хочется.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Bathyard, "Хурга, участь предателей тебе известна.", "");
 
-            Show(Skull, PositionOnTheStage.Left);
+            Show(Hurga, PositionOnTheStage.Right);
 
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
+            await Say(Hurga, "Вацела продал свою честь за золото.", "");
 
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
+            await Say(Bathyard, "Не тебе рассуждать о чести. Во имя Кармильхана!", "");
 
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
+            await Say(Skull, "Секир-башка. Но что это?", "");
 
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Bathyard, "Что происходит?", "");
+
+            await Say(Skull, "Не может быть! Хурга не орк, он человек. Когда он умер, " +
+                "заклинание иллюзии спало, открыв истинное обличье.", "");
+            await Say(Skull, "Молния разрази мой лысый череп, да это же старший принц, " +
+                "которого считали погибшим.", "");
+
+            await Say(Arguz, "Племянник всегда был очарован орками. Неужели он всерьез полагал, " +
+                "что сможет стать одним их них?", "");
+
+            await Say(Bathyard, "Овца облачилась в шкуру волка.", "");
 
             Fork();
         }

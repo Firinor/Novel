@@ -6,13 +6,13 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
+            await ShowImage(SpecialImages.War);
+
             CharacterInformator Skull = Characters.Skull;
 
             Show(Skull, PositionOnTheStage.Center);
 
             Scene(Backgrounds.Tents);
-
-            await ShowImage(SpecialImages.War);
 
             await Say(Skull, "„удесно, из отр€да наемников королевы в живых осталось п€теро," +
                 " из них трое ранены. √лаварь орков вз€т в плен.", "");

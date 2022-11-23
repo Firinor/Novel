@@ -21,7 +21,7 @@ namespace FirGames.StoryPart4
 
             Scene(Backgrounds.Lab);
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Show(MagicianElector, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
                 "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
@@ -42,7 +42,11 @@ namespace FirGames.StoryPart4
 
             Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
 
+            Show(MagicianElector, PositionOnTheStage.Center, ViewDirection.Right);
+
             await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
+
+            Show(MagicianElector, PositionOnTheStage.Center, ViewDirection.Left);
 
             await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
 

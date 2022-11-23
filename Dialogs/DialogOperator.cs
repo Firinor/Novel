@@ -239,12 +239,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		if (activeSpeaker == speaker)
 			return;
-		if (activeSpeaker != null)
-		{
-			activeSpeaker.ToTheBackground();
-			activeSpeaker = null;
-		}
-		if (speaker == null)
+		DeactiveSpeaker();
+        if (speaker == null)
 			return;
 		if (!speakers.ContainsValue(speaker))
 			return;
@@ -252,7 +248,17 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		activeSpeaker = speaker;
 		activeSpeaker.ToTheForeground();
 	}
-	public void SetPlaqueName(CharacterInformator speaker = null)
+
+    public void DeactiveSpeaker()
+    {
+        if (activeSpeaker != null)
+        {
+            activeSpeaker.ToTheBackground();
+            activeSpeaker = null;
+        }
+    }
+
+    public void SetPlaqueName(CharacterInformator speaker = null)
 	{
 		if (speaker == null)
 		{

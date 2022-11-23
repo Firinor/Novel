@@ -15,7 +15,7 @@ namespace FirGames.StoryPart4
 
             await Say(Skull, "Теперь займемся пленным орком.", "");
 
-            Show(Nogation, PositionOnTheStage.Left);
+            Show(Nogation, PositionOnTheStage.Right);
 
             await SayByName(Nogation, "Орк", "Orc",
                 "Я готов умереть, но не готов сдаться!", "");

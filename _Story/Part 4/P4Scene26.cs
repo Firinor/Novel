@@ -6,34 +6,17 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Bathyard = Characters.Bathyard;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.OrcEncampment);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
-
+            Show(Bathyard, PositionOnTheStage.Right);
             Show(Skull, PositionOnTheStage.Left);
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Bathyard, "Отец приказал отправляться в путь.", "");
 
-            HideCharacter(Skull);
-
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
-
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Мы давно готовы.", "");
 
             Fork();
         }

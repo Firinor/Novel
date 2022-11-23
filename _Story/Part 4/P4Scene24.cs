@@ -6,34 +6,20 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Bathyard = Characters.Bathyard;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.OrcEncampment);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
-
+            Show(Bathyard, PositionOnTheStage.Right);
             Show(Skull, PositionOnTheStage.Left);
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Bathyard, "Так держать! В тебе есть что-то от орка.", "");
 
-            HideCharacter(Skull);
+            await Say(Skull, "Хурга, очевидно, уважаемый воин.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
-
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Bathyard, "Хурга посвящен в магию, неизвестную оркам, " +
+                "но у него две головы и властолюбивое сердце.", "");
 
             Fork();
         }

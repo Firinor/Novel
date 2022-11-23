@@ -6,34 +6,27 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Bathyard = Characters.Bathyard;
+            CharacterInformator Arguz = Characters.Arguz;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.OrcCamp);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Show(Bathyard, PositionOnTheStage.Left);
+            Show(Skull, PositionOnTheStage.Center, ViewDirection.Right);
+            Show(Arguz, PositionOnTheStage.Right);
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Arguz, "Теперь, когда предатель мертв, почему бы нам не отпраздновать заключение мира?", "");
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Bathyard, "С удовольствием.", "");
 
-            HideCharacter(Skull);
+            await Say(Skull, "Если людская пища слишком нежна для вашего желудка, можем наломать камней.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Bathyard, "Предпочитаю черепа.", "");
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Skull, "Вы так остроумны. Полечу посмотрю, что происходит в том дальнем углу.", "");
 
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
-
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
-
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
-
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await ShowImage(SpecialImages.TwoDaysHavePassed);
 
             Fork();
         }

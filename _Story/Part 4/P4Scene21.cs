@@ -6,34 +6,36 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
+            CharacterInformator Bathyard = Characters.Bathyard;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.OrcEncampment);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Show(Skull, PositionOnTheStage.Center);
 
-            Show(Skull, PositionOnTheStage.Left);
-
-            await Say(Skull, "Молчат.", "");
-
-            HideCharacter(Skull);
-
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Skull, "Вот и стойбище. Пора снять защиту. " +
+                "Обрати внимание на того молодого орка. Судя по украшением он сын вождя.", "");
 
             Show(Skull, PositionOnTheStage.Left);
+            Show(Bathyard, PositionOnTheStage.Right);
 
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
+            await Say(Bathyard, "Кто вы и зачем пришли?", "");
 
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
+            await Say(Skull, "Мы принесли дары великому вождю Вацеле от герцога людей Аргуза.", "");
 
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
+            await Say(Bathyard, "Очередные пустословы! Учтите, таким мы даем право самим выбрать" +
+                " себе смерть, если сильно докучают.", "");
+            await Say(Bathyard, "Что предпочитаете: отсечение головы, копыта степных вепрей, " +
+                "вспарывание живота, удушение тетивой лука?", "");
 
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Можно свой вариант, более страшный и неотвратимый?", "");
+
+            await Say(Bathyard, "Что может быть неизбежнее копыт вепрей?", "");
+
+            await Say(Skull, "Старость. Великий предок Вацелы Кармильхан в одиночку справился" +
+                " со стадом вепрей, но даже ему не удалось одолеть старость.", "");
+
+            await Say(Bathyard, "А вы забавные! Идем, отведу к отцу.", "");
 
             Fork();
         }

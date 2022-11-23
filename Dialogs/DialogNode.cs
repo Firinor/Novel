@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 public enum ViewDirection { Right = 1, Left = -1 }
@@ -37,8 +38,7 @@ public abstract class DialogNode : MonoBehaviour
         if (dialogNode == null)
             return;
 
-        Choices = new List<DialogNode>();
-        Choices.Add(dialogNode);
+        Choices = new List<DialogNode>() { dialogNode };
     }
     public string GetHeader()
     {
@@ -76,7 +76,10 @@ public abstract class DialogNode : MonoBehaviour
             return Task.CompletedTask;
 
         dialogOperator.SetPlaqueName(name_ru, name_en);
-        dialogOperator.SetActiveSpeaker(character);
+        if (character != null)
+            dialogOperator.SetActiveSpeaker(character);
+        else
+            dialogOperator.DeactiveSpeaker();
         return PrintText(new string[2] { text_ru, text_en });
     }
 
@@ -180,5 +183,11 @@ public abstract class DialogNode : MonoBehaviour
     {
         if(dialogOperator != null)
             dialogOperator.StopDialogSkip();
+    }
+
+    [ContextMenu("Reset name")]
+    public void ResetName()
+    {
+        GetComponentInChildren<TextMeshProUGUI>().text = gameObject.name;
     }
 }

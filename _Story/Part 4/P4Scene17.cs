@@ -6,34 +6,33 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Arguz = Characters.Arguz;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
-
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
+            Scene(Backgrounds.CommanderInChiefsTent);
 
             Show(Skull, PositionOnTheStage.Left);
+            Show(Arguz, PositionOnTheStage.Right);
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Skull, "Ваша Милость, наконец-то! Мы уже начали беспокоиться.", "");
 
-            HideCharacter(Skull);
+            await Say(Arguz, "Орки ходят на войну не только за подвигами, но и за добычей." +
+                " Мы использовали тактику выжженной земли и Хурге теперь нечем платить орде.", "");
+            await Say(Arguz, "Вацела отправил золото, чтобы избежать бунта, но долго терпеть" +
+                " убыточную войну он не станет.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Skull, "Воспользуемся этим. Мы пойдем на переговоры к вождю и предложим ему дань.", "");
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Arguz, "Идти к Вацеле без даров самоубийство. Я прикажу выковать красивый меч.", "");
 
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
+            await Say(Skull, "При всем уважении, мечи дарит каждый первый. " +
+                "Предлагаю подарить древний фолиант, описывающий славную историю предков Вацелы.", "");
 
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
+            await Say(Arguz, "Где его взять?", "");
 
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
+            await Say(Skull, "Сами сделаем. Состарить вещь не так сложно.", "");
 
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Arguz, "Мне идея нравится. Немедленно приступим к изготовлению фолианта.", "");
 
             Fork();
         }

@@ -11,8 +11,8 @@ namespace FirGames.StoryPart4
 
             Scene(Backgrounds.Lab);
 
-            Show(Skull, PositionOnTheStage.Center);
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
+            Show(Skull, PositionOnTheStage.Left);
+            Show(Vargus, PositionOnTheStage.Right);
 
             await Say(Skull, "Варгус, ты много рассуждаешь о важности опыта, " +
                 "так прими ситуацию с мудростью старейшины. Разве подобает зрелому магу обиженное нытье?", "");

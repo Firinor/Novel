@@ -16,8 +16,6 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         [NullCheck]
         public CharacterInformator Skull;
         [NullCheck]
-        public CharacterInformator WhiteNecromant;
-        [NullCheck]
         public CharacterInformator Yanus;
         [NullCheck]
         public CharacterInformator Archmagister;

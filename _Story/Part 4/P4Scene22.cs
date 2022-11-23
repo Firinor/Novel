@@ -6,34 +6,54 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            CharacterInformator MagicianElector = Characters.MagicianElector;
             CharacterInformator Skull = Characters.Skull;
-            CharacterInformator Vargus = Characters.Vargus;
+            CharacterInformator Bathyard = Characters.Bathyard;
+            CharacterInformator Nogation = Characters.Nogation;
+            CharacterInformator Vacela = Characters.Vacela;
 
-            Show(MagicianElector, PositionOnTheStage.Center);
+            Scene(Backgrounds.OrcCommanderInChiefsTent);
 
-            await Say(MagicianElector, "Все проголосовали. Братья и сестры, " +
-                "желает ли кто-нибудь высказаться перед тем как я оглашу результаты?", "");
-
+            Show(Vacela, PositionOnTheStage.Center, ViewDirection.Left);
             Show(Skull, PositionOnTheStage.Left);
+            Show(Bathyard, PositionOnTheStage.Right);
+            Show(Nogation, PositionOnTheStage.Right);
 
-            await Say(Skull, "Молчат.", "");
+            await Say(Vacela, "Посольство? Пришли пополнить наш склад оружия?", "");
 
-            HideCharacter(Skull);
+            await Say(Skull, "Преклоняемся перед мудростью и могуществом великого вождя Вацелы." +
+                " Примите в качестве дара фолиант о подвигах ваших предков.", "");
 
-            await Say(MagicianElector, "Отлично. Ни у кого нет возражений. " +
-                "Приветствуйте нашего нового архимагистра - инженера порталов, достойного сына своего отца.", "");
+            await Say(Vacela, "Что-то новенькое. Покажите. Где вы это взяли?", "");
 
-            Show(Skull, PositionOnTheStage.Left);
+            await Say(Skull, "Фолиант был найден нашими историками. Мы сразу поспешили вернуть его истинному владельцу.", "");
 
-            await Say(Skull, "Это он тебе. Давай на трибуну! " +
-                "Я ни капельки не сомневался, что они примут правильное решение!", "");
+            await Say(Vacela, "Аргуз умеет выбирать послов. Что он хочет?", "");
 
-            Show(Vargus, PositionOnTheStage.Right, ViewDirection.Left);
+            await Say(Skull, "Герцог Аргуз полагает, что у вас есть более достойные враги, чем он.", "");
 
-            await Say(Vargus, "Ты не имеешь права там стоять! К какому обману вы, мошенники, прибегли на этот раз?", "");
+            await Say(Vacela, "Правильно полагает. Аргуз шакал среди львов.", "");
 
-            await Say(Skull, "Вот и первое решение в новой должности наметилось. Как ты поступишь?", "");
+            await Say(Skull, "Герцог желает заключить мир.", "");
+
+            await Say(Vacela, "Что он предлагает?", "");
+
+            await Say(Skull, "Вот, взгляните на черновик соглашения, великий вождь.", "");
+
+            await Say(Vacela, "Аргуз меняет кровь на золото. Вполне в его духе.", "");
+
+            Show(Vacela, PositionOnTheStage.Center, ViewDirection.Right);
+            await Say(Vacela, "Ногаций, отправляйся к Хурге и передай, что я приказываю возвращаться в стойбище.", "");
+            await Say(Vacela, "Батярд, ты отправишься за золотом.", "");
+
+            await Say(Skull, "Можем выдвинуться утром.", "");
+
+            Show(Vacela, PositionOnTheStage.Center, ViewDirection.Left);
+            await Say(Vacela, "Желтый  металл подождет. Будите гостями на моем пиру" +
+                " в честь церемонии взросления наших детей.", "");
+
+            await Say(Skull, "Почтем за честь.", "");
+
+            await ShowImage(SpecialImages.OrcParty);
 
             Fork();
         }
