@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Puzzle.FindDifferences
+namespace Puzzle
 {
     [CreateAssetMenu(menuName = "Puzzles/ImageWithDifferences", fileName = "new image with differences")]
     public class ImageWithDifferences : ScriptableObject
