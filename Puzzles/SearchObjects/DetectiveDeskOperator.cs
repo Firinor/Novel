@@ -12,7 +12,7 @@ namespace Puzzle.SearchObjects
     public class DetectiveDeskOperator : MonoBehaviour
     {
         [SerializeField, NullCheck]
-        private FindDifferencesOperator findDifferencesOperator;
+        private SearchObjectsOperator searchObjectsOperator;
 
         [SerializeField, NullCheck]
         private Image startImage;
@@ -28,13 +28,9 @@ namespace Puzzle.SearchObjects
         private Button button;
 
         [SerializeField, NullCheck]
-        private Image leftImage;
+        private Image puzzleImage;
         [SerializeField, NullCheck]
-        private Image rightImage;
-        [SerializeField, NullCheck]
-        private EvidenceOperator leftEvidenceOperator;
-        [SerializeField, NullCheck]
-        private EvidenceOperator rightEvidenceOperator;
+        private EvidenceOperator evidenceOperator;
 
         [SerializeField]
         private float differenceShowingTime = 4;
@@ -65,7 +61,7 @@ namespace Puzzle.SearchObjects
         }
 
         public void CreateImages(ImageWithDifferences imageWithDifferences, int differenceCount,
-            GameObject differencePrefab, int offset, out float imageOffset)
+            GameObject differencePrefab, int offset)
         {
             differences = new Dictionary<GameObject, Rect>();
 
@@ -80,22 +76,15 @@ namespace Puzzle.SearchObjects
             float ratio_y = canvas_y / image_y;
 
             float scaleRatio = Math.Min(ratio_x, ratio_y);
-            WorkToImage(leftImage, mainSprite, scaleRatio);
-            leftImage.GetComponent<RectTransform>().localPosition = new Vector3(-offset / 2, 0);
-            WorkToImage(rightImage, mainSprite, scaleRatio);
-            rightImage.GetComponent<RectTransform>().localPosition = new Vector3(offset / 2, 0);
+            WorkToImage(puzzleImage, mainSprite, scaleRatio);
 
-            imageOffset = rightImage.GetComponent<RectTransform>().sizeDelta.x + offset;
-
-            leftEvidenceOperator.enabled = true;
-            leftEvidenceOperator.CalculateStartOfImage();
-            rightEvidenceOperator.enabled = true;
-            rightEvidenceOperator.CalculateStartOfImage();
+            evidenceOperator.enabled = true;
+            evidenceOperator.CalculateStartOfImage();
 
             List<int> differencesIntList = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
             foreach (var difference in differencesIntList)
             {
-                Transform parent = GameMath.HeadsOrTails() ? leftImage.transform : rightImage.transform;
+                Transform parent = puzzleImage.transform;
                 GameObject newDifference = Instantiate(differencePrefab, parent);
 
                 var differenceComponent = imageWithDifferences.Differences[difference];
@@ -124,18 +113,15 @@ namespace Puzzle.SearchObjects
 
         public void ClearImages()
         {
-            leftImage.enabled = false;
-            rightImage.enabled = false;
-            leftEvidenceOperator.enabled = false;
-            rightEvidenceOperator.enabled = false;
+            puzzleImage.enabled = false;
+            evidenceOperator.enabled = false;
         }
         public void DisableImages()
         {
-            leftEvidenceOperator.DisableImage();
-            rightEvidenceOperator.DisableImage();
+            evidenceOperator.DisableImage();
         }
 
-        internal void CheckTheEvidence(Vector2 pointOnImage, CursorOnEvidence cursorOnEvidence)
+        internal void CheckTheEvidence(Vector2 pointOnImage)
         {
             if (!enabled)
                 return;
@@ -145,13 +131,13 @@ namespace Puzzle.SearchObjects
                 if (difference.Value.Contains(pointOnImage))
                 {
                     StartCoroutine(ButtonAnimating(difference));
-                    findDifferencesOperator.ActivateDifference(difference.Key, cursorOnEvidence);
+                    searchObjectsOperator.ActivateDifference(difference.Key);
                     differences.Remove(difference.Key);
                     return;
                 }
             }
 
-            findDifferencesOperator.ErrorShake(cursorOnEvidence);
+            searchObjectsOperator.ErrorParticles();
         }
 
         public void DeleteAllDifference()
@@ -164,8 +150,7 @@ namespace Puzzle.SearchObjects
                 differences.Clear();
             }
 
-            DeleteAllChild(leftImage);
-            DeleteAllChild(rightImage);
+            DeleteAllChild(puzzleImage);
         }
 
         private void DeleteAllChild(Image image)
@@ -189,12 +174,10 @@ namespace Puzzle.SearchObjects
             {
                 yield return wait;
                 timer += deltaTime;
-                difference.Key.transform.SetParent(leftImage.transform);
-                difference.Key.GetComponent<RectTransform>().anchoredPosition = difference.Value.position;
+                difference.Key.SetActive(true);
                 yield return wait;
                 timer += deltaTime;
-                difference.Key.transform.SetParent(rightImage.transform);
-                difference.Key.GetComponent<RectTransform>().anchoredPosition = difference.Value.position;
+                difference.Key.SetActive(false);
             }
             Destroy(difference.Key);
         }

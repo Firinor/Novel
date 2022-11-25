@@ -15,9 +15,7 @@ namespace Puzzle.SearchObjects
         [SerializeField]
         private DetectiveDeskOperator detectiveDeskOperator;
         [SerializeField]
-        private FindDifferencesOperator findDifferencesOperator;
-        [SerializeField]
-        private CursorOnEvidence cursorOnEvidence;
+        private SearchObjectsOperator searchObjectsOperator;
         [SerializeField]
         private RectTransform fullScreenRectTransform;
         [SerializeField]
@@ -43,21 +41,18 @@ namespace Puzzle.SearchObjects
         {
             cursorOnImage = true;
             Cursor.visible = false;
-            findDifferencesOperator.SetCursorOnEvidence(cursorOnEvidence);
-            findDifferencesOperator.EnableCursors();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             cursorOnImage = false;
             Cursor.visible = true;
-            findDifferencesOperator.DisableCursors();
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
             Vector2 evidences = evidencesRectTransform.anchoredPosition;
-            detectiveDeskOperator.CheckTheEvidence(eventData.position - startOfImage - evidences, cursorOnEvidence);
+            detectiveDeskOperator.CheckTheEvidence(eventData.position - startOfImage - evidences);
         }
 
         public void DisableImage()

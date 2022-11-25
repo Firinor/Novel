@@ -10,6 +10,10 @@ namespace Puzzle
         private Sprite sprite;
         public Sprite Sprite { get => sprite; }
 
+
+        [SerializeField]
+        public Texture2D differences2;
+
         [SerializeField]
         private DifferencesStruct[] differences;
         public DifferencesStruct[] Differences { get => differences; }

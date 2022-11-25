@@ -1,6 +1,5 @@
 using FirUnityEditor;
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -33,8 +32,6 @@ namespace Puzzle.SearchObjects
         private bool theTimerIsRunning;
 
         [SerializeField, NullCheck]
-        private ShakeOperator shakeOperator;
-        [SerializeField, NullCheck]
         private ProgressOperator progressOperator;
         [SerializeField, NullCheck]
         private AnimationManager animationManager;
@@ -57,6 +54,7 @@ namespace Puzzle.SearchObjects
         }
         private void CreateDifference—ounter()
         {
+            //imageWithDifferences.differences2
             differencesCount = Math.Min(imageWithDifferences.Differences.Length, differencesCount);
             progressOperator.CreateProgress—ounter(differencesCount);
         }
@@ -134,9 +132,9 @@ namespace Puzzle.SearchObjects
             detectiveDeskOperator.DisableImages();
             detectiveDeskOperator.enabled = false;
         }
-        public void ActivateDifference(GameObject keyDifference, CursorOnEvidence cursorOnEvidence)
+        public void ActivateDifference(GameObject keyDifference)
         {
-            Particles(true, cursorOnEvidence);
+            Particles(true);
 
             differencesFound++;
             progressOperator.AddProgress();
@@ -147,11 +145,11 @@ namespace Puzzle.SearchObjects
             }
         }
 
-        public void Particles(bool success, CursorOnEvidence cursorOnEvidence)
+        public void Particles(bool success)
         {
-            Particles(success, Input.mousePosition, cursorOnEvidence);
+            Particles(success, Input.mousePosition);
         }
-        public void Particles(bool success, Vector3 position, CursorOnEvidence cursorOnEvidence)
+        public void Particles(bool success, Vector3 position)
         {
             ParticleSystem particleSystem = success ? successParticleSystem : errorParticleSystem;
 
@@ -167,10 +165,9 @@ namespace Puzzle.SearchObjects
             gameObject.SetActive(false);
         }
 
-        public void ErrorShake(CursorOnEvidence cursorOnEvidence)
+        public void ErrorParticles()
         {
-            Particles(false, cursorOnEvidence);
-            shakeOperator.SetErrorImpulse();
+            Particles(false);
         }
     }
 }
