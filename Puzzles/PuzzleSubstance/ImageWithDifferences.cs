@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 namespace Puzzle
@@ -10,9 +11,11 @@ namespace Puzzle
         private Sprite sprite;
         public Sprite Sprite { get => sprite; }
 
-
         [SerializeField]
         public Texture2D differences2;
+
+        [SerializeField]
+        public SpriteDataProviderFactories differences3;
 
         [SerializeField]
         private DifferencesStruct[] differences;
