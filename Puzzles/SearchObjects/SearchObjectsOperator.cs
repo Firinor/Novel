@@ -2,7 +2,7 @@ using FirUnityEditor;
 using System;
 using TMPro;
 using UniRx;
-using UnityEditor.U2D.Sprites;
+//using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 namespace Puzzle.SearchObjects
@@ -55,12 +55,12 @@ namespace Puzzle.SearchObjects
         }
         private void CreateDifference—ounter()
         {
-            var factory = new SpriteDataProviderFactories();
-            factory.Init();
-            var dataProvider = factory.GetSpriteEditorDataProviderFromObject(imageWithDifferences.differences2);
-            dataProvider.InitSpriteEditorDataProvider();
+        //    var factory = new SpriteDataProviderFactories();
+        //    factory.Init();
+        //    var dataProvider = factory.GetSpriteEditorDataProviderFromObject(imageWithDifferences.differences2);
+        //    dataProvider.InitSpriteEditorDataProvider();
 
-            var spriteRects = dataProvider.GetSpriteRects();
+        //    var spriteRects = dataProvider.GetSpriteRects();
 
             //
             differencesCount = Math.Min(imageWithDifferences.Differences.Length, differencesCount);

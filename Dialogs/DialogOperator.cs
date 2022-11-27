@@ -300,7 +300,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		if (background != null)
 		{
-			backgroundImage.enabled = true;
+            backgroundImage.enabled = true;
             backgroundImage.sprite = background;
         }
 		
@@ -322,6 +322,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
             await Task.Yield();
         }
+		OffBackground();
         ShowText();
     }
     public void OffBackground()
