@@ -45,7 +45,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     //private MapCanvasOperator mapCanvasOperator;
     [SerializeField]
 	private float lettersDelay;
-	[SerializeField, NullCheck]
+    //Delay after full line output
+    private int fullLineDelay = 7;
+    [SerializeField, NullCheck]
     private Image nextArrow;
 
 	private StringBuilder strindBuilder = new StringBuilder();
@@ -109,24 +111,27 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	public async Task PrintText(string[] text)
 	{
 		PrintableText = TextByLanguage(text);
-		nextInput = false;
+        nextInput = false;
 		nextArrow.enabled = false;
 
 		strindBuilder.Clear();
 
 		textMeshPro.text = strindBuilder.ToString();
 
-		for (int i = 0; i < PrintableText.Length; i++)
+		for (int i = 0; i < PrintableText.Length + fullLineDelay; i++)
 		{
-			strindBuilder.Append(PrintableText[i]);
-			textMeshPro.text = strindBuilder.ToString();
+			if(i < PrintableText.Length)
+			{
+                strindBuilder.Append(PrintableText[i]);
+                textMeshPro.text = strindBuilder.ToString();
+            }
 			if (skipText)
 			{
 				break;
 			}
 			if (nextInput)
 			{
-				i = PrintableText.Length;
+				i = PrintableText.Length + fullLineDelay;
 				nextInput = false;
 			}
 			if (DialogManager.IsCancellationRequested)
@@ -139,7 +144,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			}
 			await Task.Delay((int)(lettersDelay * 1000));
 		}
-		textMeshPro.text = TextByLanguage(text);
+        textMeshPro.text = TextByLanguage(text);
 		nextArrow.enabled = true;
 		while (!nextInput)
 		{
