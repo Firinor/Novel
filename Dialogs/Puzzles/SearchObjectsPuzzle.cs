@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Puzzle
 {
-    public class FindDifferencePuzzle : DialogNode
+    public class SearchObjectsPuzzle : DialogNode
     {
         [SerializeField]
         private DialogNode successPuzzleDialog;

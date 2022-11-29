@@ -1,5 +1,4 @@
-﻿using Puzzle.FindDifferences;
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,9 +6,9 @@ namespace Puzzle
 {
 
     [Serializable]
-    public class FindDifferencePackage : InformationPackage
+    public class ImageWithDifferencesPackage : InformationPackage
     {
-        public FindDifferencePackage(ImageWithDifferences imageWithDifferences, int differenceCount, float allottedTime,
+        public ImageWithDifferencesPackage(ImageWithDifferences imageWithDifferences, int differenceCount, float allottedTime,
             Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {

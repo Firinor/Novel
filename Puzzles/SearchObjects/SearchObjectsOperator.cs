@@ -114,7 +114,7 @@ namespace Puzzle.SearchObjects
         {
             detectiveDeskOperator.DeleteAllDifference();
         }
-        public void SetPuzzleInformationPackage(FindDifferencePackage puzzleInformationPackage)
+        public void SetPuzzleInformationPackage(ImageWithDifferencesPackage puzzleInformationPackage)
         {
             imageWithDifferences = puzzleInformationPackage.ImageWithDifferences;
             differencesCount = puzzleInformationPackage.DifferenceCount;

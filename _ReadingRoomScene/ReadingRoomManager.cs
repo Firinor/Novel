@@ -123,7 +123,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
                 puzzleTetraQuestionOperator.SetPuzzleInformationPackage(tetraQuestion);
                 SwitchPanels(ReadingRoomMarks.puzzleTetraQuestion);
                 break;
-            case FindDifferencePackage findDifferenceImage:
+            case ImageWithDifferencesPackage findDifferenceImage:
                 puzzleFindDifferencesOperator.SetPuzzleInformationPackage(findDifferenceImage);
                 SwitchPanels(ReadingRoomMarks.puzzleFindDifferences);
                 break;

@@ -24,6 +24,12 @@ namespace Puzzle
             this.differences = differences;
         }
 
+        [ContextMenu("Fill numbers")]
+        public void FillNumbers()
+        {
+
+        }
+
         [Serializable]
         public struct DifferencesStruct
         {
