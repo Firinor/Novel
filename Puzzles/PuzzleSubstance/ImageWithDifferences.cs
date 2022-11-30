@@ -1,5 +1,5 @@
 ﻿using System;
-//using UnityEditor.U2D.Sprites;
+
 using UnityEngine;
 
 namespace Puzzle
@@ -27,7 +27,7 @@ namespace Puzzle
         [ContextMenu("Fill numbers")]
         public void FillNumbers()
         {
-
+            differences = FillNumbersHelper.FillNumbers(differencesTexture2D, differences);
         }
 
         [Serializable]
