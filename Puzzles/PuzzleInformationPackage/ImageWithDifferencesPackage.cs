@@ -12,9 +12,9 @@ namespace Puzzle
             Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
-            if (differenceCount > 15)//max difference on image
+            if (differenceCount > 1024)//max difference on image
             {
-                differenceCount = 15;
+                differenceCount = 1024;
             }
             if (differenceCount < 3)//min difference on image
             {

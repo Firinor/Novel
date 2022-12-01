@@ -1,5 +1,6 @@
 using FirUnityEditor;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UniRx;
 //using UnityEditor.U2D.Sprites;
@@ -32,6 +33,8 @@ namespace Puzzle.SearchObjects
         private TextMeshProUGUI timerText;
         private bool theTimerIsRunning;
 
+        private List<ObjectToSearchOperator> progressList;
+
         [SerializeField, NullCheck]
         private ProgressOperator progressOperator;
         [SerializeField, NullCheck]
@@ -43,7 +46,7 @@ namespace Puzzle.SearchObjects
         void OnEnable()
         {
             ClearPuzzle();
-            CreateDifference—ounter();
+            CreateNewObjectsToSearch();
             PlayStartAnimations();
 
             disposables = new CompositeDisposable();
@@ -53,18 +56,37 @@ namespace Puzzle.SearchObjects
                 .Subscribe(_ => TimerTick())
                 .AddTo(disposables);
         }
-        private void CreateDifference—ounter()
+
+        private void CreateNewObjectsToSearch()
         {
-        //    var factory = new SpriteDataProviderFactories();
-        //    factory.Init();
-        //    var dataProvider = factory.GetSpriteEditorDataProviderFromObject(imageWithDifferences.differences2);
-        //    dataProvider.InitSpriteEditorDataProvider();
+            DeleteIngredientsInList(progressList);
 
-        //    var spriteRects = dataProvider.GetSpriteRects();
+            //ingredientInBoxCount = Math.Min(differencesCount, imageWithDifferences.Differences.Length);
 
-            //
-            differencesCount = Math.Min(imageWithDifferences.Differences.Length, differencesCount);
-            progressOperator.CreateProgress—ounter(differencesCount);
+            //recipe = GenerateNewRecipe(recipeIngredientCount, ingredientInBoxCount);
+            //progressList = new List<ObjectToSearchOperator>();
+
+            //foreach (int i in recipe)
+            //{
+            //    ObjectToSearchOperator newRecipeIngridient
+            //        = Instantiate(searchObjectsPrefab, recipeParent)
+            //        .GetComponent<ObjectToSearchOperator>();
+            //    newRecipeIngridient.SetRecipeSprite(alchemicalIngredientsSprites[i]);
+            //    newRecipeIngridient.SetPuzzleOperator(this);
+            //    progressList.Add(newRecipeIngridient);
+            //}
+            progressOperator.SetResipe(progressList);
+        }
+
+        private void DeleteIngredientsInList(List<ObjectToSearchOperator> ingredientsList)
+        {
+            if (ingredientsList != null)
+            {
+                foreach (ObjectToSearchOperator ingredient in ingredientsList)
+                    Destroy(ingredient.gameObject);
+
+                ingredientsList.Clear();
+            }
         }
 
         private void PlayStartAnimations()
@@ -145,7 +167,6 @@ namespace Puzzle.SearchObjects
             Particles(true);
 
             differencesFound++;
-            progressOperator.AddProgress();
 
             if (differencesFound == differencesCount)
             {

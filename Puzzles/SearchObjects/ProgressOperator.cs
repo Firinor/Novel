@@ -1,63 +1,36 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using Puzzle.FindObject;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Puzzle.SearchObjects
 {
     public class ProgressOperator : MonoBehaviour
     {
         [SerializeField]
-        private Transform progressParent;
-        [SerializeField]
-        private GameObject indicatorPrefab;
+        private SearchObjectsOperator puzzleOperator;
+        private List<ObjectToSearchOperator> recipe;
+        private int ingredientCount;
 
-        [SerializeField]
-        private Color offIndicatorColor;
-        [SerializeField]
-        private Color onIndicatorColor;
-
-        private GameObject[] indicators;
-        private int counter = 0;
-        private int сounterGoal = 0;
-
-        public void ClearProgressСounter()
+        internal void SetResipe(List<ObjectToSearchOperator> recipe)
         {
-            if (indicators != null)
-            {
-                foreach (GameObject indicator in indicators)
-                    Destroy(indicator);
-
-                indicators = null;
-                counter = 0;
-            }
-
-            int childCount = progressParent.childCount;
-            while (childCount > 0)
-            {
-                childCount--;
-                Destroy(progressParent.GetChild(childCount).gameObject);
-            }
+            this.recipe = recipe;
+            ingredientCount = recipe.Count;
         }
 
-        public void CreateProgressСounter(int count)
+        internal bool ActivateIngredient(int keyIngredientNumber)
         {
-            ClearProgressСounter();
+            ObjectToSearchOperator objectToSearch = recipe[keyIngredientNumber - 1];
+            objectToSearch.Success();
 
-            indicators = new GameObject[count];
-            сounterGoal = count;
-            for (int i = 0; i < count; i++)
-            {
-                GameObject newIndicator = Instantiate(indicatorPrefab, progressParent);
-                indicators[i] = newIndicator;
-            }
+            //recipe.Remove(blackIngredient);
+            ingredientCount--;
+            return ingredientCount == 0;
         }
 
-        public void AddProgress()
+        public void CreateProgressСounter(ImageWithDifferences imageWithDifferences)
         {
-            if(counter < сounterGoal)
-            {
-                indicators[counter].GetComponent<Image>().color = onIndicatorColor;
-                counter++;
-            }
+            throw new NotImplementedException();
         }
     }
 }
