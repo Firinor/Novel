@@ -4,7 +4,6 @@ using UnityEngine.UI;
 using FirMath;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TMPro;
 using FirUnityEditor;
 
 namespace Puzzle.FindObject
@@ -45,18 +44,12 @@ namespace Puzzle.FindObject
         [SerializeField]
         private int ingredientInBoxCount = 250;
         [SerializeField]
-        private float leftTime = 120;
-        [SerializeField]
         private float forseToIngredient;
         private float acceleration = 0.02f;
         public float ForseToIngredient { get => forseToIngredient; }
 
         [HideInInspector]
         public bool PointerOnRecipe;
-
-        [SerializeField, NullCheck]
-        private TextMeshProUGUI timerText;
-        private bool theTimerIsRunning;
 
         private List<int> recipe;
         private List<AlchemicalIngredientOperator> recipeList;
@@ -102,13 +95,6 @@ namespace Puzzle.FindObject
             }
         }
 
-        private void TextLeftTime()
-        {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(leftTime);
-            DateTime dateTime = new DateTime(1, 1, 1, 0, timeSpan.Minutes, timeSpan.Seconds);
-            timerText.text = $"{dateTime:m:ss}";
-        }
-
         public override void LosePuzzle()
         {
             DeleteIngredientsInList(allIngredients);
@@ -122,14 +108,6 @@ namespace Puzzle.FindObject
             box.GetComponent<Button>().enabled = true;
             DeleteAllIngredients();
             ResetTimer();
-        }
-        private void ResetTimer()
-        {
-            theTimerIsRunning = false;
-            bool leftSomeTime = leftTime > 0;
-            timerText.enabled = leftSomeTime;
-            if (leftSomeTime)
-                TextLeftTime();
         }
         private void DeleteAllIngredients()
         {

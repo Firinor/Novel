@@ -1,6 +1,4 @@
 using FirUnityEditor;
-using System;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,13 +29,8 @@ namespace Puzzle.StarMap
         [SerializeField, NullCheck]
         private StarMapInformator starMapInformator;
 
-        [SerializeField]
-        private float leftTime = 120;
         [SerializeField, Range(0, 2)]
         private int difficulty = 1;
-        [SerializeField, NullCheck]
-        private TextMeshProUGUI timerText;
-        private bool theTimerIsRunning;
 
         private CompositeDisposable disposables;
         #endregion
@@ -54,23 +47,6 @@ namespace Puzzle.StarMap
                 .AddTo(disposables);
 
             StartPuzzle();
-        }
-
-        void TimerTick()
-        {
-                leftTime -= Time.deltaTime;
-                TextLeftTime();
-                if (leftTime <= 0)
-                {
-                    theTimerIsRunning = false;
-                    LosePuzzle();
-                }
-        }
-        private void TextLeftTime()
-        {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(leftTime);
-            DateTime dateTime = new DateTime(1, 1, 1, 0, timeSpan.Minutes, timeSpan.Seconds);
-            timerText.text = $"{dateTime:m:ss}";
         }
         public override void LosePuzzle()
         {
@@ -108,15 +84,6 @@ namespace Puzzle.StarMap
         public void SetButtonActivity()
         {
             targetOperator.SetButtonActivity(true);
-        }
-
-        private void ResetTimer()
-        {
-            theTimerIsRunning = false;
-            bool leftSomeTime = leftTime > 0;
-            timerText.enabled = leftSomeTime;
-            if (leftSomeTime)
-                TextLeftTime();
         }
         public void SetPuzzleInformationPackage(StarMapPackage spatMapPackage)
         {

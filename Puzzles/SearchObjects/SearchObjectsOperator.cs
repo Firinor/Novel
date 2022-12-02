@@ -1,9 +1,9 @@
+using FirMath;
 using FirUnityEditor;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using UniRx;
-//using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 namespace Puzzle.SearchObjects
@@ -26,13 +26,8 @@ namespace Puzzle.SearchObjects
         [SerializeField]
         private int differencesCount = 5;
         private int differencesFound;
-        
-        [SerializeField]
-        private float leftTime = 120;
-        [SerializeField, NullCheck]
-        private TextMeshProUGUI timerText;
-        private bool theTimerIsRunning;
 
+        private List<int> desiredObjects;
         private List<ObjectToSearchOperator> progressList;
 
         [SerializeField, NullCheck]
@@ -61,21 +56,23 @@ namespace Puzzle.SearchObjects
         {
             DeleteIngredientsInList(progressList);
 
-            //ingredientInBoxCount = Math.Min(differencesCount, imageWithDifferences.Differences.Length);
+            desiredObjects = GenerateNewDesiredList(differencesCount, imageWithDifferences.Differences.Length);
+            progressList = new List<ObjectToSearchOperator>();
 
-            //recipe = GenerateNewRecipe(recipeIngredientCount, ingredientInBoxCount);
-            //progressList = new List<ObjectToSearchOperator>();
+            foreach (int i in desiredObjects)
+            {
+                ObjectToSearchOperator newObjectToSearch
+                    = Instantiate(searchObjectsPrefab, progressOperator.ObjectsParent)
+                    .GetComponent<ObjectToSearchOperator>();
+                newObjectToSearch.SetRecipeSprite(imageWithDifferences.Differences[i].sprite);
+                progressList.Add(newObjectToSearch);
+            }
+            progressOperator.SetObjects(progressList);
+        }
 
-            //foreach (int i in recipe)
-            //{
-            //    ObjectToSearchOperator newRecipeIngridient
-            //        = Instantiate(searchObjectsPrefab, recipeParent)
-            //        .GetComponent<ObjectToSearchOperator>();
-            //    newRecipeIngridient.SetRecipeSprite(alchemicalIngredientsSprites[i]);
-            //    newRecipeIngridient.SetPuzzleOperator(this);
-            //    progressList.Add(newRecipeIngridient);
-            //}
-            progressOperator.SetResipe(progressList);
+        private List<int> GenerateNewDesiredList(int differencesCount, int length)
+        {
+            return GameMath.AFewCardsFromTheDeck(differencesCount, length);
         }
 
         private void DeleteIngredientsInList(List<ObjectToSearchOperator> ingredientsList)
@@ -93,23 +90,7 @@ namespace Puzzle.SearchObjects
         {
             animationManager.PlayStart();
         }
-        void TimerTick()
-        {
-                leftTime -= Time.deltaTime;
-                TextLeftTime();
-                if (leftTime <= 0)
-                {
-                    theTimerIsRunning = false;
-                    LosePuzzle();
-                }
-        }
 
-        private void TextLeftTime()
-        {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(leftTime);
-            DateTime dateTime = new DateTime(1, 1, 1, 0, timeSpan.Minutes, timeSpan.Seconds);
-            timerText.text = $"{dateTime:m:ss}";
-        }
         public override void LosePuzzle()
         {
             DeactivatePuzzle();
@@ -124,14 +105,7 @@ namespace Puzzle.SearchObjects
             ResetTimer();
             differencesFound = 0;
         }
-        private void ResetTimer()
-        {
-            theTimerIsRunning = false;
-            bool leftSomeTime = leftTime > 0;
-            timerText.enabled = leftSomeTime;
-            if (leftSomeTime)
-                TextLeftTime();
-        }
+
         public void DeleteAllDifference()
         {
             detectiveDeskOperator.DeleteAllDifference();

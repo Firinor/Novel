@@ -7,15 +7,7 @@ namespace Puzzle.SearchObjects
     {
         [SerializeField]
         private Image image;
-        [SerializeField]
-        private int keyIngredientNumber;
 
-        private SearchObjectsOperator puzzleOperator;
-
-        internal void SetPuzzleOperator(SearchObjectsOperator puzzleOperator)
-        {
-            this.puzzleOperator = puzzleOperator;
-        }
         internal void SetSprite(Sprite sprite)
         {
             image.sprite = sprite;
@@ -24,13 +16,8 @@ namespace Puzzle.SearchObjects
         internal void SetRecipeSprite(Sprite sprite)
         {
             SetSprite(sprite);
-            image.color = Color.black;
             image.raycastTarget = false;
             enabled = false;
-        }
-        internal void AddToRecipe(int number)
-        {
-            keyIngredientNumber = number;
         }
         internal void Success()
         {

@@ -1,6 +1,4 @@
-﻿using Puzzle.FindObject;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Puzzle.SearchObjects
@@ -9,28 +7,27 @@ namespace Puzzle.SearchObjects
     {
         [SerializeField]
         private SearchObjectsOperator puzzleOperator;
-        private List<ObjectToSearchOperator> recipe;
+        [SerializeField]
+        private Transform objectsParent;
+        public Transform ObjectsParent { get => objectsParent; }
+
+        private List<ObjectToSearchOperator> objectsToSearch;
         private int ingredientCount;
 
-        internal void SetResipe(List<ObjectToSearchOperator> recipe)
+        internal void SetObjects(List<ObjectToSearchOperator> objectsToSearch)
         {
-            this.recipe = recipe;
-            ingredientCount = recipe.Count;
+            this.objectsToSearch = objectsToSearch;
+            ingredientCount = objectsToSearch.Count;
         }
 
         internal bool ActivateIngredient(int keyIngredientNumber)
         {
-            ObjectToSearchOperator objectToSearch = recipe[keyIngredientNumber - 1];
+            ObjectToSearchOperator objectToSearch = objectsToSearch[keyIngredientNumber - 1];
             objectToSearch.Success();
 
             //recipe.Remove(blackIngredient);
             ingredientCount--;
             return ingredientCount == 0;
-        }
-
-        public void CreateProgressСounter(ImageWithDifferences imageWithDifferences)
-        {
-            throw new NotImplementedException();
         }
     }
 }
