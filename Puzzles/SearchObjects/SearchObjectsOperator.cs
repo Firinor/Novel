@@ -123,6 +123,8 @@ namespace Puzzle.SearchObjects
         {
             detectiveDeskOperator.enabled = true;
             detectiveDeskOperator.DisableButton();
+            detectiveDeskOperator.CreateImage(imageWithDifferences, desiredObjects,
+                searchObjectsPrefab);
             theTimerIsRunning = leftTime > 0;
         }
         public override void SuccessfullySolvePuzzle()

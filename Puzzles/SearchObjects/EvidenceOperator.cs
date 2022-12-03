@@ -5,8 +5,7 @@ using UnityEngine.UI;
 namespace Puzzle.SearchObjects
 {
     [RequireComponent(typeof(Image))]
-    public class EvidenceOperator : MonoBehaviour,
-        IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public class EvidenceOperator : MonoBehaviour, IPointerClickHandler
     {
         public static bool cursorOnImage = false;
 
@@ -36,17 +35,6 @@ namespace Puzzle.SearchObjects
             Vector2 evidenceRect = GetComponent<RectTransform>().offsetMin;
             startOfImage = new Vector2(-fullScreenRect.x + deskRest.x + evidenceRect.x,
                                     -fullScreenRect.y + deskRest.y +evidenceRect.y);
-        }
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            cursorOnImage = true;
-            Cursor.visible = false;
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            cursorOnImage = false;
-            Cursor.visible = true;
         }
 
         public void OnPointerClick(PointerEventData eventData)

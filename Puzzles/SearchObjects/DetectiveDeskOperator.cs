@@ -59,16 +59,16 @@ namespace Puzzle.SearchObjects
             textMeshProUGUI.enabled = v;
             button.enabled = v;
         }
-
-        public void CreateImages(ImageWithDifferences imageWithDifferences, int differenceCount,
-            GameObject differencePrefab, int offset)
+        internal void CreateImage(ImageWithDifferences imageWithDifferences,
+            List<int> desiredObjects, GameObject searchObjectsPrefab)
         {
             differences = new Dictionary<GameObject, Rect>();
 
-            float canvas_x = (Screen.width - screenWidthOffset - offset * 3) / 2;//left, center, right (2 images in a row)
-            float canvas_y = Screen.height - screenHeightOffset - offset * 2;//top, bottom (1 image on collum)
-
             Sprite mainSprite = imageWithDifferences.Sprite;
+
+            float canvas_x = Screen.width - screenWidthOffset;
+            float canvas_y = Screen.height - screenHeightOffset;
+
             float image_x = mainSprite.textureRect.width;
             float image_y = mainSprite.textureRect.height;
 
@@ -76,16 +76,16 @@ namespace Puzzle.SearchObjects
             float ratio_y = canvas_y / image_y;
 
             float scaleRatio = Math.Min(ratio_x, ratio_y);
+
             WorkToImage(puzzleImage, mainSprite, scaleRatio);
 
             evidenceOperator.enabled = true;
             evidenceOperator.CalculateStartOfImage();
 
-            List<int> differencesIntList = GameMath.AFewCardsFromTheDeck(differenceCount, imageWithDifferences.Differences.Length);
-            foreach (var difference in differencesIntList)
+            foreach (var difference in desiredObjects)
             {
                 Transform parent = puzzleImage.transform;
-                GameObject newDifference = Instantiate(differencePrefab, parent);
+                GameObject newDifference = Instantiate(searchObjectsPrefab, parent);
 
                 var differenceComponent = imageWithDifferences.Differences[difference];
 
