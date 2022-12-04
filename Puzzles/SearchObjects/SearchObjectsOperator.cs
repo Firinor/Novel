@@ -1,8 +1,6 @@
 using FirMath;
 using FirUnityEditor;
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UniRx;
 using UnityEngine;
 
@@ -25,9 +23,12 @@ namespace Puzzle.SearchObjects
         private ImageWithDifferences imageWithDifferences;
         [SerializeField]
         private int differencesCount = 5;
+        [SerializeField]
+        private int trashCount = 10;
         private int differencesFound;
 
         private List<int> desiredObjects;
+        private List<int> trashObjects;
         private List<ObjectToSearchOperator> progressList;
 
         [SerializeField, NullCheck]
@@ -56,7 +57,8 @@ namespace Puzzle.SearchObjects
         {
             DeleteIngredientsInList(progressList);
 
-            desiredObjects = GenerateNewDesiredList(differencesCount, imageWithDifferences.Differences.Length);
+            trashObjects = GenerateNewTrashList(trashCount, imageWithDifferences.Differences.Length);
+            desiredObjects = GenerateNewDesiredList(differencesCount, trashObjects);
             progressList = new List<ObjectToSearchOperator>();
 
             foreach (int i in desiredObjects)
@@ -70,9 +72,20 @@ namespace Puzzle.SearchObjects
             progressOperator.SetObjects(progressList);
         }
 
-        private List<int> GenerateNewDesiredList(int differencesCount, int length)
+        private List<int> GenerateNewTrashList(int count, int length)
         {
-            return GameMath.AFewCardsFromTheDeck(differencesCount, length);
+            return GameMath.AFewCardsFromTheDeck(count, length);
+        }
+        private List<int> GenerateNewDesiredList(int count, List<int> trashObjects)
+        {
+            List<int> desiredList = GameMath.AFewCardsFromTheDeck(count, trashObjects.Count);
+            List<int> result = new List<int>();
+            for (int i = 0; i< count; i++)
+            {
+                result.Add(trashObjects[desiredList[i]]);
+            }
+
+            return result;
         }
 
         private void DeleteIngredientsInList(List<ObjectToSearchOperator> ingredientsList)
@@ -114,6 +127,7 @@ namespace Puzzle.SearchObjects
         {
             imageWithDifferences = puzzleInformationPackage.ImageWithDifferences;
             differencesCount = puzzleInformationPackage.DifferenceCount;
+            trashCount = puzzleInformationPackage.TrashCount;
             leftTime = puzzleInformationPackage.AllottedTime;
             SetVictoryEvent(puzzleInformationPackage.successPuzzleAction);
             SetFailEvent(puzzleInformationPackage.failedPuzzleAction);
@@ -123,7 +137,7 @@ namespace Puzzle.SearchObjects
         {
             detectiveDeskOperator.enabled = true;
             detectiveDeskOperator.DisableButton();
-            detectiveDeskOperator.CreateImage(imageWithDifferences, desiredObjects,
+            detectiveDeskOperator.CreateImage(imageWithDifferences, trashObjects,
                 searchObjectsPrefab);
             theTimerIsRunning = leftTime > 0;
         }

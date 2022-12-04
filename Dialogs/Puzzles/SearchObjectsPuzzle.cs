@@ -19,40 +19,43 @@ namespace Puzzle
             bool failFunc = failedPuzzleDialog != null;
 
             StopDialogSkip();
-            ImageWithDifferencesPackage puzzleFindDifferencePackage;
+            ImageWithDifferencesPackage puzzleSearchObjectsPackage;
 
             if (failFunc)
             {
-                puzzleFindDifferencePackage
+                puzzleSearchObjectsPackage
                 = new ImageWithDifferencesPackage(
                     puzzlePackage.ImageWithDifferences,
                     puzzlePackage.DifferenceCount,
                     puzzlePackage.AllottedTime,
                     puzzleBackground,
                     successPuzzleDialog.StartDialog,
-                    failedPuzzleDialog.StartDialog);
+                    failedPuzzleDialog.StartDialog,
+                    trashCount: puzzlePackage.TrashCount);
             }
             else if (successFunc)
             {
-                puzzleFindDifferencePackage
+                puzzleSearchObjectsPackage
                 = new ImageWithDifferencesPackage(
                     puzzlePackage.ImageWithDifferences,
                     puzzlePackage.DifferenceCount,
                     puzzlePackage.AllottedTime,
                     puzzleBackground,
-                    successPuzzleDialog.StartDialog);
+                    successPuzzleDialog.StartDialog,
+                    trashCount: puzzlePackage.TrashCount);
             }
             else
             {
-                puzzleFindDifferencePackage
+                puzzleSearchObjectsPackage
                 = new ImageWithDifferencesPackage(
                     puzzlePackage.ImageWithDifferences,
                     puzzlePackage.DifferenceCount,
                     puzzlePackage.AllottedTime,
-                    puzzleBackground);
+                    puzzleBackground,
+                    trashCount: puzzlePackage.TrashCount);
             }
 
-            DialogManager.SwithToPuzzle(puzzleFindDifferencePackage);
+            DialogManager.SwithToPuzzle(puzzleSearchObjectsPackage);
         }
     }
 }

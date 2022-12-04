@@ -60,7 +60,7 @@ namespace Puzzle.SearchObjects
             button.enabled = v;
         }
         internal void CreateImage(ImageWithDifferences imageWithDifferences,
-            List<int> desiredObjects, GameObject searchObjectsPrefab)
+            List<int> trashObjects, List<int> desiredObjects, GameObject searchObjectsPrefab)
         {
             differences = new Dictionary<GameObject, Rect>();
 
@@ -130,7 +130,7 @@ namespace Puzzle.SearchObjects
             {
                 if (difference.Value.Contains(pointOnImage))
                 {
-                    StartCoroutine(ButtonAnimating(difference));
+                    StartCoroutine(ButtonAnimation(difference));
                     searchObjectsOperator.ActivateDifference(difference.Key);
                     differences.Remove(difference.Key);
                     return;
@@ -164,7 +164,7 @@ namespace Puzzle.SearchObjects
             }
         }
 
-        private IEnumerator ButtonAnimating(KeyValuePair<GameObject, Rect> difference)
+        private IEnumerator ButtonAnimation(KeyValuePair<GameObject, Rect> difference)
         {
             float deltaTime = 0.4f;
             WaitForSeconds wait = new WaitForSeconds(deltaTime);
