@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Puzzle.SearchObjects
 {
@@ -11,17 +10,20 @@ namespace Puzzle.SearchObjects
         private Transform objectsParent;
         public Transform ObjectsParent { get => objectsParent; }
 
-        private List<ObjectToSearchOperator> objectsToSearch;
+        private ObjectToSearchOperator[] objectsToSearch;
         private int ingredientCount;
 
-        internal void SetObjects(List<ObjectToSearchOperator> objectsToSearch)
+        internal void SetObjects(ObjectToSearchOperator[] objectsToSearch)
         {
             this.objectsToSearch = objectsToSearch;
-            ingredientCount = objectsToSearch.Count;
+            ingredientCount = objectsToSearch.Length;
         }
 
         internal bool ActivateIngredient(int keyIngredientNumber)
         {
+            if(ingredientCount <= keyIngredientNumber)
+                return false;
+
             ObjectToSearchOperator objectToSearch = objectsToSearch[keyIngredientNumber - 1];
             objectToSearch.Success();
 

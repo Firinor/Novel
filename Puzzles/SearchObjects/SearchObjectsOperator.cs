@@ -27,9 +27,30 @@ namespace Puzzle.SearchObjects
         private int trashCount = 10;
         private int differencesFound;
 
-        private List<int> desiredObjects;
         private List<int> trashObjects;
-        private List<ObjectToSearchOperator> progressList;
+        private Dictionary<int, ObjectToSearchOperator> desiredObjects;
+        private ObjectToSearchOperator[] desiredObjectsToSearch
+        {
+            get
+            {
+                if (desiredObjects == null)
+                    return null;
+
+                var result = new ObjectToSearchOperator[desiredObjects.Count];
+                desiredObjects.Values.CopyTo(result, 0);
+                return result;
+            }
+        }
+        private List<int> desiredObjectsInts
+        {
+            get
+            {
+                var result = new List<int>();
+                foreach(var K in desiredObjects)
+                    result.Add(K.Key);
+                return result;
+            }
+        }
 
         [SerializeField, NullCheck]
         private ProgressOperator progressOperator;
@@ -42,6 +63,7 @@ namespace Puzzle.SearchObjects
         void OnEnable()
         {
             ClearPuzzle();
+            DeleteAllInProgressList(desiredObjectsToSearch);
             CreateNewObjectsToSearch();
             PlayStartAnimations();
 
@@ -55,21 +77,19 @@ namespace Puzzle.SearchObjects
 
         private void CreateNewObjectsToSearch()
         {
-            DeleteIngredientsInList(progressList);
-
             trashObjects = GenerateNewTrashList(trashCount, imageWithDifferences.Differences.Length);
-            desiredObjects = GenerateNewDesiredList(differencesCount, trashObjects);
-            progressList = new List<ObjectToSearchOperator>();
+            List<int> desiredObjectsInts = GenerateNewDesiredList(differencesCount, trashObjects);
+            desiredObjects = new Dictionary<int, ObjectToSearchOperator>();
 
-            foreach (int i in desiredObjects)
+            foreach (int i in desiredObjectsInts)
             {
                 ObjectToSearchOperator newObjectToSearch
                     = Instantiate(searchObjectsPrefab, progressOperator.ObjectsParent)
                     .GetComponent<ObjectToSearchOperator>();
                 newObjectToSearch.SetRecipeSprite(imageWithDifferences.Differences[i].sprite);
-                progressList.Add(newObjectToSearch);
+                desiredObjects.Add(i, newObjectToSearch);
             }
-            progressOperator.SetObjects(progressList);
+            progressOperator.SetObjects(desiredObjectsToSearch);
         }
 
         private List<int> GenerateNewTrashList(int count, int length)
@@ -88,14 +108,14 @@ namespace Puzzle.SearchObjects
             return result;
         }
 
-        private void DeleteIngredientsInList(List<ObjectToSearchOperator> ingredientsList)
+        private void DeleteAllInProgressList(ObjectToSearchOperator[] ingredientsList)
         {
             if (ingredientsList != null)
             {
                 foreach (ObjectToSearchOperator ingredient in ingredientsList)
                     Destroy(ingredient.gameObject);
 
-                ingredientsList.Clear();
+                desiredObjects.Clear();
             }
         }
 
@@ -113,7 +133,7 @@ namespace Puzzle.SearchObjects
         {
             victoryButton.SetActive(false);
             failButton.SetActive(false);
-            detectiveDeskOperator.ClearImages();
+            detectiveDeskOperator.ClearImage();
             DeleteAllDifference();
             ResetTimer();
             differencesFound = 0;
@@ -137,7 +157,7 @@ namespace Puzzle.SearchObjects
         {
             detectiveDeskOperator.enabled = true;
             detectiveDeskOperator.DisableButton();
-            detectiveDeskOperator.CreateImage(imageWithDifferences, trashObjects,
+            detectiveDeskOperator.CreateImage(imageWithDifferences, trashObjects, desiredObjectsInts,
                 searchObjectsPrefab);
             theTimerIsRunning = leftTime > 0;
         }
@@ -152,8 +172,10 @@ namespace Puzzle.SearchObjects
             detectiveDeskOperator.DisableImages();
             detectiveDeskOperator.enabled = false;
         }
-        public void ActivateDifference(GameObject keyDifference)
+        public void ActivateDifference()
         {
+            //progressList.Contains();
+
             Particles(true);
 
             differencesFound++;

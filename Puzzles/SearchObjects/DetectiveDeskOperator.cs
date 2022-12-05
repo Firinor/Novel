@@ -82,7 +82,7 @@ namespace Puzzle.SearchObjects
             evidenceOperator.enabled = true;
             evidenceOperator.CalculateStartOfImage();
 
-            foreach (var difference in desiredObjects)
+            foreach (var difference in trashObjects)
             {
                 Transform parent = puzzleImage.transform;
                 GameObject newDifference = Instantiate(searchObjectsPrefab, parent);
@@ -98,8 +98,11 @@ namespace Puzzle.SearchObjects
                 differenceRectTransform.anchoredPosition =
                     new Vector2(differenceComponent.xShift * scaleRatio, differenceComponent.yShift * scaleRatio);
 
-                differences.Add(newDifference,
-                    new Rect(differenceRectTransform.offsetMin, differenceRectTransform.sizeDelta));
+                if(desiredObjects.Contains(difference))
+                {
+                    differences.Add(newDifference,
+                        new Rect(differenceRectTransform.offsetMin, differenceRectTransform.sizeDelta));
+                }
             }
         }
 
@@ -111,7 +114,7 @@ namespace Puzzle.SearchObjects
             image.GetComponent<RectTransform>().sizeDelta *= scaleRatio;
         }
 
-        public void ClearImages()
+        public void ClearImage()
         {
             puzzleImage.enabled = false;
             evidenceOperator.enabled = false;
@@ -130,8 +133,8 @@ namespace Puzzle.SearchObjects
             {
                 if (difference.Value.Contains(pointOnImage))
                 {
-                    StartCoroutine(ButtonAnimation(difference));
-                    searchObjectsOperator.ActivateDifference(difference.Key);
+                    StartCoroutine(ButtonAnimation(difference.Key));
+                    searchObjectsOperator.ActivateDifference();
                     differences.Remove(difference.Key);
                     return;
                 }
@@ -164,7 +167,7 @@ namespace Puzzle.SearchObjects
             }
         }
 
-        private IEnumerator ButtonAnimation(KeyValuePair<GameObject, Rect> difference)
+        private IEnumerator ButtonAnimation(GameObject difference)
         {
             float deltaTime = 0.4f;
             WaitForSeconds wait = new WaitForSeconds(deltaTime);
@@ -174,12 +177,12 @@ namespace Puzzle.SearchObjects
             {
                 yield return wait;
                 timer += deltaTime;
-                difference.Key.SetActive(true);
+                difference.SetActive(true);
                 yield return wait;
                 timer += deltaTime;
-                difference.Key.SetActive(false);
+                difference.SetActive(false);
             }
-            Destroy(difference.Key);
+            Destroy(difference);
         }
     }
 }
