@@ -23,6 +23,8 @@ namespace Puzzle.SearchObjects
 
         [SerializeField]
         private Dictionary<GameObject, Rect> differences;
+        [SerializeField]
+        private Dictionary<GameObject, ObjectToSearchOperator> progressDifferences;
 
         [SerializeField, NullCheck]
         private Button button;
@@ -33,7 +35,13 @@ namespace Puzzle.SearchObjects
         private EvidenceOperator evidenceOperator;
 
         [SerializeField]
-        private float differenceShowingTime = 4;
+        private float differenceShowingTime = 1;
+        [SerializeField]
+        private float differenceSlidingDelay = 0.5f;
+        [SerializeField]
+        private AnimationCurve differenceSpeedCurve;
+        [SerializeField]
+        private float differenceSlidingTime = 1;
 
         [SerializeField]
         private float screenWidthOffset = 200;//pixels
@@ -60,9 +68,13 @@ namespace Puzzle.SearchObjects
             button.enabled = v;
         }
         internal void CreateImage(ImageWithDifferences imageWithDifferences,
-            List<int> trashObjects, List<int> desiredObjects, GameObject searchObjectsPrefab)
+            List<int> trashObjects, Dictionary<int, ObjectToSearchOperator> desiredObjects, GameObject searchObjectsPrefab)
         {
             differences = new Dictionary<GameObject, Rect>();
+            var desiredKeys = new int[desiredObjects.Count];
+            desiredObjects.Keys.CopyTo(desiredKeys, 0);
+            List<int> desiredKeysList = new List<int>(desiredKeys);
+            progressDifferences = new Dictionary<GameObject, ObjectToSearchOperator>();
 
             Sprite mainSprite = imageWithDifferences.Sprite;
 
@@ -98,10 +110,11 @@ namespace Puzzle.SearchObjects
                 differenceRectTransform.anchoredPosition =
                     new Vector2(differenceComponent.xShift * scaleRatio, differenceComponent.yShift * scaleRatio);
 
-                if(desiredObjects.Contains(difference))
+                if(desiredKeysList.Contains(difference))
                 {
                     differences.Add(newDifference,
                         new Rect(differenceRectTransform.offsetMin, differenceRectTransform.sizeDelta));
+                    progressDifferences.Add(newDifference, desiredObjects[difference]);
                 }
             }
         }
@@ -169,20 +182,66 @@ namespace Puzzle.SearchObjects
 
         private IEnumerator ButtonAnimation(GameObject difference)
         {
-            float deltaTime = 0.4f;
-            WaitForSeconds wait = new WaitForSeconds(deltaTime);
             float timer = 0;
+
+            RectTransform differenceTransform = difference.transform as RectTransform;
+            RectTransform parentForm = progressDifferences[difference].transform as RectTransform;
+            differenceTransform.SetParent(parentForm);
+
+            Vector2 defaultSize = differenceTransform.sizeDelta;
+
+            differenceTransform.pivot = new Vector2(.5f, .5f);
+            differenceTransform.localPosition += new Vector3(defaultSize.x/2, defaultSize.y/2);
+
+            yield return new WaitForSeconds(differenceSlidingDelay);
+
+            float currentTime = Time.time;
+            float sizeDeltaOfEscapsedTime;
 
             while (timer < differenceShowingTime)
             {
-                yield return wait;
-                timer += deltaTime;
-                difference.SetActive(true);
-                yield return wait;
-                timer += deltaTime;
-                difference.SetActive(false);
+                timer += Time.time - currentTime;
+                currentTime = Time.time;
+
+                sizeDeltaOfEscapsedTime = 1 + timer / differenceShowingTime;
+
+                differenceTransform.sizeDelta = defaultSize * sizeDeltaOfEscapsedTime;
+                yield return null;
             }
-            Destroy(difference);
+
+            yield return new WaitForSeconds(differenceSlidingDelay);
+
+            defaultSize = differenceTransform.sizeDelta;
+
+            timer = 0;
+            currentTime = Time.time;
+            
+            float positionOfElapsedTime;
+
+            differenceTransform.pivot = Vector2.zero;
+            differenceTransform.localPosition -= 
+                new Vector3(differenceTransform.sizeDelta.x / 2, differenceTransform.sizeDelta.y / 2);
+            Vector3 defaultlocalPosition = differenceTransform.localPosition;
+
+            Vector2 deltaSize = parentForm.sizeDelta - differenceTransform.sizeDelta;
+            float escapiedTime;
+
+            while (timer < differenceSlidingTime)
+            {
+                timer += Time.time - currentTime;
+                currentTime = Time.time;
+
+                escapiedTime = timer / differenceSlidingTime;
+                positionOfElapsedTime = differenceSpeedCurve.Evaluate(escapiedTime);
+
+                differenceTransform.localPosition = defaultlocalPosition * positionOfElapsedTime;
+                differenceTransform.sizeDelta = defaultSize + deltaSize * escapiedTime;
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(differenceSlidingDelay);
+
+            Destroy(progressDifferences[difference].gameObject);
         }
     }
 }

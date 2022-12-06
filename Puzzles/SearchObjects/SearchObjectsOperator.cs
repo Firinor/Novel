@@ -1,5 +1,6 @@
 using FirMath;
 using FirUnityEditor;
+using Puzzle.FindDifferences;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -117,6 +118,17 @@ namespace Puzzle.SearchObjects
 
                 desiredObjects.Clear();
             }
+            DeleteAllChild(progressOperator.ObjectsParent);
+        }
+
+        private void DeleteAllChild(Transform progress)
+        {
+            int i = progress.childCount;
+            while (i > 0)
+            {
+                i--;
+                Destroy(progress.GetChild(i).gameObject);
+            }
         }
 
         private void PlayStartAnimations()
@@ -157,7 +169,7 @@ namespace Puzzle.SearchObjects
         {
             detectiveDeskOperator.enabled = true;
             detectiveDeskOperator.DisableButton();
-            detectiveDeskOperator.CreateImage(imageWithDifferences, trashObjects, desiredObjectsInts,
+            detectiveDeskOperator.CreateImage(imageWithDifferences, trashObjects, desiredObjects,
                 searchObjectsPrefab);
             theTimerIsRunning = leftTime > 0;
         }
