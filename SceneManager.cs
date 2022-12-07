@@ -22,7 +22,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
         optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
         //optionsOperator is disabled. Awake & Start procedures are not suitable
-        optionsOperator.SingletoneCheck(optionsOperator);//Singltone
+        optionsOperator.SingletoneCheck(optionsOperator);
 
         foreach (GameObject go in doNotDestroyOnLoad)
         {
