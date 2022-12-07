@@ -55,7 +55,7 @@ namespace Puzzle
                     trashCount: puzzlePackage.TrashCount);
             }
 
-            DialogManager.SwithToPuzzle(puzzleSearchObjectsPackage);
+            DialogManager.SwithToPuzzle(puzzleSearchObjectsPackage, additional: "search");
         }
     }
 }

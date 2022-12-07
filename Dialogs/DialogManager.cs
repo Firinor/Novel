@@ -43,8 +43,8 @@ public class DialogManager : SinglBehaviour<DialogManager>
     {
         instance.sceneManager.SwitchPanelsToOptions();
     }
-    public static void SwithToPuzzle(InformationPackage informationPackage)
+    public static void SwithToPuzzle(InformationPackage informationPackage, string additional = "")
     {
-        instance.sceneManager.SwithToPuzzle(informationPackage);
+        instance.sceneManager.SwithToPuzzle(informationPackage, additional);
     }
 }
