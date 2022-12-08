@@ -48,8 +48,6 @@ namespace Puzzle
         public int IngredientsCount { get => Math.Min(ingredients.Length, ingredientsCount); }
         public float AllottedTime { get => allottedTime; }
 
-        private enum IngredientsEnum { alchemical, cristals }
-
         public Sprite[] Ingredients { get => ingredients; }
     }
 }

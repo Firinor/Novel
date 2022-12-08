@@ -6,9 +6,11 @@ using Puzzle.TetraQuestion;
 using Puzzle.FindDifferences;
 using Puzzle.StarMap;
 using Puzzle.SearchObjects;
+using Puzzle.BossBattle;
 
 public enum ReadingRoomMarks { map, dialog, options, off,
-    puzzleFindObject, puzzleTetraQuestion, puzzleFindDifferences, puzzleSearchObjects, puzzleStarMap
+    puzzleFindObject, puzzleTetraQuestion, puzzleFindDifferences, puzzleSearchObjects, puzzleStarMap,
+    puzzleBossBattle
 };
 
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel, IReadingSceneManager
@@ -20,11 +22,13 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     private static GameObject puzzleFindDifference;
     private static GameObject puzzleSearchObjects;
     private static GameObject puzzleStarMap;
+    private static GameObject puzzleBossBattle;
     private static FindObjectOperator puzzleFindObjectOperator;
     private static TetraQuestionOperator puzzleTetraQuestionOperator;
     private static FindDifferencesOperator puzzleFindDifferencesOperator;
     private static SearchObjectsOperator puzzleSearchObjectsOperator;
     private static StarMapOperator puzzleStarMapOperator;
+    private static BossBattleOperator puzzleBossBattleOperator;
 
     private ReadingRoomInformator readingRoomInformator;
 
@@ -44,12 +48,14 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         puzzleFindDifference = ReadingRoomInformator.GetPuzzleFindDifferences();
         puzzleSearchObjects = ReadingRoomInformator.GetPuzzleSearchObjects();
         puzzleStarMap = ReadingRoomInformator.GetPuzzleStarMap();
+        puzzleBossBattle = ReadingRoomInformator.GetPuzzleBossBattle();
 
         puzzleFindObjectOperator = ReadingRoomInformator.GetPuzzleFindObjectOperator();
         puzzleTetraQuestionOperator = ReadingRoomInformator.GetPuzzleTetraQuestionOperator();
         puzzleFindDifferencesOperator = ReadingRoomInformator.GetPuzzleFindDifferenceOperator();
         puzzleSearchObjectsOperator = ReadingRoomInformator.GetPuzzleSearchObjectsOperator();
         puzzleStarMapOperator = ReadingRoomInformator.GetPuzzleStarMapOperator();
+        puzzleBossBattleOperator = ReadingRoomInformator.GetPuzzleBossBattleOperator();
     }
 
     public static void SwitchPanels(ReadingRoomMarks mark)
@@ -80,6 +86,9 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
             case ReadingRoomMarks.puzzleStarMap:
                 puzzleStarMap.SetActive(true);
                 break;
+            case ReadingRoomMarks.puzzleBossBattle:
+                puzzleStarMap.SetActive(true);
+                break;
             case ReadingRoomMarks.options:
                 SceneManager.SwitchPanel(SceneDirection.options);
                 break;
@@ -108,6 +117,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         puzzleFindDifference.SetActive(false);
         puzzleSearchObjects.SetActive(false);
         puzzleStarMap.SetActive(false);
+        puzzleBossBattle.SetActive(false);
         SceneManager.DiactiveAllPanels();
     }
 
@@ -148,6 +158,10 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
             case StarMapPackage starMapPackage:
                 puzzleStarMapOperator.SetPuzzleInformationPackage(starMapPackage);
                 SwitchPanels(ReadingRoomMarks.puzzleStarMap);
+                break;
+            case BossBattlePackage bossBattlePackage:
+                puzzleBossBattleOperator.SetPuzzleInformationPackage(bossBattlePackage);
+                SwitchPanels(ReadingRoomMarks.puzzleBossBattle);
                 break;
             case null:
                 break;

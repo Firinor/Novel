@@ -1,4 +1,5 @@
 using FirUnityEditor;
+using Puzzle.BossBattle;
 using Puzzle.FindDifferences;
 using Puzzle.FindObject;
 using Puzzle.SearchObjects;
@@ -23,6 +24,8 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     [SerializeField, NullCheck]
     private GameObject puzzleStarMap;
     [SerializeField, NullCheck]
+    private GameObject puzzleBossBattle;
+    [SerializeField, NullCheck]
     private FindObjectOperator findObjectOperator;
     [SerializeField, NullCheck]
     private TetraQuestionOperator tetraQuestionOperator;
@@ -32,6 +35,8 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     private SearchObjectsOperator searchObjectsOperator;
     [SerializeField, NullCheck]
     private StarMapOperator starMapOperator;
+    [SerializeField, NullCheck]
+    private BossBattleOperator bossBattleOperator;
     [SerializeField, NullCheck]
     private PuzzleInformator puzzleInformator;
     [SerializeField, NullCheck]
@@ -45,12 +50,14 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     public static GameObject GetPuzzleFindDifferences() => instance.puzzleFindDifferences;
     public static GameObject GetPuzzleSearchObjects() => instance.puzzleSearchObjects;
     public static GameObject GetPuzzleStarMap() => instance.puzzleStarMap;
+    public static GameObject GetPuzzleBossBattle() => instance.puzzleBossBattle;
 
     public static FindObjectOperator GetPuzzleFindObjectOperator() => instance.findObjectOperator;
     public static TetraQuestionOperator GetPuzzleTetraQuestionOperator() => instance.tetraQuestionOperator;
     public static FindDifferencesOperator GetPuzzleFindDifferenceOperator() => instance.findDifferencesOperator;
     public static SearchObjectsOperator GetPuzzleSearchObjectsOperator() => instance.searchObjectsOperator;
     public static StarMapOperator GetPuzzleStarMapOperator() => instance.starMapOperator;
+    public static BossBattleOperator GetPuzzleBossBattleOperator() => instance.bossBattleOperator;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;
