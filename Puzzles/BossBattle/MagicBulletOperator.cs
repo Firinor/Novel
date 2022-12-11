@@ -5,14 +5,14 @@ using UnityEngine.EventSystems;
 
 namespace Puzzle.BossBattle
 {
-    public class MagicBulletOperator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class MagicBulletOperator : MonoBehaviour
     {
         private BossBattleOperator bossBattleOperator;
 
         [SerializeField, NullCheck]
         private RectTransform rectTransform;
 
-        private bool expansion = true;
+        public bool expansion = true;
         [SerializeField]
         private float expansionSpeed = 100;
         [SerializeField]
@@ -21,6 +21,12 @@ namespace Puzzle.BossBattle
         private float damageSize = 500;
         [SerializeField]
         private float attenuationSize = 75;
+
+        void Awake()
+        {
+            if(bossBattleOperator == null)
+                bossBattleOperator = GetComponentInParent<BossBattleOperator>();
+        }
 
         public void setBossBattleOperator(BossBattleOperator bossBattleOperator)
         {
@@ -52,16 +58,6 @@ namespace Puzzle.BossBattle
         private void DamagePlayer()
         {
             bossBattleOperator.DamagePlayer();
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            expansion = false;
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            expansion = true;
         }
     }
 }

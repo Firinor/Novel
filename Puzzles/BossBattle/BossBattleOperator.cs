@@ -1,5 +1,5 @@
 using FirUnityEditor;
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,22 +7,22 @@ namespace Puzzle.BossBattle
 {
     public class BossBattleOperator : PuzzleOperator
     {
-        [SerializeField]
-        private int bossMaxHealth = 3;
-        [SerializeField]
-        private int heroMaxHealth = 3;
-        private int bossHealth;
-        private int heroHealth;
         [SerializeField, NullCheck]
-        private Slider bossHealthSlider;
+        private BossStatsOperator bossStatsOperator;
         [SerializeField, NullCheck]
-        private Slider heroHealthSlider;
+        private HeroStatsOperator heroStatsOperator;
 
-        private float bossSpeed = 1;
-        private float bossSpeedCooldown = 1;
-        private float heroSpeed = 1;
-        private float heroSpeedCooldown = 1;
+        [Space]
+        [SerializeField, NullCheck]
+        private Image redScreen;
+        [SerializeField, Range(0,1)]
+        private float redAlfaCeiling;
+        [SerializeField]
+        private float redAlfaFillingTime;
+        [SerializeField]
+        private float redAlfaDecreasingTime;
 
+        [Space]
         [SerializeField, NullCheck]
         private RectTransform bossBulletParent;
         [SerializeField, NullCheck]
@@ -32,25 +32,10 @@ namespace Puzzle.BossBattle
         [SerializeField, NullCheck]
         private GameObject heroBulletPrefab;
 
-        void OnEnable()
-        {
-            SetHP(bossHealthSlider, ref bossHealth, bossMaxHealth);
-            SetHP(heroHealthSlider, ref heroHealth, heroMaxHealth);
-        }
-
-        private void SetHP(Slider slider, ref int currentHP, int value)
-        {
-            slider.maxValue = value;
-            slider.value = value;
-            currentHP = value;
-        }
-
         public void SetPuzzleInformationPackage(BossBattlePackage bossBattlePackage)
         {
-            bossHealth = bossBattlePackage.BossHealth;
-            heroHealth = bossBattlePackage.HeroHealth;
-            bossSpeed = bossBattlePackage.BossSpeed;
-            heroSpeed = bossBattlePackage.HeroSpeed;
+            bossStatsOperator.SetHP(bossBattlePackage.BossHealth);
+            heroStatsOperator.SetHP(bossBattlePackage.HeroHealth);
             SetVictoryEvent(bossBattlePackage.successPuzzleAction);
             SetFailEvent(bossBattlePackage.failedPuzzleAction);
             SetBackground(bossBattlePackage.PuzzleBackground);
@@ -58,21 +43,52 @@ namespace Puzzle.BossBattle
 
         internal void DamagePlayer()
         {
-            heroHealth--;
-            heroHealthSlider.value = heroHealth;
+            StopCoroutine(RedScreen());
+            StartCoroutine(RedScreen());
 
-            if(heroHealth <= 0)
+            bool isDead = heroStatsOperator.Damage();
+
+            if (isDead)
             {
                 LosePuzzle();
             }
         }
 
+        private IEnumerator RedScreen()
+        {
+            redScreen.color = new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, 0f);
+            float timer;
+            float startTime = Time.time;
+            float deltaOfEscapsedTime;
+            while (redScreen.color.a < redAlfaCeiling)
+            {
+                timer = Time.time - startTime;
+                deltaOfEscapsedTime = timer / redAlfaFillingTime;
+
+                redScreen.color = 
+                    new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, deltaOfEscapsedTime);
+                yield return null;
+            }
+
+            startTime = Time.time;
+
+            while (redScreen.color.a > 0f)
+            {
+                timer = Time.time - startTime;
+                deltaOfEscapsedTime = redAlfaCeiling - timer * redAlfaCeiling / redAlfaDecreasingTime;
+
+                redScreen.color =
+                    new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, deltaOfEscapsedTime);
+                yield return null;
+            }
+            redScreen.color = new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, 0f);
+        }
+
         internal void DamageBoss()
         {
-            bossHealth--;
-            bossHealthSlider.value = bossHealth;
+            bool isDead = bossStatsOperator.Damage();
 
-            if (bossHealth <= 0)
+            if (isDead)
             {
                 SuccessfullySolvePuzzle();
             }

@@ -18,18 +18,5 @@ namespace Puzzle.SearchObjects
             this.objectsToSearch = objectsToSearch;
             ingredientCount = objectsToSearch.Length;
         }
-
-        internal bool ActivateIngredient(int keyIngredientNumber)
-        {
-            if(ingredientCount <= keyIngredientNumber)
-                return false;
-
-            ObjectToSearchOperator objectToSearch = objectsToSearch[keyIngredientNumber - 1];
-            objectToSearch.Success();
-
-            //recipe.Remove(blackIngredient);
-            ingredientCount--;
-            return ingredientCount == 0;
-        }
     }
 }

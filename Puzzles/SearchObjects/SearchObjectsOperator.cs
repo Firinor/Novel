@@ -186,8 +186,6 @@ namespace Puzzle.SearchObjects
         }
         public void ActivateDifference()
         {
-            //progressList.Contains();
-
             Particles(true);
 
             differencesFound++;

@@ -19,11 +19,5 @@ namespace Puzzle.SearchObjects
             image.raycastTarget = false;
             enabled = false;
         }
-        internal void Success()
-        {
-            //puzzleOperator.Particles(Camera.main.WorldToScreenPoint(transform.position),
-            //    success: true);
-            //image.color = Color.white;
-        }
     }
 }
