@@ -41,6 +41,11 @@ namespace Puzzle.BossBattle
             SetBackground(bossBattlePackage.PuzzleBackground);
         }
 
+        public override void StartPuzzle()
+        {
+            
+        }
+
         internal void DamagePlayer()
         {
             StopCoroutine(RedScreen());
