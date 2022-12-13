@@ -1,5 +1,7 @@
 using UnityEngine;
 
+public enum ViewDirection { Right = 1, Left = -1 }
+
 [CreateAssetMenu(menuName = "Character/Character info", fileName = "CharInfo")]
 public class CharacterInformator : ScriptableObject
 {

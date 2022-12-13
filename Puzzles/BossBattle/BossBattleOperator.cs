@@ -15,6 +15,8 @@ namespace Puzzle.BossBattle
         [Space]
         [SerializeField, NullCheck]
         private Image redScreen;
+        [SerializeField, NullCheck]
+        private Image bossImage;
         [SerializeField, Range(0,1)]
         private float redAlfaCeiling;
         [SerializeField]
@@ -32,18 +34,51 @@ namespace Puzzle.BossBattle
         [SerializeField, NullCheck]
         private GameObject heroBulletPrefab;
 
+        [Space]
+        [SerializeField]
+        private BossBattlePackage bossBattlePackage;
+
         public void SetPuzzleInformationPackage(BossBattlePackage bossBattlePackage)
         {
-            bossStatsOperator.SetHP(bossBattlePackage.BossHealth);
-            heroStatsOperator.SetHP(bossBattlePackage.HeroHealth);
+            this.bossBattlePackage = bossBattlePackage;
+            SetAllStats(bossBattlePackage);
             SetVictoryEvent(bossBattlePackage.successPuzzleAction);
             SetFailEvent(bossBattlePackage.failedPuzzleAction);
             SetBackground(bossBattlePackage.PuzzleBackground);
         }
 
-        public override void StartPuzzle()
+        private void SetAllStats(BossBattlePackage bossBattlePackage)
+        {
+            CharacterInformator boss = bossBattlePackage.Boss;
+            bossImage.sprite = boss.unitSprite;
+            float coefficient = GetComponent<RectTransform>().rect.height / bossImage.preferredHeight;
+            bossImage.transform.localScale = Vector3.one * coefficient * boss.UnitScale;
+
+            bossStatsOperator.SetHP(bossBattlePackage.BossHealth);
+            bossStatsOperator.SetStats(bossBattlePackage);
+            heroStatsOperator.SetHP(bossBattlePackage.HeroHealth);
+            heroStatsOperator.SetStats(bossBattlePackage);
+        }
+
+        void OnEnable()
+        {
+            SetAllStats(bossBattlePackage);
+        }
+
+        void Update()
         {
             
+        }
+
+        public override void StartPuzzle()
+        {
+            enabled = true;
+        }
+
+        public override void ClearPuzzle()
+        {
+            base.ClearPuzzle();
+            enabled = false;
         }
 
         internal void DamagePlayer()
@@ -88,9 +123,42 @@ namespace Puzzle.BossBattle
             }
             redScreen.color = new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, 0f);
         }
+        private IEnumerator PaintBossRed()
+        {
+            bossImage.color = Color.white;
+            float timer;
+            float startTime = Time.time;
+            float deltaOfColor;
+            float colorRemnant = 1 - redAlfaCeiling;
+            while (bossImage.color.g > colorRemnant)
+            {
+                timer = Time.time - startTime;
+                deltaOfColor = colorRemnant + redAlfaCeiling * (1 - timer / redAlfaFillingTime);
+
+                bossImage.color =
+                    new Color(bossImage.color.r, deltaOfColor, deltaOfColor, 1f);
+                yield return null;
+            }
+
+            startTime = Time.time;
+
+            while (bossImage.color.g < 1f)
+            {
+                timer = Time.time - startTime;
+                deltaOfColor = colorRemnant + redAlfaCeiling * (timer / redAlfaDecreasingTime);
+
+                bossImage.color =
+                    new Color(bossImage.color.r, deltaOfColor, deltaOfColor, 1);
+                yield return null;
+            }
+            bossImage.color = Color.white;
+        }
 
         internal void DamageBoss()
         {
+            StopCoroutine(PaintBossRed());
+            StartCoroutine(PaintBossRed());
+
             bool isDead = bossStatsOperator.Damage();
 
             if (isDead)

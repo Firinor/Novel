@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using TMPro;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
-public enum ViewDirection { Right = 1, Left = -1 }
 
 public abstract class DialogNode : MonoBehaviour
 {

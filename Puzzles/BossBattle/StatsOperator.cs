@@ -11,11 +11,11 @@ namespace Puzzle.BossBattle
         private int MaxHealth = 3;
         private int health;
 
-        private float speed = 1;
-        private float speedCooldown = 1;
+        protected float speed = 1;
+        protected float energy = 1;
+        protected float defense = 1;
 
-        private float deffense = 1;
-        private float energy = 1;
+        private float speedCooldown = 0;
 
         [SerializeField, NullCheck]
         private Slider slider;
@@ -23,11 +23,13 @@ namespace Puzzle.BossBattle
         private TextMeshProUGUI opponentName;
         [SerializeField, NullCheck]
         private Image skill;
+        [SerializeField, NullCheck]
+        private Image skillBase;
         [Space]
         [SerializeField, NullCheck]
         private TextMeshProUGUI speedText;
         [SerializeField, NullCheck]
-        private TextMeshProUGUI deffenseText;
+        private TextMeshProUGUI defenseText;
         [SerializeField, NullCheck]
         private TextMeshProUGUI energyText;
 
@@ -37,6 +39,23 @@ namespace Puzzle.BossBattle
             slider.value = value;
             MaxHealth = value;
             health = value;
+        }
+
+        public void ActivateSkill()
+        {
+
+        }
+
+        public void Cooldown()
+        {
+
+        }
+
+        protected virtual void SetStats()
+        {
+            speedText.text = speed.ToString();
+            energyText.text = energy.ToString();
+            defenseText.text = defense.ToString();
         }
 
         internal bool Damage()
