@@ -1,22 +1,42 @@
 using FirUnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Puzzle.BossBattle
 {
-    public class MagicBulletPointerOperator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class MagicBulletPointerOperator : MonoBehaviour
     {
+        private static Vector2 fullRect;
+        private Vector2 worldPosition;
+        [SerializeField, NullCheck]
+        private RectTransform parentTransform;
+        [SerializeField, NullCheck]
+        private RectTransform rectTransform;
         [SerializeField, NullCheck]
         private MagicBulletOperator magicBulletOperator;
+        private bool expansion = true;
 
-        public void OnPointerEnter(PointerEventData eventData)
+        void Update()
         {
-            magicBulletOperator.expansion = false;
+            bool oldExpansion = expansion;
+
+            float distance = Vector3.Distance(Input.mousePosition, worldPosition);
+
+            expansion = distance > rectTransform.sizeDelta.x / 2;
+
+            if (oldExpansion != expansion)
+            {
+                magicBulletOperator.expansion = expansion;
+            }
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public void RefreshRectOffset()
         {
-            magicBulletOperator.expansion = true;
+            worldPosition = fullRect + (Vector2)parentTransform.localPosition;
+        }
+
+        public static void SetFullRect(RectTransform rectTransform)
+        {
+            fullRect = rectTransform.rect.size/2;
         }
     }
 }

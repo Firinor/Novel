@@ -25,16 +25,6 @@ namespace Puzzle.BossBattle
         private float redAlfaDecreasingTime;
 
         [Space]
-        [SerializeField, NullCheck]
-        private RectTransform bossBulletParent;
-        [SerializeField, NullCheck]
-        private RectTransform heroBulletParent;
-        [SerializeField, NullCheck]
-        private GameObject bossBulletPrefab;
-        [SerializeField, NullCheck]
-        private GameObject heroBulletPrefab;
-
-        [Space]
         [SerializeField]
         private BossBattlePackage bossBattlePackage;
 
@@ -49,15 +39,17 @@ namespace Puzzle.BossBattle
 
         private void SetAllStats(BossBattlePackage bossBattlePackage)
         {
-            CharacterInformator boss = bossBattlePackage.Boss;
+            CharacterInformator boss = bossBattlePackage.BossCharacter;
             bossImage.sprite = boss.unitSprite;
             float coefficient = GetComponent<RectTransform>().rect.height / bossImage.preferredHeight;
             bossImage.transform.localScale = Vector3.one * coefficient * boss.UnitScale;
 
-            bossStatsOperator.SetHP(bossBattlePackage.BossHealth);
-            bossStatsOperator.SetStats(bossBattlePackage);
-            heroStatsOperator.SetHP(bossBattlePackage.HeroHealth);
-            heroStatsOperator.SetStats(bossBattlePackage);
+            bossStatsOperator.SetStats(bossBattlePackage.Boss);
+            bossStatsOperator.RefreshFieldSize();
+            heroStatsOperator.SetStats(bossBattlePackage.Hero);
+            heroStatsOperator.RefreshFieldSize();
+
+            MagicBulletPointerOperator.SetFullRect(GetComponent<RectTransform>());
         }
 
         void OnEnable()
@@ -67,7 +59,9 @@ namespace Puzzle.BossBattle
 
         void Update()
         {
-            
+            bool boost = bossStatsOperator.HasNoBullets && heroStatsOperator.HasNoBullets;
+            bossStatsOperator.Cooldown(boost);
+            heroStatsOperator.Cooldown(boost);
         }
 
         public override void StartPuzzle()

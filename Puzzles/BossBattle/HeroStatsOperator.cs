@@ -2,12 +2,11 @@ namespace Puzzle.BossBattle
 {
     public class HeroStatsOperator : StatsOperator
     {
-        public void SetStats(BossBattlePackage bossBattlePackage)
+        public void SetStats(BattleStats stats)
         {
-            speed = bossBattlePackage.HeroSpeed;
-            energy = bossBattlePackage.HeroEnergy;
-            defense = bossBattlePackage.HeroDefence;
-            SetStats();
+            this.stats = stats;
+            SetHP(stats.Health);
+            SetStatsToText();
         }
     }
 }
