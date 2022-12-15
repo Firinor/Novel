@@ -1,7 +1,6 @@
 using FirUnityEditor;
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Puzzle.BossBattle
 {
@@ -26,6 +25,7 @@ namespace Puzzle.BossBattle
         private float damageSize = 500;
         [SerializeField]
         private float attenuationSize = 75;
+        private static int INSTANTIATING_SIZE = 50;
 
         void Awake()
         {
@@ -74,6 +74,14 @@ namespace Puzzle.BossBattle
                 bossBattleOperator.DamagePlayer();
             else
                 bossBattleOperator.DamageBoss();
+        }
+
+        public void SetStats(BattleStats stats)
+        {
+            expansionSpeed = (damageSize - INSTANTIATING_SIZE) / stats.TimeToUpEnergy;
+            reductionSpeed = (damageSize - INSTANTIATING_SIZE) / stats.TimeToDownEnergy;
+            
+            attenuationSize = INSTANTIATING_SIZE - stats.Defence;
         }
     }
 }

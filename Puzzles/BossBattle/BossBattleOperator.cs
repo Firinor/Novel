@@ -1,4 +1,5 @@
 using FirUnityEditor;
+using Puzzle.FindDifferences;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -75,19 +76,6 @@ namespace Puzzle.BossBattle
             enabled = false;
         }
 
-        internal void DamagePlayer()
-        {
-            StopCoroutine(RedScreen());
-            StartCoroutine(RedScreen());
-
-            bool isDead = heroStatsOperator.Damage();
-
-            if (isDead)
-            {
-                LosePuzzle();
-            }
-        }
-
         private IEnumerator RedScreen()
         {
             redScreen.color = new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, 0f);
@@ -148,6 +136,19 @@ namespace Puzzle.BossBattle
             bossImage.color = Color.white;
         }
 
+        internal void DamagePlayer()
+        {
+            StopCoroutine(RedScreen());
+            StartCoroutine(RedScreen());
+
+            bool isDead = heroStatsOperator.Damage();
+
+            if (isDead)
+            {
+                LosePuzzle();
+            }
+        }
+
         internal void DamageBoss()
         {
             StopCoroutine(PaintBossRed());
@@ -159,6 +160,27 @@ namespace Puzzle.BossBattle
             {
                 SuccessfullySolvePuzzle();
             }
+        }
+
+        public override void SuccessfullySolvePuzzle()
+        {
+            DeactivatePuzzle();
+            victoryButton.SetActive(true);
+        }
+
+
+        protected override void DeactivatePuzzle()
+        {
+            theTimerIsRunning = false;
+            enabled = false;
+            bossStatsOperator.RemoveAllBullets();
+            heroStatsOperator.RemoveAllBullets();
+        }
+
+        public override void LosePuzzle()
+        {
+            DeactivatePuzzle();
+            failButton.SetActive(true);
         }
     }
 }

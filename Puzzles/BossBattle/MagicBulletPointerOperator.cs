@@ -1,4 +1,5 @@
 using FirUnityEditor;
+using System;
 using UnityEngine;
 
 namespace Puzzle.BossBattle

@@ -1,5 +1,5 @@
+using Puzzle.FindDifferences;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Puzzle.BossBattle
 {
@@ -7,14 +7,19 @@ namespace Puzzle.BossBattle
     {
         public void SetStats(BattleStats[] battleStages)
         {
-            if(battleStages.Length == 0)
+            if (battleStages.Length == 0)
                 return;
 
             statsStages = new List<BattleStats>(battleStages);
             statsStages.Sort();
-            stats = statsStages[statsStages.Count-1];
-            Debug.Log(statsStages.Remove(stats));
+            SetNewStatsStage();
             SetHP(stats.Health);
+        }
+
+        private void SetNewStatsStage()
+        {
+            stats = statsStages[statsStages.Count - 1];
+            statsStages.Remove(stats);
             SetStatsToText();
         }
 
@@ -30,6 +35,10 @@ namespace Puzzle.BossBattle
         {
             bool result = base.Damage();
 
+            if (statsStages.Count > 0 && slider.value <= statsStages[statsStages.Count - 1].Health)
+            {
+                SetNewStatsStage();
+            }
 
             return result;
         }

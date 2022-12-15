@@ -1,5 +1,6 @@
 using FirUnityEditor;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -67,6 +68,20 @@ namespace Puzzle.BossBattle
                 newBullet.transform.localPosition = new Vector3(Random.value* fieldSize.x - fieldSize.x/2,
                     Random.value * fieldSize.y - fieldSize.y / 2, 0f);
                 newBullet.GetComponentInChildren<MagicBulletPointerOperator>().RefreshRectOffset();
+                newBullet.GetComponent<MagicBulletOperator>().SetStats(stats);
+            }
+        }
+
+        public void RemoveAllBullets()
+        {
+            List<Transform> bulletsToDestroy = new List<Transform>();
+            for(int i = 0; i < bulletParent.childCount; i++)
+            {
+                bulletsToDestroy.Add(bulletParent.GetChild(i));
+            }
+            foreach(Transform t in bulletsToDestroy)
+            {
+                Destroy(t.gameObject);
             }
         }
 
@@ -80,15 +95,15 @@ namespace Puzzle.BossBattle
             if (skillBase.enabled)
                 return;
 
-            skill.fillAmount += stats.Speed / 100*Time.deltaTime*(boost?3:1);
+            skill.fillAmount += 1f/stats.TimeToSkill *Time.deltaTime*(boost?3:1);
             if (skill.fillAmount >= 1)
                 skillBase.enabled = true;
         }
 
         protected virtual void SetStatsToText()
         {
-            speedText.text = stats.Speed.ToString();
-            energyText.text = stats.UpEnergy.ToString();
+            speedText.text = ((int)(100f/stats.TimeToSkill)).ToString();
+            energyText.text = stats.AttackCount.ToString();
             defenseText.text = stats.Defence.ToString();
         }
 
