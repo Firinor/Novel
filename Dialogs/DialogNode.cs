@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
+public enum DialogProgressStatus { Open, Closed, Hiden }
 
 public abstract class DialogNode : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public abstract class DialogNode : MonoBehaviour
     private string DescriptionOfSelection;
     [SerializeField]
     private List<DialogNode> Choices;
-    
+    private DialogProgressStatus dialogProgressStatus;
 
     private DialogOperator dialogOperator;
     protected StoryInformator.Characters Characters;
