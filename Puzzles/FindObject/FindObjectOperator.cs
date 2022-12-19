@@ -38,6 +38,7 @@ namespace Puzzle.FindObject
         private RectTransform recipeParent;
         [SerializeField, NullCheck]
         private RecipeOperator recipeOperator;
+        [SerializeField]
         private Sprite[] alchemicalIngredientsSprites;
         [SerializeField]
         private int recipeIngredientCount = 5;
@@ -45,7 +46,7 @@ namespace Puzzle.FindObject
         private int ingredientInBoxCount = 250;
         [SerializeField]
         private float forseToIngredient;
-        private float acceleration = 0.02f;
+        private float acceleration = 0.025f;
         public float ForseToIngredient { get => forseToIngredient; }
 
         [HideInInspector]
@@ -210,16 +211,16 @@ namespace Puzzle.FindObject
 
             while (allIngredients != null && allIngredients.Count > 0)
             {
-                foreach (AlchemicalIngredientOperator ingredient in allIngredients)
+                for(int i = 0; i < 30 && i < allIngredients.Count; i++)
                 {
-                    if (ingredient.OnBox(border))
+                    if (allIngredients[i].OnBox(border))
                     {
-                        ingredient.SetImpulse(0, toZeroPoint: true);
-                        ingredientsToDestroy.Add(ingredient);
+                        allIngredients[i].SetImpulse(0, toZeroPoint: true);
+                        ingredientsToDestroy.Add(allIngredients[i]);
                     }
                     else
                     {
-                        ingredient.SetImpulse(force, toZeroPoint: true);
+                        allIngredients[i].SetImpulse(force, toZeroPoint: true);
                     }
                 }
                 foreach (AlchemicalIngredientOperator ingredient in ingredientsToDestroy)

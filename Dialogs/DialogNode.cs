@@ -15,7 +15,7 @@ public abstract class DialogNode : MonoBehaviour
     private string DescriptionOfSelection;
     [SerializeField]
     private List<DialogNode> Choices;
-    private DialogProgressStatus dialogProgressStatus;
+    private DialogProgressStatus dialogProgressStatus = DialogProgressStatus.Hiden;
 
     private DialogOperator dialogOperator;
     protected StoryInformator.Characters Characters;

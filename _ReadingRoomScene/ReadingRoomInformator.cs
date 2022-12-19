@@ -41,7 +41,6 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     private PuzzleInformator puzzleInformator;
     [SerializeField, NullCheck]
     private MapCanvasOperator mapCanvasOperator;
-
     public static GameObject GetMap() => instance.map;
     public static GameObject GetDialog() => instance.dialog;
 
