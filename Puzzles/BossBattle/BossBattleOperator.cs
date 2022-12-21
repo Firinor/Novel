@@ -1,5 +1,4 @@
 using FirUnityEditor;
-using Puzzle.FindDifferences;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
