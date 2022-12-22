@@ -61,13 +61,18 @@ namespace Puzzle.FindObject
 
         void Awake()
         {
-            float screenOffset = Screen.height / 2;
-            recipeOffset = recipeParent.sizeDelta.y - screenOffset;
+            ResetOptions();
 
             if (puzzleInformator == null)
             {
                 puzzleInformator = GetComponent<PuzzleInformator>();
             }
+        }
+
+        public override void ResetOptions()
+        {
+            float screenOffset = CanvasManager.ScreenHeight / 2;
+            recipeOffset = recipeParent.sizeDelta.y - screenOffset;
         }
 
         void OnEnable()

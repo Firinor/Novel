@@ -2,7 +2,7 @@
 
 namespace Puzzle
 {
-    public class OptoinsBehavior : MonoBehaviour
+    public class OptoinsBehaviour : MonoBehaviour
     {
         public virtual void ResetOptions()
         {

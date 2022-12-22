@@ -3,11 +3,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using Unity.Mathematics;
-//using static UnityEditor.PlayerSettings;
 
 namespace Puzzle.FindObject
 {
-    public class AlchemicalIngredientOperator : MonoBehaviour,
+    public class AlchemicalIngredientOperator : OptoinsBehaviour,
     IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField]
@@ -30,8 +29,6 @@ namespace Puzzle.FindObject
         private static int screenHeight;
         private static int screenWidth;
 
-        private static bool adjustmentBool = true;
-
         void Awake()
         {
             //this.FixedUpdateAsObservable()
@@ -47,13 +44,15 @@ namespace Puzzle.FindObject
             //        .Subscribe(_ => CheckLastPosition())
             //        .AddTo(disposables);
 
-            if (adjustmentBool)
-            {
-                screenHeight = Screen.height / 2;
-                screenWidth = Screen.width / 2;
-                adjustmentBool = false;
-            }
+            ResetOptions();
         }
+
+        public override void ResetOptions()
+        {
+            screenHeight = (int)(CanvasManager.ScreenHeight / 2);
+            screenWidth = (int)(CanvasManager.ScreenWeight / 2);
+        }
+
         void FixedUpdate()
         {
             if (!ingredientDrag)
