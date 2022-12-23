@@ -8,7 +8,7 @@ using FirUnityEditor;
 
 namespace Puzzle.FindObject
 {
-    public class FindObjectOperator : PuzzleOperator
+    public class FindObjectOperator : PuzzleOperator, IOptoinsBehaviour
     {
         #region Fields
         private PuzzleInformator puzzleInformator;
@@ -69,7 +69,7 @@ namespace Puzzle.FindObject
             }
         }
 
-        public override void ResetOptions()
+        public void ResetOptions()
         {
             float screenOffset = CanvasManager.ScreenHeight / 2;
             recipeOffset = recipeParent.sizeDelta.y - screenOffset;
