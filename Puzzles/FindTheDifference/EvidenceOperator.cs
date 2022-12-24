@@ -57,7 +57,8 @@ namespace Puzzle.FindDifferences
         public void OnPointerClick(PointerEventData eventData)
         {
             Vector2 evidences = evidencesRectTransform.anchoredPosition;
-            detectiveDeskOperator.CheckTheEvidence(eventData.position - startOfImage - evidences, cursorOnEvidence);
+            detectiveDeskOperator.CheckTheEvidence(
+                eventData.position/CanvasManager.ScaleFactor - startOfImage - evidences, cursorOnEvidence);
         }
 
         public void DisableImage()

@@ -9,6 +9,6 @@ public class CanvasManager : SinglBehaviour<CanvasManager>
     private CanvasScaler mainCanvasScaler;
 
     public static float ScreenHeight { get => instance.mainCanvasScaler.referenceResolution.y; }
-    public static float ScreenWeight { get => instance.mainCanvasScaler.referenceResolution.x; }
-    public static float CanvasScaleFactor { get => instance.mainCanvas.scaleFactor; }
+    public static float ScreenWidth { get => instance.mainCanvas.renderingDisplaySize.x / instance.mainCanvas.scaleFactor; }
+    public static float ScaleFactor { get => instance.mainCanvas.scaleFactor; }
 }

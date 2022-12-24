@@ -1,6 +1,6 @@
 ﻿namespace Puzzle
 {
-    public interface IOptoinsBehaviour
+    public interface IOptoinsSwitchHandler
     {
         public void ResetOptions();
     }

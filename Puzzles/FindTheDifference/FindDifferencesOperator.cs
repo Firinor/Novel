@@ -1,13 +1,12 @@
 using FirUnityEditor;
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UniRx;
 using UnityEngine;
 
 namespace Puzzle.FindDifferences
 {
-    public class FindDifferencesOperator : PuzzleOperator
+    public class FindDifferencesOperator : PuzzleOperator, IOptoinsSwitchHandler
     {
         #region Fields
         [SerializeField, NullCheck]
@@ -27,8 +26,6 @@ namespace Puzzle.FindDifferences
         [SerializeField, NullCheck]
         private DetectiveDeskOperator detectiveDeskOperator;
         private int minimumImagePixelOffsetFromTheEdge = 30;
-
-        
 
         [SerializeField]
         private ImageWithDifferences imageWithDifferences;
@@ -94,6 +91,12 @@ namespace Puzzle.FindDifferences
         {
             doubleCursorOperator.MoveCursor();
         }
+
+        public void ResetOptions()
+        {
+            
+        }
+
         public override void LosePuzzle()
         {
             DeactivatePuzzle();
@@ -158,7 +161,7 @@ namespace Puzzle.FindDifferences
 
         public void Particles(bool success, CursorOnEvidence cursorOnEvidence)
         {
-            Particles(success, Input.mousePosition, cursorOnEvidence);
+            Particles(success, Input.mousePosition/CanvasManager.ScaleFactor, cursorOnEvidence);
         }
         public void Particles(bool success, Vector3 position, CursorOnEvidence cursorOnEvidence)
         {

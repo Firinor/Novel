@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,15 +23,16 @@ namespace Puzzle.FindDifferences
 
         public void MoveCursor()
         {
+            Vector3 mousePosition = Input.mousePosition / CanvasManager.ScaleFactor;
             switch (cursorOnEvidence)
             {
                 case CursorOnEvidence.left:
-                    leftCursor.localPosition = Input.mousePosition;
-                    rightCursor.localPosition = Input.mousePosition + new Vector3(offset, 0, 0);
+                    leftCursor.localPosition = mousePosition;
+                    rightCursor.localPosition = mousePosition + new Vector3(offset, 0, 0);
                     break;
                 case CursorOnEvidence.right:
-                    rightCursor.localPosition = Input.mousePosition;
-                    leftCursor.localPosition = Input.mousePosition + new Vector3(-offset, 0, 0);
+                    rightCursor.localPosition = mousePosition;
+                    leftCursor.localPosition = mousePosition + new Vector3(-offset, 0, 0);
                     break;
             }
         }

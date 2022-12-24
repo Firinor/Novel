@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Puzzle
 {
-    public class PuzzleOperator : MonoBehaviour
+    public abstract class PuzzleOperator : MonoBehaviour
     {
         [SerializeField, NullCheck]
         protected GameObject victoryButton;

@@ -40,9 +40,9 @@ namespace Puzzle.FindDifferences
         private float differenceShowingTime = 4;
 
         [SerializeField]
-        private float screenWidthOffset = 200;//pixels
+        private float screenWidthRatio = 0.95f;//pixels
         [SerializeField]
-        private float screenHeightOffset = 300;//pixels
+        private float screenHeightRatio = 0.9f;//pixels
 
         public void DisableButton()
         {
@@ -69,8 +69,8 @@ namespace Puzzle.FindDifferences
         {
             differences = new Dictionary<GameObject, Rect>();
 
-            float canvas_x = (Screen.width - screenWidthOffset - offset * 3) / 2;//left, center, right (2 images in a row)
-            float canvas_y = Screen.height - screenHeightOffset - offset * 2;//top, bottom (1 image on collum)
+            float canvas_x = (CanvasManager.ScreenWidth * screenWidthRatio - offset * 3) / 2;//left, center, right (2 images in a row)
+            float canvas_y = CanvasManager.ScreenHeight * screenHeightRatio - offset * 2;//top, bottom (1 image on collum)
 
             Sprite mainSprite = imageWithDifferences.Sprite;
             float image_x = mainSprite.textureRect.width;
