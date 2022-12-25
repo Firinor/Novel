@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Puzzle.FindDifferences
 {
-    public class FindDifferencesOperator : PuzzleOperator, IOptoinsSwitchHandler
+    public class FindDifferencesOperator : PuzzleOperator, IOptionsSwitchHandler
     {
         #region Fields
         [SerializeField, NullCheck]

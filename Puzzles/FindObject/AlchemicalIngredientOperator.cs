@@ -6,7 +6,7 @@ using Unity.Mathematics;
 
 namespace Puzzle.FindObject
 {
-    public class AlchemicalIngredientOperator : MonoBehaviour, IOptoinsSwitchHandler,
+    public class AlchemicalIngredientOperator : MonoBehaviour, IOptionsSwitchHandler,
     IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField]

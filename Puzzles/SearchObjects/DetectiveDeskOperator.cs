@@ -1,4 +1,4 @@
-﻿using FirMath;
+﻿using FirCleaner;
 using FirUnityEditor;
 using System;
 using System.Collections;
@@ -44,9 +44,9 @@ namespace Puzzle.SearchObjects
         private float differenceSlidingTime = 1;
 
         [SerializeField]
-        private float screenWidthOffset = 200;//pixels
+        private float screenWidthRatio = 0.95f;
         [SerializeField]
-        private float screenHeightOffset = 300;//pixels
+        private float screenHeightRatio = 0.9f;
 
         public void DisableButton()
         {
@@ -78,8 +78,8 @@ namespace Puzzle.SearchObjects
 
             Sprite mainSprite = imageWithDifferences.Sprite;
 
-            float canvas_x = Screen.width - screenWidthOffset;
-            float canvas_y = Screen.height - screenHeightOffset;
+            float canvas_x = CanvasManager.ScreenWidth * screenWidthRatio;
+            float canvas_y = CanvasManager.ScreenHeight * screenHeightRatio;
 
             float image_x = mainSprite.textureRect.width;
             float image_y = mainSprite.textureRect.height;
@@ -166,18 +166,7 @@ namespace Puzzle.SearchObjects
                 differences.Clear();
             }
 
-            DeleteAllChild(puzzleImage);
-        }
-
-        private void DeleteAllChild(Image image)
-        {
-            Transform transform = image.transform;
-            int i = transform.childCount;
-            while (i > 0)
-            {
-                i--;
-                Destroy(transform.GetChild(i).gameObject);
-            }
+            GameCleaner.DeleteAllChild(puzzleImage);
         }
 
         private IEnumerator ButtonAnimation(GameObject difference)

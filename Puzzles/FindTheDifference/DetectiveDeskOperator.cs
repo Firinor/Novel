@@ -1,4 +1,5 @@
-﻿using FirMath;
+﻿using FirCleaner;
+using FirMath;
 using FirUnityEditor;
 using System;
 using System.Collections;
@@ -158,25 +159,15 @@ namespace Puzzle.FindDifferences
         {
             if (differences != null)
             {
-                foreach (KeyValuePair<GameObject, Rect> difference in differences)
-                    Destroy(difference.Key);
+                GameCleaner.DeleteAllGameObjects(differences);
+                //foreach (KeyValuePair<GameObject, Rect> difference in differences)
+                //    Destroy(difference.Key);
 
                 differences.Clear();
             }
 
-            DeleteAllChild(leftImage);
-            DeleteAllChild(rightImage);
-        }
-
-        private void DeleteAllChild(Image image)
-        {
-            Transform transform = image.transform;
-            int i = transform.childCount;
-            while (i > 0)
-            {
-                i--;
-                Destroy(transform.GetChild(i).gameObject);
-            }
+            GameCleaner.DeleteAllChild(leftImage);
+            GameCleaner.DeleteAllChild(rightImage);
         }
 
         private IEnumerator ButtonAnimating(KeyValuePair<GameObject, Rect> difference)
