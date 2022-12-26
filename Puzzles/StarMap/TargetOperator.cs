@@ -1,3 +1,4 @@
+using FirMath;
 using FirUnityEditor;
 using TMPro;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace Puzzle.StarMap
         public void SetAnswerKey(Sprite sprite)
         {
             keyImage.sprite = sprite;
+            GameImage.SetImageWidth(keyImage, keyImage.rectTransform.sizeDelta.x);
             keyText.text = sprite.name;
         }
     }

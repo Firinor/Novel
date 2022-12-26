@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace FirGames.StoryPart1
 {
     public class P1Scene2 : DialogNode
