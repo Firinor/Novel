@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using static SaveManager;
 
-namespace SaveLoadLib
+namespace FirSaveLoad
 {
     public static class GlobalSaveManager
     {

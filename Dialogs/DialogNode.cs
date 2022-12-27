@@ -7,8 +7,10 @@ using TMPro;
 public enum PositionOnTheStage { Left, Center, Right, OffScene }
 public enum DialogProgressStatus { Open, Closed, Hiden }
 
-public abstract class DialogNode : MonoBehaviour
+public class DialogNode : MonoBehaviour
 {
+    [SerializeField]
+    private TextAsset textAsset;
     [SerializeField]
     private string[] Header = new string[2] { "русское название", "english name" };
     [SerializeField]

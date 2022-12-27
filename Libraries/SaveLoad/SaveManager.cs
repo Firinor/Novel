@@ -1,8 +1,8 @@
 using FirUnityEditor;
-using SaveLoadLib;
+using FirSaveLoad;
 using System.Collections.Generic;
 using UnityEngine;
-using static SaveLoadLib.GlobalSaveManager;
+using static FirSaveLoad.GlobalSaveManager;
 
 public class SaveManager : SinglBehaviour<SaveManager>
 {
