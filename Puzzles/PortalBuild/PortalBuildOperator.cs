@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using FirUnityEditor;
 using UnityEngine;
 
-public class PortalBuildOperator : MonoBehaviour
+namespace Puzzle.PortalBuild
 {
-    // Start is called before the first frame update
-    void Start()
+    public class PortalBuildOperator : PuzzleOperator, IOptionsSwitchHandler
     {
-        
-    }
+        [SerializeField, NullCheck]
+        private GameObject mainSpecter;
+        [SerializeField, NullCheck]
+        private GameObject specterComponentsParent;
+        [SerializeField, NullCheck]
+        private GameObject specterComponentPrefab;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void ResetOptions()
+        {
+            
+        }
     }
 }
