@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Puzzle.PortalBuild
 {
-    public class PortalBuildOperator : PuzzleOperator, IOptionsSwitchHandler
+    public class PortalBuildManager : PuzzleOperator, IOptionsSwitchHandler
     {
         [SerializeField, NullCheck]
         private GameObject mainSpecter;
@@ -11,7 +11,13 @@ namespace Puzzle.PortalBuild
         private GameObject specterComponentsParent;
         [SerializeField, NullCheck]
         private GameObject specterComponentPrefab;
+        public static ColorsInformator colorsInformator;
 
+        private void Awake()
+        {
+            if(colorsInformator == null)
+                colorsInformator = GetComponent<ColorsInformator>();
+        }
         public void ResetOptions()
         {
             

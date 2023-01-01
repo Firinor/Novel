@@ -16,7 +16,7 @@ namespace Puzzle.StarMap
         [SerializeField, NullCheck]
         private StarMapScrollRect starMapScrollRect;
         [SerializeField, NullCheck]
-        private StarMapOperator starMapOperator;
+        private StarMapManager starMapOperator;
 
         [HideInInspector]
         public bool ActivePuzzle;

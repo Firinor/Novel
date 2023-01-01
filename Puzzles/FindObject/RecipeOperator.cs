@@ -9,7 +9,7 @@ namespace Puzzle.FindObject
     public class RecipeOperator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField]
-        private FindObjectOperator puzzleOperator;
+        private FindObjectManager puzzleOperator;
         [SerializeField]
         private Image image;
         [SerializeField]

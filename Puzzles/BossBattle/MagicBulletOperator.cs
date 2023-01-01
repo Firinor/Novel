@@ -6,7 +6,7 @@ namespace Puzzle.BossBattle
 {
     public class MagicBulletOperator : MonoBehaviour
     {
-        private BossBattleOperator bossBattleOperator;
+        private BossBattleManager bossBattleOperator;
 
         [SerializeField]
         private bool doDamageToPlayer;
@@ -30,7 +30,7 @@ namespace Puzzle.BossBattle
         void Awake()
         {
             if(bossBattleOperator == null)
-                bossBattleOperator = GetComponentInParent<BossBattleOperator>();
+                bossBattleOperator = GetComponentInParent<BossBattleManager>();
 
             SetParameters();
         }
@@ -40,7 +40,7 @@ namespace Puzzle.BossBattle
             rectTransform.sizeDelta = new Vector2(damageSize, damageSize);
         }
 
-        public void SetBossBattleOperator(BossBattleOperator bossBattleOperator)
+        public void SetBossBattleOperator(BossBattleManager bossBattleOperator)
         {
             this.bossBattleOperator = bossBattleOperator;
 

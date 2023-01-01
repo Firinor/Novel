@@ -7,7 +7,7 @@ namespace Puzzle.StarMap
 {
     public enum Hemisphere { Northern, Southern, Winter, Spring, Summer, Autumn}
 
-    public class StarMapOperator : PuzzleOperator
+    public class StarMapManager : PuzzleOperator
     {
         #region Fields
         [SerializeField, NullCheck]

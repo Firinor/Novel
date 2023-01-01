@@ -8,7 +8,7 @@ using FirUnityEditor;
 
 namespace Puzzle.FindObject
 {
-    public class FindObjectOperator : PuzzleOperator, IOptionsSwitchHandler
+    public class FindObjectManager : PuzzleOperator, IOptionsSwitchHandler
     {
         #region Fields
         private PuzzleInformator puzzleInformator;

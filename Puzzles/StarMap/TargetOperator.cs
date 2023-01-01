@@ -11,7 +11,7 @@ namespace Puzzle.StarMap
         [SerializeField, NullCheck]
         private Button button;
         [SerializeField, NullCheck]
-        private StarMapOperator starMapOperator;
+        private StarMapManager starMapOperator;
         [SerializeField, NullCheck]
         private Image keyImage;
         [SerializeField, NullCheck]

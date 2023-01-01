@@ -16,7 +16,7 @@ namespace Puzzle.FindObject
         [SerializeField]
         private int keyIngredientNumber;
 
-        private FindObjectOperator puzzleOperator;
+        private FindObjectManager puzzleOperator;
         private bool drag = false;
         private float timer;
         private const float FIFTH_SEC = 0.2f;
@@ -172,7 +172,7 @@ namespace Puzzle.FindObject
                 impulse.y = -impulse.y;
             }
         }
-        internal void SetPuzzleOperator(FindObjectOperator puzzleOperator)
+        internal void SetPuzzleOperator(FindObjectManager puzzleOperator)
         {
             this.puzzleOperator = puzzleOperator;
         }

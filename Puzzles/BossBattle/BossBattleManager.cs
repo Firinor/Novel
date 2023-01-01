@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Puzzle.BossBattle
 {
-    public class BossBattleOperator : PuzzleOperator
+    public class BossBattleManager : PuzzleOperator
     {
         [SerializeField, NullCheck]
         private BossStatsOperator bossStatsOperator;

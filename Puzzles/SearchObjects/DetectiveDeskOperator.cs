@@ -12,7 +12,7 @@ namespace Puzzle.SearchObjects
     public class DetectiveDeskOperator : MonoBehaviour
     {
         [SerializeField, NullCheck]
-        private SearchObjectsOperator searchObjectsOperator;
+        private SearchObjectsManager searchObjectsOperator;
 
         [SerializeField, NullCheck]
         private Image startImage;

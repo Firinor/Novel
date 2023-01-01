@@ -23,12 +23,12 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     private static GameObject puzzleSearchObjects;
     private static GameObject puzzleStarMap;
     private static GameObject puzzleBossBattle;
-    private static FindObjectOperator puzzleFindObjectOperator;
-    private static TetraQuestionOperator puzzleTetraQuestionOperator;
-    private static FindDifferencesOperator puzzleFindDifferencesOperator;
-    private static SearchObjectsOperator puzzleSearchObjectsOperator;
-    private static StarMapOperator puzzleStarMapOperator;
-    private static BossBattleOperator puzzleBossBattleOperator;
+    private static FindObjectManager puzzleFindObjectOperator;
+    private static TetraQuestionManager puzzleTetraQuestionOperator;
+    private static FindDifferencesManager puzzleFindDifferencesOperator;
+    private static SearchObjectsManager puzzleSearchObjectsOperator;
+    private static StarMapManager puzzleStarMapOperator;
+    private static BossBattleManager puzzleBossBattleOperator;
 
     private ReadingRoomInformator readingRoomInformator;
     private CanvasManager canvasManager;

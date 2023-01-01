@@ -26,17 +26,17 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     [SerializeField, NullCheck]
     private GameObject puzzleBossBattle;
     [SerializeField, NullCheck]
-    private FindObjectOperator findObjectOperator;
+    private FindObjectManager findObjectOperator;
     [SerializeField, NullCheck]
-    private TetraQuestionOperator tetraQuestionOperator;
+    private TetraQuestionManager tetraQuestionOperator;
     [SerializeField, NullCheck]
-    private FindDifferencesOperator findDifferencesOperator;
+    private FindDifferencesManager findDifferencesOperator;
     [SerializeField, NullCheck]
-    private SearchObjectsOperator searchObjectsOperator;
+    private SearchObjectsManager searchObjectsOperator;
     [SerializeField, NullCheck]
-    private StarMapOperator starMapOperator;
+    private StarMapManager starMapOperator;
     [SerializeField, NullCheck]
-    private BossBattleOperator bossBattleOperator;
+    private BossBattleManager bossBattleOperator;
     [SerializeField, NullCheck]
     private PuzzleInformator puzzleInformator;
     [SerializeField, NullCheck]
@@ -51,12 +51,12 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     public static GameObject GetPuzzleStarMap() => instance.puzzleStarMap;
     public static GameObject GetPuzzleBossBattle() => instance.puzzleBossBattle;
 
-    public static FindObjectOperator GetPuzzleFindObjectOperator() => instance.findObjectOperator;
-    public static TetraQuestionOperator GetPuzzleTetraQuestionOperator() => instance.tetraQuestionOperator;
-    public static FindDifferencesOperator GetPuzzleFindDifferenceOperator() => instance.findDifferencesOperator;
-    public static SearchObjectsOperator GetPuzzleSearchObjectsOperator() => instance.searchObjectsOperator;
-    public static StarMapOperator GetPuzzleStarMapOperator() => instance.starMapOperator;
-    public static BossBattleOperator GetPuzzleBossBattleOperator() => instance.bossBattleOperator;
+    public static FindObjectManager GetPuzzleFindObjectOperator() => instance.findObjectOperator;
+    public static TetraQuestionManager GetPuzzleTetraQuestionOperator() => instance.tetraQuestionOperator;
+    public static FindDifferencesManager GetPuzzleFindDifferenceOperator() => instance.findDifferencesOperator;
+    public static SearchObjectsManager GetPuzzleSearchObjectsOperator() => instance.searchObjectsOperator;
+    public static StarMapManager GetPuzzleStarMapOperator() => instance.starMapOperator;
+    public static BossBattleManager GetPuzzleBossBattleOperator() => instance.bossBattleOperator;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;

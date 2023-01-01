@@ -15,7 +15,7 @@ namespace Puzzle.FindDifferences
         [SerializeField]
         private DetectiveDeskOperator detectiveDeskOperator;
         [SerializeField]
-        private FindDifferencesOperator findDifferencesOperator;
+        private FindDifferencesManager findDifferencesOperator;
         [SerializeField]
         private CursorOnEvidence cursorOnEvidence;
         [SerializeField]

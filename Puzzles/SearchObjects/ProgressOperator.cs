@@ -5,7 +5,7 @@ namespace Puzzle.SearchObjects
     public class ProgressOperator : MonoBehaviour
     {
         [SerializeField]
-        private SearchObjectsOperator puzzleOperator;
+        private SearchObjectsManager puzzleOperator;
         [SerializeField]
         private Transform objectsParent;
         public Transform ObjectsParent { get => objectsParent; }

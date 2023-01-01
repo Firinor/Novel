@@ -13,7 +13,7 @@ namespace Puzzle.FindDifferences
     public class DetectiveDeskOperator : MonoBehaviour
     {
         [SerializeField, NullCheck]
-        private FindDifferencesOperator findDifferencesOperator;
+        private FindDifferencesManager findDifferencesOperator;
 
         [SerializeField, NullCheck]
         private Image startImage;

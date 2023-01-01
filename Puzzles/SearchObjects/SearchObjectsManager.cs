@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Puzzle.SearchObjects
 {
-    public class SearchObjectsOperator : PuzzleOperator
+    public class SearchObjectsManager : PuzzleOperator
     {
         #region Fields
         [SerializeField, NullCheck]

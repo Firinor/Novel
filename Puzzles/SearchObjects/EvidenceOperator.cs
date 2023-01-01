@@ -14,7 +14,7 @@ namespace Puzzle.SearchObjects
         [SerializeField]
         private DetectiveDeskOperator detectiveDeskOperator;
         [SerializeField]
-        private SearchObjectsOperator searchObjectsOperator;
+        private SearchObjectsManager searchObjectsOperator;
         [SerializeField]
         private RectTransform fullScreenRectTransform;
         [SerializeField]

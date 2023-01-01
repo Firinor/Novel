@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Puzzle.TetraQuestion
 {
-    public class TetraQuestionOperator : PuzzleOperator
+    public class TetraQuestionManager : PuzzleOperator
     {
         [SerializeField, NullCheck]
         private Image questionImage;

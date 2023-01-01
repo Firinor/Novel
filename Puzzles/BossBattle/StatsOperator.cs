@@ -10,7 +10,7 @@ namespace Puzzle.BossBattle
     public class StatsOperator : MonoBehaviour
     {
         [SerializeField]
-        private BossBattleOperator bossBattleOperator;
+        private BossBattleManager bossBattleOperator;
 
         [SerializeField]
         private int MaxHealth = 3;
