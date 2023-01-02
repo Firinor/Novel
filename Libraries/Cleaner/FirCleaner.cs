@@ -30,6 +30,16 @@ namespace FirCleaner
                 MonoBehaviour.Destroy(value, t);
             }
         }
+        public static void DeleteAllGameObjects<T>(List<T> values, float t = 0) where T : Object
+        {
+            if (values == null)
+                return;
+
+            foreach (T value in values)
+            {
+                MonoBehaviour.Destroy(value, t);
+            }
+        }
 
         public static void DeleteAllChild<T>(T value, float t = 0) where T : MonoBehaviour
         {

@@ -1,6 +1,6 @@
+using FirCleaner;
 using FirMath;
 using FirUnityEditor;
-using Puzzle.FindDifferences;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
@@ -118,17 +118,7 @@ namespace Puzzle.SearchObjects
 
                 desiredObjects.Clear();
             }
-            DeleteAllChild(progressOperator.ObjectsParent);
-        }
-
-        private void DeleteAllChild(Transform progress)
-        {
-            int i = progress.childCount;
-            while (i > 0)
-            {
-                i--;
-                Destroy(progress.GetChild(i).gameObject);
-            }
+            GameCleaner.DeleteAllChild(progressOperator.ObjectsParent);
         }
 
         private void PlayStartAnimations()
