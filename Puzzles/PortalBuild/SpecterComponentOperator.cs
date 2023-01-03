@@ -40,5 +40,10 @@ namespace Puzzle.PortalBuild
             colorBall.color = color;
             specter.sprite = sprite;
         }
+
+        public void OnPipette()
+        {
+
+        }
     }
 }

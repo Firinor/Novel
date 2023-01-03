@@ -7,7 +7,7 @@ namespace Puzzle
     [Serializable]
     public class PortalBuildPackage : InformationPackage
     {
-        public PortalBuildPackage(int puzzleDifficulty, int ingredientsCount, float allottedTime,
+        public PortalBuildPackage(bool colorShift, int resipeCount, int ingredientsCount, float allottedTime,
             Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
@@ -15,22 +15,25 @@ namespace Puzzle
             {
                 ingredientsCount = 2;
             }
-            if (puzzleDifficulty > ingredientsCount)
+            if (resipeCount > ingredientsCount)
             {
-                puzzleDifficulty = ingredientsCount;
+                resipeCount = ingredientsCount;
             }
-            if (puzzleDifficulty < 1)
+            if (resipeCount < 1)
             {
-                puzzleDifficulty = 1;
+                resipeCount = 1;
             }
 
-            this.puzzleDifficulty = puzzleDifficulty;
+            this.colorShift = colorShift;
+            this.resipeCount = resipeCount;
             this.ingredientsCount = ingredientsCount;
             this.allottedTime = Math.Max(allottedTime, 0);
         }
         [SerializeField]
+        private bool colorShift = true;
+        [SerializeField]
         [Range(1, 10)]
-        private int puzzleDifficulty = 1;
+        private int resipeCount = 1;
         [SerializeField]
         [Range(10, 50)]
         private int ingredientsCount = 2;
@@ -38,7 +41,8 @@ namespace Puzzle
         [Range(0, 1024)]
         private float allottedTime = 0;
 
-        public int RecipeDifficulty { get => puzzleDifficulty; }
+        public bool ColorShift { get => colorShift; }
+        public int RecipeCount { get => resipeCount; }
         public int IngredientsCount { get => Math.Min(Enum.GetNames(typeof(Atom)).Length, ingredientsCount); }
         public float AllottedTime { get => allottedTime; }
     }
