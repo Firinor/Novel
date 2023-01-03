@@ -5,6 +5,6 @@ namespace Puzzle.PortalBuild
 {
     public class ColorsInformator : MonoBehaviour
     {
-        public List<SpecterComponent> Atoms;
+        public List<AtomComponent> Atoms;
     }
 }

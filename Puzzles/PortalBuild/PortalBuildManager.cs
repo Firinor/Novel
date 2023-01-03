@@ -1,6 +1,7 @@
 using FirCleaner;
 using FirUnityEditor;
 using System;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Puzzle.PortalBuild
@@ -14,10 +15,14 @@ namespace Puzzle.PortalBuild
         [SerializeField, NullCheck]
         private GameObject specterComponentPrefab;
         [SerializeField, NullCheck]
+        private GameObject BoxWithComponent;
+        [SerializeField, NullCheck]
         private Transform BoxComponentParent;
         [SerializeField, NullCheck]
         private GameObject BoxComponentPrefab;
+
         public static ColorsInformator colorsInformator;
+        public AtomComponentOperator specterComponentOperator;
 
         [SerializeField]
         private PortalBuildPackage portalBuildPackage;
@@ -31,11 +36,18 @@ namespace Puzzle.PortalBuild
         void OnEnable()
         {
             ClearPuzzle();
-            DeleteAllInBoxComponentsr();
+            DeleteAllInBoxComponents();
             CreateNewObjectsInBox();
+            DeleteAllSpecterComponents();
+            CreateNewSpecterObjects();
         }
 
-        private void DeleteAllInBoxComponentsr()
+        private void DeleteAllSpecterComponents()
+        {
+            GameCleaner.DeleteAllChild(specterComponentsParent);
+        }
+
+        private void DeleteAllInBoxComponents()
         {
             GameCleaner.DeleteAllChild(BoxComponentParent);
         }
@@ -50,10 +62,44 @@ namespace Puzzle.PortalBuild
 
         private void CreateNewObjectsInBox()
         {
-            for (int i = 0; i < portalBuildPackage.IngredientsCount; i++)
+            for (int i = 0; i < portalBuildPackage.IngredientsCount;)
             {
-                Instantiate(BoxComponentPrefab, BoxComponentParent);
+                i++;
+                GameObject Atom = Instantiate(BoxComponentPrefab, BoxComponentParent);
+                AtomComponentOperator atomOperator = Atom.GetComponent<AtomComponentOperator>();
+                atomOperator.SetValue(colorsInformator.Atoms[i]);
+                atomOperator.SetManager(this);
             }
+        }
+
+        private void CreateNewSpecterObjects()
+        {
+            for (int i = 0; i < portalBuildPackage.RecipeCount; i++)
+            {
+                GameObject Specter = Instantiate(specterComponentPrefab, specterComponentsParent);
+                AtomComponentOperator atomOperator = Specter.GetComponent<AtomComponentOperator>();
+                atomOperator.SetManager(this);
+            }
+        }
+
+        public void SelectNewComponent(AtomComponentOperator specterComponentOperator)
+        {
+            if (BoxWithComponent == null)
+                Debug.Log("BoxWithComponent == null");
+
+            if (BoxWithComponent.activeSelf)
+            {
+                this.specterComponentOperator.SetValue(specterComponentOperator.AtomComponent);
+                this.specterComponentOperator.Refresh();
+                this.specterComponentOperator = null;
+                BoxWithComponent.SetActive(false);
+            }
+            else
+            {
+                this.specterComponentOperator = specterComponentOperator;
+                BoxWithComponent.SetActive(true);
+            }
+            
         }
 
         public void ResetOptions()
