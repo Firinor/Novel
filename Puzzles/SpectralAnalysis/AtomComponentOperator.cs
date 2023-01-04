@@ -13,7 +13,7 @@ namespace Puzzle.PortalBuild
         [SerializeField]
         private Image specter;
         [SerializeField]
-        private PortalBuildManager portalBuildManager;
+        private SpectralAnalysisManager portalBuildManager;
 
         [SerializeField]
         private AtomComponent atomComponent;
@@ -28,7 +28,7 @@ namespace Puzzle.PortalBuild
         {
             atomComponent = component;
         }
-        public void SetManager(PortalBuildManager portalBuildManager)
+        public void SetManager(SpectralAnalysisManager portalBuildManager)
         {
             this.portalBuildManager = portalBuildManager;
         }

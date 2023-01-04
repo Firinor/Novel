@@ -1,12 +1,10 @@
 using FirCleaner;
 using FirUnityEditor;
-using System;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Puzzle.PortalBuild
 {
-    public class PortalBuildManager : PuzzleOperator, IOptionsSwitchHandler
+    public class SpectralAnalysisManager : PuzzleOperator, IOptionsSwitchHandler
     {
         [SerializeField, NullCheck]
         private GameObject mainSpecter;
@@ -21,7 +19,7 @@ namespace Puzzle.PortalBuild
         [SerializeField, NullCheck]
         private GameObject BoxComponentPrefab;
 
-        public static ColorsInformator colorsInformator;
+        public static AtomsInformator AtomInformator;
         public AtomComponentOperator specterComponentOperator;
 
         [SerializeField]
@@ -29,8 +27,8 @@ namespace Puzzle.PortalBuild
 
         private void Awake()
         {
-            if(colorsInformator == null)
-                colorsInformator = GetComponent<ColorsInformator>();
+            if(AtomInformator == null)
+                AtomInformator = GetComponent<AtomsInformator>();
         }
 
         void OnEnable()
@@ -67,7 +65,7 @@ namespace Puzzle.PortalBuild
                 i++;
                 GameObject Atom = Instantiate(BoxComponentPrefab, BoxComponentParent);
                 AtomComponentOperator atomOperator = Atom.GetComponent<AtomComponentOperator>();
-                atomOperator.SetValue(colorsInformator.Atoms[i]);
+                atomOperator.SetValue(AtomInformator.Atoms[i]);
                 atomOperator.SetManager(this);
             }
         }
