@@ -1,5 +1,6 @@
-using System;
 using System.Collections.Generic;
+using UnityEngine;
+using static PlasticPipe.PlasticProtocol.Messages.Serialization.ItemHandlerMessagesSerialization;
 using Random = UnityEngine.Random;
 
 namespace FirMath
@@ -82,6 +83,55 @@ namespace FirMath
         public static bool HeadsOrTails()
         {
             return Random.Range(0, 2)==0 ? true: false;
+        }
+
+        public static bool IsSetsOfCardsMatch(in IReadOnlyCollection<int> Hand1, in IReadOnlyCollection<int> Hand2,
+            bool countMustBeSame = true, bool checkOnlyFirstHand = false)
+        {
+            if (Hand1 == null && Hand2 == null)
+                return true;
+            if (Hand1 == null || Hand2 == null)
+                return false;
+            if (countMustBeSame && Hand1.Count != Hand2.Count)
+                return false;
+            if (Hand1.Count == 0 && Hand2.Count == 0)
+                return true;
+            if (Hand1.Count == 0 || Hand2.Count == 0)
+                return false;
+
+            List<int> hand1 = new List<int>(Hand1);
+            List<int> hand2 = new List<int>(Hand2);
+
+            hand1.Sort();
+            hand2.Sort();
+
+            if (countMustBeSame)
+            {
+                for (int i = 0; i < hand1.Count; i++)
+                {
+                    if(hand1[i] != hand2[i])
+                        return false;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < hand1.Count; i++)
+                {
+                    if (!hand2.Contains(hand1[i]))
+                        return false;
+                }
+
+                if (!checkOnlyFirstHand)
+                {
+                    for (int i = 0; i < hand2.Count; i++)
+                    {
+                        if (!hand1.Contains(hand2[i]))
+                            return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

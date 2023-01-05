@@ -24,15 +24,21 @@ namespace Puzzle.PortalBuild
             Refresh();
         }
 
-        public void SetValue(AtomComponent component)
+        public void SetValue(AtomComponent component, bool visualRefresh = true)
         {
             atomComponent = component;
+            if(visualRefresh)
+                Refresh();
         }
         public void SetManager(SpectralAnalysisManager portalBuildManager)
         {
             this.portalBuildManager = portalBuildManager;
         }
 
+        public int GetValue()
+        {
+            return atomComponent.Number;
+        }
 
         public void Refresh()
         {
@@ -44,7 +50,8 @@ namespace Puzzle.PortalBuild
 
             textComponent.text = atomComponent.Designation;
             colorBall.color = atomComponent.Color;
-            specter.sprite = atomComponent.Sprite;
+            if (specter != null && atomComponent.Sprite != null)
+                specter.sprite = atomComponent.Sprite;
         }
 
         public void OnPipette()

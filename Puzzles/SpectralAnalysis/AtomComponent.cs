@@ -29,6 +29,7 @@ namespace Puzzle.PortalBuild
         }
 
         public string Designation { get => designation.ToString(); }
+        public int Number { get => (int)designation - 1; }
         public Color Color { get => color; }
         public Sprite Sprite { get => sprite; }
 
