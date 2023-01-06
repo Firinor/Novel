@@ -1,11 +1,9 @@
 using FirCleaner;
 using FirMath;
 using FirUnityEditor;
-using GluonGui.Dialog;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Puzzle.PortalBuild
 {
@@ -18,13 +16,20 @@ namespace Puzzle.PortalBuild
         [SerializeField, NullCheck]
         private GameObject specterComponentPrefab;
         [SerializeField, NullCheck]
-        private GameObject BoxWithComponent;
+        private RectTransform plusSpecterComponentButton;
         [SerializeField, NullCheck]
-        private Transform BoxComponentParent;
+        private GameObject boxWithComponent;
         [SerializeField, NullCheck]
-        private GameObject BoxComponentPrefab;
+        private Transform boxComponentParent;
+        [SerializeField, NullCheck]
+        private GameObject boxComponentPrefab;
+        [SerializeField, NullCheck]
+        private Button readyButton;
 
+        [SerializeField, NullCheck]
+        private AtomsInformator atomInformator;
         public static AtomsInformator AtomInformator;
+        [HideInInspector]
         public AtomComponentOperator specterComponentOperator;
 
         [SerializeField]
@@ -35,18 +40,24 @@ namespace Puzzle.PortalBuild
         private void Awake()
         {
             if(AtomInformator == null)
-                AtomInformator = GetComponent<AtomsInformator>();
+                AtomInformator = atomInformator;
         }
 
         void OnEnable()
         {
             ClearPuzzle();
+            StartPuzzle();
+        }
+        public override void StartPuzzle()
+        {
+            base.StartPuzzle();
             CreateNewObjectsInBox();
             CreateNewSpecterObjects();
             answer = GameMath.AFewCardsFromTheDeck(
                 portalBuildPackage.RecipeCount, portalBuildPackage.IngredientsCount);
 
             mainSpecter.GenetareNewSpecter(answer);
+            readyButton.interactable = true;
         }
 
         public override void ClearPuzzle()
@@ -58,12 +69,14 @@ namespace Puzzle.PortalBuild
         }
         private void DeleteAllSpecterComponents()
         {
+            plusSpecterComponentButton.SetParent(transform);
             GameCleaner.DeleteAllChild(specterComponentsParent);
+            plusSpecterComponentButton.SetParent(specterComponentsParent);
         }
 
         private void DeleteAllInBoxComponents()
         {
-            GameCleaner.DeleteAllChild(BoxComponentParent);
+            GameCleaner.DeleteAllChild(boxComponentParent);
         }
 
         public void SetPuzzleInformationPackage(PortalBuildPackage portalBuildPackage)
@@ -76,9 +89,10 @@ namespace Puzzle.PortalBuild
 
         public void CheckAnswer()
         {
+            readyButton.interactable = false;
             mainSpecter.GenerateAnswerAtoms();
             List<int> playerHand = CheckPlayerHand();
-            if (GameMath.IsSetsOfCardsMatch(playerHand, answer, countMustBeSame: false, checkOnlyFirstHand: true))
+            if (GameMath.IsSetsOfCardsMatch(playerHand, answer, countMustBeSame: false))
             {
                 SuccessfullySolvePuzzle();
             }
@@ -106,7 +120,7 @@ namespace Puzzle.PortalBuild
         {
             for (int i = 0; i < portalBuildPackage.IngredientsCount; i++)
             {
-                GameObject Atom = Instantiate(BoxComponentPrefab, BoxComponentParent);
+                GameObject Atom = Instantiate(boxComponentPrefab, boxComponentParent);
                 AtomComponentOperator atomOperator = Atom.GetComponent<AtomComponentOperator>();
                 atomOperator.SetValue(AtomInformator.Atoms[i]);
                 atomOperator.SetManager(this);
@@ -115,20 +129,24 @@ namespace Puzzle.PortalBuild
 
         private void CreateNewSpecterObjects()
         {
-            for (int i = 0; i < portalBuildPackage.RecipeCount; i++)
-            {
-                GameObject Specter = Instantiate(specterComponentPrefab, specterComponentsParent);
-                AtomComponentOperator atomOperator = Specter.GetComponent<AtomComponentOperator>();
-                atomOperator.SetManager(this);
-            }
+            AddNewSpecterComponent();
+        }
+
+        public void AddNewSpecterComponent()
+        {
+            GameObject Specter = Instantiate(specterComponentPrefab, specterComponentsParent);
+            AtomComponentOperator atomOperator = Specter.GetComponent<AtomComponentOperator>();
+            atomOperator.SetManager(this);
+
+            plusSpecterComponentButton.SetAsLastSibling();
         }
 
         public void SelectNewComponent(AtomComponentOperator specterComponentOperator)
         {
-            if (BoxWithComponent == null)
+            if (boxWithComponent == null)
                 Debug.Log("BoxWithComponent == null");
 
-            if (BoxWithComponent.activeSelf)
+            if (boxWithComponent.activeSelf)
             {
                 this.specterComponentOperator.SetValue(specterComponentOperator.AtomComponent);
                 BoxWithComponentOff();
@@ -136,14 +154,14 @@ namespace Puzzle.PortalBuild
             else
             {
                 this.specterComponentOperator = specterComponentOperator;
-                BoxWithComponent.SetActive(true);
+                boxWithComponent.SetActive(true);
             }
         }
 
         public void BoxWithComponentOff()
         {
             specterComponentOperator = null;
-            BoxWithComponent.SetActive(false);
+            boxWithComponent.SetActive(false);
         }
 
         public void ResetOptions()

@@ -9,6 +9,6 @@ namespace Puzzle.PortalBuild
 
         public int AtomCount { get { return Atoms.Count; } }
 
-        public int AtomSpriteWidth { get { return 2048; } }
+        public const int AtomSpriteWidth = 2048;
     }
 }

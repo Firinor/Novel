@@ -58,5 +58,10 @@ namespace Puzzle.PortalBuild
         {
             portalBuildManager.SelectNewComponent(this);
         }
+
+        public void DestroyComponent()
+        {
+            Destroy(gameObject);
+        }
     }
 }
