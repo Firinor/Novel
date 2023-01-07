@@ -14,6 +14,10 @@ namespace Puzzle
         [SerializeField, NullCheck]
         protected GameObject failButton;
         [SerializeField, NullCheck]
+        protected Button exitButton;
+        [SerializeField, NullCheck]
+        protected Button optionsButton;
+        [SerializeField, NullCheck]
         protected Image backgroundImage;
 
         [SerializeField]
@@ -22,6 +26,13 @@ namespace Puzzle
         protected TextMeshProUGUI timerText;
         protected bool theTimerIsRunning;
 
+        protected virtual void OnEnable()
+        {
+            exitButton.onClick.RemoveAllListeners();
+            exitButton.onClick.AddListener(PuzzleExit);
+            optionsButton.onClick.RemoveAllListeners();
+            optionsButton.onClick.AddListener(Options);
+        }
         public virtual void PuzzleExit()
         {
             backgroundImage.enabled = false;

@@ -59,8 +59,9 @@ namespace Puzzle.FindDifferences
             successParticleSystem.Add(1, new KeyValuePair<ParticleSystem, RectTransform>(successParticleSystem1,
                 successParticleSystem1.GetComponent<RectTransform>()));
         }
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             ClearPuzzle();
             CreateDifference—ounter();
             PlayStartAnimations();

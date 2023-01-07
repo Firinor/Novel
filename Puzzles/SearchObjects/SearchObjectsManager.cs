@@ -61,8 +61,9 @@ namespace Puzzle.SearchObjects
         private CompositeDisposable disposables;
         #endregion
 
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             ClearPuzzle();
             DeleteAllInProgressList(desiredObjectsToSearch);
             CreateNewObjectsToSearch();

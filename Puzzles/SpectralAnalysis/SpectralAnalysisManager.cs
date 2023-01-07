@@ -33,7 +33,7 @@ namespace Puzzle.PortalBuild
         public AtomComponentOperator specterComponentOperator;
 
         [SerializeField]
-        private PortalBuildPackage portalBuildPackage;
+        private SpectralAnalysisPackage portalBuildPackage;
 
         private List<int> answer;
 
@@ -43,8 +43,9 @@ namespace Puzzle.PortalBuild
                 AtomInformator = atomInformator;
         }
 
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             ClearPuzzle();
             StartPuzzle();
         }
@@ -79,7 +80,7 @@ namespace Puzzle.PortalBuild
             GameCleaner.DeleteAllChild(boxComponentParent);
         }
 
-        public void SetPuzzleInformationPackage(PortalBuildPackage portalBuildPackage)
+        public void SetPuzzleInformationPackage(SpectralAnalysisPackage portalBuildPackage)
         {
             this.portalBuildPackage = portalBuildPackage;
             SetVictoryEvent(portalBuildPackage.successPuzzleAction);

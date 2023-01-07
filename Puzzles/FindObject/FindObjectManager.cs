@@ -75,8 +75,9 @@ namespace Puzzle.FindObject
             recipeOffset = recipeParent.sizeDelta.y - screenOffset;
         }
 
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             ClearPuzzle();
             CreateNewRecipe();
             PlayStartAnimations();

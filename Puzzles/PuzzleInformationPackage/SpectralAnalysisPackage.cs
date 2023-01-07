@@ -5,9 +5,9 @@ using UnityEngine.Events;
 namespace Puzzle
 {
     [Serializable]
-    public class PortalBuildPackage : InformationPackage
+    public class SpectralAnalysisPackage : InformationPackage
     {
-        public PortalBuildPackage(bool colorShift, int resipeCount, int ingredientsCount, float allottedTime,
+        public SpectralAnalysisPackage(bool colorShift, int resipeCount, int ingredientsCount, float allottedTime,
             Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {

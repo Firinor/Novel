@@ -35,8 +35,9 @@ namespace Puzzle.StarMap
         private CompositeDisposable disposables;
         #endregion
 
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             ClearPuzzle();
 
             disposables = new CompositeDisposable();

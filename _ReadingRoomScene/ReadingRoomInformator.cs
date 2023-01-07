@@ -2,6 +2,7 @@ using FirUnityEditor;
 using Puzzle.BossBattle;
 using Puzzle.FindDifferences;
 using Puzzle.FindObject;
+using Puzzle.PortalBuild;
 using Puzzle.SearchObjects;
 using Puzzle.StarMap;
 using Puzzle.TetraQuestion;
@@ -22,21 +23,25 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     [SerializeField, NullCheck]
     private GameObject puzzleSearchObjects;
     [SerializeField, NullCheck]
+    private GameObject puzzleSpectralAnalysis;
+    [SerializeField, NullCheck]
     private GameObject puzzleStarMap;
     [SerializeField, NullCheck]
     private GameObject puzzleBossBattle;
     [SerializeField, NullCheck]
-    private FindObjectManager findObjectOperator;
+    private FindObjectManager findObjectManager;
     [SerializeField, NullCheck]
-    private TetraQuestionManager tetraQuestionOperator;
+    private TetraQuestionManager tetraQuestionManager;
     [SerializeField, NullCheck]
-    private FindDifferencesManager findDifferencesOperator;
+    private FindDifferencesManager findDifferencesManager;
     [SerializeField, NullCheck]
-    private SearchObjectsManager searchObjectsOperator;
+    private SearchObjectsManager searchObjectsManager;
     [SerializeField, NullCheck]
-    private StarMapManager starMapOperator;
+    private SpectralAnalysisManager spectralAnalysisManager;
     [SerializeField, NullCheck]
-    private BossBattleManager bossBattleOperator;
+    private StarMapManager starMapManager;
+    [SerializeField, NullCheck]
+    private BossBattleManager bossBattleManager;
     [SerializeField, NullCheck]
     private PuzzleInformator puzzleInformator;
     [SerializeField, NullCheck]
@@ -48,17 +53,18 @@ public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
     public static GameObject GetPuzzleTetraQuestion() => instance.puzzleTetraQuestion;
     public static GameObject GetPuzzleFindDifferences() => instance.puzzleFindDifferences;
     public static GameObject GetPuzzleSearchObjects() => instance.puzzleSearchObjects;
+    public static GameObject GetPuzzleSpectralAnalysis() => instance.puzzleSpectralAnalysis;
     public static GameObject GetPuzzleStarMap() => instance.puzzleStarMap;
     public static GameObject GetPuzzleBossBattle() => instance.puzzleBossBattle;
 
-    public static FindObjectManager GetPuzzleFindObjectOperator() => instance.findObjectOperator;
-    public static TetraQuestionManager GetPuzzleTetraQuestionOperator() => instance.tetraQuestionOperator;
-    public static FindDifferencesManager GetPuzzleFindDifferenceOperator() => instance.findDifferencesOperator;
-    public static SearchObjectsManager GetPuzzleSearchObjectsOperator() => instance.searchObjectsOperator;
-    public static StarMapManager GetPuzzleStarMapOperator() => instance.starMapOperator;
-    public static BossBattleManager GetPuzzleBossBattleOperator() => instance.bossBattleOperator;
+    public static FindObjectManager GetPuzzleFindObjectManager() => instance.findObjectManager;
+    public static TetraQuestionManager GetPuzzleTetraQuestionManager() => instance.tetraQuestionManager;
+    public static FindDifferencesManager GetPuzzleFindDifferenceManager() => instance.findDifferencesManager;
+    public static SearchObjectsManager GetPuzzleSearchObjectsManager() => instance.searchObjectsManager;
+    public static SpectralAnalysisManager GetPuzzleSpectralAnalysisManager() => instance.spectralAnalysisManager;
+    public static StarMapManager GetPuzzleStarMapManager() => instance.starMapManager;
+    public static BossBattleManager GetPuzzleBossBattleManager() => instance.bossBattleManager;
 
     public static MapCanvasOperator GetMapCanvasOperator() => instance.mapCanvasOperator;
     public static PuzzleInformator GetPuzzleInformator() => instance.puzzleInformator;
-
 }

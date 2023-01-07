@@ -120,7 +120,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     public static void CheckingTheScene()
     {
         int SceneIndex = GetScene();
-        if (SceneIndex == 1)//"ReadingRoom"
+        if (SceneIndex == 1 || SceneIndex == 2)//"ReadingRoom" or "PuzzleRoom"
         {
             FindObjectOfType<ReadingRoomManager>().SetAllInstance();
         }

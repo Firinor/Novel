@@ -42,8 +42,9 @@ namespace Puzzle.TetraQuestion
         {
             answersArray = new Answer[4] { answer_A, answer_B, answer_C, answer_D };
         }
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             StartPuzzle();
         }
         public override void ClearPuzzle()

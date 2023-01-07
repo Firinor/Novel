@@ -52,8 +52,9 @@ namespace Puzzle.BossBattle
             MagicBulletPointerOperator.SetFullRect(GetComponent<RectTransform>());
         }
 
-        void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             SetAllStats(bossBattlePackage);
         }
 
