@@ -12,6 +12,9 @@ public static class LanguageInformator
             ["Play"] = 
             Words( "Старт", "Start"),
 
+            ["Puzzles"] =
+            Words("Пазлы", "Puzzles"),
+
             ["Options"] = 
             Words( "Настройки", "Options" ),
 

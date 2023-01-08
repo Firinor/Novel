@@ -1,6 +1,5 @@
 using FirUnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperator>

@@ -10,6 +10,8 @@ namespace Puzzle
     public abstract class PuzzleOperator : MonoBehaviour
     {
         [SerializeField, NullCheck]
+        protected GameObject helpButtons;
+        [SerializeField, NullCheck]
         protected GameObject victoryButton;
         [SerializeField, NullCheck]
         protected GameObject failButton;
@@ -28,6 +30,7 @@ namespace Puzzle
 
         protected virtual void OnEnable()
         {
+            helpButtons.SetActive(true);
             exitButton.onClick.RemoveAllListeners();
             exitButton.onClick.AddListener(PuzzleExit);
             optionsButton.onClick.RemoveAllListeners();
@@ -35,6 +38,7 @@ namespace Puzzle
         }
         public virtual void PuzzleExit()
         {
+            DeactivaButtons();
             backgroundImage.enabled = false;
             gameObject.SetActive(false);
         }
@@ -48,6 +52,12 @@ namespace Puzzle
         }
         public virtual void ClearPuzzle()
         {
+            DeactivaButtons();
+        }
+
+        private void DeactivaButtons()
+        {
+            helpButtons.SetActive(false);
             victoryButton.SetActive(false);
             failButton.SetActive(false);
         }

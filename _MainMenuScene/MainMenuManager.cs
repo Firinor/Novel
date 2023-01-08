@@ -1,8 +1,7 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
-public enum MenuMarks { baner, credits, saves, options, off };
+public enum MenuMarks { baner, puzzles, credits, saves, options, off };
 
 public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 {
@@ -43,6 +42,9 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
         {
             case MenuMarks.baner:
                 baner.SetActive(true);
+                break;
+            case MenuMarks.puzzles:
+                SceneManager.LoadScene("PuzzleRoom");
                 break;
             case MenuMarks.credits:
                 credits.SetActive(true);

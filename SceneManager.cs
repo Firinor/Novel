@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
@@ -40,16 +42,22 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         return UnitySceneManager.GetActiveScene().buildIndex;
     }
 
-    public static void PreLoadScene(string sceneName)
+    public static IEnumerator PreLoadScene(string sceneName)
     {
+        yield return null;
+
         instance.operation = UnitySceneManager.LoadSceneAsync(sceneName);
         instance.SetAllowSceneActivation(false);
+        while (!instance.operation.isDone)
+        {
+            yield return null;
+        }
     }
 
     public static void LoadScene(string sceneName)
     {
-        if (instance.operation == null || instance.operation.isDone)
-            PreLoadScene(sceneName);
+        if (sceneName != "ReadingRoom" || instance.operation == null || instance.operation.isDone)
+            instance.StartCoroutine(PreLoadScene(sceneName));
 
         instance.loadingTransitionOperator.LoadScene();
     }
@@ -94,7 +102,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     private static void ExitAction()
     {
         int SceneIndex = GetScene();
-        if (SceneIndex == 1)//"ReadingRoom"
+        if (SceneIndex == 1 || SceneIndex == 2)//"ReadingRoom" or "PuzzleRoom"
         {
             LoadScene("MainMenu");
         }
