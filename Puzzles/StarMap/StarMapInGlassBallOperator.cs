@@ -34,12 +34,15 @@ namespace Puzzle.StarMap
             rectTransform.localScale = Vector3.one * value;
             cursorRectTransform.localScale = Vector3.one / value;
         }
-        public void SetPuzzleSprite(Sprite sprite, bool rotate)
+        public void SetPuzzleSprite(Sprite sprite, bool isEasy)
         {
             puzzleImage.sprite = sprite;
-            if(rotate)
+            if (isEasy)
+                ResetRotation();
+            else
                 RandomRotate();
         }
+
         public void SetAnswerSprite(Sprite sprite)
         {
             targetImage.sprite = sprite;
@@ -79,6 +82,13 @@ namespace Puzzle.StarMap
             rectTransform.localRotation = Quaternion.Euler(0, 0, rand);
             cursorRectTransform.localRotation = Quaternion.Euler(0, 0, -rand);
             starMapScrollRect.SetCoefficient(rand);
+        }
+
+        private void ResetRotation()
+        {
+            rectTransform.localRotation = Quaternion.identity;
+            cursorRectTransform.localRotation = Quaternion.identity;
+            starMapScrollRect.SetCoefficient(0);
         }
     }
 }

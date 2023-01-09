@@ -120,8 +120,10 @@ namespace Puzzle.StarMap
         {
             Sprite sprite = starMapInformator[hemisphere].HemispherePuzzleSprite[difficulty];
 
-            bool rotateSprite = difficulty != 0;
-            starMapInGlassBallOperator.SetPuzzleSprite(sprite, rotateSprite);
+            bool isEasy = difficulty == 0;
+            starMapInGlassBallOperator.SetPuzzleSprite(sprite, isEasy);
+
+            helpMap.GetComponent<HelpMapOperator>().SetListOfPagesActive(isEasy, hemisphere);
         }
 
         public override void StartPuzzle()
@@ -142,6 +144,7 @@ namespace Puzzle.StarMap
 
         public override void PuzzleExit()
         {
+            OpenStarMap();
             backgroundImage.enabled = false;
             gameObject.SetActive(false);
         }

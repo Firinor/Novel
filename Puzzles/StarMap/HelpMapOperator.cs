@@ -18,6 +18,13 @@ namespace Puzzle.StarMap
         private float scrollStep = 0.15f;
         [SerializeField, NullCheck]
         private HelpMapScrollRect helpMapScrollRect;
+        [SerializeField, NullCheck]
+        private GameObject listOfPages;
+
+        void Awake()
+        {
+            helpMapScrollRect.SetGlassBallViewOperator(this);
+        }
 
         public void SwitchMap(int i)
         {
@@ -27,9 +34,11 @@ namespace Puzzle.StarMap
             }
         }
 
-        void Awake()
+        public void SetListOfPagesActive(bool isEasy, Hemisphere hemisphere)
         {
-            helpMapScrollRect.SetGlassBallViewOperator(this);
+            listOfPages.SetActive(!isEasy);
+            if(isEasy)
+                SwitchMap((int)hemisphere);
         }
 
         public float ZoomScroll(Vector2 mouseScrollDelta)
