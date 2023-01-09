@@ -119,7 +119,9 @@ namespace Puzzle.StarMap
         private void SetStarMapPuzzleContent(Hemisphere hemisphere)
         {
             Sprite sprite = starMapInformator[hemisphere].HemispherePuzzleSprite[difficulty];
-            starMapInGlassBallOperator.SetPuzzleSprite(sprite);
+
+            bool rotateSprite = difficulty != 0;
+            starMapInGlassBallOperator.SetPuzzleSprite(sprite, rotateSprite);
         }
 
         public override void StartPuzzle()

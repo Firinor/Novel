@@ -8,20 +8,11 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
     private static GameObject baner;
     private static GameObject credits;
     private static GameObject saves;
-    private static bool firstStart = true;
     [SerializeField]
     private string nextSceneName;
 
     private MainMenuInformator mainMenuInformator;
 
-    void Start()
-    {
-        if(firstStart && nextSceneName != null)
-        {
-            firstStart = false;
-            SceneManager.PreLoadScene(nextSceneName);
-        }
-    }
     public void SetAllInstance()
     {
         SingletoneCheck(this);
@@ -71,7 +62,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 
     public void DiactiveAllPanels()
     {
-        //baner.SetActive(false);
+        baner.SetActive(false);
         credits.SetActive(false);
         saves.SetActive(false);
         SceneManager.DiactiveAllPanels();

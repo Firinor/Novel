@@ -34,10 +34,11 @@ namespace Puzzle.StarMap
             rectTransform.localScale = Vector3.one * value;
             cursorRectTransform.localScale = Vector3.one / value;
         }
-        public void SetPuzzleSprite(Sprite sprite)
+        public void SetPuzzleSprite(Sprite sprite, bool rotate)
         {
             puzzleImage.sprite = sprite;
-            RandomRotate();
+            if(rotate)
+                RandomRotate();
         }
         public void SetAnswerSprite(Sprite sprite)
         {
