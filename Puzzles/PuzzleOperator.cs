@@ -35,12 +35,14 @@ namespace Puzzle
             exitButton.onClick.AddListener(PuzzleExit);
             optionsButton.onClick.RemoveAllListeners();
             optionsButton.onClick.AddListener(Options);
+            ResetTimer();
         }
         public virtual void PuzzleExit()
         {
             DeactivaButtons();
             backgroundImage.enabled = false;
             gameObject.SetActive(false);
+            helpButtons.SetActive(false);
         }
         public virtual void LosePuzzle()
         {
@@ -53,11 +55,11 @@ namespace Puzzle
         public virtual void ClearPuzzle()
         {
             DeactivaButtons();
+            timerText.enabled = false;
         }
 
         private void DeactivaButtons()
         {
-            helpButtons.SetActive(false);
             victoryButton.SetActive(false);
             failButton.SetActive(false);
         }

@@ -1,10 +1,13 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEditor.U2D.Sprites;
+#endif
 using UnityEngine;
 using static Puzzle.ImageWithDifferences;
 
 namespace Puzzle
 {
+#if UNITY_EDITOR
     public static class FillNumbersHelper
     {
         public static DifferencesStruct[] FillNumbers(Texture2D texture, DifferencesStruct[] differences)
@@ -32,4 +35,5 @@ namespace Puzzle
         }
 
     }
+#endif
 }

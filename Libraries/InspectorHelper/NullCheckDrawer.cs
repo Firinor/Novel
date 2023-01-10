@@ -3,6 +3,7 @@ using UnityEditor;
 
 namespace FirUnityEditor
 {
+    #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(NullCheck))]
     public class NullCheckDrawer : PropertyDrawer
     {
@@ -23,4 +24,5 @@ namespace FirUnityEditor
             }
         }
     }
+    #endif
 }

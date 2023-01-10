@@ -105,12 +105,10 @@ namespace Puzzle.FindDifferences
         }
         public override void ClearPuzzle()
         {
-            victoryButton.SetActive(false);
-            failButton.SetActive(false);
+            base.ClearPuzzle();
             detectiveDeskOperator.ClearImages();
             doubleCursorOperator.DisableCursors();
             DeleteAllDifference();
-            ResetTimer();
             differencesFound = 0;
         }
         public void DeleteAllDifference()

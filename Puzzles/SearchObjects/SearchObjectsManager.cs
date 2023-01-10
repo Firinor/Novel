@@ -134,11 +134,9 @@ namespace Puzzle.SearchObjects
         }
         public override void ClearPuzzle()
         {
-            victoryButton.SetActive(false);
-            failButton.SetActive(false);
+            base.ClearPuzzle();
             detectiveDeskOperator.ClearImage();
             DeleteAllDifference();
-            ResetTimer();
             differencesFound = 0;
         }
 

@@ -24,11 +24,13 @@ namespace Puzzle
             this.differences = differences;
         }
 
+#if UNITY_EDITOR
         [ContextMenu("Fill numbers")]
         public void FillNumbers()
         {
             differences = FillNumbersHelper.FillNumbers(differencesTexture2D, differences);
         }
+#endif
 
         [Serializable]
         public struct DifferencesStruct

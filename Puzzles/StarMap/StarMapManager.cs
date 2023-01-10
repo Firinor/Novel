@@ -56,10 +56,8 @@ namespace Puzzle.StarMap
         }
         public override void ClearPuzzle()
         {
-            victoryButton.SetActive(false);
-            failButton.SetActive(false);
+            base.ClearPuzzle();
             ResetPointerAndButton();
-            ResetTimer();
         }
         public void CheckAnswer()
         {

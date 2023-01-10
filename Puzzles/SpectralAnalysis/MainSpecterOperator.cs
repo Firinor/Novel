@@ -4,6 +4,7 @@ using Puzzle.PortalBuild;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class MainSpecterOperator : MonoBehaviour
 {
@@ -17,48 +18,69 @@ public class MainSpecterOperator : MonoBehaviour
     private Sprite noneSpectrumSprite;
     [SerializeField, NullCheck]
     private SpectralAnalysisManager spectralAnalysisManager;
+    [SerializeField, NullCheck]
+    private GameObject leftArrow;
+    [SerializeField, NullCheck]
+    private GameObject rightArrow;
+
+    private static int SPECTER_WIDTH = 2048;
+    private static int STEP_COUNT = 64;
+    private static int STEP_WIDTH;
 
     private List<int> recipe;
-    private List<float> defaultRatio;
+    //private List<float> defaultRatio;
     private List<float> recipeRatio;
     private int redOffset;
 
     void Awake()
     {
-        defaultRatio = new List<float>();
+        STEP_WIDTH = SPECTER_WIDTH / STEP_COUNT;
+        ResetRecipeRatio();
+    }
+
+    public void ResetRecipeRatio()
+    {
+        //defaultRatio = new List<float>();
         recipeRatio = new List<float>();
 
-        for (int i = 0; i < AtomsInformator.AtomSpriteWidth; i++)
+        for (int i = 0; i < SPECTER_WIDTH; i++)
         {
-            Color color = noneSpectrumSprite.texture.GetPixel(i, 0);
-            defaultRatio.Add(Mathf.Max(color.r, color.g, color.b));
+            //Color color = noneSpectrumSprite.texture.GetPixel(i, 0);
+            //defaultRatio.Add(Mathf.Max(color.r, color.g, color.b));
             recipeRatio.Add(1);
         }
     }
-    public void OffsetToTheSide(int direction)
+
+    public void OffsetToTheRight()
+    {
+        OffsetToTheSide(STEP_WIDTH);
+    }
+    public void OffsetToTheLeft()
+    {
+        OffsetToTheSide(-STEP_WIDTH);
+    }
+    private void OffsetToTheSide(int direction)
     {
         Texture2D texture = mainSpecter.sprite.texture;
 
-        int atomSpriteWidth = AtomsInformator.AtomSpriteWidth;
-
         redOffset += direction;
-        if (redOffset >= atomSpriteWidth)
+        while (redOffset >= SPECTER_WIDTH)
         {
-            redOffset -= atomSpriteWidth;
+            redOffset -= SPECTER_WIDTH;
         }
-        if (redOffset < 0)
+        while (redOffset < 0)
         {
-            redOffset += atomSpriteWidth;
+            redOffset += SPECTER_WIDTH;
         }
 
-        for (int i = 0; i < atomSpriteWidth; i++)
+        for (int i = 0; i < SPECTER_WIDTH; i++)
         {
             Color color = noneSpectrumSprite.texture.GetPixel(i, 0);
 
             int offset = i + redOffset;
-            if (offset >= atomSpriteWidth)
+            while (offset >= SPECTER_WIDTH)
             {
-                offset -= atomSpriteWidth;
+                offset -= SPECTER_WIDTH;
             }
             
             Color colorWithRatio = color * recipeRatio[offset];
@@ -88,8 +110,8 @@ public class MainSpecterOperator : MonoBehaviour
 
         AtomsInformator atomsInformator = SpectralAnalysisManager.AtomInformator;
         
-        Texture2D texture = new Texture2D(AtomsInformator.AtomSpriteWidth, 1);
-        for (int i = 0; i < AtomsInformator.AtomSpriteWidth; i++)
+        Texture2D texture = new Texture2D(SPECTER_WIDTH, 1);
+        for (int i = 0; i < SPECTER_WIDTH; i++)
         {
             Color color = noneSpectrumSprite.texture.GetPixel(i, 0);
             texture.SetPixel(i, 0, color);
@@ -104,9 +126,6 @@ public class MainSpecterOperator : MonoBehaviour
                 Color texturePixel = texture.GetPixel(j, 0);
                 Color incomingPixel = incomingTexture.GetPixel(j, 60);
 
-                //float incomingPixelRed = Math.Max(incomingPixel.r, texturePixel.r);
-                //float incomingPixelGreen = Math.Max(incomingPixel.g, texturePixel.g);
-                //float incomingPixelBlue = Math.Max(incomingPixel.b, texturePixel.b);
                 float pixelRedRatio = texturePixel.r == 0 ? 0 : incomingPixel.r / texturePixel.r;
                 float pixelGreenRatio = texturePixel.g == 0 ? 0 : incomingPixel.g / texturePixel.g;
                 float pixelBlueRatio = texturePixel.b == 0 ? 0 : incomingPixel.b / texturePixel.b;
@@ -124,5 +143,20 @@ public class MainSpecterOperator : MonoBehaviour
         Sprite mainSprite = Sprite.Create(
             texture, noneSpectrumSprite.textureRect, new Vector2(.5f, .5f));
         mainSpecter.sprite = mainSprite;
+    }
+
+    public void SetColorShift(bool colorShift)
+    {
+        leftArrow.SetActive(colorShift);
+        rightArrow.SetActive(colorShift);
+        if(colorShift)
+            SpecretRandomShift();
+    }
+
+    private void SpecretRandomShift()
+    {
+        int shift = Random.Range(0, STEP_COUNT-1);
+
+        OffsetToTheSide(shift * STEP_WIDTH);
     }
 }

@@ -109,12 +109,10 @@ namespace Puzzle.FindObject
         }
         public override void ClearPuzzle()
         {
-            victoryButton.SetActive(false);
-            failButton.SetActive(false);
+            base.ClearPuzzle();
             CloseBox();
             box.GetComponent<Button>().enabled = true;
             DeleteAllIngredients();
-            ResetTimer();
         }
         private void DeleteAllIngredients()
         {

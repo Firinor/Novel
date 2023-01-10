@@ -4,6 +4,7 @@ using FirUnityEditor;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Puzzle.PortalBuild
 {
@@ -52,13 +53,29 @@ namespace Puzzle.PortalBuild
         public override void StartPuzzle()
         {
             base.StartPuzzle();
+
             CreateNewObjectsInBox();
             CreateNewSpecterObjects();
+
             answer = GameMath.AFewCardsFromTheDeck(
-                portalBuildPackage.RecipeCount, portalBuildPackage.IngredientsCount);
+                SpecialComplexityChanñe(portalBuildPackage.RecipeCount),
+                portalBuildPackage.IngredientsCount);
 
             mainSpecter.GenetareNewSpecter(answer);
+            mainSpecter.SetColorShift(portalBuildPackage.ColorShift);
             readyButton.interactable = true;
+        }
+
+        private int SpecialComplexityChanñe(int recipeCount)
+        {
+            int result = recipeCount;
+
+            if(recipeCount >= Random.Range(minInclusive: 1, maxInclusive: 10))
+                result++;
+
+            //Debug.Log(result);
+
+            return result;
         }
 
         public override void ClearPuzzle()
@@ -67,6 +84,7 @@ namespace Puzzle.PortalBuild
             DeleteAllSpecterComponents();
             DeleteAllInBoxComponents();
             mainSpecter.DestroyAnswerAtoms();
+            mainSpecter.ResetRecipeRatio();
         }
         private void DeleteAllSpecterComponents()
         {
