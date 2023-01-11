@@ -139,9 +139,9 @@ public class DialogNode : MonoBehaviour
         dialogOperator.SetPosition(character, position, viewDirection);
     }
 
-    public Task ShowImage(Sprite sprite)
+    public Task ShowImage(Sprite sprite, string[] text = null)
     {
-        return dialogOperator.ShowImage(sprite);
+        return dialogOperator.ShowImage(sprite, text);
     }
 
     public void HideCharacter(CharacterInformator character)

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FirGames.StoryPart1
@@ -31,6 +32,10 @@ namespace FirGames.StoryPart1
 
             await Say(Archmagister, "сейчас я должен открыть портал для прохода торгового каравана в столицу. Оставляю вас." +
                 " Дитя мое, помни, что я горжусь тобой и все уже готово для празднования.", "");
+
+            await ShowImage(Backgrounds.KarimRoom, new string[2]{
+                "сейчас я должен открыть портал для прохода" + Environment.NewLine + "торгового каравана в столицу. Оставляю вас." +
+                    " Дитя мое, помни" + Environment.NewLine + ", что я горжусь тобой и" + Environment.NewLine + " все уже готово для празднования.", ""});
 
             Fork();
         }

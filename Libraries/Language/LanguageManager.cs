@@ -1,6 +1,6 @@
 using System;
 
-public enum Languages { RU, EN }
+public enum Languages { RU, EN, CN }
 
 public static class LanguageManager
 {

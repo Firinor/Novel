@@ -40,6 +40,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	[SerializeField, NullCheck]
     private TextMeshProUGUI textMeshPro;
     [SerializeField, NullCheck]
+    private TextMeshProUGUI textInCenterOfScreen;
+    [SerializeField, NullCheck]
     private GameObject textCanvas;
     //[SerializeField, NullCheck]
     //private MapCanvasOperator mapCanvasOperator;
@@ -71,6 +73,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     #region Monobehaviour
     void Awake()
 	{
+		ClearAllText();
 		LanguageManager.OnLanguageChange += ResetSpeakerNameAndText;
 	}
 
@@ -98,6 +101,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         textCanvas.SetActive(true);
     }
 
+    private void ClearAllText()
+    {
+        textMeshPro.text = "";
+        textInCenterOfScreen.text = "";
+    }
+
     private void ResetSpeakerNameAndText()
 	{
 		SwichLanguage = true;
@@ -108,22 +117,25 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		lettersDelay = delta;
 	}
-	public async Task PrintText(string[] text)
+	public async Task PrintText(string[] text, bool senterScreen = false)
 	{
 		PrintableText = TextByLanguage(text);
         nextInput = false;
 		nextArrow.enabled = false;
 
 		strindBuilder.Clear();
+		strindBuilder.Append(' ', PrintableText.Length + fullLineDelay);
 
-		textMeshPro.text = strindBuilder.ToString();
+        TextMeshProUGUI textComponent = senterScreen ? textInCenterOfScreen : textMeshPro;
+
+        textComponent.text = strindBuilder.ToString();
 
 		for (int i = 0; i < PrintableText.Length + fullLineDelay; i++)
 		{
 			if(i < PrintableText.Length)
 			{
-                strindBuilder.Append(PrintableText[i]);
-                textMeshPro.text = strindBuilder.ToString();
+				strindBuilder[i] = PrintableText[i];
+                textComponent.text = strindBuilder.ToString();
             }
 			if (skipText)
 			{
@@ -144,7 +156,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			}
 			await Task.Delay((int)(lettersDelay * 1000));
 		}
-        textMeshPro.text = TextByLanguage(text);
+        textComponent.text = TextByLanguage(text);
 		nextArrow.enabled = true;
 		while (!nextInput)
 		{
@@ -155,16 +167,24 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			if (SwichLanguage)
 			{
 				SwichLanguage = false;
-				textMeshPro.text = TextByLanguage(text);
+                textComponent.text = TextByLanguage(text);
 			}
 			if (DialogManager.IsCancellationRequested)
 				break;
 			await Task.Yield();
 		}
-	}
+		ClearAllText();
+    }
 
 	private static string TextByLanguage(string[] text)
 	{
+		if(text == null)
+			return null;
+		if(text.Length == 0)
+			return null;
+		if(text.Length <= (int)PlayerManager.Language)
+			return null;
+
 		return text[(int)PlayerManager.Language];
 	}
 
@@ -310,7 +330,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
 		
 	}
-    public async Task ShowImage(Sprite sprite)
+    public async Task ShowImage(Sprite sprite, string[] text = null)
 	{
 		StopDialogSkip();
         nextInput = false;
@@ -326,6 +346,10 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
                 break;
 
             await Task.Yield();
+        }
+		if (!String.IsNullOrEmpty(TextByLanguage(text)))
+		{
+			await PrintText(text, senterScreen: true);
         }
 		OffBackground();
         ShowText();
