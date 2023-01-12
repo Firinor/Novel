@@ -57,7 +57,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         [NullCheck]
         public Sprite World;
         [NullCheck]
-        public Sprite FirePlace;
+        public Sprite InessaRoom;
         [NullCheck]
         public Sprite Memorial;
         [NullCheck]

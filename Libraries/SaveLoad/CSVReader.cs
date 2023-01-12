@@ -9,7 +9,7 @@ namespace FirSaveLoad
         //[SerializeField]
         //private string pathToFile = "/Units/_UnitData.csv";
 
-        public static List<List<string>> GetData(string pathToFile, int startLine = 1)
+        public static List<List<string>> GetData(string pathToFile, int startLine = 1, char split = ';')
         {
             string path = Application.dataPath + pathToFile;
 
@@ -20,7 +20,7 @@ namespace FirSaveLoad
             for (int i = startLine; i < AllText.Length; i++)
             {
                 string unitString = AllText[i].Replace("\"", "");
-                string[] elements = unitString.Split(';');
+                string[] elements = unitString.Split(split);
 
                 if (elements.Length == 0)
                     continue;

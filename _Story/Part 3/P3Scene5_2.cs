@@ -8,7 +8,7 @@ namespace FirGames.StoryPart3
 
             CharacterInformator Skull = Characters.Skull;
 
-            Scene(Backgrounds.FirePlace);
+            Scene(Backgrounds.InessaRoom);
 
             Show(Skull, PositionOnTheStage.Center);
 

@@ -10,7 +10,7 @@ namespace FirGames.StoryPart4
             CharacterInformator Skull = Characters.Skull;
             CharacterInformator Vargus = Characters.Vargus;
 
-            Scene(Backgrounds.FirePlace);
+            Scene(Backgrounds.InessaRoom);
 
             Show(Skull, PositionOnTheStage.Center);
 

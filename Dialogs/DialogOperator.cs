@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Image = UnityEngine.UI.Image;
 
 public class DialogOperator : SinglBehaviour<DialogOperator>
@@ -124,17 +125,26 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		nextArrow.enabled = false;
 
 		strindBuilder.Clear();
-		strindBuilder.Append(' ', PrintableText.Length + fullLineDelay);
 
         TextMeshProUGUI textComponent = senterScreen ? textInCenterOfScreen : textMeshPro;
 
+		if (senterScreen)
+		{
+            ContentSizeFitter sizeFitter = textComponent.GetComponent<ContentSizeFitter>();
+			if(sizeFitter != null)
+			{
+                textComponent.text = PrintableText;
+				sizeFitter.SetLayoutVertical();
+			}
+        }
+			
         textComponent.text = strindBuilder.ToString();
 
 		for (int i = 0; i < PrintableText.Length + fullLineDelay; i++)
 		{
 			if(i < PrintableText.Length)
 			{
-				strindBuilder[i] = PrintableText[i];
+				strindBuilder.Append(PrintableText[i]);
                 textComponent.text = strindBuilder.ToString();
             }
 			if (skipText)
