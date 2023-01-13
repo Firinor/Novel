@@ -1,5 +1,7 @@
 using FirUnityEditor;
+using Story;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StoryInformator : SinglBehaviour<StoryInformator>
@@ -7,6 +9,19 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public Characters characters;
     public Backgrounds backgrounds;
     public SpecialImages specialImages;
+    [SerializeField]
+    private TextAsset[] storyFiles;
+    public List<List<StoryComponent>> Story;
+    public List<StoryComponent> StoryComponent;
+    private int StoryActCount = 7;
+
+    public List<StoryComponent> GetAct(int i)
+    {
+        if (i-1 > StoryActCount || i <= 0)
+            throw new Exception($"There is no act with number \"{i}\" in the history!");
+
+        return Story[i-1];
+    }
 
     [Serializable]
     public class Characters
@@ -126,5 +141,12 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     void Awake()
     {
         SingletoneCheck(this);
+        GetStory();
+    }
+
+    private void GetStory()
+    {
+        Story = StoryReader.GetFullStory(storyFiles);
+        StoryComponent = Story[0];
     }
 }

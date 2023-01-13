@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 namespace FirSaveLoad
 {
-    public class CSVReader
+    public static class CSVReader
     {
         //[SerializeField]
         //private string pathToFile = "/Units/_UnitData.csv";
@@ -13,22 +14,9 @@ namespace FirSaveLoad
         {
             string path = Application.dataPath + pathToFile;
 
-            string[] AllText = File.ReadAllLines(path);
+            string[] AllText = File.ReadAllLines(path, Encoding.GetEncoding("windows-1251"));
 
-            List<List<string>> Result = new List<List<string>>();
-
-            for (int i = startLine; i < AllText.Length; i++)
-            {
-                string unitString = AllText[i].Replace("\"", "");
-                string[] elements = unitString.Split(split);
-
-                if (elements.Length == 0)
-                    continue;
-
-                Result.Add(new List<string>(elements));
-            }
-
-            return Result;
+            return StringReader.GetData(AllText, startLine, split);
         }
     }
 }

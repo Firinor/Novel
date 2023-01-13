@@ -1,6 +1,24 @@
 using UnityEngine;
 
-public enum ViewDirection { Right = 1, Left = -1 }
+public enum ViewDirection { Right = 1, Default = 0, Left = -1 }
+public enum CharacterEmotion {
+    Default, //Спокойствие
+    Smile,//Улыбка
+    Gloomy,//Глум
+    Fear,//Страх
+    Dreaming,//Мечтательность
+    Helpless, //Безнадёга
+    Doubt,//Сомнения
+    Surprise,//Удивление
+    Bewilderment,//Недоумение
+    Uncertainty,//Неопределенность
+    Disgust,//Отвращение
+    Sullenly,//Угрюмость
+    Аngry,//Злость
+    Pride,//Гордость
+    Tears,//Слёзы
+    Sad //Грусть
+}
 
 [CreateAssetMenu(menuName = "Character/Character info", fileName = "CharInfo")]
 public class CharacterInformator : ScriptableObject
