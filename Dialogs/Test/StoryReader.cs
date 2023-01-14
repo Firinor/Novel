@@ -1,8 +1,10 @@
-﻿using FirSaveLoad;
+﻿using FirParser;
+using FirSaveLoad;
 using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Story
 {
@@ -23,7 +25,12 @@ namespace Story
                 List<StoryComponent> resultAct = new List<StoryComponent>();
                 List<List<string>> textAct = StringReader.GetData(storyFiles[i]);
 
-                foreach(List<string> separateString in textAct)
+                PositionOnTheStage position = StringParser.ParseTo<PositionOnTheStage>("Right");
+                CharacterInformator character = 
+                    StringParser.NotSafeFindField<CharacterInformator> 
+                    ("Tiir2", StoryInformator.instance.characters, ToLower: false);
+
+                foreach (List<string> separateString in textAct)
                 {
                     int separateStringCount = separateString.Count;
                     string[] texts = new string[separateStringCount - StoryComponent.TEXT_COLLUM];
@@ -31,15 +38,16 @@ namespace Story
                     {
                         texts[j] = separateString[StoryComponent.TEXT_COLLUM + j];
                     }
+                    
                     //StoryComponent newStoryComponent =
                     //    new StoryComponent(texts);
-                            //Act = i);
-        //Scene;
-        //Position;
-        //Direction;
-        //Emotion;
-        //Character;
-        //Text;);
+                    //Act = i);
+                    //Scene;
+                    //Position;
+                    //Direction;
+                    //Emotion;
+                    //Character;
+                    //Text;);
                     //resultAct.Add(newStoryComponent);
                 }
                 Story.Add(resultAct);

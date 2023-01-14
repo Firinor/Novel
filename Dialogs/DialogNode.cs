@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-public enum PositionOnTheStage { Left, Center, Right, OffScene }
+public enum PositionOnTheStage { OffScene, Left, Center, Right}
 public enum DialogProgressStatus { Open, Closed, Hiden }
 
 public class DialogNode : MonoBehaviour
