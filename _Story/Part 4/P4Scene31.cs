@@ -26,7 +26,7 @@ namespace FirGames.StoryPart4
 
             await Say(Skull, "Вы так остроумны. Полечу посмотрю, что происходит в том дальнем углу.", "");
 
-            await ShowImage(SpecialImages.TwoDaysHavePassed);
+            await ShowImage(Backgrounds.TwoDaysHavePassed);
 
             Fork();
         }

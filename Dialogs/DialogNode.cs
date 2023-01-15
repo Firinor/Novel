@@ -22,7 +22,6 @@ public class DialogNode : MonoBehaviour
     private DialogOperator dialogOperator;
     protected StoryInformator.Characters Characters;
     protected StoryInformator.Backgrounds Backgrounds;
-    protected StoryInformator.SpecialImages SpecialImages;
 
     public string Description { get { return DescriptionOfSelection; } }
 
@@ -31,7 +30,6 @@ public class DialogNode : MonoBehaviour
         StoryInformator storyInformator = StoryInformator.instance;
         Characters = storyInformator.characters;
         Backgrounds = storyInformator.backgrounds;
-        SpecialImages = storyInformator.specialImages;
         dialogOperator = DialogOperator.instance;
         GetComponent<Button>().onClick.AddListener(StartDialog);
     }

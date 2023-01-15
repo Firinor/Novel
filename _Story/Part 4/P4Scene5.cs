@@ -37,7 +37,7 @@ namespace FirGames.StoryPart4
 
             await Say(Skull, "Как прикажите.", "");
 
-            await ShowImage(SpecialImages.TwoDaysHavePassed);
+            await ShowImage(Backgrounds.TwoDaysHavePassed);
 
             Fork();
         }

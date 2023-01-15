@@ -6,7 +6,7 @@ namespace FirGames.StoryPart4
         {
             base.StartDialog();
 
-            await ShowImage(SpecialImages.War);
+            await ShowImage(Backgrounds.War);
 
             CharacterInformator Skull = Characters.Skull;
 

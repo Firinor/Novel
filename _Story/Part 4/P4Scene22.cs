@@ -53,7 +53,7 @@ namespace FirGames.StoryPart4
 
             await Say(Skull, "Почтем за честь.", "");
 
-            await ShowImage(SpecialImages.OrcParty);
+            await ShowImage(Backgrounds.OrcParty);
 
             Fork();
         }

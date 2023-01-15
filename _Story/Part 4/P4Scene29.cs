@@ -25,7 +25,7 @@ namespace FirGames.StoryPart4
 
             await Say(Arguz, "Скорее. Медлить нельзя.", "");
 
-            await ShowImage(SpecialImages.TwoDaysHavePassed);
+            await ShowImage(Backgrounds.TwoDaysHavePassed);
 
             Fork();
         }

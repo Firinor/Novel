@@ -15,7 +15,7 @@ namespace FirGames.StoryPart4
             await Say(Skull, "Похоже вождь не слишком-то доверяет своему полководцу Хурге," +
                 " поэтому отправляет за золотом сына. Интересные у них тут отношения.", "");
 
-            await ShowImage(SpecialImages.TwoDaysHavePassed);
+            await ShowImage(Backgrounds.TwoDaysHavePassed);
 
             Fork();
         }

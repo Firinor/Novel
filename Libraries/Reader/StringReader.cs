@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FirSaveLoad
@@ -14,19 +15,59 @@ namespace FirSaveLoad
         {
             List<List<string>> Result = new List<List<string>>();
 
-            char newDialog = '\"';
-            string newLine = Environment.NewLine;
+            string newDialog = "\"";
+            string[] newLine = new string[] { Environment.NewLine };
+            string newLineString = Environment.NewLine;
 
-            //for (int i = startLine; i < data.Length; i++)
-            //{
-            //    string unitString = data[i].Replace("\"", "");
+            string[] textSplited = text.Split(split);
+
+            List<string> storyScene = new List<string>();
+            bool isPhraseMovedToNewLine = false;
+
+            foreach (string pieceOfText in textSplited)
+            {
+                if (pieceOfText.StartsWith(newDialog))
+                {
+                    isPhraseMovedToNewLine = true;
+                }
+                
+                if (pieceOfText.Contains(newLineString))
+                {
+                    //...end of line.{Environment.NewLine}
+                    //begin of new line...
+
+                    string[] betweenLines = pieceOfText.Split(newLine, StringSplitOptions.None);
+
+                    //betweenLines[0] = end of line
+                    //betweenLines[1] = begin of new line
+
+                    if (isPhraseMovedToNewLine)
+                    {
+                        if (betweenLines[0].EndsWith(newDialog))
+                        {
+                            isPhraseMovedToNewLine = false;
+                        }
+                    }
+                    else
+                    {
+                        storyScene.Add(betweenLines[0]);
+                        Result.Add(storyScene);
+                        storyScene = new List<string>();
+                        storyScene.Add(betweenLines[1]);
+                    }
+                    
+                }
+
+                
+
+            }
+            //.Replace("\"", "");
             //    string[] elements = unitString.Split(split);
 
             //    if (elements.Length == 0)
             //        continue;
 
-            //    Result.Add(new List<string>(elements));
-            //}
+            Result.Add(storyScene);
 
             return Result;
         }

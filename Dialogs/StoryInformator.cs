@@ -3,25 +3,106 @@ using Story;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static StoryInformator;
 
 public class StoryInformator : SinglBehaviour<StoryInformator>
 {
     public Characters characters;
     public Backgrounds backgrounds;
-    public SpecialImages specialImages;
     [SerializeField]
     private TextAsset[] storyFiles;
-    public List<List<StoryComponent>> Story;
-    public List<StoryComponent> StoryComponent;
-    private int StoryActCount = 7;
+    public FullStory Story;
+    public Scene StoryComponent;
+    private const int StoryActCount = 7;
 
-    public List<StoryComponent> GetAct(int i)
+    public Scene GetScene(int act, int scene)
     {
-        if (i-1 > StoryActCount || i <= 0)
-            throw new Exception($"There is no act with number \"{i}\" in the history!");
+        if (act > StoryActCount || act < 1)
+            throw new Exception($"There is no act with number \"{act}\" in the history!");
 
-        return Story[i-1];
+        if (scene > Story.Acts.Count || scene < 1)
+            throw new Exception($"There is no scene with number \"{scene}\" in the act \"{act}\"!");
+
+        return Story[act - 1][scene - 1];
     }
+
+    #region Story architecture
+    [Serializable]
+    public class FullStory
+    {
+        public List<Act> Acts;
+        public Act this[int index]
+        {
+            get => Acts[index];
+            set => Acts[index] = value;
+        }
+
+        public static implicit operator FullStory(List<List<List<StoryComponent>>> storyFromComponents)
+        {
+            List<Act> acts = new List<Act>();
+            foreach (var act in storyFromComponents)
+            {
+                List<Scene> scenes = new List<Scene>();
+                foreach (var scene in act)
+                {
+                    scenes.Add(scene);
+                }
+                acts.Add(scenes);
+            }
+            return new FullStory { Acts = acts };
+        }
+        public static implicit operator FullStory(List<List<Scene>> storyFromScenes)
+        {
+            List<Act> acts = new List<Act>();
+            foreach (var act in storyFromScenes)
+            {
+                acts.Add(act);
+            }
+            return new FullStory() { Acts = acts };
+        }
+        public static implicit operator FullStory(List<Act> acts)
+        {
+            return new FullStory() { Acts = acts };
+        }
+    }
+    [Serializable]
+    public class Act
+    {
+        public List<Scene> Scenes;
+        public Scene this[int index]
+        {
+            get => Scenes[index];
+            set => Scenes[index] = value;
+        }
+        public static implicit operator Act(List<List<StoryComponent>> scenesFromComponents)
+        {
+            List<Scene> scenes = new List<Scene>();
+            foreach (var scene in scenesFromComponents)
+            {
+                scenes.Add(scene);
+            }
+            return new Act() { Scenes = scenes };
+        }
+        public static implicit operator Act(List<Scene> scenes)
+        {
+            return new Act() { Scenes = scenes };
+        }
+    }
+    [Serializable]
+    public class Scene
+    {
+        public List<StoryComponent> Incident;
+        public StoryComponent this[int index]
+        {
+            get => Incident[index];
+            set => Incident[index] = value;
+        }
+        public static implicit operator Scene(List<StoryComponent> incidents)
+        {
+            return new Scene() { Incident = incidents };
+        }
+    }
+    #endregion
 
     [Serializable]
     public class Characters
@@ -67,6 +148,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     [Serializable]
     public class Backgrounds
     {
+        #region Main backgrounds
         [NullCheck]
         public Sprite Lab;
         [NullCheck]
@@ -125,18 +207,17 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         public Sprite Desert;
         [NullCheck]
         public Sprite OrcCamp;
-    }
-    [Serializable]
-    public class SpecialImages
-    {
+        #endregion //Main backgrounds
+
+        #region Spesial backgrounds
         [NullCheck]
         public Sprite TwoDaysHavePassed;
         [NullCheck]
         public Sprite OrcParty;
         [NullCheck]
         public Sprite War;
+        #endregion //Spesial backgrounds
     }
-
 
     void Awake()
     {
@@ -147,6 +228,6 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     private void GetStory()
     {
         Story = StoryReader.GetFullStory(storyFiles);
-        StoryComponent = Story[0];
+        StoryComponent = Story[0][0];
     }
 }

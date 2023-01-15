@@ -60,7 +60,7 @@ namespace FirGames.StoryPart3
 
             await Say(Skull, "Мы знаем гнома, который с радостью продаст флюорит без лишних вопросов.", "");
 
-            await ShowImage(SpecialImages.TwoDaysHavePassed);
+            await ShowImage(Backgrounds.TwoDaysHavePassed);
 
             Fork();
         }

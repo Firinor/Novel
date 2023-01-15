@@ -8,7 +8,7 @@ namespace FirGames.StoryPart4
 
             CharacterInformator Skull = Characters.Skull;
 
-            await ShowImage(SpecialImages.TwoDaysHavePassed);
+            await ShowImage(Backgrounds.TwoDaysHavePassed);
 
             Scene(Backgrounds.Lab);
 
