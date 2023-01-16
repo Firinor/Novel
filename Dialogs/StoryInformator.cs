@@ -108,23 +108,25 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public class Characters
     {
         [NullCheck]
-        public CharacterInformator Voice;
+        public CharacterInformator None;
         [NullCheck]
-        public CharacterInformator Skull;
+        public CharacterInformator Choise;
         [NullCheck]
-        public CharacterInformator Yanus;
+        public CharacterInformator Narrator;
         [NullCheck]
-        public CharacterInformator Archmagister;
+        public CharacterInformator InessaSilently;
+        [NullCheck]
+        public CharacterInformator Inessa;
+        [NullCheck]
+        public CharacterInformator Graugalorafor;
+        [NullCheck]
+        public CharacterInformator Cristopher;
         [NullCheck]
         public CharacterInformator Vargus;
         [NullCheck]
-        public CharacterInformator LordCarlos;
-        [NullCheck]
         public CharacterInformator Karim;
         [NullCheck]
-        public CharacterInformator GnomGuard;
-        [NullCheck]
-        public CharacterInformator HumanGuard;
+        public CharacterInformator Guard;
         [NullCheck]
         public CharacterInformator Tiir;
         [NullCheck]
@@ -142,12 +144,15 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         [NullCheck]
         public CharacterInformator Mercenary;
         [NullCheck]
-        public CharacterInformator MagicianElector;
+        public CharacterInformator Mage;
     }
 
     [Serializable]
     public class Backgrounds
     {
+        [NullCheck]
+        public Sprite None;
+
         #region Main backgrounds
         [NullCheck]
         public Sprite Lab;
@@ -155,6 +160,8 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         public Sprite World;
         [NullCheck]
         public Sprite InessaRoom;
+        [NullCheck]
+        public Sprite Black;
         [NullCheck]
         public Sprite Memorial;
         [NullCheck]

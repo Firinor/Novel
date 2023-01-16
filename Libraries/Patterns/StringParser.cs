@@ -57,7 +57,7 @@ namespace FirParser
                 }
             }
 
-            throw new Exception($"Couldn't find in {classe} a field by string {Name}!");
+            throw new InvalidCastException($"Couldn't find in {classe} a field by string {Name}!");
             //return default(T1);
         }
     }

@@ -2,6 +2,7 @@ using Codice.CM.Common;
 using FirParser;
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Story
 {
@@ -15,12 +16,19 @@ namespace Story
         public CharacterEmotion Emotion;
         public CharacterInformator Character;
         public string[] Text;
-
+        public StoryComponent()
+        {
+            Scene = -1;
+            Background = StoryInformator.instance.backgrounds.None;
+            Character = StoryInformator.instance.characters.None;
+        }
         private StoryComponent(string[] text)
         {
             Text = text;
         }
-        public StoryComponent(int scene, Sprite background, PositionOnTheStage position, ViewDirection direction, CharacterEmotion emotion, CharacterInformator character, string[] text) : this(text)
+        public StoryComponent(int scene, Sprite background, PositionOnTheStage position,
+            ViewDirection direction, CharacterEmotion emotion,
+            CharacterInformator character, string[] text) : this(text)
         {
             Scene = scene;
             Background = background;
@@ -30,16 +38,30 @@ namespace Story
             Character = character;
         }
 
-        public StoryComponent(string scene, string background, string position, string direction, string emotion, string character, string[] text) : this(text)
+        public void SetValues(string scene, string background, string position, string direction,
+            string emotion, string character, string[] text)
         {
-            Scene = int.Parse(scene);
-            Background = StringParser.NotSafeFindField<Sprite>(
-                background, StoryInformator.instance.backgrounds);
+            Scene = string.IsNullOrEmpty(scene) ? -1 : int.Parse(scene);
+
+            if (!string.IsNullOrEmpty(background))
+            {
+                Background = StringParser.NotSafeFindField<Sprite>(
+                    background, StoryInformator.instance.backgrounds);
+            }
+            else Background = StoryInformator.instance.backgrounds.None;
+
             Position = StringParser.ParseTo<PositionOnTheStage>(position);
             Direction = StringParser.ParseTo<ViewDirection>(direction);
             Emotion = StringParser.ParseTo<CharacterEmotion>(emotion);
-            Character = StringParser.NotSafeFindField<CharacterInformator>(
-                character, StoryInformator.instance.characters);
+
+            if (!string.IsNullOrEmpty(character))
+            {
+                Character = StringParser.NotSafeFindField<CharacterInformator>(
+                    character, StoryInformator.instance.characters);
+            }
+            else Character = StoryInformator.instance.characters.None;
+
+            Text = text;
         }
     }
 }
