@@ -15,25 +15,30 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	private GameObject speakerPrefab;
 	[SerializeField, NullCheck]
     private GameObject buttonPrefab;
+
 	[SerializeField, NullCheck]
     private GameObject buttonParent;
 	[SerializeField, NullCheck]
     private GameObject plaqueWithTheName;
+
 	[Space]
 	[SerializeField, NullCheck]
     private RectTransform rectTransform;
 	[SerializeField, NullCheck]
     private Canvas canvas;
+
 	[SerializeField, NullCheck]
     private Image backgroundImage;
 	[SerializeField, NullCheck]
     private Sprite defaultSprite;
+
 	[SerializeField, NullCheck]
     private GameObject leftSpeaker;
 	[SerializeField, NullCheck]
     private GameObject centerSpeaker;
 	[SerializeField, NullCheck]
     private GameObject rightSpeaker;
+
     [SerializeField, NullCheck]
     private TextMeshProUGUI sceneName;
     [SerializeField, NullCheck]
@@ -42,6 +47,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private TextMeshProUGUI textMeshPro;
     [SerializeField, NullCheck]
     private TextMeshProUGUI textInCenterOfScreen;
+
     [SerializeField, NullCheck]
     private GameObject textCanvas;
     //[SerializeField, NullCheck]
@@ -62,8 +68,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
     private static bool skipText;
 	private static bool nextInput;
-	public static void NextInput() => nextInput = true;
 
+	public static void NextInput() => nextInput = true;
 	public static float RectTransformHeight { get { return instance.rectTransform.rect.height; } }
 	public static int OrderLayer { get { return instance.canvas.sortingOrder; } }
 	public static GameObject Left { get { return instance.leftSpeaker; } }
@@ -381,10 +387,10 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		}
 	}
 
-	public void CreateWayButton(DialogNode dialogNode)
+	public void CreateWayButton(DialogNode dialogNode, string description)
 	{
 		GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
-		button.GetComponent<DialogButtonOperator>().SetWay(dialogNode);
+		button.GetComponent<DialogButtonOperator>().SetWay(dialogNode, description);
 	}
 	#endregion
 

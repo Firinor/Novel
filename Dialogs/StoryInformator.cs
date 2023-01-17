@@ -1,9 +1,9 @@
 using FirUnityEditor;
 using Story;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static StoryInformator;
 
 public class StoryInformator : SinglBehaviour<StoryInformator>
 {
@@ -11,8 +11,9 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public Backgrounds backgrounds;
     [SerializeField]
     private TextAsset[] storyFiles;
-    public FullStory Story;
-    public Scene StoryComponent;
+    [SerializeField]
+    private FullStory Story;
+    
     private const int StoryActCount = 7;
 
     public Scene GetScene(int act, int scene)
@@ -92,11 +93,13 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public class Scene
     {
         public List<StoryComponent> Incident;
+        public int Length { get => Incident.Count; }
         public StoryComponent this[int index]
         {
             get => Incident[index];
             set => Incident[index] = value;
         }
+
         public static implicit operator Scene(List<StoryComponent> incidents)
         {
             return new Scene() { Incident = incidents };
@@ -235,6 +238,5 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     private void GetStory()
     {
         Story = StoryReader.GetFullStory(storyFiles);
-        StoryComponent = Story[0][0];
     }
 }

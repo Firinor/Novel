@@ -1,9 +1,7 @@
 using FirUnityEditor;
 using Puzzle;
-using System;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DialogManager : SinglBehaviour<DialogManager>
 {

@@ -1,8 +1,7 @@
-using Codice.CM.Common;
 using FirParser;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Story
 {
@@ -62,6 +61,11 @@ namespace Story
             else Character = StoryInformator.instance.characters.None;
 
             Text = text;
+        }
+
+        internal Task Action()
+        {
+            throw new NotImplementedException();
         }
     }
 }
