@@ -62,9 +62,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	private StringBuilder strindBuilder = new StringBuilder();
 	private bool SwichLanguage;
 	private string PrintableText;
-	private Dictionary<CharacterInformator, SpeakerOperator> speakers 
+	private Dictionary<CharacterInformator, SpeakerOperator> characters 
 		= new Dictionary<CharacterInformator, SpeakerOperator>();
-	private SpeakerOperator activeSpeaker;
+	private SpeakerOperator activeCharacter;
 
     private static bool skipText;
 	private static bool nextInput;
@@ -211,23 +211,23 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	#endregion
 
 	#region Speakers
-	public void RemoveSpeaker(CharacterInformator speaker)
+	public void RemoveSpeaker(CharacterInformator character)
 	{
 		SpeakerOperator speakerOperator = null;
 
-		if (speakers.ContainsKey(speaker))
+		if (characters.ContainsKey(character))
 		{
-			speakerOperator = speakers[speaker];
-			speakers.Remove(speaker);
+			speakerOperator = characters[character];
+			characters.Remove(character);
 		}
 
 		if (speakerOperator != null)
 			Destroy(speakerOperator.gameObject);
 	}
-	public void ClearAllSpeakers()
+	public void ClearAllCharacters()
 	{
 		plaqueWithTheName.SetActive(false);
-		speakers.Clear();
+		characters.Clear();
 
 		List<SpeakerOperator> gameObjectToDelete = new List<SpeakerOperator>();
 		AllSpeakersIn(gameObjectToDelete, leftSpeaker);
@@ -246,69 +246,69 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			gameObjectToDelete.Add(gameObject);
 		}
 	}
-	public void AddSpeaker(CharacterInformator speaker)
+	public void AddSpeaker(CharacterInformator character)
 	{
-		if (speaker == null)
+		if (character == null)
 			return;
 
-		if (!speakers.ContainsKey(speaker))
+		if (!characters.ContainsKey(character))
 		{
 			var speakerOperator = Instantiate(speakerPrefab, GetSpeakerParent()).GetComponent<SpeakerOperator>();
-			speakerOperator.SetCharacter(speaker);
-			speakers.Add(speaker, speakerOperator);
+			speakerOperator.SetCharacter(character);
+			characters.Add(character, speakerOperator);
 		}
 	}
-    public void SetPosition(CharacterInformator speaker, PositionOnTheStage position, ViewDirection viewDirection)
+    public void SetPosition(CharacterInformator character, PositionOnTheStage position, ViewDirection viewDirection)
 	{
-		if (speaker == null)
+		if (character == null)
 			return;
 
-		if (!speakers.ContainsKey(speaker))
+		if (!characters.ContainsKey(character))
 			return;
 
-		speakers[speaker].transform.SetParent(GetSpeakerParent(position));
-		speakers[speaker].transform.localScale = new Vector3((int)viewDirection*(int)speaker.ViewDirection, 1, 1);
+		characters[character].transform.SetParent(GetSpeakerParent(position));
+		characters[character].transform.localScale = new Vector3((int)viewDirection*(int)character.ViewDirection, 1, 1);
     }
-	public void SetActiveSpeaker(CharacterInformator speaker)
+	public void SetActiveSpeaker(CharacterInformator character)
 	{
-		if (!speakers.ContainsKey(speaker))
+		if (!characters.ContainsKey(character))
 			SetActiveSpeaker((SpeakerOperator)null);
 		else
-			SetActiveSpeaker(speakers[speaker]);
+			SetActiveSpeaker(characters[character]);
 	}
-	public void SetActiveSpeaker(SpeakerOperator speaker)
+	public void SetActiveSpeaker(SpeakerOperator character)
 	{
-		if (activeSpeaker == speaker)
+		if (activeCharacter == character)
 			return;
 		DeactiveSpeaker();
-        if (speaker == null)
+        if (character == null)
 			return;
-		if (!speakers.ContainsValue(speaker))
+		if (!characters.ContainsValue(character))
 			return;
 
-		activeSpeaker = speaker;
-		activeSpeaker.ToTheForeground();
+		activeCharacter = character;
+		activeCharacter.ToTheForeground();
 	}
 
     public void DeactiveSpeaker()
     {
-        if (activeSpeaker != null)
+        if (activeCharacter != null)
         {
-            activeSpeaker.ToTheBackground();
-            activeSpeaker = null;
+            activeCharacter.ToTheBackground();
+            activeCharacter = null;
         }
     }
 
-    public void SetPlaqueName(CharacterInformator speaker = null)
+    public void SetPlaqueName(CharacterInformator character = null)
 	{
-		if (speaker == null)
+		if (character == null)
 		{
 			plaqueWithTheName.SetActive(false);
 			return;
 		}
 
 		plaqueWithTheName.SetActive(true);
-		speakerName.text = speaker.Name;
+		speakerName.text = character.Name;
 	}
     public void SetPlaqueName(string name_ru, string name_en)
     {
@@ -319,9 +319,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
     protected void ResetPlaqueName()
 	{
-		if(activeSpeaker != null)
+		if(activeCharacter != null)
 		{
-			SetPlaqueName(activeSpeaker.characterInformator);
+			SetPlaqueName(activeCharacter.characterInformator);
 		}
 	}
 	private Transform GetSpeakerParent(PositionOnTheStage position = PositionOnTheStage.Center)
@@ -350,7 +350,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		StopDialogSkip();
         nextInput = false;
-		ClearAllSpeakers();
+		ClearAllCharacters();
         HideText();
         SetBackground(sprite);
         while (!nextInput)
