@@ -1,33 +1,41 @@
-﻿using FirSaveLoad;
+﻿using FirNovel.Characters;
+using FirParser;
+using FirSaveLoad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static StoryInformator;
+using Scene = StoryInformator.Scene;
 
 namespace Story
 {
     public class StoryReader
     {
         public static bool TEST_MODE = false;
+        public static Dictionary<CharacterInformator, CharacterStatus> Characters;
 
         private static int sceneInt,
+            functionInt,
             backgroundInt,
             positionInt,
             directionInt,
             emotionInt,
             characterInt;
 
-        private static string sceneValue;
+        private static int sceneValue;
+        private static Sprite backgroundValue;
 
         private static Dictionary<Languages, int> columnsLanguage;
         private static IEnumerable<Languages> Languages;
 
         public static FullStory GetFullStory(TextAsset[] storyFiles)
         {
+            ResetColumnInt();
             Languages = Enum.GetValues(typeof(Languages)).Cast<Languages>();
             columnsLanguage = new Dictionary<Languages, int>();
-            sceneValue = "";
+            sceneValue = -1;
+            backgroundValue = StoryInformator.instance.backgrounds.None;
 
             var Story = new List<Act>();
 
@@ -43,6 +51,17 @@ namespace Story
 
         }
 
+        private static void ResetColumnInt()
+        {
+            sceneInt = -1;
+            functionInt = -1;
+            backgroundInt = -1;
+            positionInt = -1;
+            directionInt = -1;
+            emotionInt = -1;
+            characterInt = -1;
+        }
+
         private static Act GetAct(List<List<string>> textAct)
         {
             if (textAct == null || textAct.Count == 0)
@@ -50,6 +69,7 @@ namespace Story
 
             List<Scene> resultAct = new List<Scene>();
             List<StoryComponent> resultScene = new List<StoryComponent>();
+            Characters = new Dictionary<CharacterInformator, CharacterStatus>();
 
             AnalyzeСolumns(textAct[0]);
 
@@ -59,6 +79,7 @@ namespace Story
             {
                 if (!string.IsNullOrEmpty(textAct[i][sceneInt]))
                 {
+                    //new scene number
                     resultAct.Add(resultScene);
                     resultScene = new List<StoryComponent>();
                 }
@@ -87,6 +108,11 @@ namespace Story
                 if(column == "scene")
                 {
                     sceneInt = i;
+                    continue;
+                }
+                if (column == "functon")
+                {
+                    functionInt = i;
                     continue;
                 }
                 if (column == "background")
@@ -127,6 +153,7 @@ namespace Story
             if (TEST_MODE)
             {
                 string testResult = $"sceneInt = {sceneInt};" +
+                    $"functionInt = {functionInt};" +
                     $"backgroundInt = {backgroundInt};" +
                     $"positionInt = {positionInt};" +
                     $"directionInt = {directionInt};" +
@@ -145,23 +172,54 @@ namespace Story
         {
             string[] texts = GetTexts(separateString);
 
-            StoryComponent newStoryComponent = new StoryComponent();
-
-            if (string.IsNullOrEmpty(separateString[sceneInt]))
-                separateString[sceneInt] = sceneValue;
-            else
-                sceneValue = separateString[sceneInt];
+            StoryComponent newStoryComponent = null;
+            CharacterInformator Character;
 
             try
             {
-                newStoryComponent.SetValues(
-                   scene: separateString[sceneInt],
-                   background: separateString[backgroundInt],
-                   position: separateString[positionInt],
-                   direction: separateString[directionInt],
-                   emotion: separateString[emotionInt],
-                   character: separateString[characterInt],
-                   text: texts);
+                //scene
+                if (!string.IsNullOrEmpty(separateString[sceneInt]))
+                    sceneValue = int.Parse(separateString[sceneInt]);
+
+                //background
+                if (!string.IsNullOrEmpty(separateString[backgroundInt]))
+                {
+                    backgroundValue = StringParser.NotSafeFindField<Sprite>(
+                        separateString[backgroundInt], StoryInformator.instance.backgrounds);
+                }
+
+                //character
+                if (!string.IsNullOrEmpty(separateString[characterInt]))
+                {
+                    Character = StringParser.NotSafeFindField<CharacterInformator>(
+                        separateString[characterInt], StoryInformator.instance.characters);
+                }
+                else Character = StoryInformator.instance.characters.None;
+
+                //characterStatus
+                CharacterStatus CharStatus = new CharacterStatus(
+                    position: separateString[positionInt],
+                    direction: separateString[directionInt],
+                    emotion: separateString[emotionInt]);
+                
+                //characters dictionary
+                if (Characters.ContainsKey(Character))
+                {
+                    Characters[Character] = CharStatus;
+                }
+                else
+                {
+                    Characters.Add(Character, CharStatus);
+                }
+
+                //new StoryComponent
+                newStoryComponent = new StoryComponent(
+                   sceneValue,
+                   backgroundValue,
+                   Character,
+                   Characters,
+                   text: texts
+                   );
             }
             catch (InvalidCastException e)
             {

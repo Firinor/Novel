@@ -1,8 +1,7 @@
-using System.Threading.Tasks;
-using UnityEngine.UI;
-using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 using static StoryInformator;
 
 public enum PositionOnTheStage { OffScene, Left, Center, Right}
@@ -42,105 +41,14 @@ public class DialogNode : MonoBehaviour
     public virtual void StartDialog()
     {
         DialogManager.ActivateDialog(GetComponent<RectTransform>());
-        CleareAll();
+        dialogOperator.CleareAll();
         dialogOperator.SetSceneName(name);
     }
+
     public void StartDialog(int index)
     {
         if(Choices != null && Choices.Count > index)
             Choices[index]?.StartDialog();
-    }
-
-    public void CleareAll()
-    {
-        OffBackground();
-        HideAllCharacters();
-        HideAllWays();
-        //music off
-    }
-    private void HideAllWays()
-    {
-        dialogOperator.HideAllWays();
-    }
-
-    public Task SayByName(CharacterInformator character, string name_ru, string name_en, string text_ru, string text_en)
-    {
-        if (DialogManager.IsCancellationRequested)
-            return Task.CompletedTask;
-
-        dialogOperator.SetPlaqueName(name_ru, name_en);
-        if (character != null)
-            dialogOperator.SetActiveSpeaker(character);
-        else
-            dialogOperator.DeactiveSpeaker();
-        return PrintText(new string[2] { text_ru, text_en });
-    }
-    public Task Say(CharacterInformator character, string text_ru, string text_en)
-    {
-        if (DialogManager.IsCancellationRequested)
-            return Task.CompletedTask;
-
-        dialogOperator.SetPlaqueName(character);
-        dialogOperator.SetActiveSpeaker(character);
-        return PrintText(new string[2] { text_ru, text_en });
-    }
-    public Task Say(string text_ru, string text_en)
-    {
-        if (DialogManager.IsCancellationRequested)
-            return Task.CompletedTask;
-
-        dialogOperator.SetPlaqueName();
-        return PrintText(new string[2] { text_ru, text_en });
-    }
-    private Task PrintText(string[] text)
-    {
-        if (DialogManager.IsCancellationRequested)
-            return Task.CompletedTask;
-
-        return dialogOperator.PrintText(text);
-    }
-
-    public void SetBackground(Sprite sprite)
-    {
-        dialogOperator.SetBackground(sprite);
-    }
-
-    public void OffBackground()
-    {
-        dialogOperator.OffBackground();
-    }
-    public void ShowCharacter(CharacterInformator character, PositionOnTheStage position)
-    {
-        ViewDirection viewDirection;
-        if (position == PositionOnTheStage.Right)
-        {
-            viewDirection = ViewDirection.Left;
-        }
-        else
-        {
-            viewDirection = ViewDirection.Right;
-        }
-        ShowCharacter(character, position, viewDirection);
-    }
-
-    public void ShowCharacter(CharacterInformator character, PositionOnTheStage position, ViewDirection viewDirection)
-    {
-        dialogOperator.AddSpeaker(character);
-        dialogOperator.SetPosition(character, position, viewDirection);
-    }
-
-    public Task ShowImage(Sprite sprite, string[] text = null)
-    {
-        return dialogOperator.ShowImage(sprite, text);
-    }
-
-    public void HideCharacter(CharacterInformator character)
-    {
-        dialogOperator.RemoveSpeaker(character);
-    }
-    public void HideAllCharacters()
-    {
-        dialogOperator.ClearAllCharacters();
     }
 
     public void Fork(bool soloButton = false)

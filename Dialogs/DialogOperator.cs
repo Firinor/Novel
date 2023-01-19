@@ -80,8 +80,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     #region Monobehaviour
     void Awake()
 	{
-		ClearAllText();
-		LanguageManager.OnLanguageChange += ResetSpeakerNameAndText;
+        CleareAll();
+		LanguageManager.OnLanguageChange += ResetText;
 	}
 
 	void Update()
@@ -96,30 +96,38 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     }
     #endregion
 
-    #region Text
+	public void CleareAll()
+    {
+		ClearAllText();
+        OffBackground();
+        HideAllCharacters();
+        HideAllWays();
+        //music off
+    }
+	public void SetSceneName(string name)
+	{
+		sceneName.text = name;
+    }
 
+    #region Text
     private void HideText()
     {
         textCanvas.SetActive(false);
     }
-
     private void ShowText()
     {
         textCanvas.SetActive(true);
     }
-
     private void ClearAllText()
     {
         textMeshPro.text = "";
         textInCenterOfScreen.text = "";
     }
-
-    private void ResetSpeakerNameAndText()
+    private void ResetText()
 	{
 		SwichLanguage = true;
 		ResetPlaqueName();
 	}
-
 	public void SetLettersDelay(float delta)
 	{
 		lettersDelay = delta;
@@ -191,7 +199,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		}
 		ClearAllText();
     }
-
 	private static string TextByLanguage(string[] text)
 	{
 		if(text == null)
@@ -203,15 +210,10 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
 		return text[(int)PlayerManager.Language];
 	}
-
-	public void SetSceneName(string name)
-	{
-		sceneName.text = name;
-    }
 	#endregion
 
 	#region Speakers
-	public void RemoveSpeaker(CharacterInformator character)
+	public void HideCharacter(CharacterInformator character)
 	{
 		SpeakerOperator speakerOperator = null;
 
@@ -224,7 +226,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		if (speakerOperator != null)
 			Destroy(speakerOperator.gameObject);
 	}
-	public void ClearAllCharacters()
+	public void HideAllCharacters()
 	{
 		plaqueWithTheName.SetActive(false);
 		characters.Clear();
@@ -246,7 +248,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			gameObjectToDelete.Add(gameObject);
 		}
 	}
-	public void AddSpeaker(CharacterInformator character)
+	public void ShowCharacter(CharacterInformator character)
 	{
 		if (character == null)
 			return;
@@ -269,18 +271,18 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		characters[character].transform.SetParent(GetSpeakerParent(position));
 		characters[character].transform.localScale = new Vector3((int)viewDirection*(int)character.ViewDirection, 1, 1);
     }
-	public void SetActiveSpeaker(CharacterInformator character)
+	public void SetActiveCharacter(CharacterInformator character)
 	{
 		if (!characters.ContainsKey(character))
-			SetActiveSpeaker((SpeakerOperator)null);
+			SetActiveCharacter((SpeakerOperator)null);
 		else
-			SetActiveSpeaker(characters[character]);
+			SetActiveCharacter(characters[character]);
 	}
-	public void SetActiveSpeaker(SpeakerOperator character)
+	public void SetActiveCharacter(SpeakerOperator character)
 	{
 		if (activeCharacter == character)
 			return;
-		DeactiveSpeaker();
+		DeactiveCharacter();
         if (character == null)
 			return;
 		if (!characters.ContainsValue(character))
@@ -290,7 +292,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		activeCharacter.ToTheForeground();
 	}
 
-    public void DeactiveSpeaker()
+    public void DeactiveCharacter()
     {
         if (activeCharacter != null)
         {
@@ -350,7 +352,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		StopDialogSkip();
         nextInput = false;
-		ClearAllCharacters();
+		HideAllCharacters();
         HideText();
         SetBackground(sprite);
         while (!nextInput)

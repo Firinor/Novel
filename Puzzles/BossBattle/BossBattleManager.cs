@@ -40,7 +40,7 @@ namespace Puzzle.BossBattle
         private void SetAllStats(BossBattlePackage bossBattlePackage)
         {
             CharacterInformator boss = bossBattlePackage.BossCharacter;
-            bossImage.sprite = boss.unitSprite;
+            bossImage.sprite = boss.UnitSprite;
             float coefficient = GetComponent<RectTransform>().rect.height / bossImage.preferredHeight;
             bossImage.transform.localScale = Vector3.one * coefficient * boss.UnitScale;
 

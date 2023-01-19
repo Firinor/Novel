@@ -20,7 +20,7 @@ public class StoryNode : DialogNode
     {
         base.Awake();
         scene = StoryInformator.instance.GetScene(Act, Scene);
-        incidentCount = scene.Length;
+        incidentCount = scene.Count;
     }
 
     public override void StartDialog()
@@ -111,19 +111,32 @@ public class StoryNode : DialogNode
         for(int i = 0; i < parameters.Length; i++)
         {
             string parameterName = parameters[i].Name;
-            result[i] = ;
+            switch (parameterName){
+                case "nameOnPlague":
+                    result[i] = additionalParameter;
+                    break;
+                case "background":
+                    result[i] = scene[incidentIndex].Background;
+                    break;
+                case "character":
+                    result[i] = scene[incidentIndex].Characters;
+                    break;
+                case "emotion":
+                    result[i] = scene[incidentIndex].Background;
+                    break;
+                case "position":
+                    result[i] = scene[incidentIndex].Background;
+                    break;
+                case "viewDirection":
+                    result[i] = scene[incidentIndex].Background;
+                    break;
+                case "text":
+                    result[i] = scene[incidentIndex].Text;
+                    break;
+                default:
+                    throw new Exception($"parameterName \"{parameterName}\" not found");
+            }
         }
-        
-
-        ////CharacterInformator Skull = Characters.Skull;
-        //CharacterInformator Archmagister = Characters.Cristopher;
-        ////Scene(Backgrounds.Lab);
-        //ShowCharacter(Archmagister, PositionOnTheStage.Right, ViewDirection.Left);
-        //await Say(Archmagister, "Дитя мое, настал день твоего экзамена." +
-        //    " Вечером ты уже будешь признанным магистром и мы сможем отпраздновать.", "");
-        //await Say(Archmagister, "Принимать экзамен будет наимудрейший беспристрастный основатель нашего ордена," +
-        //    " лучше других знающий к каким последствиям приводит риск в нашем деле.", "");
-
         return result;
     }
 }

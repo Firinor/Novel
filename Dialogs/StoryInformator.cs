@@ -1,7 +1,6 @@
 using FirUnityEditor;
 using Story;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         if (act > StoryActCount || act < 1)
             throw new Exception($"There is no act with number \"{act}\" in the history!");
 
-        if (scene > Story.Acts.Count || scene < 1)
+        if (scene > Story[act - 1].Count || scene < 1)
             throw new Exception($"There is no scene with number \"{scene}\" in the act \"{act}\"!");
 
         return Story[act - 1][scene - 1];
@@ -75,6 +74,8 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
             get => Scenes[index];
             set => Scenes[index] = value;
         }
+        public int Count { get => Scenes.Count; }
+
         public static implicit operator Act(List<List<StoryComponent>> scenesFromComponents)
         {
             List<Scene> scenes = new List<Scene>();
@@ -93,7 +94,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     public class Scene
     {
         public List<StoryComponent> Incident;
-        public int Length { get => Incident.Count; }
+        public int Count { get => Incident.Count; }
         public StoryComponent this[int index]
         {
             get => Incident[index];

@@ -28,7 +28,7 @@ public class SpeakerOperator : MonoBehaviour
     internal void SetCharacter(CharacterInformator speaker)
     {
         characterInformator = speaker;
-        image.sprite = speaker.unitSprite;
+        image.sprite = speaker.UnitSprite;
         image.SetNativeSize();
         if (speaker.UnitScale == 0)
             Debug.LogError("Unit Scale = 0!");

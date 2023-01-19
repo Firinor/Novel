@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum ViewDirection { Right = 1, Default = 0, Left = -1 }
@@ -31,7 +33,27 @@ public class CharacterInformator : ScriptableObject
     [Tooltip("Sprite of unit")]
     [SerializeField]
     private Sprite sprite;
-    public Sprite unitSprite { get { return sprite; } }
+    public Sprite UnitSprite { get { return sprite; } }
+
+    [Tooltip("Sprites of unit emotions")]
+    [SerializeField]
+    private EmotionSprite[] emotionSprites;
+    public Sprite SpriteByEmotion(CharacterEmotion emotion)
+    {
+        if(emotion == CharacterEmotion.Default)
+        {
+            return sprite;
+        }
+        foreach(var pair in emotionSprites)
+        {
+            if(pair.emotion == emotion)
+            {
+                return pair.sprite;
+            }
+        }
+
+        throw new Exception($"The character {unitName} does not have a sprite for the {emotion} emotion!");
+    }
 
     [Tooltip("Image of the portrait of the unit's face")]
     [SerializeField]
@@ -48,4 +70,11 @@ public class CharacterInformator : ScriptableObject
     [SerializeField]
     private ViewDirection viewDirection;
     public ViewDirection ViewDirection { get { return viewDirection; } }
+
+    [Serializable]
+    private class EmotionSprite
+    {
+        public CharacterEmotion emotion;
+        public Sprite sprite;
+    }
 }

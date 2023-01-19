@@ -1,6 +1,6 @@
-using Characters;
-using FirParser;
+using FirNovel.Characters;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Story
@@ -11,7 +11,8 @@ namespace Story
         public int Scene;
         public string Function;
         public Sprite Background;
-        public CharacterStatus[] Characters;
+        public CharacterInformator Character;
+        public Dictionary<CharacterInformator, CharacterStatus> Characters;
         public string[] Text;
         public StoryComponent()
         {
@@ -22,28 +23,13 @@ namespace Story
         {
             Text = text;
         }
-        public StoryComponent(int scene, Sprite background,
-            CharacterStatus[] characters, string[] text) : this(text)
+        public StoryComponent(int scene, Sprite background, CharacterInformator character,
+            Dictionary<CharacterInformator, CharacterStatus> characters, string[] text) : this(text)
         {
             Scene = scene;
             Background = background;
+            Character = character;
             Characters = characters;
-        }
-
-        public void SetValues(string scene, string background, CharacterStatus[] characters, string[] text)
-        {
-            Scene = string.IsNullOrEmpty(scene) ? -1 : int.Parse(scene);
-
-            if (!string.IsNullOrEmpty(background))
-            {
-                Background = StringParser.NotSafeFindField<Sprite>(
-                    background, StoryInformator.instance.backgrounds);
-            }
-            else Background = StoryInformator.instance.backgrounds.None;
-
-            Characters = characters;
-
-            Text = text;
         }
     }
 }
