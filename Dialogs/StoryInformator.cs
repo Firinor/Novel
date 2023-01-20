@@ -233,11 +233,11 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     void Awake()
     {
         SingletoneCheck(this);
-        GetStory();
     }
 
+    [ContextMenu("ReadFullStory")]
     private void GetStory()
     {
-        Story = StoryReader.GetFullStory(storyFiles);
+        Story = StoryReader.GetFullStory(storyFiles, this);
     }
 }

@@ -1,3 +1,4 @@
+using FirNovel.Characters;
 using FirUnityEditor;
 using System;
 using System.Collections.Generic;
@@ -210,10 +211,35 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
 		return text[(int)PlayerManager.Language];
 	}
-	#endregion
+    #endregion
 
-	#region Speakers
-	public void HideCharacter(CharacterInformator character)
+    #region Speakers
+    public Task Say(CharacterInformator character, string[] text)
+    {
+        if (DialogManager.IsCancellationRequested)
+            return Task.CompletedTask;
+
+        SetPlaqueName(character);
+        SetActiveCharacter(character);
+        return PrintText(text);
+    }
+    public Task Say(string[] text)
+    {
+        if (DialogManager.IsCancellationRequested)
+            return Task.CompletedTask;
+
+        SetPlaqueName();
+        return PrintText(text);
+    }
+    private Task PrintText(string[] text)
+    {
+        if (DialogManager.IsCancellationRequested)
+            return Task.CompletedTask;
+
+        return PrintText(text, senterScreen: false);
+    }
+
+    public void HideCharacter(CharacterInformator character)
 	{
 		SpeakerOperator speakerOperator = null;
 
@@ -260,6 +286,17 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			characters.Add(character, speakerOperator);
 		}
 	}
+    public void SetCharacters(Dictionary<CharacterInformator, CharacterStatus> characters)
+    {
+		if (characters == null)
+			return;
+
+        foreach(var character in characters)
+		{
+			ShowCharacter(character.Key);
+			SetPosition(character.Key, character.Value.position, character.Value.viewDirection);
+        }
+    }
     public void SetPosition(CharacterInformator character, PositionOnTheStage position, ViewDirection viewDirection)
 	{
 		if (character == null)
@@ -273,7 +310,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     }
 	public void SetActiveCharacter(CharacterInformator character)
 	{
-		if (!characters.ContainsKey(character))
+		if (character == null || !characters.ContainsKey(character))
 			SetActiveCharacter((SpeakerOperator)null);
 		else
 			SetActiveCharacter(characters[character]);
@@ -312,12 +349,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		plaqueWithTheName.SetActive(true);
 		speakerName.text = character.Name;
 	}
-    public void SetPlaqueName(string name_ru, string name_en)
-    {
-		String[] names = { name_ru, name_en };
-        plaqueWithTheName.SetActive(true);
-        speakerName.text = TextByLanguage(names);
-    }
 
     protected void ResetPlaqueName()
 	{

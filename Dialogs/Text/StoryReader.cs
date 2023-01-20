@@ -28,14 +28,16 @@ namespace Story
 
         private static Dictionary<Languages, int> columnsLanguage;
         private static IEnumerable<Languages> Languages;
+        private static StoryInformator informator;
 
-        public static FullStory GetFullStory(TextAsset[] storyFiles)
+        public static FullStory GetFullStory(TextAsset[] storyFiles, StoryInformator informator)
         {
+            StoryReader.informator = informator;
             ResetColumnInt();
             Languages = Enum.GetValues(typeof(Languages)).Cast<Languages>();
             columnsLanguage = new Dictionary<Languages, int>();
             sceneValue = -1;
-            backgroundValue = StoryInformator.instance.backgrounds.None;
+            backgroundValue = informator.backgrounds.None;
 
             var Story = new List<Act>();
 
@@ -53,12 +55,12 @@ namespace Story
 
         private static void ResetColumnInt()
         {
-            sceneInt = -1;
-            functionInt = -1;
-            backgroundInt = -1;
-            positionInt = -1;
-            directionInt = -1;
-            emotionInt = -1;
+            sceneInt =
+            functionInt =
+            backgroundInt =
+            positionInt =
+            directionInt =
+            emotionInt =
             characterInt = -1;
         }
 
@@ -68,7 +70,7 @@ namespace Story
                 throw new Exception("textAct must be with some data!");
 
             List<Scene> resultAct = new List<Scene>();
-            List<StoryComponent> resultScene = new List<StoryComponent>();
+            List<StoryComponent> resultScene = null;
             Characters = new Dictionary<CharacterInformator, CharacterStatus>();
 
             AnalyzeСolumns(textAct[0]);
@@ -80,7 +82,8 @@ namespace Story
                 if (!string.IsNullOrEmpty(textAct[i][sceneInt]))
                 {
                     //new scene number
-                    resultAct.Add(resultScene);
+                    if(resultScene != null)
+                        resultAct.Add(resultScene);
                     resultScene = new List<StoryComponent>();
                 }
                 string localErrors = "";
@@ -88,6 +91,11 @@ namespace Story
                 if (!string.IsNullOrEmpty(localErrors))
                 {
                     globalErrors += Environment.NewLine + $"Error in line {i}: " + localErrors;
+                }
+                if (newStoryComponent.Text == null)
+                {
+                    ExecuteFunction(textAct[i], newStoryComponent);
+                    continue;
                 }
                 resultScene.Add(newStoryComponent);
             }
@@ -97,6 +105,14 @@ namespace Story
                 Debug.Log("========================== Act ==========================" + globalErrors);
             }
             return resultAct;
+        }
+
+        private static void ExecuteFunction(List<string> separateString, StoryComponent storyComponent)
+        {
+            if (separateString[functionInt] == "HideCharacter")
+            {
+                storyComponent.RemoveCharacter(storyComponent.Character);
+            }
         }
 
         private static void AnalyzeСolumns(List<string> documentHeader)
@@ -110,7 +126,7 @@ namespace Story
                     sceneInt = i;
                     continue;
                 }
-                if (column == "functon")
+                if (column == "function")
                 {
                     functionInt = i;
                     continue;
@@ -185,16 +201,16 @@ namespace Story
                 if (!string.IsNullOrEmpty(separateString[backgroundInt]))
                 {
                     backgroundValue = StringParser.NotSafeFindField<Sprite>(
-                        separateString[backgroundInt], StoryInformator.instance.backgrounds);
+                        separateString[backgroundInt], informator.backgrounds);
                 }
 
                 //character
                 if (!string.IsNullOrEmpty(separateString[characterInt]))
                 {
                     Character = StringParser.NotSafeFindField<CharacterInformator>(
-                        separateString[characterInt], StoryInformator.instance.characters);
+                        separateString[characterInt], informator.characters);
                 }
-                else Character = StoryInformator.instance.characters.None;
+                else Character = informator.characters.None;
 
                 //characterStatus
                 CharacterStatus CharStatus = new CharacterStatus(
@@ -215,10 +231,11 @@ namespace Story
                 //new StoryComponent
                 newStoryComponent = new StoryComponent(
                    sceneValue,
+                   separateString[functionInt],
                    backgroundValue,
                    Character,
                    Characters,
-                   text: texts
+                   texts
                    );
             }
             catch (InvalidCastException e)
@@ -231,6 +248,11 @@ namespace Story
 
         private static string[] GetTexts(List<string> separateString)
         {
+            if (string.IsNullOrEmpty(separateString[columnsLanguage[global::Languages.RU]]))
+            {
+                return null;
+            }
+
             string[] texts = new string[columnsLanguage.Count];
             int index = 0;
             foreach (Languages language in columnsLanguage.Keys)

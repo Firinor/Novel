@@ -41,11 +41,19 @@ public class StoryNode : DialogNode
 
     private async Task IncidentAction()
     {
+        dialogOperator.CleareAll();
+        dialogOperator.SetBackground(scene[incidentIndex].Background);
+        dialogOperator.SetCharacters(scene[incidentIndex].Characters);
+
         string function = scene[incidentIndex].Function.ToLower();
 
         string[] splitFunction = function.Split(':');
 
         function = splitFunction[0];
+        if (string.IsNullOrEmpty(function))
+        {
+            function = "say";
+        }
 
         string additionalParameter = "";
 
@@ -64,8 +72,8 @@ public class StoryNode : DialogNode
         //HideCharacter
         //HideAllCharacters
         //Say
-        //SayByName:Имя
-        //Choise:Номер
+        //SayByName:Name
+        //Choise:Number
         //}
 
         MethodInfo method = null;
