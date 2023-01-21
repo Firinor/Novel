@@ -127,7 +127,7 @@ public class StoryNode : DialogNode
                     result[i] = scene[incidentIndex].Background;
                     break;
                 case "character":
-                    result[i] = scene[incidentIndex].Characters;
+                    result[i] = scene[incidentIndex].Character;
                     break;
                 case "emotion":
                     result[i] = scene[incidentIndex].Background;

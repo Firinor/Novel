@@ -1,18 +1,22 @@
 ﻿using FirParser;
+using System;
 
 namespace FirNovel.Characters
 {
+    [Serializable]
     public class CharacterStatus
     {
+        public CharacterInformator Character;
         public CharacterEmotion Emotion;
-        public ViewDirection viewDirection;
-        public PositionOnTheStage position;
+        public ViewDirection ViewDirection;
+        public PositionOnTheStage Position;
 
-        public CharacterStatus(string position, string direction,
+        public CharacterStatus(CharacterInformator character, string position, string direction,
             string emotion)
         {
-            this.position = StringParser.ParseTo<PositionOnTheStage>(position);
-            viewDirection = StringParser.ParseTo<ViewDirection>(direction);
+            Character = character;
+            Position = StringParser.ParseTo<PositionOnTheStage>(position);
+            ViewDirection = StringParser.ParseTo<ViewDirection>(direction);
             Emotion = StringParser.ParseTo<CharacterEmotion>(emotion);
         }
     }

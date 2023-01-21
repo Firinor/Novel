@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static StoryInformator;
 using Scene = StoryInformator.Scene;
 
@@ -13,7 +14,6 @@ namespace Story
     public class StoryReader
     {
         public static bool TEST_MODE = false;
-        public static Dictionary<CharacterInformator, CharacterStatus> Characters;
 
         private static int sceneInt,
             functionInt,
@@ -71,7 +71,7 @@ namespace Story
 
             List<Scene> resultAct = new List<Scene>();
             List<StoryComponent> resultScene = null;
-            Characters = new Dictionary<CharacterInformator, CharacterStatus>();
+            var Characters = new List<CharacterStatus>();
 
             AnalyzeСolumns(textAct[0]);
 
@@ -85,9 +85,10 @@ namespace Story
                     if(resultScene != null)
                         resultAct.Add(resultScene);
                     resultScene = new List<StoryComponent>();
+                    Characters = new List<CharacterStatus>();
                 }
                 string localErrors = "";
-                StoryComponent newStoryComponent = GetStoryComponent(textAct[i], ref localErrors);
+                StoryComponent newStoryComponent = GetStoryComponent(textAct[i], Characters, ref localErrors);
                 if (!string.IsNullOrEmpty(localErrors))
                 {
                     globalErrors += Environment.NewLine + $"Error in line {i}: " + localErrors;
@@ -184,7 +185,8 @@ namespace Story
             #endregion Test
         }
 
-        private static StoryComponent GetStoryComponent(List<string> separateString, ref string errors)
+        private static StoryComponent GetStoryComponent(List<string> separateString,
+            List<CharacterStatus> Characters, ref string errors)
         {
             string[] texts = GetTexts(separateString);
 
@@ -214,19 +216,13 @@ namespace Story
 
                 //characterStatus
                 CharacterStatus CharStatus = new CharacterStatus(
+                    Character,
                     position: separateString[positionInt],
                     direction: separateString[directionInt],
                     emotion: separateString[emotionInt]);
-                
-                //characters dictionary
-                if (Characters.ContainsKey(Character))
-                {
-                    Characters[Character] = CharStatus;
-                }
-                else
-                {
-                    Characters.Add(Character, CharStatus);
-                }
+
+                //characters
+                AddCharacter(Characters, CharStatus);
 
                 //new StoryComponent
                 newStoryComponent = new StoryComponent(
@@ -244,6 +240,33 @@ namespace Story
             }
 
             return newStoryComponent;
+        }
+
+        private static void AddCharacter(List<CharacterStatus> characters, CharacterStatus characterStatus)
+        {
+            if (characters == null)
+            {
+                characters = new List<CharacterStatus>();
+            }
+
+            int characterIndex = -1;
+            for (int i = 0; i < characters.Count; i++)
+            {
+                if (characters[i].Character == characterStatus.Character)
+                {
+                    characterIndex = i;
+                    break;
+                }
+            }
+
+            if (characterIndex != -1)
+            {
+                characters[characterIndex] = characterStatus;
+            }
+            else
+            {
+                characters.Add(characterStatus);
+            }
         }
 
         private static string[] GetTexts(List<string> separateString)

@@ -12,36 +12,55 @@ namespace Story
         public string Function;
         public Sprite Background;
         public CharacterInformator Character;
-        public Dictionary<CharacterInformator, CharacterStatus> Characters;
+        public List<CharacterStatus> Characters;
         public string[] Text;
         public StoryComponent(int scene, string function, Sprite background, CharacterInformator character,
-            Dictionary<CharacterInformator, CharacterStatus> characters, string[] text)
+            List<CharacterStatus> characters, string[] text)
         {
             Scene = scene;
             Function = function;
             Background = background;
             Character = character;
-            Characters = characters;
+            Characters = new List<CharacterStatus>(characters.ToArray());
             Text = text;
         }
 
-        public void AddCharacter(CharacterInformator Character, CharacterStatus characterStatus)
+        public void AddCharacter(CharacterStatus characterStatus)
         {
-            if (Characters.ContainsKey(Character))
+            if (Characters == null)
             {
-                Characters[Character] = characterStatus;
+                Characters = new List<CharacterStatus>();
+            }
+
+            int characterIndex = -1;
+            for (int i = 0; i < Characters.Count; i++)
+            {
+                if (Characters[i].Character == characterStatus.Character)
+                {
+                    characterIndex = i;
+                    break;
+                }
+            }
+
+            if (characterIndex != -1)
+            {
+                Characters[characterIndex] = characterStatus;
             }
             else
             {
-                Characters.Add(Character, characterStatus);
+                Characters.Add(characterStatus);
             }
         }
 
         public void RemoveCharacter(CharacterInformator Character)
         {
-            if (Characters.ContainsKey(Character))
+            for (int i = 0; i < Characters.Count; i++)
             {
-                Characters.Remove(Character);
+                if (Characters[i].Character == Character)
+                {
+                    Characters.RemoveAt(i);
+                    break;
+                }
             }
         }
     }

@@ -286,15 +286,15 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			characters.Add(character, speakerOperator);
 		}
 	}
-    public void SetCharacters(Dictionary<CharacterInformator, CharacterStatus> characters)
+    public void SetCharacters(List<CharacterStatus> characters)
     {
 		if (characters == null)
 			return;
 
-        foreach(var character in characters)
+        for(int i = 0; i < characters.Count; i++)
 		{
-			ShowCharacter(character.Key);
-			SetPosition(character.Key, character.Value.position, character.Value.viewDirection);
+			ShowCharacter(characters[i].Character);
+			SetPosition(characters[i].Character, characters[i].Position, characters[i].ViewDirection);
         }
     }
     public void SetPosition(CharacterInformator character, PositionOnTheStage position, ViewDirection viewDirection)
@@ -305,9 +305,21 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		if (!characters.ContainsKey(character))
 			return;
 
+		if(viewDirection == ViewDirection.Default)
+			viewDirection = GetDefaultViewDirection(position);
+
 		characters[character].transform.SetParent(GetSpeakerParent(position));
 		characters[character].transform.localScale = new Vector3((int)viewDirection*(int)character.ViewDirection, 1, 1);
     }
+
+	private ViewDirection GetDefaultViewDirection(PositionOnTheStage position)
+	{
+        if (position == PositionOnTheStage.Right)
+            return ViewDirection.Left;
+
+        return ViewDirection.Right;
+    }
+
 	public void SetActiveCharacter(CharacterInformator character)
 	{
 		if (character == null || !characters.ContainsKey(character))
