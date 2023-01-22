@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 using static StoryInformator;
-using Scene = StoryInformator.Scene;
+using Episode = StoryInformator.Episode;
 
 namespace Story
 {
@@ -69,51 +68,81 @@ namespace Story
             if (textAct == null || textAct.Count == 0)
                 throw new Exception("textAct must be with some data!");
 
-            List<Scene> resultAct = new List<Scene>();
-            List<StoryComponent> resultScene = null;
+            List<Episode> resultAct = new List<Episode>();
+            Episode resultEpisode = null;
             var Characters = new List<CharacterStatus>();
 
             AnalyzeСolumns(textAct[0]);
 
             string globalErrors = "";
+            bool removeCharacter = false;
+            CharacterInformator removeCharacterStatus = null;
 
             for (int i = 1; i < textAct.Count; i++)
             {
+                string localErrors = "";
+
+                //
+                if (removeCharacter)
+                {
+                    for(int j = 0; j < Characters.Count; j++)
+                    {
+                        if(removeCharacterStatus == Characters[j].Character)
+                        {
+                            Characters.RemoveAt(j);
+                            removeCharacter = false;
+                            break;
+                        }
+                    }
+                }
+
+                //If there is new scene number, it's must building new result scene
                 if (!string.IsNullOrEmpty(textAct[i][sceneInt]))
                 {
-                    //new scene number
-                    if(resultScene != null)
-                        resultAct.Add(resultScene);
-                    resultScene = new List<StoryComponent>();
+                    if(resultEpisode != null)
+                        resultAct.Add(resultEpisode);
+                    resultEpisode = new Episode();
                     Characters = new List<CharacterStatus>();
                 }
-                string localErrors = "";
+
+                if (textAct[i][functionInt].StartsWith("Choise"))
+                {
+                    MultiText texts = GetTexts(textAct[i]);
+                    resultEpisode.AddChoice(texts);
+                    continue;
+                }
+
+                //Generate StoryComponent
                 StoryComponent newStoryComponent = GetStoryComponent(textAct[i], Characters, ref localErrors);
+
+                //Errors check
                 if (!string.IsNullOrEmpty(localErrors))
                 {
                     globalErrors += Environment.NewLine + $"Error in line {i}: " + localErrors;
                 }
+
+                //If there is no text, it's need to continue building the story component
                 if (newStoryComponent.Text == null)
                 {
-                    ExecuteFunction(textAct[i], newStoryComponent);
                     continue;
                 }
-                resultScene.Add(newStoryComponent);
+
+                //The component is approved for the act
+                resultEpisode.AddReplica(newStoryComponent);
+
+                //
+                if (textAct[i][functionInt] == "HideCharacter")
+                {
+                    removeCharacter = true;
+                    removeCharacterStatus = newStoryComponent.Character;
+                }
             }
-            resultAct.Add(resultScene);
+            resultAct.Add(resultEpisode);
             if (!string.IsNullOrEmpty(globalErrors))
             {
                 Debug.Log("========================== Act ==========================" + globalErrors);
             }
             return resultAct;
-        }
-
-        private static void ExecuteFunction(List<string> separateString, StoryComponent storyComponent)
-        {
-            if (separateString[functionInt] == "HideCharacter")
-            {
-                storyComponent.RemoveCharacter(storyComponent.Character);
-            }
         }
 
         private static void AnalyzeСolumns(List<string> documentHeader)
@@ -188,7 +217,7 @@ namespace Story
         private static StoryComponent GetStoryComponent(List<string> separateString,
             List<CharacterStatus> Characters, ref string errors)
         {
-            string[] texts = GetTexts(separateString);
+            MultiText texts = GetTexts(separateString);
 
             StoryComponent newStoryComponent = null;
             CharacterInformator Character;
@@ -269,14 +298,14 @@ namespace Story
             }
         }
 
-        private static string[] GetTexts(List<string> separateString)
+        private static MultiText GetTexts(List<string> separateString)
         {
             if (string.IsNullOrEmpty(separateString[columnsLanguage[global::Languages.RU]]))
             {
                 return null;
             }
 
-            string[] texts = new string[columnsLanguage.Count];
+            MultiText texts = new MultiText(columnsLanguage.Count);
             int index = 0;
             foreach (Languages language in columnsLanguage.Keys)
             {

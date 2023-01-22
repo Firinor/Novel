@@ -13,6 +13,14 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 {
     #region Fields
     [SerializeField, NullCheck]
+    private CharacterInformator speacer;
+    [SerializeField, NullCheck]
+    private CharacterInformator silently;
+    [SerializeField, NullCheck]
+    private CharacterInformator choise;
+
+    [Space]
+    [SerializeField, NullCheck]
 	private GameObject speakerPrefab;
 	[SerializeField, NullCheck]
     private GameObject buttonPrefab;
@@ -133,7 +141,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		lettersDelay = delta;
 	}
-	public async Task PrintText(string[] text, bool senterScreen = false)
+	public async Task PrintText(MultiText text, bool senterScreen = false)
 	{
 		PrintableText = TextByLanguage(text);
         nextInput = false;
@@ -198,9 +206,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 				break;
 			await Task.Yield();
 		}
-		ClearAllText();
+		//ClearAllText();
     }
-	private static string TextByLanguage(string[] text)
+	private static string TextByLanguage(MultiText text)
 	{
 		if(text == null)
 			return null;
@@ -214,7 +222,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     #endregion
 
     #region Speakers
-    public Task Say(CharacterInformator character, string[] text)
+    public Task Say(CharacterInformator character, MultiText text)
     {
         if (DialogManager.IsCancellationRequested)
             return Task.CompletedTask;
@@ -223,7 +231,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         SetActiveCharacter(character);
         return PrintText(text);
     }
-    public Task Say(string[] text)
+    public Task Say(MultiText text)
     {
         if (DialogManager.IsCancellationRequested)
             return Task.CompletedTask;
@@ -231,7 +239,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         SetPlaqueName();
         return PrintText(text);
     }
-    private Task PrintText(string[] text)
+    private Task PrintText(MultiText text)
     {
         if (DialogManager.IsCancellationRequested)
             return Task.CompletedTask;
@@ -311,7 +319,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		characters[character].transform.SetParent(GetSpeakerParent(position));
 		characters[character].transform.localScale = new Vector3((int)viewDirection*(int)character.ViewDirection, 1, 1);
     }
-
 	private ViewDirection GetDefaultViewDirection(PositionOnTheStage position)
 	{
         if (position == PositionOnTheStage.Right)
@@ -319,7 +326,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
         return ViewDirection.Right;
     }
-
 	public void SetActiveCharacter(CharacterInformator character)
 	{
 		if (character == null || !characters.ContainsKey(character))
@@ -340,7 +346,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		activeCharacter = character;
 		activeCharacter.ToTheForeground();
 	}
-
     public void DeactiveCharacter()
     {
         if (activeCharacter != null)
@@ -349,7 +354,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
             activeCharacter = null;
         }
     }
-
     public void SetPlaqueName(CharacterInformator character = null)
 	{
 		if (character == null)
@@ -361,7 +365,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 		plaqueWithTheName.SetActive(true);
 		speakerName.text = character.Name;
 	}
-
     protected void ResetPlaqueName()
 	{
 		if(activeCharacter != null)
@@ -391,7 +394,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
 		
 	}
-    public async Task ShowImage(Sprite sprite, string[] text = null)
+    public async Task ShowImage(Sprite sprite, MultiText text = null)
 	{
 		StopDialogSkip();
         nextInput = false;
@@ -431,15 +434,14 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 			Destroy(child.gameObject);
 		}
 	}
+    internal void CreateWayButton(DialogNode dialogNode, MultiText multiText)
+    {
+        GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
+        button.GetComponent<DialogButtonOperator>().SetWay(dialogNode, TextByLanguage(multiText));
+    }
+    #endregion
 
-	public void CreateWayButton(DialogNode dialogNode, string description)
-	{
-		GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
-		button.GetComponent<DialogButtonOperator>().SetWay(dialogNode, description);
-	}
-	#endregion
-
-	public void StopDialogSkip() => skipText = false;
+    public void StopDialogSkip() => skipText = false;
 	public void DialogSkip() => skipText = true;
 	public void Options() => DialogManager.Options();
 	public void DialogExit()

@@ -2,6 +2,7 @@ using FirUnityEditor;
 using Story;
 using System;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class StoryInformator : SinglBehaviour<StoryInformator>
@@ -15,7 +16,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     
     private const int StoryActCount = 7;
 
-    public Scene GetScene(int act, int scene)
+    public Episode GetScene(int act, int scene)
     {
         if (act > StoryActCount || act < 1)
             throw new Exception($"There is no act with number \"{act}\" in the history!");
@@ -42,7 +43,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
             List<Act> acts = new List<Act>();
             foreach (var act in storyFromComponents)
             {
-                List<Scene> scenes = new List<Scene>();
+                List<Episode> scenes = new List<Episode>();
                 foreach (var scene in act)
                 {
                     scenes.Add(scene);
@@ -51,7 +52,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
             }
             return new FullStory { Acts = acts };
         }
-        public static implicit operator FullStory(List<List<Scene>> storyFromScenes)
+        public static implicit operator FullStory(List<List<Episode>> storyFromScenes)
         {
             List<Act> acts = new List<Act>();
             foreach (var act in storyFromScenes)
@@ -68,8 +69,8 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     [Serializable]
     public class Act
     {
-        public List<Scene> Scenes;
-        public Scene this[int index]
+        public List<Episode> Scenes;
+        public Episode this[int index]
         {
             get => Scenes[index];
             set => Scenes[index] = value;
@@ -78,32 +79,51 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
 
         public static implicit operator Act(List<List<StoryComponent>> scenesFromComponents)
         {
-            List<Scene> scenes = new List<Scene>();
+            List<Episode> scenes = new List<Episode>();
             foreach (var scene in scenesFromComponents)
             {
                 scenes.Add(scene);
             }
             return new Act() { Scenes = scenes };
         }
-        public static implicit operator Act(List<Scene> scenes)
+        public static implicit operator Act(List<Episode> scenes)
         {
             return new Act() { Scenes = scenes };
         }
     }
     [Serializable]
-    public class Scene
+    public class Episode
     {
-        public List<StoryComponent> Incident;
-        public int Count { get => Incident.Count; }
+        public List<StoryComponent> Replicas;
+        public List<MultiText> Choices;
+        public int Count { get => Replicas.Count; }
         public StoryComponent this[int index]
         {
-            get => Incident[index];
-            set => Incident[index] = value;
+            get => Replicas[index];
+            set => Replicas[index] = value;
         }
 
-        public static implicit operator Scene(List<StoryComponent> incidents)
+        public static implicit operator Episode(List<StoryComponent> replicas)
         {
-            return new Scene() { Incident = incidents };
+            return new Episode() { Replicas = replicas };
+        }
+
+        internal void AddReplica(StoryComponent newReplica)
+        {
+            if(Replicas == null)
+            {
+                Replicas = new List<StoryComponent>();
+            }
+            Replicas.Add(newReplica);
+        }
+
+        internal void AddChoice(MultiText texts)
+        {
+            if (Choices == null)
+            {
+                Choices = new List<MultiText>();
+            }
+            Choices.Add(texts);
         }
     }
     #endregion
@@ -239,5 +259,6 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     private void GetStory()
     {
         Story = StoryReader.GetFullStory(storyFiles, this);
+        EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
     }
 }

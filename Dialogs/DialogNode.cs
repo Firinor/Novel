@@ -12,7 +12,7 @@ public class DialogNode : MonoBehaviour
     [SerializeField]
     private string[] Header = new string[2] { "русское название", "english name" };
     [SerializeField]
-    private List<DialogNode> Choices;
+    protected List<DialogNode> Choices;
     private DialogProgressStatus dialogProgressStatus = DialogProgressStatus.Hiden;
 
     protected DialogOperator dialogOperator;
@@ -51,42 +51,13 @@ public class DialogNode : MonoBehaviour
             Choices[index]?.StartDialog();
     }
 
-    public void Fork(bool soloButton = false)
-    {
-        if (DialogManager.IsCancellationRequested)
-        {
-            StopDialogSkip();
-            return;
-        }
-
-        if (Choices == null || Choices.Count < 1)
-        {
-            StopDialogSkip();
-            dialogOperator.DialogExit();
-            return;
-        }
-
-        if (!soloButton && Choices.Count == 1)
-        {
-            Choices[0].StartDialog();
-            return;
-        }
-
-        StopDialogSkip();
-        for (int i = 0; i < Choices.Count; i++)
-        {
-            //dialogOperator.CreateWayButton(Choices[i]);
-        }
-    }
-
     protected void StopDialogSkip()
     {
         if(dialogOperator != null)
             dialogOperator.StopDialogSkip();
     }
 
-    [ContextMenu("Reset name")]
-    public void ResetName()
+    public virtual void ResetGameObject()
     {
         GetComponentInChildren<TextMeshProUGUI>().text = gameObject.name;
     }

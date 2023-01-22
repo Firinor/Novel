@@ -1,9 +1,10 @@
 using FirReflection;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using UnityEngine;
-using Scene = StoryInformator.Scene;
+using Episode = StoryInformator.Episode;
 
 public class StoryNode : DialogNode
 {
@@ -12,15 +13,15 @@ public class StoryNode : DialogNode
     [SerializeField, Min(1)]
     private int Scene;
 
-    private Scene scene;
+    private Episode episode;
     private int incidentIndex;
     private int incidentCount;
 
     protected new void Awake()
     {
         base.Awake();
-        scene = StoryInformator.instance.GetScene(Act, Scene);
-        incidentCount = scene.Count;
+        episode = StoryInformator.instance.GetScene(Act, Scene);
+        incidentCount = episode.Count;
     }
 
     public override void StartDialog()
@@ -31,29 +32,37 @@ public class StoryNode : DialogNode
 
     public async void StartScene()
     {
+        StopDialogSkip();
+
         incidentIndex = 0;
         for (; incidentIndex < incidentCount;)
         {
             await IncidentAction();
             incidentIndex++;
         }
+
+        Fork();
     }
 
     private async Task IncidentAction()
     {
         dialogOperator.CleareAll();
-        dialogOperator.SetBackground(scene[incidentIndex].Background);
-        dialogOperator.SetCharacters(scene[incidentIndex].Characters);
+        dialogOperator.SetBackground(episode[incidentIndex].Background);
+        dialogOperator.SetCharacters(episode[incidentIndex].Characters);
 
-        string function = scene[incidentIndex].Function.ToLower();
+        string function = episode[incidentIndex].Function.ToLower();
 
         string[] splitFunction = function.Split(':');
 
-        function = splitFunction[0];
-        if (string.IsNullOrEmpty(function))
-        {
-            function = "say";
-        }
+        //Trying different algorithms, I came to the conclusion that we will always call only the "say" method
+        #region Non-removable garbage
+        //function = splitFunction[0];
+        //if (string.IsNullOrEmpty(function))
+        //{
+        //    function = "say";
+        //}
+        #endregion
+        function = "say";
 
         string additionalParameter = "";
 
@@ -111,7 +120,7 @@ public class StoryNode : DialogNode
         //}
 
         object[] result = null;
-        if (parameters.Length > 1)
+        if (parameters.Length > 0)
         {
             result = new object[method.GetParameters().Length];
         }
@@ -124,27 +133,67 @@ public class StoryNode : DialogNode
                     result[i] = additionalParameter;
                     break;
                 case "background":
-                    result[i] = scene[incidentIndex].Background;
+                    result[i] = episode[incidentIndex].Background;
                     break;
                 case "character":
-                    result[i] = scene[incidentIndex].Character;
+                    result[i] = episode[incidentIndex].Character;
                     break;
                 case "emotion":
-                    result[i] = scene[incidentIndex].Background;
+                    result[i] = episode[incidentIndex].Background;
                     break;
                 case "position":
-                    result[i] = scene[incidentIndex].Background;
+                    result[i] = episode[incidentIndex].Background;
                     break;
                 case "viewDirection":
-                    result[i] = scene[incidentIndex].Background;
+                    result[i] = episode[incidentIndex].Background;
                     break;
                 case "text":
-                    result[i] = scene[incidentIndex].Text;
+                    result[i] = episode[incidentIndex].Text;
                     break;
                 default:
                     throw new Exception($"parameterName \"{parameterName}\" not found");
             }
         }
         return result;
+    }
+
+    public void Fork()
+    {
+        if (DialogManager.IsCancellationRequested)
+        {
+            StopDialogSkip();
+            return;
+        }
+
+        if (Choices == null || Choices.Count < 1)
+        {
+            StopDialogSkip();
+            dialogOperator.DialogExit();
+            return;
+        }
+
+        if(episode != null && episode.Choices != null && episode.Choices.Count > 0)
+        {
+            StopDialogSkip();
+            for (int i = 0; i < episode.Choices.Count; i++)
+            {
+                dialogOperator.CreateWayButton(Choices[i], episode.Choices[i]);
+            }
+            return;
+        }
+
+        Choices[0].StartDialog();
+    }
+
+    [ContextMenu("Reset game object")]
+    public override void ResetGameObject()
+    {
+        base.ResetGameObject();
+        episode = FindObjectOfType<StoryInformator>().GetScene(Act, Scene);
+        //Choices = new List<DialogNode>();
+        for(int i = 0; i < episode.Choices.Count - Choices.Count; i++)
+        {
+            Choices.Add(null);
+        }
     }
 }

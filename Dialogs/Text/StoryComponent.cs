@@ -13,9 +13,9 @@ namespace Story
         public Sprite Background;
         public CharacterInformator Character;
         public List<CharacterStatus> Characters;
-        public string[] Text;
+        public MultiText Text;
         public StoryComponent(int scene, string function, Sprite background, CharacterInformator character,
-            List<CharacterStatus> characters, string[] text)
+            List<CharacterStatus> characters, MultiText text)
         {
             Scene = scene;
             Function = function;
