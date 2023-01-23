@@ -105,7 +105,7 @@ namespace Story
                     Characters = new List<CharacterStatus>();
                 }
 
-                if (textAct[i][functionInt].StartsWith("Choise"))
+                if (textAct[i][functionInt].StartsWith("Choice"))
                 {
                     MultiText texts = GetTexts(textAct[i]);
                     resultEpisode.AddChoice(texts);
@@ -122,7 +122,7 @@ namespace Story
                 }
 
                 //If there is no text, it's need to continue building the story component
-                if (newStoryComponent.Text == null)
+                if (newStoryComponent == null || newStoryComponent.Text == null)
                 {
                     continue;
                 }
@@ -220,7 +220,7 @@ namespace Story
             MultiText texts = GetTexts(separateString);
 
             StoryComponent newStoryComponent = null;
-            CharacterInformator Character;
+            CharacterInformator Character = null;
 
             try
             {
@@ -238,20 +238,31 @@ namespace Story
                 //character
                 if (!string.IsNullOrEmpty(separateString[characterInt]))
                 {
-                    Character = StringParser.NotSafeFindField<CharacterInformator>(
-                        separateString[characterInt], informator.characters);
+                    if (separateString[characterInt] == StoryInformator.Narrator)
+                    {
+                        separateString[functionInt] = StoryInformator.Narrator;
+                    }
+                    else if (separateString[characterInt] == StoryInformator.Silently)
+                    {
+                        separateString[functionInt] = StoryInformator.Silently;
+                    }
+                    else
+                    {
+                        Character = StringParser.NotSafeFindField<CharacterInformator>(
+                            separateString[characterInt], informator.characters);
+
+                        //characterStatus
+                        CharacterStatus CharStatus = new CharacterStatus(
+                            Character,
+                            position: separateString[positionInt],
+                            direction: separateString[directionInt],
+                            emotion: separateString[emotionInt]);
+
+                        //characters
+                        AddCharacter(Characters, CharStatus);
+                    }
                 }
                 else Character = informator.characters.None;
-
-                //characterStatus
-                CharacterStatus CharStatus = new CharacterStatus(
-                    Character,
-                    position: separateString[positionInt],
-                    direction: separateString[directionInt],
-                    emotion: separateString[emotionInt]);
-
-                //characters
-                AddCharacter(Characters, CharStatus);
 
                 //new StoryComponent
                 newStoryComponent = new StoryComponent(

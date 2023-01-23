@@ -128,17 +128,14 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     }
     #endregion
 
+    public static string Narrator = "Narrator";
+    public static string Silently = "InessaSilently";
+
     [Serializable]
     public class Characters
     {
         [NullCheck]
         public CharacterInformator None;
-        [NullCheck]
-        public CharacterInformator Choise;
-        [NullCheck]
-        public CharacterInformator Narrator;
-        [NullCheck]
-        public CharacterInformator InessaSilently;
         [NullCheck]
         public CharacterInformator Inessa;
         [NullCheck]

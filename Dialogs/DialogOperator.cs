@@ -13,19 +13,13 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 {
     #region Fields
     [SerializeField, NullCheck]
-    private CharacterInformator speacer;
-    [SerializeField, NullCheck]
-    private CharacterInformator silently;
-    [SerializeField, NullCheck]
-    private CharacterInformator choise;
-
-    [Space]
-    [SerializeField, NullCheck]
 	private GameObject speakerPrefab;
 	[SerializeField, NullCheck]
     private GameObject buttonPrefab;
+    [SerializeField, Min(10)]
+    private int textButtonCapacity;
 
-	[SerializeField, NullCheck]
+    [SerializeField, NullCheck]
     private GameObject buttonParent;
 	[SerializeField, NullCheck]
     private GameObject plaqueWithTheName;
@@ -54,8 +48,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     private TextMeshProUGUI speakerName;
 	[SerializeField, NullCheck]
     private TextMeshProUGUI textMeshPro;
+    [SerializeField, Min(10)]
+    private int textCapacity;
     [SerializeField, NullCheck]
     private TextMeshProUGUI textInCenterOfScreen;
+    [SerializeField, Min(10)]
+    private int textOfScreenCapacity;
 
     [SerializeField, NullCheck]
     private GameObject textCanvas;
@@ -70,7 +68,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
 	private StringBuilder strindBuilder = new StringBuilder();
 	private bool SwichLanguage;
-	private string PrintableText;
+	private string[] PrintableText;
 	private Dictionary<CharacterInformator, SpeakerOperator> characters 
 		= new Dictionary<CharacterInformator, SpeakerOperator>();
 	private SpeakerOperator activeCharacter;
@@ -92,7 +90,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         CleareAll();
 		LanguageManager.OnLanguageChange += ResetText;
 	}
-
 	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.RightArrow)
@@ -143,82 +140,121 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	}
 	public async Task PrintText(MultiText text, bool senterScreen = false)
 	{
-		PrintableText = TextByLanguage(text);
-        nextInput = false;
-		nextArrow.enabled = false;
+		int textComponentCapacity = senterScreen ? textOfScreenCapacity : textCapacity;
 
-		strindBuilder.Clear();
+		PrintableText = TextByLanguage(text, textComponentCapacity);
+
+        
 
         TextMeshProUGUI textComponent = senterScreen ? textInCenterOfScreen : textMeshPro;
-
-		if (senterScreen)
+        
+		for(int textPart = 0; textPart < PrintableText.Length; textPart++)
 		{
-            ContentSizeFitter sizeFitter = textComponent.GetComponent<ContentSizeFitter>();
-			if(sizeFitter != null)
-			{
-                textComponent.text = PrintableText;
-				sizeFitter.SetLayoutVertical();
-			}
-        }
-			
-        textComponent.text = strindBuilder.ToString();
+			nextInput = false;
+			nextArrow.enabled = false;
 
-		for (int i = 0; i < PrintableText.Length + fullLineDelay; i++)
-		{
-			if(i < PrintableText.Length)
-			{
-				strindBuilder.Append(PrintableText[i]);
-                textComponent.text = strindBuilder.ToString();
+			strindBuilder.Clear();
+
+            if (senterScreen)
+            {
+                ContentSizeFitter sizeFitter = textComponent.GetComponent<ContentSizeFitter>();
+                if (sizeFitter != null)
+                {
+                    textComponent.text = PrintableText[textPart];
+                    sizeFitter.SetLayoutVertical();
+                }
             }
-			if (skipText)
-			{
-				break;
-			}
-			if (nextInput)
-			{
-				i = PrintableText.Length + fullLineDelay;
-				nextInput = false;
-			}
-			if (DialogManager.IsCancellationRequested)
-				break;
-			if (SwichLanguage)
-			{
-				SwichLanguage = false;
-				i = 0;
-				PrintableText = TextByLanguage(text);
-			}
-			await Task.Delay((int)(lettersDelay * 1000));
-		}
-        textComponent.text = TextByLanguage(text);
-		nextArrow.enabled = true;
-		while (!nextInput)
-		{
-			if (skipText)
-			{
-				break;
-			}
-			if (SwichLanguage)
-			{
-				SwichLanguage = false;
-                textComponent.text = TextByLanguage(text);
-			}
-			if (DialogManager.IsCancellationRequested)
-				break;
-			await Task.Yield();
-		}
+
+            textComponent.text = strindBuilder.ToString();
+
+            for (int i = 0; i < PrintableText[textPart].Length + fullLineDelay; i++)
+            {
+                if (i < PrintableText[textPart].Length)
+                {
+                    strindBuilder.Append(PrintableText[textPart][i]);
+                    textComponent.text = strindBuilder.ToString();
+                }
+                if (skipText)
+                {
+                    break;
+                }
+                if (nextInput)
+                {
+                    i = PrintableText[textPart].Length + fullLineDelay;
+                    nextInput = false;
+                }
+                if (DialogManager.IsCancellationRequested)
+                    break;
+                if (SwichLanguage)
+                {
+                    SwichLanguage = false;
+                    textPart = 0;
+                    i = 0;
+                    PrintableText = TextByLanguage(text, textComponentCapacity);
+                }
+                await Task.Delay((int)(lettersDelay * 1000));
+            }
+            textComponent.text = PrintableText[textPart];
+            nextArrow.enabled = true;
+            while (!nextInput)
+            {
+                if (skipText)
+                {
+                    break;
+                }
+                if (SwichLanguage)
+                {
+                    SwichLanguage = false;
+					string[] newText = TextByLanguage(text, textComponentCapacity);
+					textComponent.text = newText[newText.Length - 1];
+                }
+                if (DialogManager.IsCancellationRequested)
+                    break;
+                await Task.Yield();
+            }
+        }
 		//ClearAllText();
     }
-	private static string TextByLanguage(MultiText text)
+	private static string[] TextByLanguage(MultiText text, int textCapacity)
 	{
-		if(text == null)
-			return null;
-		if(text.Length == 0)
-			return null;
-		if(text.Length <= (int)PlayerManager.Language)
-			return null;
+		string fullText = FullTextByLanguage(text, textCapacity);
 
-		return text[(int)PlayerManager.Language];
+        string[] result;
+
+		if(fullText.Length > textCapacity)
+		{
+            result = GetPrepackagedText(fullText, textCapacity);
+        }
+		else
+		{
+			result = new string[1] { fullText };
+        }
+		return result;
 	}
+
+    private static string FullTextByLanguage(MultiText text, int textCapacity)
+    {
+        if (text == null)
+            throw new Exception("The link to the text was not found!");
+        if (text.Length == 0)
+            throw new Exception("The text to output is empty!");
+        if (text.Length <= (int)PlayerManager.Language)
+            throw new Exception("Not all languages are filled in the text!");
+
+        string fullText = text[(int)PlayerManager.Language];
+
+        if (fullText.Length > textCapacity)
+        {
+            return fullText;
+        }
+
+		throw new Exception("Too long text does not fit into the textCapacity!");
+    }
+
+    private static string[] GetPrepackagedText(string fullText, int textCapacity)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 
     #region Speakers
@@ -227,9 +263,9 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         if (DialogManager.IsCancellationRequested)
             return Task.CompletedTask;
 
-        SetPlaqueName(character);
-        SetActiveCharacter(character);
-        return PrintText(text);
+		SetPlaqueName(character);
+		SetActiveCharacter(character);
+		return PrintText(text);
     }
     public Task Say(MultiText text)
     {
@@ -246,7 +282,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
         return PrintText(text, senterScreen: false);
     }
-
     public void HideCharacter(CharacterInformator character)
 	{
 		SpeakerOperator speakerOperator = null;
@@ -394,13 +429,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
 		
 	}
-    public async Task ShowImage(Sprite sprite, MultiText text = null)
+    public async Task NarratorText(MultiText text = null)
 	{
 		StopDialogSkip();
         nextInput = false;
 		HideAllCharacters();
         HideText();
-        SetBackground(sprite);
         while (!nextInput)
         {
             if (skipText)
@@ -411,7 +445,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
             await Task.Yield();
         }
-		if (!String.IsNullOrEmpty(TextByLanguage(text)))
+		if (!String.IsNullOrEmpty(TextByLanguage(text, textOfScreenCapacity)[0]))
 		{
 			await PrintText(text, senterScreen: true);
         }
@@ -437,7 +471,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     internal void CreateWayButton(DialogNode dialogNode, MultiText multiText)
     {
         GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
-        button.GetComponent<DialogButtonOperator>().SetWay(dialogNode, TextByLanguage(multiText));
+        button.GetComponent<DialogButtonOperator>()
+			.SetWay(dialogNode, FullTextByLanguage(multiText, textButtonCapacity));
     }
     #endregion
 

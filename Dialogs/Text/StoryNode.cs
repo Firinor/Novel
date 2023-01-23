@@ -37,125 +37,137 @@ public class StoryNode : DialogNode
         incidentIndex = 0;
         for (; incidentIndex < incidentCount;)
         {
-            await IncidentAction();
+            dialogOperator.CleareAll();
+            dialogOperator.SetBackground(episode[incidentIndex].Background);
+            dialogOperator.SetCharacters(episode[incidentIndex].Characters);
+
+            if(episode[incidentIndex].Function == StoryInformator.Narrator)
+            {
+                await dialogOperator.NarratorText(episode[incidentIndex].Text);
+            }
+            else if(episode[incidentIndex].Function == StoryInformator.Silently)
+            {
+                await dialogOperator.Say(episode[incidentIndex].Text);
+            }
+            else
+            {
+                await dialogOperator.Say(episode[incidentIndex].Character, episode[incidentIndex].Text);
+            }
             incidentIndex++;
         }
 
         Fork();
     }
 
-    private async Task IncidentAction()
-    {
-        dialogOperator.CleareAll();
-        dialogOperator.SetBackground(episode[incidentIndex].Background);
-        dialogOperator.SetCharacters(episode[incidentIndex].Characters);
+    #region Non-removable garbage
+    //private async Task IncidentAction()
+    //{
+    //    dialogOperator.CleareAll();
+    //    dialogOperator.SetBackground(episode[incidentIndex].Background);
+    //    dialogOperator.SetCharacters(episode[incidentIndex].Characters);
 
-        string function = episode[incidentIndex].Function.ToLower();
+    //    string function = episode[incidentIndex].Function.ToLower();
 
-        string[] splitFunction = function.Split(':');
+    //    string[] splitFunction = function.Split(':');
 
-        //Trying different algorithms, I came to the conclusion that we will always call only the "say" method
-        #region Non-removable garbage
-        //function = splitFunction[0];
-        //if (string.IsNullOrEmpty(function))
-        //{
-        //    function = "say";
-        //}
-        #endregion
-        function = "say";
+    //    function = splitFunction[0];
+    //    if (string.IsNullOrEmpty(function))
+    //    {
+    //        function = "say";
+    //    }
 
-        string additionalParameter = "";
+    //    string additionalParameter = "";
 
-        if (splitFunction.Length > 1)
-        {
-            additionalParameter = splitFunction[1];
-        }
+    //    if (splitFunction.Length > 1)
+    //    {
+    //        additionalParameter = splitFunction[1];
+    //    }
 
-        MethodInfo[] methods = typeof(DialogOperator).GetMethods();
-        //{
-        //CleareAll
-        //ShowImage
-        //ShowText
-        //SetBackground
-        //ShowCharacter
-        //HideCharacter
-        //HideAllCharacters
-        //Say
-        //SayByName:Name
-        //Choise:Number
-        //}
+    //    MethodInfo[] methods = typeof(DialogOperator).GetMethods();
+    //    //{
+    //    //CleareAll
+    //    //ShowImage
+    //    //ShowText
+    //    //SetBackground
+    //    //ShowCharacter
+    //    //HideCharacter
+    //    //HideAllCharacters
+    //    //Say
+    //    //SayByName:Name
+    //    //Choise:Number
+    //    //}
 
-        MethodInfo method = null;
-        object[] _params = null;
+    //    MethodInfo method = null;
+    //    object[] _params = null;
 
-        foreach (MethodInfo m in methods)
-        {
-            if(m.Name.ToLower() == function)
-            {
-                method = m;
-                _params = GetParams(m, additionalParameter);
-                break;
-            }
-        }
+    //    foreach (MethodInfo m in methods)
+    //    {
+    //        if(m.Name.ToLower() == function)
+    //        {
+    //            method = m;
+    //            _params = GetParams(m, additionalParameter);
+    //            break;
+    //        }
+    //    }
 
-        if(method == null)
-        {
-            throw new Exception($"Function \"{function}\" not found");
-        }
+    //    if(method == null)
+    //    {
+    //        throw new Exception($"Function \"{function}\" not found");
+    //    }
 
-        await ReflectionMethods.InvokeAsync(method, dialogOperator, _params);
-    }
+    //    await ReflectionMethods.InvokeAsync(method, dialogOperator, _params);
+    //}
+    //private object[] GetParams(MethodInfo method, string additionalParameter = "")
+    //{
+    //    ParameterInfo[] parameters = method.GetParameters();
+    //    //{
+    //    //string nameOnPlague
+    //    //Sprite background
+    //    //CharacterInformator character
+    //    //CharacterEmotion emotion
+    //    //PositionOnTheStage position
+    //    //ViewDirection viewDirection
+    //    //string[] text
+    //    //}
 
-    private object[] GetParams(MethodInfo method, string additionalParameter = "")
-    {
-        ParameterInfo[] parameters = method.GetParameters();
-        //{
-        //string nameOnPlague
-        //Sprite background
-        //CharacterInformator character
-        //CharacterEmotion emotion
-        //PositionOnTheStage position
-        //ViewDirection viewDirection
-        //string[] text
-        //}
+    //    object[] result = null;
+    //    if (parameters.Length > 0)
+    //    {
+    //        result = new object[method.GetParameters().Length];
+    //    }
 
-        object[] result = null;
-        if (parameters.Length > 0)
-        {
-            result = new object[method.GetParameters().Length];
-        }
-
-        for(int i = 0; i < parameters.Length; i++)
-        {
-            string parameterName = parameters[i].Name;
-            switch (parameterName){
-                case "nameOnPlague":
-                    result[i] = additionalParameter;
-                    break;
-                case "background":
-                    result[i] = episode[incidentIndex].Background;
-                    break;
-                case "character":
-                    result[i] = episode[incidentIndex].Character;
-                    break;
-                case "emotion":
-                    result[i] = episode[incidentIndex].Background;
-                    break;
-                case "position":
-                    result[i] = episode[incidentIndex].Background;
-                    break;
-                case "viewDirection":
-                    result[i] = episode[incidentIndex].Background;
-                    break;
-                case "text":
-                    result[i] = episode[incidentIndex].Text;
-                    break;
-                default:
-                    throw new Exception($"parameterName \"{parameterName}\" not found");
-            }
-        }
-        return result;
-    }
+    //    for(int i = 0; i < parameters.Length; i++)
+    //    {
+    //        string parameterName = parameters[i].Name;
+    //        switch (parameterName){
+    //            case "nameOnPlague":
+    //                result[i] = additionalParameter;
+    //                break;
+    //            case "background":
+    //                result[i] = episode[incidentIndex].Background;
+    //                break;
+    //            case "character":
+    //                result[i] = episode[incidentIndex].Character;
+    //                break;
+    //            case "emotion":
+    //                result[i] = episode[incidentIndex].Background;
+    //                break;
+    //            case "position":
+    //                result[i] = episode[incidentIndex].Background;
+    //                break;
+    //            case "viewDirection":
+    //                result[i] = episode[incidentIndex].Background;
+    //                break;
+    //            case "text":
+    //                result[i] = episode[incidentIndex].Text;
+    //                break;
+    //            default:
+    //                throw new Exception($"parameterName \"{parameterName}\" not found");
+    //        }
+    //    }
+    //    return result;
+    //}
+    #endregion
 
     public void Fork()
     {
