@@ -1,7 +1,6 @@
+using FirStory;
 using FirUnityEditor;
-using Story;
 using System;
-using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -27,115 +26,20 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         return Story[act - 1][scene - 1];
     }
 
-    #region Story architecture
     [Serializable]
-    public class FullStory
-    {
-        public List<Act> Acts;
-        public Act this[int index]
-        {
-            get => Acts[index];
-            set => Acts[index] = value;
-        }
-
-        public static implicit operator FullStory(List<List<List<StoryComponent>>> storyFromComponents)
-        {
-            List<Act> acts = new List<Act>();
-            foreach (var act in storyFromComponents)
-            {
-                List<Episode> scenes = new List<Episode>();
-                foreach (var scene in act)
-                {
-                    scenes.Add(scene);
-                }
-                acts.Add(scenes);
-            }
-            return new FullStory { Acts = acts };
-        }
-        public static implicit operator FullStory(List<List<Episode>> storyFromScenes)
-        {
-            List<Act> acts = new List<Act>();
-            foreach (var act in storyFromScenes)
-            {
-                acts.Add(act);
-            }
-            return new FullStory() { Acts = acts };
-        }
-        public static implicit operator FullStory(List<Act> acts)
-        {
-            return new FullStory() { Acts = acts };
-        }
-    }
-    [Serializable]
-    public class Act
-    {
-        public List<Episode> Scenes;
-        public Episode this[int index]
-        {
-            get => Scenes[index];
-            set => Scenes[index] = value;
-        }
-        public int Count { get => Scenes.Count; }
-
-        public static implicit operator Act(List<List<StoryComponent>> scenesFromComponents)
-        {
-            List<Episode> scenes = new List<Episode>();
-            foreach (var scene in scenesFromComponents)
-            {
-                scenes.Add(scene);
-            }
-            return new Act() { Scenes = scenes };
-        }
-        public static implicit operator Act(List<Episode> scenes)
-        {
-            return new Act() { Scenes = scenes };
-        }
-    }
-    [Serializable]
-    public class Episode
-    {
-        public List<StoryComponent> Replicas;
-        public List<MultiText> Choices;
-        public int Count { get => Replicas.Count; }
-        public StoryComponent this[int index]
-        {
-            get => Replicas[index];
-            set => Replicas[index] = value;
-        }
-
-        public static implicit operator Episode(List<StoryComponent> replicas)
-        {
-            return new Episode() { Replicas = replicas };
-        }
-
-        internal void AddReplica(StoryComponent newReplica)
-        {
-            if(Replicas == null)
-            {
-                Replicas = new List<StoryComponent>();
-            }
-            Replicas.Add(newReplica);
-        }
-
-        internal void AddChoice(MultiText texts)
-        {
-            if (Choices == null)
-            {
-                Choices = new List<MultiText>();
-            }
-            Choices.Add(texts);
-        }
-    }
-    #endregion
-
-    public static string Narrator = "Narrator";
-    public static string Silently = "InessaSilently";
-
-    [Serializable]
-    public class Characters
+    public class Characters : ICharacters
     {
         [NullCheck]
-        public CharacterInformator None;
+        public string narrator;
+        [NullCheck]
+        public string silently;
+        public string Narrator => narrator;
+        public string Silently => silently;
+
+        [NullCheck]
+        public CharacterInformator Error;
+        CharacterInformator ICharacters.None => Error;
+
         [NullCheck]
         public CharacterInformator Inessa;
         [NullCheck]
@@ -166,13 +70,16 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         public CharacterInformator Mercenary;
         [NullCheck]
         public CharacterInformator Mage;
+
+        
     }
 
     [Serializable]
-    public class Backgrounds
+    public class Backgrounds : IBackgrounds
     {
         [NullCheck]
-        public Sprite None;
+        public Sprite Error;
+        Sprite IBackgrounds.None => Error;
 
         #region Main backgrounds
         [NullCheck]
@@ -255,7 +162,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     [ContextMenu("ReadFullStory")]
     private void GetStory()
     {
-        Story = StoryReader.GetFullStory(storyFiles, this);
+        Story = StoryReader.GetFullStory(storyFiles, characters, backgrounds);
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
     }
 }

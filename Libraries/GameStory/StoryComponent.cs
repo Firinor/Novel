@@ -1,9 +1,8 @@
-using FirNovel.Characters;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Story
+namespace FirStory
 {
     [Serializable]
     public class StoryComponent

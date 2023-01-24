@@ -1,5 +1,6 @@
-using FirNovel.Characters;
+using FirStory;
 using FirUnityEditor;
+using FirUtilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -102,7 +103,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     }
     #endregion
 
-	public void CleareAll()
+    public void CleareAll()
     {
 		ClearAllText();
         OffBackground();
@@ -219,17 +220,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		string fullText = FullTextByLanguage(text, textCapacity);
 
-        string[] result;
-
-		if(fullText.Length > textCapacity)
-		{
-            result = GetPrepackagedText(fullText, textCapacity);
-        }
-		else
-		{
-			result = new string[1] { fullText };
-        }
-		return result;
+		return GetPrepackagedText(fullText, textCapacity);
 	}
 
     private static string FullTextByLanguage(MultiText text, int textCapacity)
@@ -253,7 +244,12 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
     private static string[] GetPrepackagedText(string fullText, int textCapacity)
     {
-        throw new NotImplementedException();
+        if (fullText.Length < textCapacity)
+            return new string[1] { fullText };
+
+        string[] straws = ArrayUtilities.StringArraySlicing(fullText, textCapacity);
+
+        return GameStory.AlignTheStoryLengthwise(straws, textCapacity);
     }
     #endregion
 

@@ -1,14 +1,12 @@
-﻿using FirNovel.Characters;
-using FirParser;
+﻿using FirParser;
 using FirSaveLoad;
+using ICSharpCode.NRefactory.Ast;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static StoryInformator;
-using Episode = StoryInformator.Episode;
 
-namespace Story
+namespace FirStory
 {
     public class StoryReader
     {
@@ -27,22 +25,25 @@ namespace Story
 
         private static Dictionary<Languages, int> columnsLanguage;
         private static IEnumerable<Languages> Languages;
-        private static StoryInformator informator;
+        private static IBackgrounds backgrounds;
+        private static ICharacters characters;
 
-        public static FullStory GetFullStory(TextAsset[] storyFiles, StoryInformator informator)
+        public static FullStory GetFullStory(TextAsset[] storyFiles,
+            ICharacters characters, IBackgrounds backgrounds)
         {
-            StoryReader.informator = informator;
+            StoryReader.characters = characters;
+            StoryReader.backgrounds = backgrounds;
             ResetColumnInt();
             Languages = Enum.GetValues(typeof(Languages)).Cast<Languages>();
             columnsLanguage = new Dictionary<Languages, int>();
             sceneValue = -1;
-            backgroundValue = informator.backgrounds.None;
+            backgroundValue = backgrounds.None;
 
             var Story = new List<Act>();
 
             for (int i = 0; i < storyFiles.Length; i++)
             {
-                List<List<string>> textAct = StringReader.GetData(storyFiles[i], startLine: 0, split: '\t');
+                List<List<string>> textAct = StringReader.GetData(storyFiles[i], split: '\t');
                 Act resultAct = GetAct(textAct);
 
                 Story.Add(resultAct);
@@ -85,9 +86,9 @@ namespace Story
                 //
                 if (removeCharacter)
                 {
-                    for(int j = 0; j < Characters.Count; j++)
+                    for (int j = 0; j < Characters.Count; j++)
                     {
-                        if(removeCharacterStatus == Characters[j].Character)
+                        if (removeCharacterStatus == Characters[j].Character)
                         {
                             Characters.RemoveAt(j);
                             removeCharacter = false;
@@ -99,7 +100,7 @@ namespace Story
                 //If there is new scene number, it's must building new result scene
                 if (!string.IsNullOrEmpty(textAct[i][sceneInt]))
                 {
-                    if(resultEpisode != null)
+                    if (resultEpisode != null)
                         resultAct.Add(resultEpisode);
                     resultEpisode = new Episode();
                     Characters = new List<CharacterStatus>();
@@ -147,11 +148,11 @@ namespace Story
 
         private static void AnalyzeСolumns(List<string> documentHeader)
         {
-            for(int i = 0; i < documentHeader.Count;i++)
+            for (int i = 0; i < documentHeader.Count; i++)
             {
                 string column = documentHeader[i].ToLower();
 
-                if(column == "scene")
+                if (column == "scene")
                 {
                     sceneInt = i;
                     continue;
@@ -186,9 +187,9 @@ namespace Story
                     characterInt = i;
                     continue;
                 }
-                foreach(var language in Languages)
+                foreach (var language in Languages)
                 {
-                    if(language.ToString().ToLower() == column)
+                    if (language.ToString().ToLower() == column)
                     {
                         columnsLanguage.Add(language, i);
                         break;
@@ -232,24 +233,24 @@ namespace Story
                 if (!string.IsNullOrEmpty(separateString[backgroundInt]))
                 {
                     backgroundValue = StringParser.NotSafeFindField<Sprite>(
-                        separateString[backgroundInt], informator.backgrounds);
+                        separateString[backgroundInt], backgrounds);
                 }
 
                 //character
                 if (!string.IsNullOrEmpty(separateString[characterInt]))
                 {
-                    if (separateString[characterInt] == StoryInformator.Narrator)
+                    if (separateString[characterInt] == characters.Narrator)
                     {
-                        separateString[functionInt] = StoryInformator.Narrator;
+                        separateString[functionInt] = characters.Narrator;
                     }
-                    else if (separateString[characterInt] == StoryInformator.Silently)
+                    else if (separateString[characterInt] == characters.Silently)
                     {
-                        separateString[functionInt] = StoryInformator.Silently;
+                        separateString[functionInt] = characters.Silently;
                     }
                     else
                     {
                         Character = StringParser.NotSafeFindField<CharacterInformator>(
-                            separateString[characterInt], informator.characters);
+                            separateString[characterInt], characters);
 
                         //characterStatus
                         CharacterStatus CharStatus = new CharacterStatus(
@@ -262,17 +263,17 @@ namespace Story
                         AddCharacter(Characters, CharStatus);
                     }
                 }
-                else Character = informator.characters.None;
+                else Character = characters.None;
 
                 //new StoryComponent
                 newStoryComponent = new StoryComponent(
-                   sceneValue,
-                   separateString[functionInt],
-                   backgroundValue,
-                   Character,
-                   Characters,
-                   texts
-                   );
+                    sceneValue,
+                    separateString[functionInt],
+                    backgroundValue,
+                    Character,
+                    Characters,
+                    texts
+                    );
             }
             catch (InvalidCastException e)
             {

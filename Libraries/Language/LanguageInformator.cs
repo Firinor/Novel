@@ -1,11 +1,25 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
+using TMPro;
+using UnityEngine;
 
-public static class LanguageInformator
+public class LanguageInformator : SinglBehaviour<LanguageInformator>
 {
+    [SerializeField]
+    private TMP_FontAsset RU_Front;
+    [SerializeField]
+    private TMP_FontAsset EN_Front;
+    [SerializeField]
+    private TMP_FontAsset CN_Front;
+
+    void Awake()
+    {
+        SingletoneCheck(this);
+    }
+
     // 0 - Русский язык
     // 1 - English language
+    // 2 - ??
     private static Dictionary<string, string[]> Texts
         = new Dictionary<string, string[]>()
         {
@@ -29,7 +43,9 @@ public static class LanguageInformator
 
             ["Creators"] = 
             Words("Разработчик: сир Фиринор Хисимеон\n\n" +
-                "Сценарий: Марина Кнышенко",
+                "Сценарий: Марина Кнышенко, Rawen Black, Дарья Лукас\n\n" +
+                "Композитор: Евгений Пугачев" +
+                "Художник: Александра Олеговна Иваницкая",
                 "Developer: sir Firinor Hisimeon\n\n" +
                 "Narrative: Marina Knyshenko"),
 
@@ -70,6 +86,21 @@ public static class LanguageInformator
         if(Texts.ContainsKey(key))
             return Texts[key][(int)language];
 
-        throw new Exception();
+        throw new Exception($"No text value found by key {key}!");
+    }
+
+    public static TMP_FontAsset GetFont()
+    {
+        switch (PlayerManager.Language)
+        {
+            case Languages.RU:
+                return instance.RU_Front;
+            case Languages.EN:
+                return instance.EN_Front;
+            case Languages.CN:
+                return instance.CN_Front;
+            default:
+                throw new Exception("");
+        }
     }
 }

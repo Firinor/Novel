@@ -1,10 +1,5 @@
-using FirReflection;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading.Tasks;
+using FirStory;
 using UnityEngine;
-using Episode = StoryInformator.Episode;
 
 public class StoryNode : DialogNode
 {
@@ -41,11 +36,11 @@ public class StoryNode : DialogNode
             dialogOperator.SetBackground(episode[incidentIndex].Background);
             dialogOperator.SetCharacters(episode[incidentIndex].Characters);
 
-            if(episode[incidentIndex].Function == StoryInformator.Narrator)
+            if(episode[incidentIndex].Function == StoryInformator.instance.characters.Narrator)
             {
                 await dialogOperator.NarratorText(episode[incidentIndex].Text);
             }
-            else if(episode[incidentIndex].Function == StoryInformator.Silently)
+            else if(episode[incidentIndex].Function == StoryInformator.instance.characters.Silently)
             {
                 await dialogOperator.Say(episode[incidentIndex].Text);
             }

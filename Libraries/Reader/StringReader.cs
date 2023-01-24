@@ -7,11 +7,11 @@ namespace FirSaveLoad
 {
     public static class StringReader
     {
-        public static List<List<string>> GetData(TextAsset textFile, int startLine = 1, char split = ';')
+        public static List<List<string>> GetData(TextAsset textFile, char split = ';')
         {
-            return GetData(textFile.text, startLine, split);
+            return GetData(textFile.text, split);
         }
-        public static List<List<string>> GetData(string text, int startLine = 1, char split = ';')
+        public static List<List<string>> GetData(string text, char split = ';')
         {
             List<List<string>> Result = new List<List<string>>();
 

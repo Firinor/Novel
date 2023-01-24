@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum ViewDirection { Right = 1, Default = 0, Left = -1 }

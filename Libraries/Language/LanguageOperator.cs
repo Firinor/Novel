@@ -24,6 +24,7 @@ public class LanguageOperator : MonoBehaviour
 
     protected virtual void SetText()
     {
+        Text.font = LanguageInformator.GetFont();
         string text = LanguageInformator.GetText(Key);
         if(text != null)
             Text.text = text;

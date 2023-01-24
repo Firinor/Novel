@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static StoryInformator;
 
-public enum PositionOnTheStage { OffScene, Left, Center, Right}
 public enum DialogProgressStatus { Open, Closed, Hiden }
 
 public class DialogNode : MonoBehaviour

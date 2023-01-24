@@ -1,7 +1,7 @@
 ﻿using FirParser;
 using System;
 
-namespace FirNovel.Characters
+namespace FirStory
 {
     [Serializable]
     public class CharacterStatus
