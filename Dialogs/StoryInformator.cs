@@ -29,9 +29,7 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
     [Serializable]
     public class Characters : ICharacters
     {
-        [NullCheck]
         public string narrator;
-        [NullCheck]
         public string silently;
         public string Narrator => narrator;
         public string Silently => silently;
@@ -40,118 +38,22 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         public CharacterInformator Error;
         CharacterInformator ICharacters.None => Error;
 
-        [NullCheck]
-        public CharacterInformator Inessa;
-        [NullCheck]
-        public CharacterInformator Graugalorafor;
-        [NullCheck]
-        public CharacterInformator Cristopher;
-        [NullCheck]
-        public CharacterInformator Vargus;
-        [NullCheck]
-        public CharacterInformator Karim;
-        [NullCheck]
-        public CharacterInformator Guard;
-        [NullCheck]
-        public CharacterInformator Tiir;
-        [NullCheck]
-        public CharacterInformator Ermingarda;
-        [NullCheck]
-        public CharacterInformator Arguz;
-        [NullCheck]
-        public CharacterInformator Vacela;
-        [NullCheck]
-        public CharacterInformator Bathyard;
-        [NullCheck]
-        public CharacterInformator Nogation;
-        [NullCheck]
-        public CharacterInformator Hurga;
-        [NullCheck]
-        public CharacterInformator Mercenary;
-        [NullCheck]
-        public CharacterInformator Mage;
+        CharacterInformator[] ICharacters.Characters => characters;
 
-        
+        [NullCheck]
+        public CharacterInformator[] characters;
     }
 
     [Serializable]
     public class Backgrounds : IBackgrounds
     {
         [NullCheck]
-        public Sprite Error;
-        Sprite IBackgrounds.None => Error;
+        public Sprite none;
+        Sprite IBackgrounds.None => none;
 
-        #region Main backgrounds
         [NullCheck]
-        public Sprite Lab;
-        [NullCheck]
-        public Sprite World;
-        [NullCheck]
-        public Sprite InessaRoom;
-        [NullCheck]
-        public Sprite Black;
-        [NullCheck]
-        public Sprite Memorial;
-        [NullCheck]
-        public Sprite Office;
-        [NullCheck]
-        public Sprite GnomeDoor;
-        [NullCheck]
-        public Sprite KarimRoom;
-        [NullCheck]
-        public Sprite Quarry;
-        [NullCheck]
-        public Sprite PortalOff;
-        [NullCheck]
-        public Sprite PortalOn;
-        [NullCheck]
-        public Sprite Castle;
-        [NullCheck]
-        public Sprite Fun;
-        [NullCheck]
-        public Sprite Prison;
-        [NullCheck]
-        public Sprite PrisonersÑell;
-        [NullCheck]
-        public Sprite BeginOfElvenForest;
-        [NullCheck]
-        public Sprite ElvenHut;
-        [NullCheck]
-        public Sprite TiirRoom;
-        [NullCheck]
-        public Sprite ElvenPalace;
-        [NullCheck]
-        public Sprite AtElvenPalace;
-        [NullCheck]
-        public Sprite AtElvenPalace2;
-        [NullCheck]
-        public Sprite ThroneRoom;
-        [NullCheck]
-        public Sprite DesertPortalOn;
-        [NullCheck]
-        public Sprite Tents;
-        [NullCheck]
-        public Sprite BattleCamp;
-        [NullCheck]
-        public Sprite CommanderInChiefsTent;
-        [NullCheck]
-        public Sprite OrcEncampment;
-        [NullCheck]
-        public Sprite OrcCommanderInChiefsTent;
-        [NullCheck]
-        public Sprite Desert;
-        [NullCheck]
-        public Sprite OrcCamp;
-        #endregion //Main backgrounds
-
-        #region Spesial backgrounds
-        [NullCheck]
-        public Sprite TwoDaysHavePassed;
-        [NullCheck]
-        public Sprite OrcParty;
-        [NullCheck]
-        public Sprite War;
-        #endregion //Spesial backgrounds
+        public Sprite[] backgrounds;
+        Sprite[] IBackgrounds.Backgrounds => backgrounds;
     }
 
     void Awake()

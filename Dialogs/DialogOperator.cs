@@ -1,6 +1,5 @@
 using FirStory;
 using FirUnityEditor;
-using FirUtilities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -145,8 +144,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
 		PrintableText = TextByLanguage(text, textComponentCapacity);
 
-        
-
         TextMeshProUGUI textComponent = senterScreen ? textInCenterOfScreen : textMeshPro;
         
 		for(int textPart = 0; textPart < PrintableText.Length; textPart++)
@@ -220,7 +217,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	{
 		string fullText = FullTextByLanguage(text, textCapacity);
 
-		return GetPrepackagedText(fullText, textCapacity);
+		return GameStory.AlignTheStoryLengthwise(fullText, textCapacity);
 	}
 
     private static string FullTextByLanguage(MultiText text, int textCapacity)
@@ -240,16 +237,6 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         }
 
 		throw new Exception("Too long text does not fit into the textCapacity!");
-    }
-
-    private static string[] GetPrepackagedText(string fullText, int textCapacity)
-    {
-        if (fullText.Length < textCapacity)
-            return new string[1] { fullText };
-
-        string[] straws = ArrayUtilities.StringArraySlicing(fullText, textCapacity);
-
-        return GameStory.AlignTheStoryLengthwise(straws, textCapacity);
     }
     #endregion
 
@@ -441,7 +428,8 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 
             await Task.Yield();
         }
-		if (!String.IsNullOrEmpty(TextByLanguage(text, textOfScreenCapacity)[0]))
+
+		if (text != null && !String.IsNullOrWhiteSpace(text[0]))
 		{
 			await PrintText(text, senterScreen: true);
         }

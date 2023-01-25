@@ -1,4 +1,5 @@
 ﻿using System;
+using Object = UnityEngine.Object;
 
 namespace FirParser
 {
@@ -27,8 +28,8 @@ namespace FirParser
             return default(T);
         }
 
-        public static T1 NotSafeFindField<T1>(string Name, object Librari, bool ToLower = true) 
-            where T1 : class
+        public static T NotSafeFindField<T>(string Name, object Librari, bool ToLower = true) 
+            where T : class
         {
             var classe = Librari.GetType();
 
@@ -36,19 +37,19 @@ namespace FirParser
             {
                 var values = classe.GetFields();
 
-                string name = $"{typeof(T1).ToString().ToLower()} {Name.ToLower()}";
+                string name = $"{typeof(T).ToString().ToLower()} {Name.ToLower()}";
 
                 foreach (var value in values)
                 {
                     if (value.ToString().ToLower() == name)
-                        return (T1)value.GetValue(Librari);
+                        return (T)value.GetValue(Librari);
                 }
             }
             else
             {
                 try
                 {
-                    T1 result = (T1)classe.GetField(Name).GetValue(Librari);
+                    T result = (T)classe.GetField(Name).GetValue(Librari);
                     return result;
                 }
                 catch
@@ -58,6 +59,31 @@ namespace FirParser
             }
 
             throw new InvalidCastException($"Couldn't find in {classe} a field by string {Name}!");
+            //return default(T1);
+        }
+
+        public static T FindField<T>(string Name, T[] Librari, bool ToLower = true)
+            where T : Object
+        {
+            if (ToLower)
+            {   
+                string name = Name.ToLower();
+                foreach (var value in Librari)
+                {
+                    if (value.name.ToLower() == name)
+                        return value;
+                }
+            }
+            else
+            {
+                foreach (var value in Librari)
+                {
+                    if (value.ToString() == Name)
+                        return value;
+                }
+            }
+
+            throw new InvalidCastException($"The \"{Name}\" field could not be found in the library {Librari}");
             //return default(T1);
         }
     }

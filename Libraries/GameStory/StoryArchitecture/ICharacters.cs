@@ -1,4 +1,6 @@
-﻿namespace FirStory
+﻿using UnityEngine;
+
+namespace FirStory
 {
     public interface ICharacters
     {
@@ -6,5 +8,7 @@
 
         public string Narrator { get; }
         public string Silently { get; }
+
+        public CharacterInformator[] Characters { get; }
     }
 }

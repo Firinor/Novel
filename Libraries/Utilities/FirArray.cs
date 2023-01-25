@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FirUtilities
 {
@@ -6,13 +7,13 @@ namespace FirUtilities
     {
         public static string[] StringArraySlicing(string fullText, int textCapacity)
         {
-            string[] straws1 = GetStringStraws(fullText, "?", "!", ".");
+            string[] straws1 = GetStringStraws(fullText, "? ", "! ", ". ", Environment.NewLine);
 
             for (int i = 0; i < straws1.Length; i++)
             {
                 if (straws1[i].Length > textCapacity)
                 {
-                    string[] straws2 = GetStringStraws(straws1[i], ",");
+                    string[] straws2 = GetStringStraws(straws1[i], ", ");
                     for (int j = 0; j < straws2.Length; j++)
                     {
                         if (straws2[j].Length > textCapacity)
@@ -48,13 +49,23 @@ namespace FirUtilities
 
             index += insertedArray.Length - 1;
         }
+        public static string[] СleanArray(string[] mainArray)
+        {
+            List<string> temp = new List<string>();
+            foreach (string s in mainArray)
+            {
+                if (!string.IsNullOrWhiteSpace(s))
+                    temp.Add(s);
+            }
+            return temp.ToArray();
+        }
         public static string[] GetStringStraws(string fullText, params string[] spliters)
         {
             string aRareSequenceOfCharacters = "&&&&%&&&&;@$№&&";
             string CutText = fullText.Substring(0, fullText.Length);
             foreach (string spliter in spliters)
             {
-                CutText.Replace(spliter + " ", spliter + aRareSequenceOfCharacters);
+                CutText = CutText.Replace(spliter, spliter + aRareSequenceOfCharacters);
             }
 
             return CutText.Split(new string[1] { aRareSequenceOfCharacters }, StringSplitOptions.RemoveEmptyEntries);

@@ -232,8 +232,8 @@ namespace FirStory
                 //background
                 if (!string.IsNullOrEmpty(separateString[backgroundInt]))
                 {
-                    backgroundValue = StringParser.NotSafeFindField<Sprite>(
-                        separateString[backgroundInt], backgrounds);
+                    backgroundValue = StringParser.FindField<Sprite>(
+                        separateString[backgroundInt], backgrounds.Backgrounds);
                 }
 
                 //character
@@ -249,8 +249,8 @@ namespace FirStory
                     }
                     else
                     {
-                        Character = StringParser.NotSafeFindField<CharacterInformator>(
-                            separateString[characterInt], characters);
+                        Character = StringParser.FindField<CharacterInformator>(
+                            separateString[characterInt], characters.Characters);
 
                         //characterStatus
                         CharacterStatus CharStatus = new CharacterStatus(
