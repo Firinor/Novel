@@ -215,12 +215,11 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     }
 	private static string[] TextByLanguage(MultiText text, int textCapacity)
 	{
-		string fullText = FullTextByLanguage(text, textCapacity);
+		string fullText = FullTextByLanguage(text);
 
 		return GameStory.AlignTheStoryLengthwise(fullText, textCapacity);
 	}
-
-    private static string FullTextByLanguage(MultiText text, int textCapacity)
+    private static string FullTextByLanguage(MultiText text)
     {
         if (text == null)
             throw new Exception("The link to the text was not found!");
@@ -229,14 +228,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
         if (text.Length <= (int)PlayerManager.Language)
             throw new Exception("Not all languages are filled in the text!");
 
-        string fullText = text[(int)PlayerManager.Language];
-
-        if (fullText.Length > textCapacity)
-        {
-            return fullText;
-        }
-
-		throw new Exception("Too long text does not fit into the textCapacity!");
+        return text[(int)PlayerManager.Language];
     }
     #endregion
 
@@ -456,7 +448,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
     {
         GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
         button.GetComponent<DialogButtonOperator>()
-			.SetWay(dialogNode, FullTextByLanguage(multiText, textButtonCapacity));
+			.SetWay(dialogNode, FullTextByLanguage(multiText));
     }
     #endregion
 

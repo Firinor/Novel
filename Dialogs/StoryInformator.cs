@@ -33,6 +33,9 @@ public class StoryInformator : SinglBehaviour<StoryInformator>
         public string silently;
         public string Narrator => narrator;
         public string Silently => silently;
+        [NullCheck]
+        public CharacterInformator mainHero;
+        CharacterInformator ICharacters.Main => mainHero;
 
         [NullCheck]
         public CharacterInformator Error;
