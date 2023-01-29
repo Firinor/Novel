@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace FirDragAndDrop
 {
@@ -7,59 +8,54 @@ namespace FirDragAndDrop
         IBeginDragHandler, IDragHandler, IEndDragHandler,
         IPointerEnterHandler, IPointerExitHandler
     {
-        private new Camera camera;
-
         [SerializeField]
-        private static float maxRayDistance = 100f;
-        [SerializeField]
-        private LayerMask GroundLayerMask;
+        private Image image;
         [SerializeField]
         private GameObject dragAndDropObject;
 
-        private bool dragCard = false;
+        private bool drag = false;
         private bool cursorOnCard = false;
+
+        private Vector3 startMousePosition;
 
         public void Start()
         {
-            camera = Camera.main;
             if(dragAndDropObject == null)
                 dragAndDropObject = gameObject;
         }
         public void Update()
         {
-            if (Input.GetMouseButtonDown(1) && dragCard)
+            if (Input.GetMouseButtonDown(1) && drag)
             {
-                dragCard = false;
+                drag = false;
             }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            image.raycastTarget = false;
+            startMousePosition = Input.mousePosition / CanvasManager.ScaleFactor - transform.localPosition;
             if (eventData.button == PointerEventData.InputButton.Left)
             {
-                dragCard = true;
+                drag = true;
             }
             else
             {
                 eventData.pointerDrag = null;
             }
         }
-
         public void OnDrag(PointerEventData eventData)
         {
-            if (dragCard && eventData.button == PointerEventData.InputButton.Left)
+            if (drag && eventData.button == PointerEventData.InputButton.Left)
             {
-                Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-                Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, GroundLayerMask);
-
-                Vector3 pos = hit.point;
-                dragAndDropObject.transform.localPosition = pos;
+                transform.localPosition
+                    = Input.mousePosition / CanvasManager.ScaleFactor - startMousePosition;
             }
         }
-
         public void OnEndDrag(PointerEventData eventData)
         {
-        
+            image.raycastTarget = true;
+            //Debug.Log(impulse + " " + impulse.x + " " + impulse.y);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

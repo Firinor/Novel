@@ -6,8 +6,12 @@ namespace Puzzle.Nand
     public class NandInformator : MonoBehaviour
     {
         [SerializeField, NullCheck]
-        private Sprite Signal_0;
+        private Sprite signal_0;
         [SerializeField, NullCheck]
-        private Sprite Signal_1;
+        private Sprite signal_1;
+        [SerializeField, NullCheck]
+        private GameObject nand;
+
+        public GameObject Nand { get => nand; }
     }
 }
