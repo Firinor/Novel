@@ -13,6 +13,9 @@ namespace Puzzle.Nand
 
         public List<InputOperator> inputs;
 
+        [HideInInspector]
+        public InputOperator pickedInput;
+
         private void Awake()
         {
             inputs = new List<InputOperator>();

@@ -1,3 +1,4 @@
+using FirUnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,17 +6,19 @@ using UnityEngine.EventSystems;
 
 namespace Puzzle.Nand
 {
-    public class InputOperator : MonoBehaviour, IPointerClickHandler, IPointerUpHandler
+    public class InputOperator : MonoBehaviour,
+        IPointerEnterHandler, IPointerExitHandler
     {
-        
-        public void OnPointerClick(PointerEventData eventData)
+        [SerializeField, NullCheck]
+        private LineFieldOperator fieldOperator;
+
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("OnPointerClick");
+            fieldOperator.pickedInput = this;
         }
-        
-        public void OnPointerUp(PointerEventData eventData)
+        public void OnPointerExit(PointerEventData eventData)
         {
-            Debug.Log("OnPointerUp");
+            fieldOperator.pickedInput = null;
         }
     }
 }

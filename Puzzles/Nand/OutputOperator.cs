@@ -1,5 +1,5 @@
+using FirMath;
 using FirUnityEditor;
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,7 +12,7 @@ namespace Puzzle.Nand
         [SerializeField, NullCheck]
         private LineRenderer line;
         [SerializeField, NullCheck]
-        private RectTransform fullScreenTransform;
+        private LineFieldOperator fieldOperator;
 
         private Vector2 mousePosition;
 
@@ -20,8 +20,7 @@ namespace Puzzle.Nand
         {
             line.positionCount = 2;
             line.SetPosition(0, Vector3.zero);
-            Vector2 rectPosition = Camera.main.WorldToScreenPoint(transform.position);
-            mousePosition = eventData.position - (eventData.position - rectPosition);
+            mousePosition = GameTransform.GetGlobalPoint(transform);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -31,7 +30,13 @@ namespace Puzzle.Nand
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            line.positionCount = 0;
+            if(fieldOperator.pickedInput == null)
+            {
+                line.positionCount = 0;
+                return;
+            }
+
+            line.SetPosition(1, GameTransform.GetGlobalPoint(fieldOperator.pickedInput.transform) - mousePosition);
         }
     }
 }
