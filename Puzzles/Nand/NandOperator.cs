@@ -1,3 +1,4 @@
+using FirUnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,28 +8,25 @@ namespace Puzzle.Nand
     public class NandOperator : MonoBehaviour,
         IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        [SerializeField]
+        [SerializeField, NullCheck]
         private Image image;
-        [SerializeField]
-        private Image imageInputA;
-        [SerializeField]
-        private Image imageInputB;
-        [SerializeField]
-        private Image imageOutput;
-        [SerializeField]
-        private GameObject dragAndDropObject;
-        [SerializeField]
+        [SerializeField, NullCheck]
+        private InputOperator signalInput;
+        [SerializeField, NullCheck]
+        private OutputOperator signalOutputA;
+        [SerializeField, NullCheck]
+        private OutputOperator signalOutputB;
+        [SerializeField, NullCheck]
         private NandManager nandManager;
+        [SerializeField, NullCheck]
+        private NandInformator nandInformator;
+        [SerializeField, NullCheck]
+        private LineFieldOperator fieldOperator;
 
         private bool drag = false;
 
         private Vector3 startMousePosition;
 
-        public void Start()
-        {
-            if (dragAndDropObject == null)
-                dragAndDropObject = gameObject;
-        }
         public void Update()
         {
             if (Input.GetMouseButtonDown(1) && drag)
@@ -40,6 +38,14 @@ namespace Puzzle.Nand
         public void SetNandManager(NandManager nandManager)
         {
             this.nandManager = nandManager;
+            nandInformator = nandManager.NandInformator;
+            signalInput.NandInformator = nandInformator;
+            signalOutputA.NandInformator = nandInformator;
+            signalOutputB.NandInformator = nandInformator;
+            fieldOperator = nandManager.LineFieldOperator;
+            signalInput.LineFieldOperator = fieldOperator;
+            signalOutputA.LineFieldOperator = fieldOperator;
+            signalOutputB.LineFieldOperator = fieldOperator;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -70,7 +76,7 @@ namespace Puzzle.Nand
             {
                 Destroy(gameObject);
             }
-            else if(!nandManager.PointerOnField)
+            else if (!nandManager.PointerOnField)
             {
                 Destroy(gameObject);
             }
@@ -78,9 +84,9 @@ namespace Puzzle.Nand
         private void SetRayCastActivity(bool v)
         {
             image.raycastTarget = v;
-            imageInputA.raycastTarget = v;
-            imageInputB.raycastTarget = v;
-            imageOutput.raycastTarget = v;
+            signalInput.SetRaycastTarget(v);
+            signalOutputA.SetRaycastTarget(v);
+            signalOutputB.SetRaycastTarget(v);
         }
     }
 }

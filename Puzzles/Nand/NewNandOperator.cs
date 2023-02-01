@@ -26,9 +26,7 @@ namespace Puzzle.Nand
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
-                GameObject nand = nandManager.CreateNewNand();
-                nandOperator = nand.GetComponent<NandOperator>();
-                nandOperator.SetNandManager(nandManager);
+                nandOperator = nandManager.CreateNewNand();
                 nandOperator.OnBeginDrag(eventData);
             }
         }
@@ -42,12 +40,12 @@ namespace Puzzle.Nand
         }
         public void OnPointerEnter(PointerEventData eventData)
         {
-            transform.localScale = Vector3.one * 1.1f;
+            transform.localScale = Vector3.one;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one * 0.9f;
         }
     }
 }

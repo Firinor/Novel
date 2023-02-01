@@ -7,6 +7,10 @@ namespace Puzzle.Nand
     {
         [SerializeField, NullCheck]
         private NandInformator nandInformator;
+        public NandInformator NandInformator { get => nandInformator; }
+        [SerializeField, NullCheck]
+        private LineFieldOperator fieldOperator;
+        public LineFieldOperator LineFieldOperator { get => fieldOperator; }
         [SerializeField, NullCheck]
         private RectTransform nandParent;
         [SerializeField, NullCheck]
@@ -15,11 +19,13 @@ namespace Puzzle.Nand
         [HideInInspector]
         public bool PointerOnField;
 
-        public GameObject CreateNewNand()
+        public NandOperator CreateNewNand()
         {
             var nand = Instantiate(nandInformator.Nand, newNandTransform);
+            NandOperator nandOperator = nand.GetComponent<NandOperator>();
+            nandOperator.SetNandManager(this);
             nand.transform.parent = nandParent;
-            return nand;
+            return nandOperator;
         }
     }
 }
