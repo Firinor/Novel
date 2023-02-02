@@ -11,11 +11,11 @@ namespace Puzzle.Nand
         [SerializeField, NullCheck]
         private Image image;
         [SerializeField, NullCheck]
-        private InputOperator signalInput;
+        private OutputOperator signalOutput;
         [SerializeField, NullCheck]
-        private OutputOperator signalOutputA;
+        private InputOperator signalInputA;
         [SerializeField, NullCheck]
-        private OutputOperator signalOutputB;
+        private InputOperator signalInputB;
         [SerializeField, NullCheck]
         private NandManager nandManager;
         [SerializeField, NullCheck]
@@ -24,6 +24,7 @@ namespace Puzzle.Nand
         private LineFieldOperator fieldOperator;
 
         private bool drag = false;
+        private bool loop—heck = false;
 
         private Vector3 startMousePosition;
 
@@ -39,13 +40,13 @@ namespace Puzzle.Nand
         {
             this.nandManager = nandManager;
             nandInformator = nandManager.NandInformator;
-            signalInput.NandInformator = nandInformator;
-            signalOutputA.NandInformator = nandInformator;
-            signalOutputB.NandInformator = nandInformator;
+            signalOutput.NandInformator = nandInformator;
+            signalInputA.NandInformator = nandInformator;
+            signalInputB.NandInformator = nandInformator;
             fieldOperator = nandManager.LineFieldOperator;
-            signalInput.LineFieldOperator = fieldOperator;
-            signalOutputA.LineFieldOperator = fieldOperator;
-            signalOutputB.LineFieldOperator = fieldOperator;
+            signalOutput.LineFieldOperator = fieldOperator;
+            signalInputA.LineFieldOperator = fieldOperator;
+            signalInputB.LineFieldOperator = fieldOperator;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -68,6 +69,10 @@ namespace Puzzle.Nand
                 transform.localPosition
                     = Input.mousePosition / CanvasManager.ScaleFactor - startMousePosition;
             }
+
+            signalInputA.SetEndPoint();
+            signalInputB.SetEndPoint();
+            signalOutput.SetEndPoint();
         }
         public void OnEndDrag(PointerEventData eventData)
         {
@@ -78,15 +83,28 @@ namespace Puzzle.Nand
             }
             else if (!nandManager.PointerOnField)
             {
+                signalInputA.ResetLine();
+                signalInputB.ResetLine();
+                signalOutput.ResetLine();
                 Destroy(gameObject);
             }
         }
         private void SetRayCastActivity(bool v)
         {
             image.raycastTarget = v;
-            signalInput.SetRaycastTarget(v);
-            signalOutputA.SetRaycastTarget(v);
-            signalOutputB.SetRaycastTarget(v);
+            signalOutput.SetRaycastTarget(v);
+            signalInputA.SetRaycastTarget(v);
+            signalInputB.SetRaycastTarget(v);
+        }
+
+        public void SetSignal()
+        {
+            if (loop—heck)
+            {
+                return;
+            }
+
+            signalOutput.Signal = !(signalInputA.GetSignal() && signalInputB.GetSignal());
         }
     }
 }

@@ -1,69 +1,106 @@
+using FirMath;
 using FirUnityEditor;
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Puzzle.Nand
 {
-    [RequireComponent(typeof(Image))]
+    [RequireComponent(typeof(LineRenderer))]
     public class InputOperator : MonoBehaviour,
-        IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        [SerializeField]
-        private bool interactive;
-        [SerializeField]
-        private bool signal;
-        public bool Signal { get { return signal; } }
-        [Space(15)]
         [SerializeField, NullCheck]
         private RectTransform rectTransform;
+        [SerializeField, NullCheck]
+        private LineRenderer line;
         [SerializeField, NullCheck]
         private LineFieldOperator fieldOperator;
         public LineFieldOperator LineFieldOperator { set { fieldOperator = value; } }
         [SerializeField, NullCheck]
         private NandInformator nandInformator;
         public NandInformator NandInformator { set { nandInformator = value; } }
-        
         [SerializeField, NullCheck]
         private Image image;
 
-        public event Action OnChangeValue;
+        private Vector2 basePosition;
 
-        void Awake()
+        private OutputOperator pickedOutput;
+        public bool GetSignal()
         {
-            signal = false;
-            if (image == null)
+            if(pickedOutput == null)
+                return false;
+            return pickedOutput.Signal;
+        }
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            ResetLine();
+            line.positionCount = 2;
+            Vector3 zeroPoint = new Vector3(0, -rectTransform.rect.height / 2, 0);
+            line.SetPosition(0, zeroPoint);
+            LineColorBySignal();
+            basePosition = GameTransform.GetGlobalPoint(transform);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            line.SetPosition(1, ((Vector2)Input.mousePosition - basePosition) / CanvasManager.ScaleFactor);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (fieldOperator.pickedOutput == null)
             {
-                image = GetComponent<Image>();
+                ResetLine();
+                return;
             }
+
+            pickedOutput = fieldOperator.pickedOutput;
+            SetEndPoint();
+            LineColorBySignal();
+            pickedOutput.OnChangeValue += LineColorBySignal;
+            pickedOutput.OnMove += SetEndPoint;
+            pickedOutput.OnRemove += ResetLine;
         }
 
-        private void RefreshSprite()
+        public void ResetLine()
         {
-            image.sprite = nandInformator.GetSignalSprite(signal);
+            line.positionCount = 0;
+            if (pickedOutput != null)
+            {
+                pickedOutput.OnChangeValue -= LineColorBySignal;
+                pickedOutput.OnMove -= SetEndPoint;
+                pickedOutput.OnRemove -= ResetLine;
+            }
+            pickedOutput = null;
+            LineColorBySignal();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void SetEndPoint()
         {
-            if (interactive)
-                SwitchSignal();
+            if (pickedOutput == null)
+            {
+                return;
+            }
+            line.SetPosition(1, (((Vector2)GameTransform.GetGlobalPoint(pickedOutput.transform)
+                - (Vector2)GameTransform.GetGlobalPoint(transform))
+                / CanvasManager.ScaleFactor) + (Vector2)pickedOutput.GetConnectPoint());
         }
 
-        private void SwitchSignal()
+        private void LineColorBySignal()
         {
-            signal = !signal;
+            Color color;
+            if (pickedOutput != null && pickedOutput.Signal)
+            {
+                color = nandInformator.OnColor;
+            }
+            else
+            {
+                color = nandInformator.OffColor;
+            }
+            line.startColor = color;
+            line.endColor = color;
             RefreshSprite();
-            OnChangeValue?.Invoke();
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            fieldOperator.pickedInput = this;
-        }
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            fieldOperator.pickedInput = null;
         }
 
         public void SetRaycastTarget(bool v)
@@ -71,9 +108,14 @@ namespace Puzzle.Nand
             image.raycastTarget = v;
         }
 
-        public Vector3 GetConnectPoint()
+        private void RefreshSprite()
         {
-            return new Vector3(0, rectTransform.rect.height / 2, 0);
+            bool signal = false;
+            if (pickedOutput != null)
+            {
+                signal = pickedOutput.Signal;
+            }
+            image.sprite = nandInformator.GetSignalSprite(signal);
         }
     }
 }

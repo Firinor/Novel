@@ -11,22 +11,22 @@ namespace Puzzle.Nand
         [SerializeField, NullCheck]
         private NandManager nandManager;
 
-        public List<InputOperator> inputs;
+        public List<OutputOperator> inputs;
 
         [HideInInspector]
-        public InputOperator pickedInput;
+        public OutputOperator pickedOutput;
 
         private void Awake()
         {
-            inputs = new List<InputOperator>();
-            var foundInputs = gameObject.GetComponentsInChildren<InputOperator>();
+            inputs = new List<OutputOperator>();
+            var foundInputs = gameObject.GetComponentsInChildren<OutputOperator>();
             foreach (var input in foundInputs)
             {
                 inputs.Add(input);
             }
         }
 
-        public void Addinput(InputOperator input)
+        public void Addinput(OutputOperator input)
         {
             inputs.Add(input);
         }
