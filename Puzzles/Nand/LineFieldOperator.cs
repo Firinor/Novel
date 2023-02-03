@@ -13,7 +13,6 @@ namespace Puzzle.Nand
         private NandManager nandManager;
 
         public List<OutputOperator> outputs;
-        public List<NandOperator> nands;
 
         [HideInInspector]
         public OutputOperator pickedOutput;
@@ -21,7 +20,6 @@ namespace Puzzle.Nand
         private void Awake()
         {
             outputs = new List<OutputOperator>();
-            nands = new List<NandOperator>();
             var foundInputs = gameObject.GetComponentsInChildren<OutputOperator>();
             foreach (var input in foundInputs)
             {
@@ -34,11 +32,6 @@ namespace Puzzle.Nand
             outputs.Add(input);
         }
 
-        public void AddNand(NandOperator nand)
-        {
-            nands.Add(nand);
-        }
-
         public void OnPointerEnter(PointerEventData eventData)
         {
             //Debug.Log("RecipeOperator pointer enter");
@@ -49,18 +42,6 @@ namespace Puzzle.Nand
         {
             //Debug.Log("RecipeOperator pointer exit");
             nandManager.PointerOnField = false;
-        }
-
-        public void ResetAllNand()
-        {
-            if (nands == null)
-                return;
-
-            nands = ArrayUtilities.ÑleanArrayFromNull(nands);
-            foreach (var nand in nands)
-            {
-                nand.ResetSignal();
-            }
         }
     }
 }

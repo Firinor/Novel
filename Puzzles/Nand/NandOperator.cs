@@ -27,6 +27,8 @@ namespace Puzzle.Nand
         private LineFieldOperator fieldOperator;
 
         private bool drag = false;
+        private bool? inSignal_A = true;
+        private bool? inSignal_B = true;
         private bool? outSignal = true;
 
         private Vector3 startMousePosition;
@@ -110,45 +112,34 @@ namespace Puzzle.Nand
 
         public void CalculateSignal()
         {
-            bool? signalA = signalInputA.GetSignal();
-            bool? signalB = signalInputB.GetSignal();
+            bool? newSignal_A = signalInputA.GetSignal();
+            bool? newSignal_B = signalInputB.GetSignal();
 
             bool? newOutSignal;
-            if (signalA == null || signalB == null)
+            if (newSignal_A == null || newSignal_B == null)
                 newOutSignal = null;
             else
-                newOutSignal = !(signalA.Value && signalB.Value);
+                newOutSignal = !(newSignal_A.Value && newSignal_B.Value);
 
             if(newOutSignal != outSignal)
             {
-                if (outSignal == null && _state != NandState.Refresh)
+                if (_state == NandState.Loop && outSignal == null)
                 {
+                    _state = NandState.Normal;
                     return;
                 }
                 if (_state == NandState.Loop)
                 {
                     newOutSignal = null;
                 }
-                //recursion begin
-                if(_state == NandState.Refresh)
-                {
-                    signalOutput.ResetAction();
-                }
-
                 _state = NandState.Loop;
 
                 outSignal = newOutSignal;
+                //recursion begin
                 signalOutput.SetSignal(newOutSignal);
                 //recursion end
             }
             _state = NandState.Normal;
-        }
-
-        public void ResetSignal()
-        {
-            _state = NandState.Refresh;
-            outSignal = true;
-            signalOutput.SetSignal(outSignal);
         }
     }
 }

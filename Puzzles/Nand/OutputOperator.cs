@@ -42,7 +42,6 @@ namespace Puzzle.Nand
         public event Action OnSignalPhase2;
         public event Action OnMoveAction;
         public event Action OnRemoveAction;
-        public event Action OnResetAction;
 
         void Awake()
         {
@@ -65,18 +64,12 @@ namespace Puzzle.Nand
             if(nandInformator != null)
                 image.sprite = nandInformator.GetSignalSprite(signal);
         }
-        public void ResetAction()
-        {
-            OnResetAction?.Invoke();
-        }
-
 
         #region Interfaces
         public void OnPointerClick(PointerEventData eventData)
         {
             if (interactive && signal != null)
             {
-                ResetAction();
                 SetSignal(!signal.Value);
             }
         }

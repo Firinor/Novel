@@ -40,10 +40,6 @@ namespace Puzzle.Nand
         }
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (pickedOutput != null)
-            {
-                pickedOutput.ResetAction();
-            }
             ResetLine();
             line.positionCount = 2;
             Vector3 zeroPoint = new Vector3(0, -rectTransform.rect.height / 2, 0);
@@ -73,7 +69,6 @@ namespace Puzzle.Nand
             if(nandOperator != null)
             {
                 pickedOutput.OnSignalPhase2 += nandOperator.CalculateSignal;
-                pickedOutput.OnResetAction += nandOperator.ResetSignal;
             }
 
             OnMoveAction();
@@ -91,7 +86,6 @@ namespace Puzzle.Nand
                 if (nandOperator != null)
                 {
                     pickedOutput.OnSignalPhase2 -= nandOperator.CalculateSignal;
-                    pickedOutput.OnResetAction -= nandOperator.ResetSignal;
                 }
             }
             pickedOutput = null;
