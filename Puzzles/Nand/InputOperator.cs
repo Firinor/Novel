@@ -20,13 +20,19 @@ namespace Puzzle.Nand
         [SerializeField, NullCheck]
         private NandInformator nandInformator;
         public NandInformator NandInformator { set { nandInformator = value; } }
+
+        [SerializeField, NullCheck]
+        private NandOperator nandOperator;
+        public NandOperator NandOperator { set { nandOperator = value; } }
+
         [SerializeField, NullCheck]
         private Image image;
 
         private Vector2 basePosition;
 
         private OutputOperator pickedOutput;
-        public bool GetSignal()
+
+        public bool? GetSignal()
         {
             if(pickedOutput == null)
                 return false;
@@ -34,12 +40,17 @@ namespace Puzzle.Nand
         }
         public void OnBeginDrag(PointerEventData eventData)
         {
+            if (pickedOutput != null)
+            {
+                pickedOutput.ResetAction();
+            }
             ResetLine();
             line.positionCount = 2;
             Vector3 zeroPoint = new Vector3(0, -rectTransform.rect.height / 2, 0);
             line.SetPosition(0, zeroPoint);
-            LineColorBySignal();
+            //RefreshLineColor();
             basePosition = GameTransform.GetGlobalPoint(transform);
+            //fieldOperator.ResetAllNand();
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -56,11 +67,17 @@ namespace Puzzle.Nand
             }
 
             pickedOutput = fieldOperator.pickedOutput;
-            SetEndPoint();
-            LineColorBySignal();
-            pickedOutput.OnChangeValue += LineColorBySignal;
-            pickedOutput.OnMove += SetEndPoint;
-            pickedOutput.OnRemove += ResetLine;
+            pickedOutput.OnSignal += Refresh;
+            pickedOutput.OnMoveAction += OnMoveAction;
+            pickedOutput.OnRemoveAction += ResetLine;
+            if(nandOperator != null)
+            {
+                pickedOutput.OnSignalPhase2 += nandOperator.CalculateSignal;
+                pickedOutput.OnResetAction += nandOperator.ResetSignal;
+            }
+
+            OnMoveAction();
+            Refresh();
         }
 
         public void ResetLine()
@@ -68,31 +85,53 @@ namespace Puzzle.Nand
             line.positionCount = 0;
             if (pickedOutput != null)
             {
-                pickedOutput.OnChangeValue -= LineColorBySignal;
-                pickedOutput.OnMove -= SetEndPoint;
-                pickedOutput.OnRemove -= ResetLine;
+                pickedOutput.OnSignal -= Refresh;
+                pickedOutput.OnMoveAction -= OnMoveAction;
+                pickedOutput.OnRemoveAction -= ResetLine;
+                if (nandOperator != null)
+                {
+                    pickedOutput.OnSignalPhase2 -= nandOperator.CalculateSignal;
+                    pickedOutput.OnResetAction -= nandOperator.ResetSignal;
+                }
             }
             pickedOutput = null;
-            LineColorBySignal();
+            Refresh();
         }
 
-        public void SetEndPoint()
+        public void OnMoveAction()
         {
             if (pickedOutput == null)
             {
                 return;
             }
-            line.SetPosition(1, (((Vector2)GameTransform.GetGlobalPoint(pickedOutput.transform)
-                - (Vector2)GameTransform.GetGlobalPoint(transform))
-                / CanvasManager.ScaleFactor) + (Vector2)pickedOutput.GetConnectPoint());
+
+            Vector2 outputTransformPoint = GameTransform.GetGlobalPoint(pickedOutput.transform);
+            Vector2 thisTransformPoint = GameTransform.GetGlobalPoint(transform);
+            Vector2 connectPoint = pickedOutput.ConnectPoint;
+            line.SetPosition(1, 
+                ((outputTransformPoint - thisTransformPoint)/ CanvasManager.ScaleFactor) + connectPoint
+                );
         }
 
-        private void LineColorBySignal()
+        private void Refresh()
+        {
+            if(nandOperator != null)
+                nandOperator.CalculateSignal();
+
+            RefreshLineColor();
+            RefreshSprite();
+        }
+        private void RefreshLineColor()
         {
             Color color;
-            if (pickedOutput != null && pickedOutput.Signal)
+            if (pickedOutput != null)
             {
-                color = nandInformator.OnColor;
+                if (pickedOutput.Signal == null)
+                    color = nandInformator.NullColor;
+                else if (pickedOutput.Signal.Value)
+                    color = nandInformator.OnColor;
+                else
+                    color = nandInformator.OffColor;
             }
             else
             {
@@ -100,7 +139,6 @@ namespace Puzzle.Nand
             }
             line.startColor = color;
             line.endColor = color;
-            RefreshSprite();
         }
 
         public void SetRaycastTarget(bool v)
@@ -110,12 +148,12 @@ namespace Puzzle.Nand
 
         private void RefreshSprite()
         {
-            bool signal = false;
+            bool? Signal = false;
             if (pickedOutput != null)
             {
-                signal = pickedOutput.Signal;
+                Signal = pickedOutput.Signal;
             }
-            image.sprite = nandInformator.GetSignalSprite(signal);
+            image.sprite = nandInformator.GetSignalSprite(Signal);
         }
     }
 }

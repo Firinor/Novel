@@ -1,4 +1,5 @@
 using FirUnityEditor;
+using FirUtilities;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,24 +12,31 @@ namespace Puzzle.Nand
         [SerializeField, NullCheck]
         private NandManager nandManager;
 
-        public List<OutputOperator> inputs;
+        public List<OutputOperator> outputs;
+        public List<NandOperator> nands;
 
         [HideInInspector]
         public OutputOperator pickedOutput;
 
         private void Awake()
         {
-            inputs = new List<OutputOperator>();
+            outputs = new List<OutputOperator>();
+            nands = new List<NandOperator>();
             var foundInputs = gameObject.GetComponentsInChildren<OutputOperator>();
             foreach (var input in foundInputs)
             {
-                inputs.Add(input);
+                outputs.Add(input);
             }
         }
 
         public void Addinput(OutputOperator input)
         {
-            inputs.Add(input);
+            outputs.Add(input);
+        }
+
+        public void AddNand(NandOperator nand)
+        {
+            nands.Add(nand);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -41,6 +49,18 @@ namespace Puzzle.Nand
         {
             //Debug.Log("RecipeOperator pointer exit");
             nandManager.PointerOnField = false;
+        }
+
+        public void ResetAllNand()
+        {
+            if (nands == null)
+                return;
+
+            nands = ArrayUtilities.ÑleanArrayFromNull(nands);
+            foreach (var nand in nands)
+            {
+                nand.ResetSignal();
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Puzzle.Nand
         {
             var nand = Instantiate(nandInformator.Nand, newNandTransform);
             NandOperator nandOperator = nand.GetComponent<NandOperator>();
+            //fieldOperator.AddNand(nandOperator);
             nandOperator.SetNandManager(this);
             nand.transform.SetParent(nandParent);
             return nandOperator;

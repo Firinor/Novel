@@ -13,20 +13,18 @@ namespace Puzzle.Nand
         [SerializeField]
         private bool interactive;
         [SerializeField]
-        private bool signal;
-        public bool Signal
+        private bool? signal = false;
+        public bool? Signal
         {
             get
             {
                 return signal;
             }
-            set
-            {
-                signal = value;
-                RefreshSprite();
-                OnChangeValue?.Invoke();
-            }
         }
+
+        private Vector3 connectPoint;
+        public Vector3 ConnectPoint { get { return connectPoint; } }
+
         [Space(15)]
         [SerializeField, NullCheck]
         private RectTransform rectTransform;
@@ -40,35 +38,48 @@ namespace Puzzle.Nand
         [SerializeField, NullCheck]
         private Image image;
 
-        public event Action OnChangeValue;
-        public event Action OnMove;
-        public event Action OnRemove;
+        public event Action OnSignal;
+        public event Action OnSignalPhase2;
+        public event Action OnMoveAction;
+        public event Action OnRemoveAction;
+        public event Action OnResetAction;
 
         void Awake()
         {
-            signal = false;
             if (image == null)
             {
                 image = GetComponent<Image>();
             }
-        }
+            connectPoint = new Vector3(0, rectTransform.rect.height / 2, 0);
+    }
 
+        public void SetSignal(bool? value)
+        {
+                signal = value;
+                RefreshSprite();
+                OnSignal?.Invoke();
+                OnSignalPhase2?.Invoke();
+        }
         private void RefreshSprite()
         {
-            image.sprite = nandInformator.GetSignalSprite(signal);
+            if(nandInformator != null)
+                image.sprite = nandInformator.GetSignalSprite(signal);
+        }
+        public void ResetAction()
+        {
+            OnResetAction?.Invoke();
         }
 
+
+        #region Interfaces
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (interactive)
-                SwitchSignal();
+            if (interactive && signal != null)
+            {
+                ResetAction();
+                SetSignal(!signal.Value);
+            }
         }
-
-        private void SwitchSignal()
-        {
-            Signal = !signal;
-        }
-
         public void OnPointerEnter(PointerEventData eventData)
         {
             fieldOperator.pickedOutput = this;
@@ -77,25 +88,19 @@ namespace Puzzle.Nand
         {
             fieldOperator.pickedOutput = null;
         }
+        #endregion
 
         public void SetRaycastTarget(bool v)
         {
             image.raycastTarget = v;
         }
-
-        public Vector3 GetConnectPoint()
+        public void OnMove()
         {
-            return new Vector3(0, rectTransform.rect.height / 2, 0);
+            OnMoveAction?.Invoke();
         }
-
-        public void SetEndPoint()
+        public void OnRemove()
         {
-            OnMove?.Invoke();
-        }
-
-        public void ResetLine()
-        {
-            OnRemove?.Invoke();
+            OnRemoveAction?.Invoke();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Puzzle.Nand
         public Sprite GetSignalSprite(bool? signal = null)
         {
             if (signal == null)
-                signal = nullSprite;
+                return nullSprite;
 
             return signal.Value ? onSprite : offSprite;
         }

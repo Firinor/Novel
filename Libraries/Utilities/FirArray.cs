@@ -59,6 +59,33 @@ namespace FirUtilities
             }
             return temp.ToArray();
         }
+        public static T[] СleanArrayFromNull<T>(T[] mainArray)
+        {
+            if (mainArray == null)
+                throw new ArgumentNullException("The array is null!");
+
+            List<T> temp = new List<T>();
+            foreach (T s in mainArray)
+            {
+                if (s != null)
+                    temp.Add(s);
+            }
+            return temp.ToArray();
+        }
+        public static List<T> СleanArrayFromNull<T>(List<T> mainArray)
+        {
+            if(mainArray == null)
+                throw new ArgumentNullException("The array is null!");
+
+            List<T> temp = new List<T>();
+            foreach (T s in mainArray)
+            {
+                if (s != null)
+                    temp.Add(s);
+            }
+            return temp;
+        }
+
         public static string[] GetStringStraws(string fullText, params string[] spliters)
         {
             string aRareSequenceOfCharacters = "&&&&%&&&&;@$№&&";
