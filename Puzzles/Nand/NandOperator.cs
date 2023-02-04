@@ -27,8 +27,6 @@ namespace Puzzle.Nand
         private LineFieldOperator fieldOperator;
 
         private bool drag = false;
-        private bool? inSignal_A = true;
-        private bool? inSignal_B = true;
         private bool? outSignal = true;
 
         private Vector3 startMousePosition;
