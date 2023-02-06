@@ -6,15 +6,6 @@ namespace Puzzle.DNA
 {
     public class Beast : MonoBehaviour
     {
-        #region enums
-        enum Tail { Short, Medium, Long }
-        enum Ears { Pointed, Round }
-        enum BodyShape { Slim, Stocky }
-        enum Color { Black, White, Grey, Orange }
-        enum EyeColor { Green, Blue, Brown }
-        #endregion
-
-
         [SerializeField]
         private DNAInformator informator;
 
