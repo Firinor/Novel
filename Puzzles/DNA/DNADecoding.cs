@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Puzzle.DNA
 {
-    public struct DNADecoding
+    public struct DNADecoder
     {
         public int nucleotideIndex;
         public Nucleotide nucleotide;
