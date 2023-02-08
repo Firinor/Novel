@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
     public static IScenePanel ScenePanel { get; set; }
     private AsyncOperation operation;
+
+    [SerializeField]
+    private SceneAsset[] LoadingQueue;
 
     [SerializeField]
     private GameObject optionsPanel;

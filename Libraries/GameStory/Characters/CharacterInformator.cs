@@ -15,10 +15,12 @@ public enum CharacterEmotion {
     Uncertainty,//Неопределенность
     Disgust,//Отвращение
     Sullenly,//Угрюмость
-    Аngry,//Злость
+    Angry,//Злость
+    Irritation,//Раздажение
     Pride,//Гордость
     Tears,//Слёзы
-    Sad //Грусть
+    Sad, //Грусть
+    Happiness // Счастье
 }
 
 [CreateAssetMenu(menuName = "Character/Character info", fileName = "CharInfo")]
