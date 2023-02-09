@@ -35,7 +35,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
                 baner.SetActive(true);
                 break;
             case MenuMarks.puzzles:
-                SceneManager.LoadScene("PuzzleRoom");
+                //SceneManager.LoadScene("PuzzleRoom");
                 break;
             case MenuMarks.credits:
                 credits.SetActive(true);

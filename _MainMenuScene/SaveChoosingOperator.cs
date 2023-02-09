@@ -40,7 +40,7 @@ public class SaveChoosingOperator : MonoBehaviour
         }
 
         //MainMenuManager.SwitchPanels(MenuMarks.baner);
-        SceneManager.LoadScene("ReadingRoom");
+        //SceneManager.LoadScene("ReadingRoom");
     }
 
     private void DisableAllJars()

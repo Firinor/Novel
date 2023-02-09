@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,6 +39,27 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         }
 
         CheckingTheScene();
+
+        LoadAllScenes();
+    }
+
+    private async void LoadAllScenes()
+    {
+        for(int i = 0; i< LoadingQueue.Length; i++)
+        {
+            await LoadingScene(LoadingQueue[i]);
+        }
+    }
+
+    private async Task LoadingScene(SceneAsset sceneAsset)
+    {
+        Debug.Log($"Start load scene {sceneAsset.name}: at {DateTime.Now}");
+        instance.operation = UnitySceneManager.LoadSceneAsync(sceneAsset.name);
+        while (!instance.operation.isDone)
+        {
+            await Task.Yield();
+        }
+        Debug.Log($"End load scene {sceneAsset.name}: at {DateTime.Now}");
     }
 
     public static int GetScene()
@@ -107,7 +129,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         int SceneIndex = GetScene();
         if (SceneIndex == 1 || SceneIndex == 2)//"ReadingRoom" or "PuzzleRoom"
         {
-            LoadScene("MainMenu");
+            //LoadScene("MainMenu");
         }
         else if (SceneIndex == 0)//"MainMenu"
         {
