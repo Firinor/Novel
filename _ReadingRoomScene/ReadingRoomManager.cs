@@ -34,7 +34,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     private static BossBattleManager puzzleBossBattleOperator;
 
     private ReadingRoomInformator readingRoomInformator;
-    private CanvasManager canvasManager;
+    //private CanvasManager canvasManager;
 
     public void SetAllInstance()
     {
@@ -44,8 +44,8 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         readingRoomInformator = GetComponent<ReadingRoomInformator>();
         readingRoomInformator.SingletoneCheck(readingRoomInformator);//Singltone
 
-        canvasManager = GetComponent<CanvasManager>();
-        canvasManager.SingletoneCheck(canvasManager);
+        //canvasManager = GetComponent<CanvasManager>();
+        //canvasManager.SingletoneCheck(canvasManager);
 
         //map = ReadingRoomInformator.GetMap();
         dialog = ReadingRoomInformator.GetDialog();

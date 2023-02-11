@@ -55,8 +55,11 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     {
         Debug.Log($"Start load scene {sceneAsset.name}: at {DateTime.Now}");
         instance.operation = UnitySceneManager.LoadSceneAsync(sceneAsset.name);
+        int i = 0;
         while (!instance.operation.isDone)
         {
+            i++;
+            Debug.Log(i);
             await Task.Yield();
         }
         Debug.Log($"End load scene {sceneAsset.name}: at {DateTime.Now}");

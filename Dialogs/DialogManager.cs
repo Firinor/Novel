@@ -23,6 +23,7 @@ public class DialogManager : SinglBehaviour<DialogManager>
         sceneManager = GetComponent<IReadingSceneManager>();
 
         cancellationTokenSource = new CancellationTokenSource();
+        DontDestroyOnLoad(this);
     }
 
     public static void ActivateDialog(RectTransform dialogButtonRectTransform)

@@ -18,12 +18,16 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
         audioClips = SoundInformator.GetClips(audioType);
         if (audioType == AudioType.Background)
         {
-            GetSource().clip = audioClips[0];
-            GetSource().Play();
+            audioSource = GetAudioSource();
+            if (audioSource != null && audioSource.enabled)
+            {
+                audioSource.clip = audioClips[0];
+                audioSource.Play();
+            }
         }
     }
 
-    private AudioSource GetSource()
+    private AudioSource GetAudioSource()
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
@@ -49,8 +53,8 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
                 break;
             case AudioType.Background:
                 audioClips = clips;
-                GetSource().clip = audioClips[0];
-                GetSource().Play();
+                audioSource.clip = audioClips[0];
+                audioSource.Play();
                 break;
             default:
                 new Exception("Unrealized audio type!");
@@ -111,7 +115,7 @@ public class AudioSourceOperator : MonoBehaviour, IPointerEnterHandler, IPointer
             if (global)
                 SoundInformator.GlobalUIAudioSource.PlayOneShot(audioClips[SoundNumber]);
             else
-                GetSource().PlayOneShot(audioClips[SoundNumber]);
+                audioSource.PlayOneShot(audioClips[SoundNumber]);
     }
 
     private bool CheckClip(int SoundNumber)
