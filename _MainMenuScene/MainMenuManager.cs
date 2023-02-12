@@ -8,8 +8,6 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
     private static GameObject baner;
     private static GameObject credits;
     private static GameObject saves;
-    [SerializeField]
-    private string nextSceneName;
 
     private MainMenuInformator mainMenuInformator;
 

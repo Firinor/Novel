@@ -63,6 +63,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
 	private float lettersDelay;
     //Delay after full line output
     private int fullLineDelay = 7;
+    private int secondsMultipler = 1000;
     [SerializeField, NullCheck]
     private Image nextArrow;
 
@@ -190,7 +191,7 @@ public class DialogOperator : SinglBehaviour<DialogOperator>
                     i = 0;
                     PrintableText = TextByLanguage(text, textComponentCapacity);
                 }
-                await Task.Delay((int)(lettersDelay * 1000));
+                await Task.Delay((int)(lettersDelay * secondsMultipler));
             }
             textComponent.text = PrintableText[textPart];
             nextArrow.enabled = true;

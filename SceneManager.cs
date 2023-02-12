@@ -3,8 +3,8 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
+
 
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
@@ -12,7 +12,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     private AsyncOperation operation;
 
     [SerializeField]
-    private SceneAsset[] LoadingQueue;
+    private SceneMarks[] LoadingQueue;
 
     [SerializeField]
     private GameObject optionsPanel;
@@ -38,6 +38,8 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
             }
         }
 
+        MemoryManager.InitializeSceneDictionary();
+
         CheckingTheScene();
 
         LoadAllScenes();
@@ -47,22 +49,8 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     {
         for(int i = 0; i< LoadingQueue.Length; i++)
         {
-            await LoadingScene(LoadingQueue[i]);
+            await MemoryManager.LoadScene(LoadingQueue[i]);
         }
-    }
-
-    private async Task LoadingScene(SceneAsset sceneAsset)
-    {
-        Debug.Log($"Start load scene {sceneAsset.name}: at {DateTime.Now}");
-        instance.operation = UnitySceneManager.LoadSceneAsync(sceneAsset.name);
-        int i = 0;
-        while (!instance.operation.isDone)
-        {
-            i++;
-            Debug.Log(i);
-            await Task.Yield();
-        }
-        Debug.Log($"End load scene {sceneAsset.name}: at {DateTime.Now}");
     }
 
     public static int GetScene()
