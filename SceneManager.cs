@@ -24,7 +24,8 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     void Awake()
     {
-        SingletoneCheck(this);
+        if (!SingletoneCheck(this))
+            return;
 
         optionsOperator = optionsPanel.GetComponent<OptionsOperator>();
         //optionsOperator is disabled. Awake & Start procedures are not suitable
@@ -42,15 +43,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
         CheckingTheScene();
 
-        LoadAllScenes();
-    }
-
-    private async void LoadAllScenes()
-    {
-        for(int i = 0; i< LoadingQueue.Length; i++)
-        {
-            await MemoryManager.LoadScene(LoadingQueue[i]);
-        }
+        MemoryManager.LoadScenes(LoadingQueue);
     }
 
     public static int GetScene()

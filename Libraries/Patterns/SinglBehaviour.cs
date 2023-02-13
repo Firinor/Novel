@@ -7,7 +7,7 @@ public class SinglBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 
     public bool SingletoneCheck(T instance, bool destroyIt = true)
     {
-        bool isSingle = false;
+        bool isSingle = true;
 
         if (SinglBehaviour<T>.instance != null)
         {
@@ -15,7 +15,7 @@ public class SinglBehaviour<T> : MonoBehaviour where T : MonoBehaviour
             {
                 if (SinglBehaviour<T>.instance != instance)
                 {
-                    isSingle = true;
+                    isSingle = false;
                     //Debug.Log($"{SinglBehaviour<T>.instance.GetType()}");
                     //Debug.Log($"{SinglBehaviour<T>.instance.GetHashCode()}");
                     //Debug.Log($"{instance.GetHashCode()}");

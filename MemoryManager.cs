@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public enum SceneMarks
@@ -20,7 +21,7 @@ public static class MemoryManager
     {
         scenesInGame = new Dictionary<SceneMarks, bool>();
         
-        for(int i = 0; i < UnitySceneManager.sceneCount; i++)
+        for(int i = 0; i < UnitySceneManager.sceneCountInBuildSettings; i++)
         {
             scenesInGame.Add((SceneMarks)i, false);
         }
@@ -50,5 +51,13 @@ public static class MemoryManager
         scenesInGame[mark] = true;
         operation = null;
         Debug.Log($"End load scene {mark}: at {DateTime.Now}");
+    }
+
+    public static async void LoadScenes(SceneMarks[] loadingQueue)
+    {
+        for(int i = 0; i < loadingQueue.Length;i++)
+        {
+            await LoadScene(loadingQueue[i]);
+        }
     }
 }
