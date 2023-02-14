@@ -1,3 +1,4 @@
+using FirUnityEditor;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
@@ -5,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
-
+public enum ScenePosition { mapPosition, puzzlePosition }
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
     public static IScenePanel ScenePanel { get; set; }
@@ -14,13 +15,18 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     [SerializeField]
     private SceneMarks[] LoadingQueue;
 
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject optionsPanel;
     private OptionsOperator optionsOperator;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private LoadingTransitionOperator loadingTransitionOperator;
-    [SerializeField]
+    [SerializeField, NullCheck]
     private GameObject[] doNotDestroyOnLoad;
+
+    [SerializeField, NullCheck]
+    private Transform puzzleParent;
+    [SerializeField, NullCheck]
+    private Transform mapParent;
 
     void Awake()
     {
@@ -41,9 +47,22 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
         MemoryManager.InitializeSceneDictionary();
 
-        CheckingTheScene();
+        //CheckingTheScene();
 
         MemoryManager.LoadScenes(LoadingQueue);
+    }
+
+    public static void SetSceneToPosition(Transform transform, ScenePosition position)
+    {
+        switch (position)
+        {
+            case ScenePosition.mapPosition:
+                transform.SetParent(instance.mapParent);
+                break;
+            case ScenePosition.puzzlePosition:
+                transform.SetParent(instance.puzzleParent);
+                break;
+        }
     }
 
     public static int GetScene()
