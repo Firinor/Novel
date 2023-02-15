@@ -1,6 +1,5 @@
 ﻿using FirUnityEditor;
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -10,43 +9,38 @@ namespace Puzzle
     public abstract class PuzzleOperator : MonoBehaviour
     {
         [SerializeField, NullCheck]
-        protected GameObject helpButtons;
-        [SerializeField, NullCheck]
-        protected GameObject victoryButton;
-        [SerializeField, NullCheck]
-        protected GameObject failButton;
-        [SerializeField, NullCheck]
-        protected Button exitButton;
-        [SerializeField, NullCheck]
-        protected Button optionsButton;
-        [SerializeField, NullCheck]
-        protected Image backgroundImage;
+        protected AllPuzzleInformator allPuzzleInformator;
+        protected Image background;
 
         [SerializeField]
         protected float leftTime = 120;
-        [SerializeField, NullCheck]
-        protected TextMeshProUGUI timerText;
         protected bool theTimerIsRunning;
+
+        protected virtual void Awake()
+        {
+            allPuzzleInformator = AllPuzzleInformator.instance;
+            background = BackgroundInformator.instance.Image;
+        }
 
         protected virtual void OnEnable()
         {
-            helpButtons.SetActive(true);
-            exitButton.onClick.RemoveAllListeners();
-            exitButton.onClick.AddListener(PuzzleExit);
-            optionsButton.onClick.RemoveAllListeners();
-            optionsButton.onClick.AddListener(Options);
+            allPuzzleInformator.HelpButtons.SetActive(true);
+            allPuzzleInformator.ExitButton.onClick.RemoveAllListeners();
+            allPuzzleInformator.ExitButton.onClick.AddListener(PuzzleExit);
+            allPuzzleInformator.OptionsButton.onClick.RemoveAllListeners();
+            allPuzzleInformator.OptionsButton.onClick.AddListener(Options);
             ResetTimer();
         }
         public virtual void PuzzleExit()
         {
             DeactivaButtons();
-            backgroundImage.enabled = false;
+            background.enabled = false;
             gameObject.SetActive(false);
-            helpButtons.SetActive(false);
+            allPuzzleInformator.HelpButtons.SetActive(false);
         }
         public virtual void LosePuzzle()
         {
-            failButton.SetActive(true);
+            allPuzzleInformator.FailButton.SetActive(true);
         }
         public virtual void Options()
         {
@@ -55,13 +49,13 @@ namespace Puzzle
         public virtual void ClearPuzzle()
         {
             DeactivaButtons();
-            timerText.enabled = false;
+            allPuzzleInformator.TimerText.enabled = false;
         }
 
         private void DeactivaButtons()
         {
-            victoryButton.SetActive(false);
-            failButton.SetActive(false);
+            allPuzzleInformator.VictoryButton.SetActive(false);
+            allPuzzleInformator.FailButton.SetActive(false);
         }
         public virtual void StartPuzzle()
         {
@@ -71,7 +65,7 @@ namespace Puzzle
         public virtual void SuccessfullySolvePuzzle()
         {
             DeactivatePuzzle();
-            victoryButton.SetActive(true);
+            allPuzzleInformator.VictoryButton.SetActive(true);
         }
 
         protected virtual void DeactivatePuzzle()
@@ -81,7 +75,7 @@ namespace Puzzle
 
         protected virtual void SetVictoryEvent(UnityAction victoryAction)
         {
-            Button button = victoryButton.GetComponent<Button>();
+            Button button = allPuzzleInformator.VictoryButton.GetComponent<Button>();
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(PuzzleExit);
             if(victoryAction != null)
@@ -89,7 +83,7 @@ namespace Puzzle
         }
         protected virtual void SetFailEvent(UnityAction failAction)
         {
-            Button button = failButton.GetComponent<Button>();
+            Button button = allPuzzleInformator.FailButton.GetComponent<Button>();
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(PuzzleExit);
             if (failAction != null)
@@ -97,8 +91,8 @@ namespace Puzzle
         }
         protected virtual void SetBackground(Sprite sprite)
         {
-            backgroundImage.enabled = true;
-            backgroundImage.sprite = sprite;
+            background.enabled = true;
+            background.sprite = sprite;
         }
 
         protected virtual void TimerTick()
@@ -116,14 +110,14 @@ namespace Puzzle
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(leftTime);
             DateTime dateTime = new DateTime(1, 1, 1, 0, timeSpan.Minutes, timeSpan.Seconds);
-            timerText.text = $"{dateTime:m:ss}";
+            allPuzzleInformator.TimerText.text = $"{dateTime:m:ss}";
         }
 
         protected virtual void ResetTimer()
         {
             theTimerIsRunning = false;
             bool leftSomeTime = leftTime > 0;
-            timerText.enabled = leftSomeTime;
+            allPuzzleInformator.TimerText.enabled = leftSomeTime;
             if (leftSomeTime)
                 TextLeftTime();
         }

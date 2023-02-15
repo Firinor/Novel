@@ -52,15 +52,15 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         MemoryManager.LoadScenes(LoadingQueue);
     }
 
-    public static void SetSceneToPosition(Transform transform, ScenePosition position)
+    public static void SetSceneToPosition(GameObject gameObject, ScenePosition position)
     {
         switch (position)
         {
             case ScenePosition.mapPosition:
-                transform.SetParent(instance.mapParent);
+                gameObject.transform.SetParent(instance.mapParent);
                 break;
             case ScenePosition.puzzlePosition:
-                transform.SetParent(instance.puzzleParent);
+                gameObject.transform.SetParent(instance.puzzleParent);
                 break;
         }
     }

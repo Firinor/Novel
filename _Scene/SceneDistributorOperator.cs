@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SceneDistributorOperator : MonoBehaviour
@@ -8,9 +6,7 @@ public class SceneDistributorOperator : MonoBehaviour
     private ScenePosition scenePosition;
 
     void Awake()
-
     {
-        DontDestroyOnLoad(this);
-        SceneManager.SetSceneToPosition(transform, scenePosition);
+        SceneManager.SetSceneToPosition(gameObject, scenePosition);
     }
 }

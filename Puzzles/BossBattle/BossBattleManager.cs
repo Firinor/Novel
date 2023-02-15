@@ -165,7 +165,7 @@ namespace Puzzle.BossBattle
         public override void SuccessfullySolvePuzzle()
         {
             DeactivatePuzzle();
-            victoryButton.SetActive(true);
+            allPuzzleInformator.VictoryButton.SetActive(true);
         }
 
 
@@ -180,7 +180,7 @@ namespace Puzzle.BossBattle
         public override void LosePuzzle()
         {
             DeactivatePuzzle();
-            failButton.SetActive(true);
+            allPuzzleInformator.FailButton.SetActive(true);
         }
     }
 }

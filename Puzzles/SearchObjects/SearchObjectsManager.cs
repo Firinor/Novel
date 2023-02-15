@@ -42,16 +42,6 @@ namespace Puzzle.SearchObjects
                 return result;
             }
         }
-        private List<int> desiredObjectsInts
-        {
-            get
-            {
-                var result = new List<int>();
-                foreach(var K in desiredObjects)
-                    result.Add(K.Key);
-                return result;
-            }
-        }
 
         [SerializeField, NullCheck]
         private ProgressOperator progressOperator;
@@ -130,7 +120,7 @@ namespace Puzzle.SearchObjects
         public override void LosePuzzle()
         {
             DeactivatePuzzle();
-            failButton.SetActive(true);
+            allPuzzleInformator.FailButton.SetActive(true);
         }
         public override void ClearPuzzle()
         {
@@ -165,7 +155,7 @@ namespace Puzzle.SearchObjects
         public override void SuccessfullySolvePuzzle()
         {
             DeactivatePuzzle();
-            victoryButton.SetActive(true);
+            allPuzzleInformator.VictoryButton.SetActive(true);
         }
         protected override void DeactivatePuzzle()
         {
@@ -201,7 +191,7 @@ namespace Puzzle.SearchObjects
         public override void PuzzleExit()
         {
             Cursor.visible = true;
-            backgroundImage.enabled = false;
+            background.enabled = false;
             gameObject.SetActive(false);
         }
 

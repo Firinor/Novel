@@ -59,8 +59,10 @@ namespace Puzzle.FindObject
         private AnimationManager animationManager;
         #endregion
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             ResetOptions();
 
             if (puzzleInformator == null)
@@ -105,7 +107,7 @@ namespace Puzzle.FindObject
         public override void LosePuzzle()
         {
             DeleteIngredientsInList(allIngredients);
-            failButton.SetActive(true);
+            allPuzzleInformator.FailButton.SetActive(true);
         }
         public override void ClearPuzzle()
         {
@@ -191,7 +193,7 @@ namespace Puzzle.FindObject
             CloseBox();
 
             await Task.Delay(500);
-            victoryButton.SetActive(true);
+            allPuzzleInformator.VictoryButton.SetActive(true);
         }
 
         private void CloseBox()

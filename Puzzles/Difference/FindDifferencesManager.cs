@@ -45,8 +45,10 @@ namespace Puzzle.FindDifferences
         private CompositeDisposable disposables;
         #endregion
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             errorParticleSystem = new Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>>();
             successParticleSystem = new Dictionary<int, KeyValuePair<ParticleSystem, RectTransform>>();
 
@@ -101,7 +103,7 @@ namespace Puzzle.FindDifferences
         public override void LosePuzzle()
         {
             DeactivatePuzzle();
-            failButton.SetActive(true);
+            allPuzzleInformator.FailButton.SetActive(true);
         }
         public override void ClearPuzzle()
         {
@@ -136,7 +138,7 @@ namespace Puzzle.FindDifferences
         public override void SuccessfullySolvePuzzle()
         {
             DeactivatePuzzle();
-            victoryButton.SetActive(true);
+            allPuzzleInformator.VictoryButton.SetActive(true);
         }
         protected override void DeactivatePuzzle()
         {
@@ -192,7 +194,7 @@ namespace Puzzle.FindDifferences
         public override void PuzzleExit()
         {
             Cursor.visible = true;
-            backgroundImage.enabled = false;
+            background.enabled = false;
             gameObject.SetActive(false);
         }
 

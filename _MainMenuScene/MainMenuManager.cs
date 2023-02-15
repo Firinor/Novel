@@ -11,6 +11,11 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 
     private MainMenuInformator mainMenuInformator;
 
+    void Awake()
+    {
+        SingletoneCheck(this);
+        SetAllInstance();
+    }
     public void SetAllInstance()
     {
         SingletoneCheck(this);
