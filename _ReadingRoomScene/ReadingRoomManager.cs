@@ -16,7 +16,6 @@ public enum ReadingRoomMarks { map, dialog, options, off,
 
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel, IReadingSceneManager
 {
-    //private static GameObject map;
     private static GameObject dialog;
     private static GameObject puzzleFindObject;
     private static GameObject puzzleTetraQuestion;
