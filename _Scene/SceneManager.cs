@@ -1,7 +1,6 @@
 using FirUnityEditor;
 using System;
 using System.Collections;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
@@ -11,6 +10,8 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
     public static IScenePanel ScenePanel { get; set; }
     private AsyncOperation operation;
+    [SerializeField]
+    private SceneMarks currentScene;
 
     [SerializeField]
     private SceneMarks[] LoadingQueue;
@@ -63,11 +64,6 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
                 gameObject.transform.SetParent(instance.puzzleParent);
                 break;
         }
-    }
-
-    public static int GetScene()
-    {
-        return UnitySceneManager.GetActiveScene().buildIndex;
     }
 
     public static IEnumerator PreLoadScene(string sceneName)
@@ -129,12 +125,12 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     private static void ExitAction()
     {
-        int SceneIndex = GetScene();
-        if (SceneIndex == 1 || SceneIndex == 2)//"ReadingRoom" or "PuzzleRoom"
+        SceneMarks currentScene = instance.currentScene;
+        if (currentScene == SceneMarks.readingRoom || currentScene == SceneMarks.puzzles)
         {
             //LoadScene("MainMenu");
         }
-        else if (SceneIndex == 0)//"MainMenu"
+        else if (currentScene == SceneMarks.menu)
         {
 #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
@@ -155,12 +151,12 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     public static void CheckingTheScene()
     {
-        int SceneIndex = GetScene();
-        if (SceneIndex == 1 || SceneIndex == 2)//"ReadingRoom" or "PuzzleRoom"
+        SceneMarks currentScene = instance.currentScene;
+        if (currentScene == SceneMarks.readingRoom || currentScene == SceneMarks.puzzles)
         {
             FindObjectOfType<ReadingRoomManager>().SetAllInstance();
         }
-        else if (SceneIndex == 0)//"MainMenu"
+        else if (currentScene == SceneMarks.menu)
         {
             FindObjectOfType<MainMenuManager>().SetAllInstance();
         }
