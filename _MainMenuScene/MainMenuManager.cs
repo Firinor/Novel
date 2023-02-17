@@ -31,7 +31,8 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 
     public static void SwitchPanels(MenuMarks mark)
     {
-        instance.DiactiveAllPanels();
+        if(mark != MenuMarks.options && mark != MenuMarks.off)
+            instance.DiactiveAllPanels();
         switch (mark)
         {
             case MenuMarks.baner:

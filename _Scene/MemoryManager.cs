@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public enum SceneMarks
@@ -38,7 +39,7 @@ public static class MemoryManager
             return;
 
         Debug.Log($"Start load scene {mark}: at {DateTime.Now}");
-        operation = UnitySceneManager.LoadSceneAsync((int)mark);
+        operation = UnitySceneManager.LoadSceneAsync((int)mark, LoadSceneMode.Additive);
         int i = 0;
         while (!operation.isDone)
         {

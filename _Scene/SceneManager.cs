@@ -21,8 +21,8 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     private OptionsOperator optionsOperator;
     [SerializeField, NullCheck]
     private LoadingTransitionOperator loadingTransitionOperator;
-    [SerializeField, NullCheck]
-    private GameObject[] doNotDestroyOnLoad;
+    //[SerializeField, NullCheck]
+    //private GameObject[] doNotDestroyOnLoad;
 
     [SerializeField, NullCheck]
     private Transform puzzleParent;
@@ -38,13 +38,13 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         //optionsOperator is disabled. Awake & Start procedures are not suitable
         optionsOperator.SingletoneCheck(optionsOperator);
 
-        foreach (GameObject go in doNotDestroyOnLoad)
-        {
-            if (go != null)
-            {
-                DontDestroyOnLoad(go);
-            }
-        }
+        //foreach (GameObject go in doNotDestroyOnLoad)
+        //{
+        //    if (go != null)
+        //    {
+        //        DontDestroyOnLoad(go);
+        //    }
+        //}
 
         MemoryManager.InitializeSceneDictionary();
 
@@ -53,18 +53,18 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         MemoryManager.LoadScenes(LoadingQueue);
     }
 
-    public static void SetSceneToPosition(GameObject gameObject, ScenePosition position)
-    {
-        switch (position)
-        {
-            case ScenePosition.mapPosition:
-                gameObject.transform.SetParent(instance.mapParent);
-                break;
-            case ScenePosition.puzzlePosition:
-                gameObject.transform.SetParent(instance.puzzleParent);
-                break;
-        }
-    }
+    //public static void SetSceneToPosition(GameObject gameObject, ScenePosition position)
+    //{
+    //    switch (position)
+    //    {
+    //        case ScenePosition.mapPosition:
+    //            gameObject.transform.SetParent(instance.mapParent);
+    //            break;
+    //        case ScenePosition.puzzlePosition:
+    //            gameObject.transform.SetParent(instance.puzzleParent);
+    //            break;
+    //    }
+    //}
 
     public static IEnumerator PreLoadScene(string sceneName)
     {
