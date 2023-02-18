@@ -2,16 +2,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogButtonOperator : MonoBehaviour
+namespace Dialog
 {
-    [SerializeField]
-    private TextMeshProUGUI textMeshPro;
-    [SerializeField]
-    private Button button;
-
-    public void SetWay(DialogNode node, string description)
+    public class DialogButtonOperator : MonoBehaviour
     {
-        textMeshPro.text = description;
-        button.onClick.AddListener(node.StartDialog);
+        [SerializeField]
+        private TextMeshProUGUI textMeshPro;
+        [SerializeField]
+        private Button button;
+        [SerializeField]
+        private Image image;
+
+        public void SetWay(DialogNode node, string description, Sprite sprite = null)
+        {
+            textMeshPro.text = description;
+            image.sprite = sprite;
+            button.onClick.AddListener(node.StartDialog);
+        }
     }
 }

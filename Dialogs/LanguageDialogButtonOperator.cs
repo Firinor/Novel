@@ -1,3 +1,4 @@
+using Dialog;
 using UnityEngine;
 
 public class LanguageDialogButtonOperator : LanguageOperator

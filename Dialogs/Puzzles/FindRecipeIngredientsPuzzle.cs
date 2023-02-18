@@ -1,3 +1,4 @@
+using Dialog;
 using UnityEngine;
 
 namespace Puzzle

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Dialog;
+using UnityEngine;
 
 namespace Puzzle
 {

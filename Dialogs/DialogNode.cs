@@ -2,62 +2,64 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static StoryInformator;
 
 public enum DialogProgressStatus { Open, Closed, Hiden }
 
-public class DialogNode : MonoBehaviour
+namespace Dialog
 {
-    [SerializeField]
-    private string[] Header = new string[2] { "русское название", "english name" };
-    [SerializeField]
-    protected List<DialogNode> Choices;
-    private DialogProgressStatus dialogProgressStatus = DialogProgressStatus.Hiden;
+    public class DialogNode : MonoBehaviour
+    {
+        [SerializeField]
+        private string[] Header = new string[2] { "русское название", "english name" };
+        [SerializeField]
+        protected List<DialogNode> Choices;
+        private DialogProgressStatus dialogProgressStatus = DialogProgressStatus.Hiden;
 
-    protected DialogOperator dialogOperator;
-    protected Characters Characters;
-    protected Backgrounds Backgrounds;
+        protected DialogOperator dialogOperator;
+        protected StoryInformator.Characters Characters;
+        protected StoryInformator.Backgrounds Backgrounds;
 
-    protected void Awake()
-    {
-        StoryInformator storyInformator = StoryInformator.instance;
-        Characters = storyInformator.characters;
-        Backgrounds = storyInformator.backgrounds;
-        dialogOperator = DialogOperator.instance;
-        GetComponent<Button>().onClick.AddListener(StartDialog);
-    }
-    public void SetChoice(DialogNode dialogNode)
-    {
-        if (dialogNode == null)
-            return;
+        protected void Awake()
+        {
+            StoryInformator storyInformator = StoryInformator.instance;
+            Characters = storyInformator.characters;
+            Backgrounds = storyInformator.backgrounds;
+            dialogOperator = DialogOperator.instance;
+            GetComponent<Button>().onClick.AddListener(StartDialog);
+        }
+        public void SetChoice(DialogNode dialogNode)
+        {
+            if (dialogNode == null)
+                return;
 
-        Choices = new List<DialogNode>() { dialogNode };
-    }
-    public string GetHeader()
-    {
-        return Header[(int)PlayerManager.Language];
-    }
-    public virtual void StartDialog()
-    {
-        DialogManager.ActivateDialog(GetComponent<RectTransform>());
-        dialogOperator.CleareAll();
-        dialogOperator.SetSceneName(name);
-    }
+            Choices = new List<DialogNode>() { dialogNode };
+        }
+        public string GetHeader()
+        {
+            return Header[(int)PlayerManager.Language];
+        }
+        public virtual void StartDialog()
+        {
+            DialogManager.ActivateDialog(GetComponent<RectTransform>());
+            dialogOperator.CleareAll();
+            dialogOperator.SetSceneName(name);
+        }
 
-    public void StartDialog(int index)
-    {
-        if(Choices != null && Choices.Count > index)
-            Choices[index]?.StartDialog();
-    }
+        public void StartDialog(int index)
+        {
+            if (Choices != null && Choices.Count > index)
+                Choices[index]?.StartDialog();
+        }
 
-    protected void StopDialogSkip()
-    {
-        if(dialogOperator != null)
-            dialogOperator.StopDialogSkip();
-    }
+        protected void StopDialogSkip()
+        {
+            if (dialogOperator != null)
+                dialogOperator.StopDialogSkip();
+        }
 
-    public virtual void ResetGameObject()
-    {
-        GetComponentInChildren<TextMeshProUGUI>().text = gameObject.name;
+        public virtual void ResetGameObject()
+        {
+            GetComponentInChildren<TextMeshProUGUI>().text = gameObject.name;
+        }
     }
 }

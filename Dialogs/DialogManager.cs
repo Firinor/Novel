@@ -2,48 +2,52 @@ using FirUnityEditor;
 using Puzzle;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class DialogManager : SinglBehaviour<DialogManager>
+namespace Dialog
 {
-    [SerializeField, NullCheck]
-    private GameObject dialog;
-    [SerializeField, NullCheck]
-    private DialogOperator dialogOperator;
-    [SerializeField, NullCheck]
-    private IReadingSceneManager sceneManager;
-
-    private CancellationTokenSource cancellationTokenSource;
-
-    public static bool IsCancellationRequested { get => instance.cancellationTokenSource.IsCancellationRequested; }
-
-    void Awake()
+    public class DialogManager : SinglBehaviour<DialogManager>
     {
-        SingletoneCheck(this);
-        dialogOperator.SingletoneCheck(dialogOperator);
-        sceneManager = GetComponent<IReadingSceneManager>();
+        [SerializeField, NullCheck]
+        private GameObject dialog;
+        [SerializeField, NullCheck]
+        private DialogOperator dialogOperator;
+        [SerializeField, NullCheck]
+        private IReadingSceneManager sceneManager;
 
-        cancellationTokenSource = new CancellationTokenSource();
-        DontDestroyOnLoad(this);
-    }
+        private CancellationTokenSource cancellationTokenSource;
 
-    public static void ActivateDialog(RectTransform dialogButtonRectTransform)
-    {
-        instance.dialog.SetActive(true);
-        instance.cancellationTokenSource = new CancellationTokenSource();
-        instance.sceneManager.CheckMap(dialogButtonRectTransform);
-    }
+        public static bool IsCancellationRequested { get => instance.cancellationTokenSource.IsCancellationRequested; }
 
-    public static void StopDialog()
-    {
-        instance.cancellationTokenSource.Cancel();
-    }
+        void Awake()
+        {
+            SingletoneCheck(this);
+            dialogOperator.SingletoneCheck(dialogOperator);
+            sceneManager = DialogInformator.readingManager;
 
-    public static void Options()
-    {
-        instance.sceneManager.SwitchPanelsToOptions();
-    }
-    public static void SwithToPuzzle(InformationPackage informationPackage, string additional = "")
-    {
-        instance.sceneManager.SwithToPuzzle(informationPackage, additional);
+            cancellationTokenSource = new CancellationTokenSource();
+            DontDestroyOnLoad(this);
+        }
+
+        public static void ActivateDialog(RectTransform dialogButtonRectTransform)
+        {
+            instance.dialog.SetActive(true);
+            instance.cancellationTokenSource = new CancellationTokenSource();
+            instance.sceneManager.CheckMap(dialogButtonRectTransform);
+        }
+
+        public static void StopDialog()
+        {
+            instance.cancellationTokenSource.Cancel();
+        }
+
+        public static void Options()
+        {
+            instance.sceneManager.SwitchPanelsToOptions();
+        }
+        public static void SwithToPuzzle(InformationPackage informationPackage, string additional = "")
+        {
+            instance.sceneManager.SwithToPuzzle(informationPackage, additional);
+        }
     }
 }
