@@ -1,53 +1,56 @@
-using FirUnityEditor;
 using Puzzle;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Dialog
 {
     public class DialogManager : SinglBehaviour<DialogManager>
     {
-        [SerializeField, NullCheck]
-        private GameObject dialog;
-        [SerializeField, NullCheck]
-        private DialogOperator dialogOperator;
-        [SerializeField, NullCheck]
-        private IReadingSceneManager sceneManager;
-
-        private CancellationTokenSource cancellationTokenSource;
-
-        public static bool IsCancellationRequested { get => instance.cancellationTokenSource.IsCancellationRequested; }
-
-        void Awake()
+        private static GameObject dialog
         {
-            SingletoneCheck(this);
-            dialogOperator.SingletoneCheck(dialogOperator);
-            sceneManager = DialogInformator.readingManager;
-
-            cancellationTokenSource = new CancellationTokenSource();
-            DontDestroyOnLoad(this);
+            get
+            {
+                return DialogHUB.DialogObject.GetValue();
+            }
         }
+        private static DialogOperator dialogOperator
+        {
+            get
+            {
+                return (DialogOperator)DialogHUB.DialogOperator.GetValue();
+            }
+        }
+        private static IReadingSceneManager sceneManager
+        {
+            get
+            {
+                return (IReadingSceneManager)ReadingRoomHUB.ReadingRoomManager.GetValue();
+            }
+        }
+
+        private static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+        public static bool IsCancellationRequested { get => cancellationTokenSource.IsCancellationRequested; }
 
         public static void ActivateDialog(RectTransform dialogButtonRectTransform)
         {
-            instance.dialog.SetActive(true);
-            instance.cancellationTokenSource = new CancellationTokenSource();
-            instance.sceneManager.CheckMap(dialogButtonRectTransform);
+            dialog.SetActive(true);
+            cancellationTokenSource = new CancellationTokenSource();
+            sceneManager.CheckMap(dialogButtonRectTransform);
         }
 
         public static void StopDialog()
         {
-            instance.cancellationTokenSource.Cancel();
+            cancellationTokenSource.Cancel();
         }
 
         public static void Options()
         {
-            instance.sceneManager.SwitchPanelsToOptions();
+            sceneManager.SwitchPanelsToOptions();
         }
         public static void SwithToPuzzle(InformationPackage informationPackage, string additional = "")
         {
-            instance.sceneManager.SwithToPuzzle(informationPackage, additional);
+            sceneManager.SwithToPuzzle(informationPackage, additional);
         }
     }
 }

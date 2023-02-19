@@ -16,21 +16,120 @@ public enum ReadingRoomMarks { map, dialog, options, off,
 
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel, IReadingSceneManager
 {
-    private static GameObject dialog;
-    private static GameObject puzzleFindObject;
-    private static GameObject puzzleTetraQuestion;
-    private static GameObject puzzleFindDifference;
-    private static GameObject puzzleSearchObjects;
-    private static GameObject puzzleSpectralAnalysis;
-    private static GameObject puzzleStarMap;
-    private static GameObject puzzleBossBattle;
-    private static FindObjectManager puzzleFindObjectOperator;
-    private static TetraQuestionManager puzzleTetraQuestionOperator;
-    private static FindDifferencesManager puzzleFindDifferencesOperator;
-    private static SearchObjectsManager puzzleSearchObjectsOperator;
-    private static SpectralAnalysisManager puzzleSpectralAnalysisOperator;
-    private static StarMapManager puzzleStarMapOperator;
-    private static BossBattleManager puzzleBossBattleOperator;
+    #region Instances
+    private static GameObject dialog
+    {
+        get
+        {
+            return DialogHUB.DialogObject.GetValue();
+        }
+    }
+    private static GameObject puzzleFindObject
+    {
+        get
+        {
+            return PuzzleHUB.FindObject.GetValue();
+        }
+    }
+    private static GameObject puzzleTetraQuestion
+    {
+        get
+        {
+            return PuzzleHUB.TetraQuestion.GetValue();
+        }
+    }
+    private static GameObject puzzleFindDifference
+    {
+        get
+        {
+            return PuzzleHUB.FindDifference.GetValue();
+        }
+    }
+    private static GameObject puzzleSearchObjects
+    {
+        get
+        {
+            return PuzzleHUB.SearchObjects.GetValue();
+        }
+    }
+    private static GameObject puzzleSpectralAnalysis
+    {
+        get
+        {
+            return PuzzleHUB.SpectralAnalysis.GetValue();
+        }
+    }
+    private static GameObject puzzleStarMap
+    {
+        get
+        {
+            return PuzzleHUB.StarMap.GetValue();
+        }
+    }
+    private static GameObject puzzleBossBattle
+    {
+        get
+        {
+            return PuzzleHUB.BossBattle.GetValue();
+        }
+    }
+    private static FindObjectManager puzzleFindObjectManager
+    {
+        get
+        {
+            return (FindObjectManager)PuzzleHUB.FindObjectManager.GetValue();
+        }
+    }
+    private static TetraQuestionManager puzzleTetraQuestionManager
+    {
+        get
+        {
+            return (TetraQuestionManager)PuzzleHUB.TetraQuestionManager.GetValue();
+        }
+    }
+    private static FindDifferencesManager puzzleFindDifferencesManager
+    {
+        get
+        {
+            return (FindDifferencesManager)PuzzleHUB.FindDifferencesManager.GetValue();
+        }
+    }
+    private static SearchObjectsManager puzzleSearchObjectsManager
+    {
+        get
+        {
+            return (SearchObjectsManager)PuzzleHUB.SearchObjectsManager.GetValue();
+        }
+    }
+    private static SpectralAnalysisManager puzzleSpectralAnalysisManager
+    {
+        get
+        {
+            return (SpectralAnalysisManager)PuzzleHUB.SpectralAnalysisManager.GetValue();
+        }
+    }
+    private static StarMapManager puzzleStarMapManager
+    {
+        get
+        {
+            return (StarMapManager)PuzzleHUB.StarMapManager.GetValue();
+        }
+    }
+    private static BossBattleManager puzzleBossBattleManager
+    {
+        get
+        {
+            return (BossBattleManager)PuzzleHUB.BossBattleManager.GetValue();
+        }
+    }
+    private static MapCanvasOperator mapCanvasOperator
+    {
+        get
+        {
+            return (MapCanvasOperator)ReadingRoomHUB.MapCanvasOperator.GetValue();
+        }
+    }
+    #endregion
 
     private ReadingRoomInformator readingRoomInformator;
     //private CanvasManager canvasManager;
@@ -39,31 +138,6 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     {
         SingletoneCheck(this);
         SceneManager.ScenePanel = this;
-
-        readingRoomInformator = GetComponent<ReadingRoomInformator>();
-        readingRoomInformator.SingletoneCheck(readingRoomInformator);//Singltone
-
-        //canvasManager = GetComponent<CanvasManager>();
-        //canvasManager.SingletoneCheck(canvasManager);
-
-        //map = ReadingRoomInformator.GetMap();
-        dialog = ReadingRoomInformator.GetDialog();
-
-        puzzleFindObject = ReadingRoomInformator.GetPuzzleFindObject();
-        puzzleTetraQuestion = ReadingRoomInformator.GetPuzzleTetraQuestion();
-        puzzleFindDifference = ReadingRoomInformator.GetPuzzleFindDifferences();
-        puzzleSearchObjects = ReadingRoomInformator.GetPuzzleSearchObjects();
-        puzzleSpectralAnalysis = ReadingRoomInformator.GetPuzzleSpectralAnalysis();
-        puzzleStarMap = ReadingRoomInformator.GetPuzzleStarMap();
-        puzzleBossBattle = ReadingRoomInformator.GetPuzzleBossBattle();
-
-        puzzleFindObjectOperator = ReadingRoomInformator.GetPuzzleFindObjectManager();
-        puzzleTetraQuestionOperator = ReadingRoomInformator.GetPuzzleTetraQuestionManager();
-        puzzleFindDifferencesOperator = ReadingRoomInformator.GetPuzzleFindDifferenceManager();
-        puzzleSearchObjectsOperator = ReadingRoomInformator.GetPuzzleSearchObjectsManager();
-        puzzleSpectralAnalysisOperator = ReadingRoomInformator.GetPuzzleSpectralAnalysisManager();
-        puzzleStarMapOperator = ReadingRoomInformator.GetPuzzleStarMapManager();
-        puzzleBossBattleOperator = ReadingRoomInformator.GetPuzzleBossBattleManager();
     }
 
     public static void SwitchPanels(ReadingRoomMarks mark)
@@ -140,7 +214,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
 
     public void CheckMap(RectTransform dialogButtonRectTransform)
     {
-        ReadingRoomInformator.GetMapCanvasOperator().CorrectScrollbarPosition(dialogButtonRectTransform);
+        mapCanvasOperator.CorrectScrollbarPosition(dialogButtonRectTransform);
     }
 
     public void SwithToPuzzle(InformationPackage puzzleInformationPackage, string additional = "")
@@ -148,35 +222,35 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         switch (puzzleInformationPackage)
         {
             case FindRecipeIngredientsPackage findRecipeIngredients:
-                puzzleFindObjectOperator.SetPuzzleInformationPackage(findRecipeIngredients);
+                puzzleFindObjectManager.SetPuzzleInformationPackage(findRecipeIngredients);
                 SwitchPanels(ReadingRoomMarks.puzzleFindObject);
                 break;
             case TetraQuestionPackage tetraQuestion:
-                puzzleTetraQuestionOperator.SetPuzzleInformationPackage(tetraQuestion);
+                puzzleTetraQuestionManager.SetPuzzleInformationPackage(tetraQuestion);
                 SwitchPanels(ReadingRoomMarks.puzzleTetraQuestion);
                 break;
             case ImageWithDifferencesPackage findDifferenceImage:
                 if(additional == "search")
                 {
-                    puzzleSearchObjectsOperator.SetPuzzleInformationPackage(findDifferenceImage);
+                    puzzleSearchObjectsManager.SetPuzzleInformationPackage(findDifferenceImage);
                     SwitchPanels(ReadingRoomMarks.puzzleSearchObjects);
                 }
                 else
                 {
-                    puzzleFindDifferencesOperator.SetPuzzleInformationPackage(findDifferenceImage);
+                    puzzleFindDifferencesManager.SetPuzzleInformationPackage(findDifferenceImage);
                     SwitchPanels(ReadingRoomMarks.puzzleFindDifferences);
                 }
                 break;
             case StarMapPackage starMapPackage:
-                puzzleStarMapOperator.SetPuzzleInformationPackage(starMapPackage);
+                puzzleStarMapManager.SetPuzzleInformationPackage(starMapPackage);
                 SwitchPanels(ReadingRoomMarks.puzzleStarMap);
                 break;
             case SpectralAnalysisPackage spectralAnalysisPackage:
-                puzzleSpectralAnalysisOperator.SetPuzzleInformationPackage(spectralAnalysisPackage);
+                puzzleSpectralAnalysisManager.SetPuzzleInformationPackage(spectralAnalysisPackage);
                 SwitchPanels(ReadingRoomMarks.puzzleSpectralAnalysis);
                 break;
             case BossBattlePackage bossBattlePackage:
-                puzzleBossBattleOperator.SetPuzzleInformationPackage(bossBattlePackage);
+                puzzleBossBattleManager.SetPuzzleInformationPackage(bossBattlePackage);
                 SwitchPanels(ReadingRoomMarks.puzzleBossBattle);
                 break;
             case null:

@@ -32,7 +32,13 @@ namespace Dialog
         [SerializeField, NullCheck]
         private Canvas canvas;
 
-        private Image background;
+        private static Image background
+        {
+            get
+            {
+                return BackgroundHUB.Image.GetValue();
+            }
+        }
         [SerializeField, NullCheck]
         private Sprite defaultSprite;
 
@@ -89,10 +95,7 @@ namespace Dialog
         #region Monobehaviour
         void Awake()
         {
-            CleareAll();
             LanguageManager.OnLanguageChange += ResetText;
-            background = BackgroundInformator.instance.Image;
-
         }
         void Update()
         {
@@ -403,8 +406,8 @@ namespace Dialog
         {
             if (background != null)
             {
-                this.background.enabled = true;
-                this.background.sprite = background;
+                DialogOperator.background.enabled = true;
+                DialogOperator.background.sprite = background;
             }
 
         }

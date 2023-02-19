@@ -19,7 +19,7 @@ namespace Puzzle
         protected virtual void Awake()
         {
             allPuzzleInformator = AllPuzzleInformator.instance;
-            background = BackgroundInformator.instance.Image;
+            background = BackgroundHUB.Image.GetValue();
         }
 
         protected virtual void OnEnable()

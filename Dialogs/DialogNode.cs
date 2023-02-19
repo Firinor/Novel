@@ -15,7 +15,13 @@ namespace Dialog
         protected List<DialogNode> Choices;
         private DialogProgressStatus dialogProgressStatus = DialogProgressStatus.Hiden;
 
-        protected DialogOperator dialogOperator;
+        protected static DialogOperator dialogOperator
+        {
+            get
+            {
+                return (DialogOperator)DialogHUB.DialogOperator.GetValue();
+            }
+        }
         protected StoryInformator.Characters Characters;
         protected StoryInformator.Backgrounds Backgrounds;
 
@@ -24,7 +30,6 @@ namespace Dialog
             StoryInformator storyInformator = StoryInformator.instance;
             Characters = storyInformator.characters;
             Backgrounds = storyInformator.backgrounds;
-            dialogOperator = DialogOperator.instance;
             GetComponent<Button>().onClick.AddListener(StartDialog);
         }
         public void SetChoice(DialogNode dialogNode)
@@ -53,8 +58,7 @@ namespace Dialog
 
         protected void StopDialogSkip()
         {
-            if (dialogOperator != null)
-                dialogOperator.StopDialogSkip();
+            dialogOperator.StopDialogSkip();
         }
 
         public virtual void ResetGameObject()
