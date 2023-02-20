@@ -29,9 +29,21 @@ namespace Dialog
         [Space]
         [SerializeField, NullCheck]
         private RectTransform rectTransform;
-        [SerializeField, NullCheck]
-        private Canvas canvas;
-
+        
+        private static Canvas canvas
+        {
+            get
+            {
+                return DialogHUB.Canvas.GetValue();
+            }
+        }
+        private static Button backgroundButton
+        {
+            get
+            {
+                return BackgroundHUB.Button.GetValue();
+            }
+        }
         private static Image background
         {
             get
@@ -86,7 +98,7 @@ namespace Dialog
 
         public static void NextInput() => nextInput = true;
         public static float RectTransformHeight { get { return instance.rectTransform.rect.height; } }
-        public static int OrderLayer { get { return instance.canvas.sortingOrder; } }
+        public static int OrderLayer { get { return canvas.sortingOrder; } }
         public static GameObject Left { get { return instance.leftSpeaker; } }
         public static GameObject Center { get { return instance.centerSpeaker; } }
         public static GameObject Right { get { return instance.rightSpeaker; } }
@@ -95,6 +107,9 @@ namespace Dialog
         #region Monobehaviour
         void Awake()
         {
+            SingletoneCheck(this);
+            backgroundButton.onClick.RemoveAllListeners();
+            backgroundButton.onClick.AddListener(NextInput);
             LanguageManager.OnLanguageChange += ResetText;
         }
         void Update()

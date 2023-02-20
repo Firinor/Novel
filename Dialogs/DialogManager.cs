@@ -1,11 +1,14 @@
 using Puzzle;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Dialog
 {
     public class DialogManager : SinglBehaviour<DialogManager>
     {
+        [SerializeField]
+        private int foregroundSortingOrder;
         private static GameObject dialog
         {
             get
@@ -27,13 +30,25 @@ namespace Dialog
                 return (IReadingSceneManager)ReadingRoomHUB.ReadingRoomManager.GetValue();
             }
         }
+        private static Canvas backgroundCanvas
+        {
+            get
+            {
+                return BackgroundHUB.Canvas.GetValue();
+            }
+        }
 
         private static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         public static bool IsCancellationRequested { get => cancellationTokenSource.IsCancellationRequested; }
 
+        private void Awake()
+        {
+            SingletoneCheck(this);
+        }
         public static void ActivateDialog(RectTransform dialogButtonRectTransform)
         {
+            backgroundCanvas.sortingOrder = instance.foregroundSortingOrder;
             dialog.SetActive(true);
             cancellationTokenSource = new CancellationTokenSource();
             sceneManager.CheckMap(dialogButtonRectTransform);

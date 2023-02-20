@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Dialog
 {
-    public class DialogInformator : MonoBehaviour
+    public class DialogHUBInformator : MonoBehaviour
     {
         [SerializeField, NullCheck]
         private GameObject DialogObject;
@@ -11,12 +11,15 @@ namespace Dialog
         private MonoBehaviour DialogManager;
         [SerializeField, NullCheck]
         private MonoBehaviour DialogOperator;
+        [SerializeField, NullCheck]
+        private Canvas Canvas;
 
         void Awake()
         {
             DialogHUB.DialogObject.SetValue(DialogObject);
             DialogHUB.DialogManager.SetValue(DialogManager);
             DialogHUB.DialogOperator.SetValue(DialogOperator);
+            DialogHUB.Canvas.SetValue(Canvas);
         }
     }
 }

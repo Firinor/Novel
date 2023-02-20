@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Dialog
 {
-    public class SceneInformator : MonoBehaviour
+    public class SceneHUBInformator : MonoBehaviour
     {
         [SerializeField, NullCheck]
         private MonoBehaviour SceneManager;

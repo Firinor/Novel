@@ -131,7 +131,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     }
     #endregion
 
-    private ReadingRoomInformator readingRoomInformator;
+    private ReadingRoomHUBInformator readingRoomInformator;
     //private CanvasManager canvasManager;
 
     public void SetAllInstance()

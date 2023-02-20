@@ -1,7 +1,7 @@
 using FirUnityEditor;
 using UnityEngine;
 
-public class ReadingRoomInformator : SinglBehaviour<ReadingRoomInformator>
+public class ReadingRoomHUBInformator : SinglBehaviour<ReadingRoomHUBInformator>
 {
     [SerializeField, NullCheck]
     private GameObject map;

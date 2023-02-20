@@ -15,5 +15,7 @@ public class SceneDistributorOperator : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        Destroy(this);
     }
 }
