@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class BackgroundHUBInformator : MonoBehaviour
 {
     [SerializeField, NullCheck]
+    private Image loadingGIF;
+    [SerializeField, NullCheck]
     private Image image;
     [SerializeField, NullCheck]
     private Button button;
@@ -13,6 +15,7 @@ public class BackgroundHUBInformator : MonoBehaviour
 
     void Awake()
     {
+        BackgroundHUB.loadingGIF.SetValue(loadingGIF);
         BackgroundHUB.Image.SetValue(image);
         BackgroundHUB.Button.SetValue(button);
         BackgroundHUB.Canvas.SetValue(canvas);

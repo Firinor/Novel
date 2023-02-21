@@ -9,6 +9,8 @@ namespace Dialog
     {
         [SerializeField]
         private int foregroundSortingOrder;
+        [SerializeField]
+        private int backgroundSortingOrder;
         private static GameObject dialog
         {
             get
@@ -56,6 +58,7 @@ namespace Dialog
 
         public static void StopDialog()
         {
+            backgroundCanvas.sortingOrder = instance.backgroundSortingOrder;
             cancellationTokenSource.Cancel();
         }
 

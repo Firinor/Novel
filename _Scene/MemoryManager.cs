@@ -55,9 +55,16 @@ public static class MemoryManager
 
     public static async void LoadScenes(SceneMarks[] loadingQueue)
     {
+        Task[] queueTask= new Task[loadingQueue.Length];
+
         for(int i = 0; i < loadingQueue.Length;i++)
         {
-            await LoadScene(loadingQueue[i]);
+            queueTask[i] = LoadScene(loadingQueue[i]);
+            //queueTask[i].Start();
         }
+
+        await Task.WhenAll(queueTask);
+
+        Debug.Log("Loading finish");
     }
 }
