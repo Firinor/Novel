@@ -9,13 +9,18 @@ public class GIFanimation : MonoBehaviour
     [SerializeField]
     private Sprite[] sprites;
     [SerializeField]
-    private float framePerSecond = 60f;
+    private float framePerSecond = 6;
     [SerializeField]
     private float vanishingRate = 5f;
 
     private bool isAnimationEnabled = false;
     private float timer;
     private float frameIndex = 0;
+
+    private void Awake()
+    {
+        image.canvasRenderer.SetAlpha(alpha: 0f);
+    }
 
     public void OnEnable()
     {
@@ -51,7 +56,12 @@ public class GIFanimation : MonoBehaviour
         this.sprites = sprites;
     }
 
-    public void StopAmim()
+    public void StartAnimation()
+    {
+        enabled = true;
+    }
+
+    public void StopAnimation()
     {
         isAnimationEnabled = false;
     }

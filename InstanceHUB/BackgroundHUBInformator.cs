@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class BackgroundHUBInformator : MonoBehaviour
 {
     [SerializeField, NullCheck]
-    private Image loadingGIF;
+    private GIFanimation loadingGIF;
     [SerializeField, NullCheck]
     private Image image;
     [SerializeField, NullCheck]

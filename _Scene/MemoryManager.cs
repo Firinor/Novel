@@ -16,6 +16,13 @@ public static class MemoryManager
 {
     private static Dictionary<SceneMarks, bool> scenesInGame;
     private static AsyncOperation operation;
+    private static GIFanimation loadingGIF
+    {
+        get
+        {
+            return BackgroundHUB.loadingGIF.GetValue();
+        }
+    }
 
     public static void InitializeSceneDictionary()
     {
@@ -55,16 +62,13 @@ public static class MemoryManager
 
     public static async void LoadScenes(SceneMarks[] loadingQueue)
     {
-        Task[] queueTask= new Task[loadingQueue.Length];
+        loadingGIF.StartAnimation();
 
-        for(int i = 0; i < loadingQueue.Length;i++)
+        for (int i = 0; i < loadingQueue.Length;i++)
         {
-            queueTask[i] = LoadScene(loadingQueue[i]);
-            //queueTask[i].Start();
+            await LoadScene(loadingQueue[i]);
         }
 
-        await Task.WhenAll(queueTask);
-
-        Debug.Log("Loading finish");
+        loadingGIF.StopAnimation();
     }
 }
