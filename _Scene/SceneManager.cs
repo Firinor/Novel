@@ -8,10 +8,31 @@ using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 public enum ScenePosition { mapPosition, puzzlePosition }
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
-    public static IScenePanel ScenePanel { get; set; }
+    private IScenePanel readingRoomScene
+    {
+        get
+        {
+            return (IScenePanel)SceneHUB.ReadingRoomSceneManager.GetValue();
+        }
+    }
+    private IScenePanel menuScene
+    {
+        get
+        {
+            return (IScenePanel)SceneHUB.MenuSceneManager.GetValue();
+        }
+    }
+
     private AsyncOperation operation;
     [SerializeField]
     private SceneMarks currentScene;
+    public static SceneMarks CurrentScene
+    {
+        get
+        {
+            return instance.currentScene;
+        }
+    }
 
     [SerializeField]
     private SceneMarks[] LoadingQueue;
@@ -66,25 +87,25 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         }
     }
 
-    public static IEnumerator PreLoadScene(string sceneName)
-    {
-        yield return null;
+    //public static IEnumerator PreLoadScene(string sceneName)
+    //{
+    //    yield return null;
 
-        instance.operation = UnitySceneManager.LoadSceneAsync(sceneName);
-        instance.SetAllowSceneActivation(false);
-        while (!instance.operation.isDone)
-        {
-            yield return null;
-        }
-    }
+    //    instance.operation = UnitySceneManager.LoadSceneAsync(sceneName);
+    //    instance.SetAllowSceneActivation(false);
+    //    while (!instance.operation.isDone)
+    //    {
+    //        yield return null;
+    //    }
+    //}
 
-    public static void LoadScene(string sceneName)
-    {
-        if (sceneName != "ReadingRoom" || instance.operation == null || instance.operation.isDone)
-            instance.StartCoroutine(PreLoadScene(sceneName));
+    //public static void LoadScene(string sceneName)
+    //{
+    //    if (sceneName != "ReadingRoom" || instance.operation == null || instance.operation.isDone)
+    //        instance.StartCoroutine(PreLoadScene(sceneName));
 
-        instance.loadingTransitionOperator.LoadScene();
-    }
+    //    instance.loadingTransitionOperator.LoadScene();
+    //}
 
     public bool TheSceneHasLoaded()
     {
@@ -116,7 +137,15 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
                 ExitAction();
                 break;
             case SceneDirection.basic:
-                ScenePanel.BasicPanelSettings();
+                SceneMarks currentScene = instance.currentScene;
+                if (currentScene == SceneMarks.readingRoom || currentScene == SceneMarks.puzzles)
+                {
+                    readingRoomScene.BasicPanelSettings();
+                }
+                else if (currentScene == SceneMarks.menu)
+                {
+                    menuScene.BasicPanelSettings();
+                }
                 break;
             default:
                 throw new Exception("Unrealized bookmark!");

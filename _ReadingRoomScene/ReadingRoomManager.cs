@@ -131,13 +131,21 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     }
     #endregion
 
-    private ReadingRoomHUBInformator readingRoomInformator;
     //private CanvasManager canvasManager;
+
+    void Awake()
+    {
+        if(!(SceneManager.CurrentScene == SceneMarks.readingRoom
+            || SceneManager.CurrentScene == SceneMarks.puzzles))
+        {
+            gameObject.SetActive(false);
+        }
+    }
 
     public void SetAllInstance()
     {
         SingletoneCheck(this);
-        SceneManager.ScenePanel = this;
+        SceneHUB.ReadingRoomSceneManager.SetValue(this);
     }
 
     public static void SwitchPanels(ReadingRoomMarks mark)

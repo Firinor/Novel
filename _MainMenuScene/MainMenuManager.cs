@@ -15,14 +15,15 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
     {
         SingletoneCheck(this);
         SetAllInstance();
+        
     }
     public void SetAllInstance()
     {
-        SingletoneCheck(this);
-        SceneManager.ScenePanel = this;
+        SingletoneCheck(this);//Singltone
+        SceneHUB.MenuSceneManager.SetValue(this);
 
         mainMenuInformator = GetComponent<MainMenuInformator>();
-        mainMenuInformator.SingletoneCheck(mainMenuInformator);//Singltone
+        mainMenuInformator.SingletoneCheck(mainMenuInformator);
 
         baner = MainMenuInformator.GetBaner();
         credits = MainMenuInformator.GetCredits();

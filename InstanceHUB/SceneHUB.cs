@@ -1,6 +1,9 @@
 using FirInstanceCell;
+using UnityEngine;
 
 public static class SceneHUB
 {
-    public static InstanceCell<object> SceneManager = new InstanceCell<object>();
+    public static InstanceCell<MonoBehaviour> SceneManager = new InstanceCell<MonoBehaviour>();
+    public static InstanceCell<MonoBehaviour> MenuSceneManager = new InstanceCell<MonoBehaviour>();
+    public static InstanceCell<MonoBehaviour> ReadingRoomSceneManager = new InstanceCell<MonoBehaviour>();
 }

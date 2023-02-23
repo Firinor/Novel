@@ -15,5 +15,6 @@ public class ReadingRoomHUBInformator : SinglBehaviour<ReadingRoomHUBInformator>
         ReadingRoomHUB.Map.SetValue(map);
         ReadingRoomHUB.ReadingRoomManager.SetValue(readingRoomManager);
         ReadingRoomHUB.MapCanvasOperator.SetValue(mapCanvasOperator);
+        Destroy(this);
     }
 }

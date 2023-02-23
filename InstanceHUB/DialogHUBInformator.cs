@@ -20,6 +20,7 @@ namespace Dialog
             DialogHUB.DialogManager.SetValue(DialogManager);
             DialogHUB.DialogOperator.SetValue(DialogOperator);
             DialogHUB.Canvas.SetValue(Canvas);
+            Destroy(this);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Dialog
         void Awake()
         {
             SceneHUB.SceneManager.SetValue(SceneManager);
+            Destroy(this);
         }
     }
 }

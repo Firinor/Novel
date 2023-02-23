@@ -19,5 +19,6 @@ public class BackgroundHUBInformator : MonoBehaviour
         BackgroundHUB.Image.SetValue(image);
         BackgroundHUB.Button.SetValue(button);
         BackgroundHUB.Canvas.SetValue(canvas);
+        Destroy(this);
     }
 }
