@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SceneDistributorOperator : MonoBehaviour
+public class SceneDistributorInformator : MonoBehaviour
 {
     [SerializeField]
     private bool isEnable;

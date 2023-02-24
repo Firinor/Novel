@@ -1,9 +1,7 @@
 using FirUnityEditor;
 using System;
-using System.Collections;
 using UnityEditor;
 using UnityEngine;
-using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public enum ScenePosition { mapPosition, puzzlePosition }
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
@@ -23,9 +21,9 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         }
     }
 
-    private AsyncOperation operation;
     [SerializeField]
     private SceneMarks currentScene;
+    private SceneMarks sceneToLoad;
     public static SceneMarks CurrentScene
     {
         get
@@ -99,26 +97,25 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     //    }
     //}
 
-    //public static void LoadScene(string sceneName)
-    //{
-    //    if (sceneName != "ReadingRoom" || instance.operation == null || instance.operation.isDone)
-    //        instance.StartCoroutine(PreLoadScene(sceneName));
+    public static void LoadScene(SceneMarks scene)
+    {
+        instance.sceneToLoad = scene;
 
-    //    instance.loadingTransitionOperator.LoadScene();
-    //}
+        if(!instance.TheSceneHasLoaded())
+            MemoryManager.LoadScene(scene);
+
+        instance.loadingTransitionOperator.LoadScene();
+    }
 
     public bool TheSceneHasLoaded()
     {
-        if (operation == null)
-            return false;
-
-        return operation.isDone;
+        return MemoryManager.isSceneIsReady(sceneToLoad);
     }
 
-    public void SetAllowSceneActivation(bool v)
-    {
-        instance.operation.allowSceneActivation = v;
-    }
+    //public void SetAllowSceneActivation(bool v)
+    //{
+    //    instance.operation.allowSceneActivation = v;
+    //}
 
     public static void SwitchPanel(SceneDirection direction)
     {

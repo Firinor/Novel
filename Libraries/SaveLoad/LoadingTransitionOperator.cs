@@ -48,7 +48,7 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
             if (Diameter >= endPortalPosition)
             {
                 CloseSceneFlag = false;
-                sceneManager.SetAllowSceneActivation(true);
+                //sceneManager.SetAllowSceneActivation(true);
                 OpenScene();
             }
         }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public enum SceneMarks
@@ -55,6 +54,7 @@ public static class MemoryManager
             await Task.Yield();
         }
 
+        await Task.Yield();
         scenesInGame[mark] = true;
         operation = null;
         Debug.Log($"End load scene {mark}: at {DateTime.Now}");
@@ -70,5 +70,10 @@ public static class MemoryManager
         }
 
         loadingGIF.StopAnimation();
+    }
+
+    public static bool isSceneIsReady(SceneMarks scene)
+    {
+        return scenesInGame[scene];
     }
 }
