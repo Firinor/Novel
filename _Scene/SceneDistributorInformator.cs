@@ -6,16 +6,19 @@ public class SceneDistributorInformator : MonoBehaviour
     private bool isEnable;
     [SerializeField]
     private ScenePosition scenePosition;
+    [SerializeField]
+    private Transform fallbackTransform;
 
     void Awake()
     {
-        SceneManager.SetSceneToPosition(gameObject, scenePosition);
+        if(SceneManager.instance == null)
+            gameObject.transform.SetParent(fallbackTransform);
+        else
+            SceneManager.SetSceneToPosition(gameObject, scenePosition);
 
         if (!isEnable)
         {
             gameObject.SetActive(false);
         }
-
-        Destroy(this);
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public enum SceneMarks
@@ -23,7 +24,7 @@ public static class MemoryManager
         }
     }
 
-    public static void InitializeSceneDictionary()
+    public static void InitializeSceneDictionary(SceneMarks currentScene)
     {
         scenesInGame = new Dictionary<SceneMarks, bool>();
         
@@ -31,6 +32,8 @@ public static class MemoryManager
         {
             scenesInGame.Add((SceneMarks)i, false);
         }
+
+        scenesInGame[currentScene] = true;
     }
 
     public static async Task LoadScene(SceneMarks mark)

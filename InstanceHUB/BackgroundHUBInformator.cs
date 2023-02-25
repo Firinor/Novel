@@ -15,10 +15,13 @@ public class BackgroundHUBInformator : MonoBehaviour
 
     void Awake()
     {
-        BackgroundHUB.loadingGIF.SetValue(loadingGIF);
-        BackgroundHUB.Image.SetValue(image);
-        BackgroundHUB.Button.SetValue(button);
-        BackgroundHUB.Canvas.SetValue(canvas);
+        if (BackgroundHUB.loadingGIF.isValueNull())
+        {
+            BackgroundHUB.loadingGIF.SetValue(loadingGIF);
+            BackgroundHUB.Image.SetValue(image);
+            BackgroundHUB.Button.SetValue(button);
+            BackgroundHUB.Canvas.SetValue(canvas);
+        }
         Destroy(this);
     }
 }

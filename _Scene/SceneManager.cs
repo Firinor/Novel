@@ -3,7 +3,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-public enum ScenePosition { mapPosition, puzzlePosition }
+public enum ScenePosition { MapPosition, PuzzlePosition, Other }
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
     private IScenePanel readingRoomScene
@@ -65,7 +65,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
             }
         }
 
-        MemoryManager.InitializeSceneDictionary();
+        MemoryManager.InitializeSceneDictionary(currentScene);
 
         CheckingTheScene();
 
@@ -76,10 +76,10 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     {
         switch (position)
         {
-            case ScenePosition.mapPosition:
+            case ScenePosition.MapPosition:
                 gameObject.transform.SetParent(instance.mapParent);
                 break;
-            case ScenePosition.puzzlePosition:
+            case ScenePosition.PuzzlePosition:
                 gameObject.transform.SetParent(instance.puzzleParent);
                 break;
         }

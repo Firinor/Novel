@@ -19,5 +19,10 @@ namespace FirInstanceCell
 
             return value;
         }
+
+        public bool isValueNull()
+        {
+            return value == null;
+        }
     }
 }
