@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 public enum SceneMarks
@@ -73,6 +72,14 @@ public static class MemoryManager
         }
 
         loadingGIF.StopAnimation();
+    }
+
+    public static void UnloadScene(SceneMarks mark)
+    {
+        if(scenesInGame[mark])
+        {
+            scenesInGame[mark] = false;
+        }
     }
 
     public static bool isSceneIsReady(SceneMarks scene)

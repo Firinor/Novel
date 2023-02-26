@@ -54,6 +54,7 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
         }
         else if (sceneManager.TheSceneHasLoaded() && OpenSceneFlag)
         {
+            sceneManager.SetLoadSceneActive();
             currentPlayTime += Time.deltaTime;
             float presentage = currentPlayTime / playTime;
             float Diameter = Mathf.Lerp(0f, endPortalPosition, curve.Evaluate(presentage));
@@ -66,7 +67,7 @@ public class LoadingTransitionOperator : SinglBehaviour<LoadingTransitionOperato
         }
     }
 
-    public void LoadScene()
+    public void CurtainDown()
     {
         SetSceneImage();
         CloseScene();

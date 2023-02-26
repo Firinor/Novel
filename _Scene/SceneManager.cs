@@ -104,7 +104,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         if(!instance.TheSceneHasLoaded())
             MemoryManager.LoadScene(scene);
 
-        instance.loadingTransitionOperator.LoadScene();
+        instance.loadingTransitionOperator.CurtainDown();
     }
 
     public bool TheSceneHasLoaded()
@@ -116,6 +116,13 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     //{
     //    instance.operation.allowSceneActivation = v;
     //}
+
+    public void SetLoadSceneActive()
+    {
+        MemoryManager.UnloadScene(currentScene);
+
+        currentScene = sceneToLoad;
+    }
 
     public static void SwitchPanel(SceneDirection direction)
     {

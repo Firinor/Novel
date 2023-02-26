@@ -1,4 +1,6 @@
 using FirUnityEditor;
+using FirConsts;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +16,7 @@ public class GIFanimation : MonoBehaviour
     private float vanishingRate = 5f;
 
     private bool isAnimationEnabled = false;
+    private bool isAnimationDisabled = false;
     private float timer;
     private float frameIndex = 0;
 
@@ -43,12 +46,23 @@ public class GIFanimation : MonoBehaviour
 
         image.sprite = sprites[(int)frameIndex];
 
-        if (!isAnimationEnabled)
+        if (!isAnimationEnabled && !isAnimationDisabled)
         {
             image.canvasRenderer.SetAlpha(alpha: 1f);
             image.CrossFadeAlpha(alpha: 0f, vanishingRate, ignoreTimeScale: false);
-            enabled = false;
+            DisableGIF();
         }
+    }
+
+    private async void DisableGIF()
+    {
+        int delay = (int)(vanishingRate * FirConst.MILISECONDS_COEFFICIENT);
+
+        isAnimationDisabled = true;
+        await Task.Delay(delay);
+        isAnimationDisabled = false;
+
+        enabled = false;
     }
 
     public void SetGIF(Sprite[] sprites)

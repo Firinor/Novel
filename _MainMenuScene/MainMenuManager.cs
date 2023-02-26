@@ -15,7 +15,6 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
     {
         SingletoneCheck(this);
         SetAllInstance();
-        
     }
     public void SetAllInstance()
     {
