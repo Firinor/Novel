@@ -84,6 +84,9 @@ public static class MemoryManager
 
     public static bool isSceneIsReady(SceneMarks scene)
     {
+        if(scenesInGame == null)
+            return false;
+
         return scenesInGame[scene];
     }
 }

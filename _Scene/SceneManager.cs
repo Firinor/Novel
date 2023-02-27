@@ -1,7 +1,9 @@
 using FirUnityEditor;
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum ScenePosition { MapPosition, PuzzlePosition, Other }
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
@@ -23,6 +25,9 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     [SerializeField]
     private SceneMarks currentScene;
+    [SerializeField]
+    private GameObject currentSceneGameObject;
+
     private SceneMarks sceneToLoad;
     public static SceneMarks CurrentScene
     {
@@ -31,6 +36,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
             return instance.currentScene;
         }
     }
+    private Dictionary<SceneMarks, GameObject> scenesObject = new Dictionary<SceneMarks, GameObject>();
 
     [SerializeField]
     private SceneMarks[] LoadingQueue;
@@ -65,11 +71,29 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
             }
         }
 
+        SetSceneObject(currentScene, currentSceneGameObject);
+
         MemoryManager.InitializeSceneDictionary(currentScene);
 
         CheckingTheScene();
 
         MemoryManager.LoadScenes(LoadingQueue);
+    }
+
+    public static void SetSceneObject(SceneMarks mark, GameObject gameObject)
+    {
+        if (instance == null)
+            return;
+
+        Dictionary<SceneMarks, GameObject> scenesObject = instance.scenesObject;
+        if (scenesObject.ContainsKey(mark))
+        {
+            scenesObject[mark] = gameObject;
+        }
+        else
+        {
+            scenesObject.Add(mark, gameObject);
+        }
     }
 
     public static void SetSceneToPosition(GameObject gameObject, ScenePosition position)
@@ -119,7 +143,9 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     public void SetLoadSceneActive()
     {
-        MemoryManager.UnloadScene(currentScene);
+        scenesObject[currentScene].SetActive(false);
+        scenesObject[sceneToLoad].SetActive(true);
+        //MemoryManager.UnloadScene(currentScene);
 
         currentScene = sceneToLoad;
     }

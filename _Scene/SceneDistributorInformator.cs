@@ -8,13 +8,20 @@ public class SceneDistributorInformator : MonoBehaviour
     private ScenePosition scenePosition;
     [SerializeField]
     private Transform fallbackTransform;
+    [SerializeField]
+    private SceneMarks thisSceneMark;
+    [SerializeField]
+    private GameObject thisGameObject;
 
     void Awake()
     {
         if(SceneManager.instance == null)
             gameObject.transform.SetParent(fallbackTransform);
         else
+        {
             SceneManager.SetSceneToPosition(gameObject, scenePosition);
+            SceneManager.SetSceneObject(thisSceneMark, thisGameObject);
+        }
 
         if (!isEnable)
         {
