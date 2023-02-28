@@ -12,6 +12,8 @@ public class SceneDistributorInformator : MonoBehaviour
     private SceneMarks thisSceneMark;
     [SerializeField]
     private GameObject thisGameObject;
+    //[SerializeField]
+    //private MonoBehaviour informatorAwake;
 
     void Awake()
     {
@@ -22,6 +24,8 @@ public class SceneDistributorInformator : MonoBehaviour
             SceneManager.SetSceneToPosition(gameObject, scenePosition);
             SceneManager.SetSceneObject(thisSceneMark, thisGameObject);
         }
+
+        //informatorAwake.
 
         if (!isEnable)
         {

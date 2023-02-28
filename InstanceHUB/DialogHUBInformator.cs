@@ -14,7 +14,7 @@ namespace Dialog
         [SerializeField, NullCheck]
         private Canvas Canvas;
 
-        void Awake()
+        public void Awake()
         {
             DialogHUB.DialogObject.SetValue(DialogObject);
             DialogHUB.DialogManager.SetValue(DialogManager);

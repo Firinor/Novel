@@ -1,16 +1,23 @@
 using Puzzle;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Dialog
 {
-    public class DialogManager : SinglBehaviour<DialogManager>
+    public class DialogManager : MonoBehaviour
     {
         [SerializeField]
         private int foregroundSortingOrder;
         [SerializeField]
         private int backgroundSortingOrder;
+
+        private static DialogManager instance
+        {
+            get
+            {
+                return (DialogManager)DialogHUB.DialogManager.GetValue();
+            }
+        }
         private static GameObject dialog
         {
             get
@@ -44,10 +51,6 @@ namespace Dialog
 
         public static bool IsCancellationRequested { get => cancellationTokenSource.IsCancellationRequested; }
 
-        private void Awake()
-        {
-            SingletoneCheck(this);
-        }
         public static void ActivateDialog(RectTransform dialogButtonRectTransform)
         {
             backgroundCanvas.sortingOrder = instance.foregroundSortingOrder;

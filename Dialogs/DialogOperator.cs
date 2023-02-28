@@ -11,7 +11,7 @@ using Image = UnityEngine.UI.Image;
 
 namespace Dialog
 {
-    public class DialogOperator : SinglBehaviour<DialogOperator>
+    public class DialogOperator : MonoBehaviour
     {
         #region Fields
         [SerializeField, NullCheck]
@@ -29,7 +29,14 @@ namespace Dialog
         [Space]
         [SerializeField, NullCheck]
         private RectTransform rectTransform;
-        
+
+        private static DialogOperator instance
+        {
+            get
+            {
+                return (DialogOperator)DialogHUB.DialogOperator.GetValue();
+            }
+        }
         private static Canvas canvas
         {
             get
@@ -107,7 +114,6 @@ namespace Dialog
         #region Monobehaviour
         void Awake()
         {
-            SingletoneCheck(this);
             backgroundButton.onClick.RemoveAllListeners();
             backgroundButton.onClick.AddListener(NextInput);
             LanguageManager.OnLanguageChange += ResetText;

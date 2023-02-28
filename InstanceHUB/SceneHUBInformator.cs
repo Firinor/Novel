@@ -1,17 +1,14 @@
 ﻿using FirUnityEditor;
 using UnityEngine;
 
-namespace Dialog
+public class SceneHUBInformator : MonoBehaviour
 {
-    public class SceneHUBInformator : MonoBehaviour
-    {
-        [SerializeField, NullCheck]
-        private MonoBehaviour SceneManager;
+    [SerializeField, NullCheck]
+    private MonoBehaviour SceneManager;
 
-        void Awake()
-        {
-            SceneHUB.SceneManager.SetValue(SceneManager);
-            Destroy(this);
-        }
+    void Awake()
+    {
+        SceneHUB.SceneManager.SetValue(SceneManager);
+        Destroy(this);
     }
 }
