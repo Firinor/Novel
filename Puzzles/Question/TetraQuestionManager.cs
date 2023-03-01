@@ -38,10 +38,8 @@ namespace Puzzle.TetraQuestion
         [SerializeField]
         private Question question;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
-
             answersArray = new Answer[4] { answer_A, answer_B, answer_C, answer_D };
         }
         protected override void OnEnable()
@@ -54,8 +52,8 @@ namespace Puzzle.TetraQuestion
             questionImage.enabled = false;
             SetEnabledAllButtons(true);
             SetDefaultSpriteToAllButtons();
-            allPuzzleInformator.VictoryButton.SetActive(false);
-            allPuzzleInformator.FailButton.SetActive(false);
+            VictoryButton.SetActive(false);
+            FailButton.SetActive(false);
         }
         public override void StartPuzzle()
         {
@@ -102,11 +100,11 @@ namespace Puzzle.TetraQuestion
         }
         public override void SuccessfullySolvePuzzle()
         {
-            allPuzzleInformator.VictoryButton.SetActive(true);
+            VictoryButton.SetActive(true);
         }
         public override void LosePuzzle()
         {
-            allPuzzleInformator.FailButton.SetActive(true);
+            FailButton.SetActive(true);
         }
         public void SetPuzzleInformationPackage(TetraQuestionPackage tetraQuestion)
         {

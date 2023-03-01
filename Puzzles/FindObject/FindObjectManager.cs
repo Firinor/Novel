@@ -11,7 +11,8 @@ namespace Puzzle.FindObject
     public class FindObjectManager : PuzzleOperator, IOptionsSwitchHandler
     {
         #region Fields
-        private PuzzleInformator puzzleInformator;
+        [SerializeField, NullCheck]
+        private FindObjectPuzzleInformator puzzleInformator;
 
         [SerializeField]
         private float ingredientFrictionBraking;
@@ -25,15 +26,8 @@ namespace Puzzle.FindObject
         private GameObject ingredientPrefab;
 
         [SerializeField, NullCheck]
-        private ParticleSystem errorParticleSystem;
-        [SerializeField, NullCheck]
-        private ParticleSystem successParticleSystem;
-
-        [SerializeField, NullCheck]
         private Transform ingredientParent;
         private List<AlchemicalIngredientOperator> allIngredients;
-        [SerializeField, NullCheck]
-        private RectTransform helpButtonsRectTransform;
         [SerializeField, NullCheck]
         private RectTransform recipeParent;
         [SerializeField, NullCheck]
@@ -48,6 +42,8 @@ namespace Puzzle.FindObject
         private float forseToIngredient;
         private float acceleration = 0.025f;
         public float ForseToIngredient { get => forseToIngredient; }
+        public ParticleSystem successParticleSystem { get => AllPuzzleHUB.SuccessParticleSystem.GetValue(); }
+        public ParticleSystem errorParticleSystem { get => AllPuzzleHUB.ErrorParticleSystem.GetValue(); }
 
         [HideInInspector]
         public bool PointerOnRecipe;
@@ -59,15 +55,13 @@ namespace Puzzle.FindObject
         private AnimationManager animationManager;
         #endregion
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
-
             ResetOptions();
 
             if (puzzleInformator == null)
             {
-                puzzleInformator = GetComponent<PuzzleInformator>();
+                puzzleInformator = GetComponent<FindObjectPuzzleInformator>();
             }
         }
 
@@ -107,7 +101,7 @@ namespace Puzzle.FindObject
         public override void LosePuzzle()
         {
             DeleteIngredientsInList(allIngredients);
-            allPuzzleInformator.FailButton.SetActive(true);
+            FailButton.SetActive(true);
         }
         public override void ClearPuzzle()
         {
@@ -193,7 +187,7 @@ namespace Puzzle.FindObject
             CloseBox();
 
             await Task.Delay(500);
-            allPuzzleInformator.VictoryButton.SetActive(true);
+            VictoryButton.SetActive(true);
         }
 
         private void CloseBox()

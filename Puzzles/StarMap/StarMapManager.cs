@@ -52,7 +52,7 @@ namespace Puzzle.StarMap
         public override void LosePuzzle()
         {
             DeactivatePuzzle();
-            allPuzzleInformator.FailButton.SetActive(true);
+            FailButton.SetActive(true);
         }
         public override void ClearPuzzle()
         {
@@ -133,7 +133,7 @@ namespace Puzzle.StarMap
         public override void SuccessfullySolvePuzzle()
         {
             DeactivatePuzzle();
-            allPuzzleInformator.VictoryButton.SetActive(true);
+            VictoryButton.SetActive(true);
         }
         protected override void DeactivatePuzzle()
         {

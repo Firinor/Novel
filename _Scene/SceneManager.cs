@@ -63,6 +63,9 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         //optionsOperator is disabled. Awake & Start procedures are not suitable
         optionsOperator.SingletoneCheck(optionsOperator);
 
+        CanvasManager canvasManager = GetComponent<CanvasManager>();
+        canvasManager.SingletoneCheck(canvasManager);
+
         foreach (GameObject go in doNotDestroyOnLoad)
         {
             if (go != null)
@@ -218,6 +221,10 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         else if (currentScene == SceneMarks.menu)
         {
             FindObjectOfType<MainMenuManager>().SetAllInstance();
+        }
+        else if (currentScene == SceneMarks.findObject)
+        {
+            return;
         }
         else
         {

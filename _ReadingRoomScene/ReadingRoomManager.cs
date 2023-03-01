@@ -225,11 +225,12 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
         mapCanvasOperator.CorrectScrollbarPosition(dialogButtonRectTransform);
     }
 
-    public void SwithToPuzzle(InformationPackage puzzleInformationPackage, string additional = "")
+    public async void SwithToPuzzle(InformationPackage puzzleInformationPackage, string additional = "")
     {
         switch (puzzleInformationPackage)
         {
             case FindRecipeIngredientsPackage findRecipeIngredients:
+                await MemoryManager.LoadScene(SceneMarks.findObject);
                 puzzleFindObjectManager.SetPuzzleInformationPackage(findRecipeIngredients);
                 SwitchPanels(ReadingRoomMarks.puzzleFindObject);
                 break;

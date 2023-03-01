@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Puzzle.FindObject
 {
-    public class PuzzleInformator : MonoBehaviour
+    public class FindObjectPuzzleInformator : MonoBehaviour
     {
         [SerializeField, NullCheck]
         private Sprite closedAlchemicalBox;

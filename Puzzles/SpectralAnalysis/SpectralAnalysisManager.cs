@@ -38,9 +38,8 @@ namespace Puzzle.PortalBuild
 
         private List<int> answer;
 
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
             if(AtomInformator == null)
                 AtomInformator = atomInformator;
         }
