@@ -15,8 +15,21 @@ namespace Puzzle.FindObject
         private Image image;
         [SerializeField]
         private int keyIngredientNumber;
-
-        private FindObjectManager puzzleOperator;
+        
+        private Camera mainCamera
+        {
+            get
+            {
+                return SceneHUB.Camera.GetValue();
+            }
+        }
+        private FindObjectManager puzzleManager
+        {
+            get
+            {
+                return (FindObjectManager)PuzzleHUB.FindObjectManager.GetValue();
+            }
+        }
         private bool drag = false;
         private float timer;
         private const float FIFTH_SEC = 0.2f;
@@ -109,18 +122,18 @@ namespace Puzzle.FindObject
         {
             ingredientDrag = false;
             image.raycastTarget = true;
-            if (puzzleOperator != null && puzzleOperator.PointerOnRecipe)
+            if (puzzleManager != null && puzzleManager.PointerOnRecipe)
             {
                 if (keyIngredientNumber > 0)
                 {
-                    puzzleOperator.ActivateIngredient(keyIngredientNumber);
-                    puzzleOperator.RemoveIngredient(this);
+                    puzzleManager.ActivateIngredient(keyIngredientNumber);
+                    puzzleManager.RemoveIngredient(this);
                     Destroy(gameObject);
                 }
                 else
                 {
-                    puzzleOperator.Particles(Input.mousePosition / CanvasManager.ScaleFactor, success: false);
-                    SetRandomImpulse(puzzleOperator.ForseToIngredient * ERROR_FORCE, randomForse: false);
+                    puzzleManager.Particles(Input.mousePosition / CanvasManager.ScaleFactor, success: false);
+                    SetRandomImpulse(puzzleManager.ForseToIngredient * ERROR_FORCE, randomForse: false);
                 }
                 return;
             }
@@ -132,7 +145,7 @@ namespace Puzzle.FindObject
             Vector3 pos = transform.localPosition;
             CheckScreenBorders(pos);
             pos += impulse;
-            impulse = puzzleOperator.CheckImpulse(ref pos, ref impulse);
+            impulse = puzzleManager.CheckImpulse(ref pos, ref impulse);
 
             transform.localPosition = pos;
         }
@@ -171,10 +184,6 @@ namespace Puzzle.FindObject
             {
                 impulse.y = -impulse.y;
             }
-        }
-        internal void SetPuzzleOperator(FindObjectManager puzzleOperator)
-        {
-            this.puzzleOperator = puzzleOperator;
         }
         internal void SetSprite(Sprite sprite)
         {
@@ -219,8 +228,8 @@ namespace Puzzle.FindObject
         }
         internal void Success()
         {
-            puzzleOperator.Particles(
-                Camera.main.WorldToScreenPoint(transform.position) / CanvasManager.ScaleFactor,
+            puzzleManager.Particles(
+                mainCamera.WorldToScreenPoint(transform.position) / CanvasManager.ScaleFactor,
                 success: true);
             image.color = Color.white;
         }

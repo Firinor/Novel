@@ -142,7 +142,6 @@ namespace Puzzle.FindObject
                     = Instantiate(ingredientPrefab, recipeParent)
                     .GetComponent<AlchemicalIngredientOperator>();
                 newRecipeIngridient.SetRecipeSprite(alchemicalIngredientsSprites[i]);
-                newRecipeIngridient.SetPuzzleOperator(this);
                 recipeList.Add(newRecipeIngridient);
             }
             recipeOperator.SetResipe(recipeList);
@@ -173,7 +172,6 @@ namespace Puzzle.FindObject
                 allIngredients.Add(newIngridient);
                 newIngridient.SetSprite(alchemicalIngredientsSprites[i]);
                 newIngridient.SetRandomImpulse(forseToIngredient);
-                newIngridient.SetPuzzleOperator(this);
                 if (recipe.Contains(i))
                 {
                     newIngridient.AddToRecipe(recipe.IndexOf(i) + 1);
