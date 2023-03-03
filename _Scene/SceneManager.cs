@@ -222,7 +222,8 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         {
             FindObjectOfType<MainMenuManager>().SetAllInstance();
         }
-        else if (currentScene == SceneMarks.findObject)
+        else if (currentScene == SceneMarks.findObject
+            || currentScene == SceneMarks.tetraQuestion)
         {
             return;
         }
