@@ -1,5 +1,4 @@
-﻿using FirUnityEditor;
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;

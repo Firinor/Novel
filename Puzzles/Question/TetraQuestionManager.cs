@@ -36,6 +36,8 @@ namespace Puzzle.TetraQuestion
         private int correctAnswer;
 
         [SerializeField]
+        private QuestionsQueue questionsQueue;
+
         private Question question;
 
         protected void Awake()
@@ -108,7 +110,7 @@ namespace Puzzle.TetraQuestion
         }
         public void SetPuzzleInformationPackage(TetraQuestionPackage tetraQuestion)
         {
-            question = tetraQuestion.GetRandomQuestion();
+            questionsQueue = tetraQuestion.Questions; //GetRandomQuestion();
             SetVictoryEvent(tetraQuestion.successPuzzleAction);
             SetFailEvent(tetraQuestion.failedPuzzleAction);
             SetBackground(tetraQuestion.PuzzleBackground);

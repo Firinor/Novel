@@ -26,7 +26,7 @@ namespace Puzzle
             {
                 puzzleTetraQuestionPackage
                 = new TetraQuestionPackage(
-                    puzzlePackage.Question,
+                    puzzlePackage.Questions,
                     puzzleBackground,
                     successPuzzleDialog.StartDialog,
                     failedPuzzleDialog.StartDialog);
@@ -35,7 +35,7 @@ namespace Puzzle
             {
                 puzzleTetraQuestionPackage
                 = new TetraQuestionPackage(
-                    puzzlePackage.Question,
+                    puzzlePackage.Questions,
                     puzzleBackground,
                     successPuzzleDialog.StartDialog);
             }
@@ -43,7 +43,7 @@ namespace Puzzle
             {
                 puzzleTetraQuestionPackage
                 = new TetraQuestionPackage(
-                    puzzlePackage.Question,
+                    puzzlePackage.Questions,
                     puzzleBackground);
             }
 
