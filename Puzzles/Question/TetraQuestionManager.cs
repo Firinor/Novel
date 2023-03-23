@@ -34,11 +34,12 @@ namespace Puzzle.TetraQuestion
         private Sprite failButtonSprite;
 
         private int correctAnswer;
+        private int questionIndex;
+        private int correctAnswerCount;
+        private int correctAnswerNeededCount;
 
         [SerializeField]
-        private QuestionsQueue questionsQueue;
-
-        private Question question;
+        private QuestionQueue questionQueue;
 
         protected void Awake()
         {
@@ -51,15 +52,26 @@ namespace Puzzle.TetraQuestion
         }
         public override void ClearPuzzle()
         {
+            questionIndex = 0;
             questionImage.enabled = false;
-            SetEnabledAllButtons(true);
-            SetDefaultSpriteToAllButtons();
             VictoryButton.SetActive(false);
             FailButton.SetActive(false);
         }
+        public void ClearQuestion()
+        {
+            SetEnabledAllButtons(true);
+            SetDefaultSpriteToAllButtons();
+        }
+
         public override void StartPuzzle()
         {
             ClearPuzzle();
+            FillQuestion(questionQueue.GetQuestionFromVariant(questionIndex));
+        }
+
+        private void FillQuestion(Question question)
+        {
+            ClearQuestion();
 
             questionText.text = question.QuestionText;
 
@@ -69,6 +81,8 @@ namespace Puzzle.TetraQuestion
                 questionImage.sprite = question.Sprite;
                 questionImage.SetNativeSize();
             }
+            else
+                questionImage.enabled = false;
 
 
             List<int> answers = new List<int> { -1 };
@@ -100,6 +114,26 @@ namespace Puzzle.TetraQuestion
                 }
             }
         }
+
+        public void NextQuestion()
+        {
+            if (questionIndex >= questionQueue.Length)
+            {
+                FinishPuzzle();
+                return;
+            }
+
+            FillQuestion(questionQueue.First);
+        }
+
+        private void FinishPuzzle()
+        {
+            if(correctAnswerCount >= correctAnswerNeededCount)
+                SuccessfullySolvePuzzle();
+            else
+                LosePuzzle();
+        }
+
         public override void SuccessfullySolvePuzzle()
         {
             VictoryButton.SetActive(true);
@@ -110,13 +144,20 @@ namespace Puzzle.TetraQuestion
         }
         public void SetPuzzleInformationPackage(TetraQuestionPackage tetraQuestion)
         {
-            questionsQueue = tetraQuestion.Questions; //GetRandomQuestion();
+            questionQueue = tetraQuestion.Questions; //GetRandomQuestion();
+            SetCurrentAnswerNeededCount();
             SetVictoryEvent(tetraQuestion.successPuzzleAction);
             SetFailEvent(tetraQuestion.failedPuzzleAction);
             SetBackground(tetraQuestion.PuzzleBackground);
         }
 
-        private IEnumerator ButtonAnimating(int button, Sprite newSprite, Action action = null)
+        private void SetCurrentAnswerNeededCount()
+        {
+            correctAnswerNeededCount = GameMath.Range(questionQueue.correctAnswerNeededCount, 
+                lowerBound: 1, upperBound: questionQueue.Length);
+        }
+
+        private IEnumerator ButtonAnimating(int button, Sprite newSprite)
         {
             Image image = answersArray[button].Image;
             Sprite oldImage = image.sprite;
@@ -134,7 +175,7 @@ namespace Puzzle.TetraQuestion
             yield return wait;
             image.sprite = newSprite;
 
-            action?.Invoke();
+            NextQuestion();
         }
 
         public void SetPlayerAnswer(int button)
@@ -144,11 +185,12 @@ namespace Puzzle.TetraQuestion
             if (button != correctAnswer)
             {
                 StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite));
-                StartCoroutine(ButtonAnimating(button, failButtonSprite, LosePuzzle));
+                StartCoroutine(ButtonAnimating(button, failButtonSprite));
             }
             else
             {
-                StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite, SuccessfullySolvePuzzle));
+                correctAnswerCount++;
+                StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite));
             }
         }
         private void SetEnabledAllButtons(bool enabled)

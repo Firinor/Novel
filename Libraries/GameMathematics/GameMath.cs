@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
@@ -5,6 +6,17 @@ namespace FirMath
 {
     public static class GameMath
     {
+        public static T Range<T>(T incomeValue, T lowerBound, T upperBound) where T : IComparable
+        {
+            if (incomeValue.CompareTo(lowerBound) < 0)
+                return lowerBound;
+
+            if (incomeValue.CompareTo(upperBound) > 0)
+                return upperBound;
+
+            return incomeValue;
+        }
+
         public static int RandomCardFromTheDeck(int DeckLength)
         {
             return RandomCards(1, DeckLength)[0];

@@ -8,7 +8,7 @@ namespace Puzzle
     [Serializable]
     public class TetraQuestionPackage : InformationPackage
     {
-        public TetraQuestionPackage(QuestionsQueue question,
+        public TetraQuestionPackage(QuestionQueue question,
             Sprite puzzleBackground, UnityAction successPuzzleDialog = null, UnityAction failedPuzzleDialog = null)
             : base(puzzleBackground, successPuzzleDialog, failedPuzzleDialog)
         {
@@ -16,9 +16,9 @@ namespace Puzzle
         }
 
         [SerializeField]
-        private QuestionsQueue question;
+        private QuestionQueue question;
 
-        public QuestionsQueue Questions => question;
+        public QuestionQueue Questions => question;
 
     }
 }
