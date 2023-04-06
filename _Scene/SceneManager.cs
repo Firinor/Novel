@@ -3,25 +3,12 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum ScenePosition { MapPosition, PuzzlePosition, Other }
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
-    private IScenePanel readingRoomScene
-    {
-        get
-        {
-            return (IScenePanel)SceneHUB.ReadingRoomSceneManager.GetValue();
-        }
-    }
-    private IScenePanel menuScene
-    {
-        get
-        {
-            return (IScenePanel)SceneHUB.MenuSceneManager.GetValue();
-        }
-    }
+    private IScenePanel readingRoomScene => (IScenePanel)SceneHUB.ReadingRoomSceneManager;
+    private IScenePanel menuScene => (IScenePanel)SceneHUB.MenuSceneManager;
 
     [SerializeField]
     private SceneMarks currentScene;

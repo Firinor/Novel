@@ -36,20 +36,20 @@ namespace Puzzle
 
         void Awake()
         {
-            AllPuzzleHUB.VictoryButton.SetValue(victoryButton);
-            AllPuzzleHUB.FailButton.SetValue(failButton);
-            AllPuzzleHUB.RetryButton.SetValue(retryButton);
+            AllPuzzleHUB.VictoryButtonCell.SetValue(victoryButton);
+            AllPuzzleHUB.FailButtonCell.SetValue(failButton);
+            AllPuzzleHUB.RetryButtonCell.SetValue(retryButton);
 
-            AllPuzzleHUB.HelpButtons.SetValue(helpButtons);
-            AllPuzzleHUB.ExitButton.SetValue(exitButton);
-            AllPuzzleHUB.OptionsButton.SetValue(optionsButton);
+            AllPuzzleHUB.HelpButtonsCell.SetValue(helpButtons);
+            AllPuzzleHUB.ExitButtonCell.SetValue(exitButton);
+            AllPuzzleHUB.OptionsButtonCell.SetValue(optionsButton);
 
-            AllPuzzleHUB.TimerText.SetValue(timerText);
+            AllPuzzleHUB.TimerTextCell.SetValue(timerText);
 
-            AllPuzzleHUB.SuccessParticleSystem.SetValue(successParticleSystem);
-            AllPuzzleHUB.SuccessParticleSystem2.SetValue(successParticleSystem2);
-            AllPuzzleHUB.ErrorParticleSystem.SetValue(errorParticleSystem);
-            AllPuzzleHUB.ErrorParticleSystem2.SetValue(errorParticleSystem2);
+            AllPuzzleHUB.SuccessParticleSystemCell.SetValue(successParticleSystem);
+            AllPuzzleHUB.SuccessParticleSystem2Cell.SetValue(successParticleSystem2);
+            AllPuzzleHUB.ErrorParticleSystemCell.SetValue(errorParticleSystem);
+            AllPuzzleHUB.ErrorParticleSystem2Cell.SetValue(errorParticleSystem2);
 
             Destroy(this);
         }

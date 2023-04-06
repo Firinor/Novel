@@ -10,8 +10,8 @@ public class SceneHUBInformator : MonoBehaviour
 
     void Awake()
     {
-        SceneHUB.SceneManager.SetValue(sceneManager);
-        SceneHUB.Camera.SetValue(mainCamera);
+        SceneHUB.SceneManagerCell.SetValue(sceneManager);
+        SceneHUB.CameraCell.SetValue(mainCamera);
 
         Destroy(this);
     }

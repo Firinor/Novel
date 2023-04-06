@@ -30,34 +30,11 @@ namespace Dialog
         [SerializeField, NullCheck]
         private RectTransform rectTransform;
 
-        private static DialogOperator instance
-        {
-            get
-            {
-                return (DialogOperator)DialogHUB.DialogOperator.GetValue();
-            }
-        }
-        private static Canvas canvas
-        {
-            get
-            {
-                return DialogHUB.Canvas.GetValue();
-            }
-        }
-        private static Button backgroundButton
-        {
-            get
-            {
-                return BackgroundHUB.Button.GetValue();
-            }
-        }
-        private static Image background
-        {
-            get
-            {
-                return BackgroundHUB.Image.GetValue();
-            }
-        }
+        private static DialogOperator instance => (DialogOperator)DialogHUB.DialogOperator;
+        private static Canvas canvas => DialogHUB.Canvas;
+        private static Button backgroundButton => BackgroundHUB.Button;
+        private static Image background => BackgroundHUB.Image;
+
         [SerializeField, NullCheck]
         private Sprite defaultSprite;
 

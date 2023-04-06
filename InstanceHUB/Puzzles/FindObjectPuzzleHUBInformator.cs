@@ -13,8 +13,8 @@ namespace Puzzle
 
         void Awake()
         {
-            PuzzleHUB.FindObjectManager.SetValue(findObjectManager);
-            PuzzleHUB.FindObject.SetValue(findObject);
+            PuzzleHUB.FindObjectManagerCell.SetValue(findObjectManager);
+            PuzzleHUB.FindObjectCell.SetValue(findObject);
 
             Destroy(this);
         }

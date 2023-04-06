@@ -11,41 +11,12 @@ namespace Dialog
         [SerializeField]
         private int backgroundSortingOrder;
 
-        private static DialogManager instance
-        {
-            get
-            {
-                return (DialogManager)DialogHUB.DialogManager.GetValue();
-            }
-        }
-        private static GameObject dialog
-        {
-            get
-            {
-                return DialogHUB.DialogObject.GetValue();
-            }
-        }
-        private static DialogOperator dialogOperator
-        {
-            get
-            {
-                return (DialogOperator)DialogHUB.DialogOperator.GetValue();
-            }
-        }
-        private static IReadingSceneManager sceneManager
-        {
-            get
-            {
-                return (IReadingSceneManager)ReadingRoomHUB.ReadingRoomManager.GetValue();
-            }
-        }
-        private static Canvas backgroundCanvas
-        {
-            get
-            {
-                return BackgroundHUB.Canvas.GetValue();
-            }
-        }
+        private static DialogManager instance => (DialogManager)DialogHUB.DialogManager;
+        private static GameObject dialog => DialogHUB.DialogObject;
+        private static DialogOperator dialogOperator => (DialogOperator)DialogHUB.DialogOperator;
+        private static IReadingSceneManager sceneManager => (IReadingSceneManager)ReadingRoomHUB.ReadingRoomManager;
+        private static Canvas backgroundCanvas => BackgroundHUB.Canvas;
+        
 
         private static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 

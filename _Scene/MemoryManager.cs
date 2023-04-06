@@ -19,7 +19,7 @@ public static class MemoryManager
     {
         get
         {
-            return BackgroundHUB.loadingGIF.GetValue();
+            return BackgroundHUB.LoadingGIF;
         }
     }
 

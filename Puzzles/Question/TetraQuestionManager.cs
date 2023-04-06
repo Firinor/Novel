@@ -53,6 +53,7 @@ namespace Puzzle.TetraQuestion
         public override void ClearPuzzle()
         {
             questionIndex = 0;
+            correctAnswerCount = 0;
             questionImage.enabled = false;
             VictoryButton.SetActive(false);
             FailButton.SetActive(false);
@@ -117,18 +118,21 @@ namespace Puzzle.TetraQuestion
 
         public void NextQuestion()
         {
+            questionIndex++;
             if (questionIndex >= questionQueue.Length)
             {
                 FinishPuzzle();
                 return;
             }
 
-            FillQuestion(questionQueue.First);
+            FillQuestion(questionQueue.GetQuestionFromVariant(questionIndex));
         }
 
         private void FinishPuzzle()
         {
-            if(correctAnswerCount >= correctAnswerNeededCount)
+            ResetCurrentAnswerNeededCount();
+
+            if (correctAnswerCount >= correctAnswerNeededCount)
                 SuccessfullySolvePuzzle();
             else
                 LosePuzzle();
@@ -145,19 +149,18 @@ namespace Puzzle.TetraQuestion
         public void SetPuzzleInformationPackage(TetraQuestionPackage tetraQuestion)
         {
             questionQueue = tetraQuestion.Questions; //GetRandomQuestion();
-            SetCurrentAnswerNeededCount();
             SetVictoryEvent(tetraQuestion.successPuzzleAction);
             SetFailEvent(tetraQuestion.failedPuzzleAction);
             SetBackground(tetraQuestion.PuzzleBackground);
         }
 
-        private void SetCurrentAnswerNeededCount()
+        private void ResetCurrentAnswerNeededCount()
         {
             correctAnswerNeededCount = GameMath.Range(questionQueue.correctAnswerNeededCount, 
                 lowerBound: 1, upperBound: questionQueue.Length);
         }
 
-        private IEnumerator ButtonAnimating(int button, Sprite newSprite)
+        private IEnumerator ButtonAnimating(int button, Sprite newSprite, Action onEndAction = null)
         {
             Image image = answersArray[button].Image;
             Sprite oldImage = image.sprite;
@@ -175,7 +178,7 @@ namespace Puzzle.TetraQuestion
             yield return wait;
             image.sprite = newSprite;
 
-            NextQuestion();
+            onEndAction?.Invoke();
         }
 
         public void SetPlayerAnswer(int button)
@@ -185,14 +188,15 @@ namespace Puzzle.TetraQuestion
             if (button != correctAnswer)
             {
                 StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite));
-                StartCoroutine(ButtonAnimating(button, failButtonSprite));
+                StartCoroutine(ButtonAnimating(button, failButtonSprite, onEndAction: NextQuestion));
             }
             else
             {
                 correctAnswerCount++;
-                StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite));
+                StartCoroutine(ButtonAnimating(correctAnswer, victoryButtonSprite, onEndAction: NextQuestion));
             }
         }
+
         private void SetEnabledAllButtons(bool enabled)
         {
             foreach (Answer answer in answersArray)

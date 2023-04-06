@@ -17,118 +17,23 @@ public enum ReadingRoomMarks { map, dialog, options, off,
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel, IReadingSceneManager
 {
     #region Instances
-    private static GameObject dialog
-    {
-        get
-        {
-            return DialogHUB.DialogObject.GetValue();
-        }
-    }
-    private static GameObject puzzleFindObject
-    {
-        get
-        {
-            return PuzzleHUB.FindObject.GetValue();
-        }
-    }
-    private static GameObject puzzleTetraQuestion
-    {
-        get
-        {
-            return PuzzleHUB.TetraQuestion.GetValue();
-        }
-    }
-    private static GameObject puzzleFindDifference
-    {
-        get
-        {
-            return PuzzleHUB.FindDifference.GetValue();
-        }
-    }
-    private static GameObject puzzleSearchObjects
-    {
-        get
-        {
-            return PuzzleHUB.SearchObjects.GetValue();
-        }
-    }
-    private static GameObject puzzleSpectralAnalysis
-    {
-        get
-        {
-            return PuzzleHUB.SpectralAnalysis.GetValue();
-        }
-    }
-    private static GameObject puzzleStarMap
-    {
-        get
-        {
-            return PuzzleHUB.StarMap.GetValue();
-        }
-    }
-    private static GameObject puzzleBossBattle
-    {
-        get
-        {
-            return PuzzleHUB.BossBattle.GetValue();
-        }
-    }
-    private static FindObjectManager puzzleFindObjectManager
-    {
-        get
-        {
-            return (FindObjectManager)PuzzleHUB.FindObjectManager.GetValue();
-        }
-    }
-    private static TetraQuestionManager puzzleTetraQuestionManager
-    {
-        get
-        {
-            return (TetraQuestionManager)PuzzleHUB.TetraQuestionManager.GetValue();
-        }
-    }
-    private static FindDifferencesManager puzzleFindDifferencesManager
-    {
-        get
-        {
-            return (FindDifferencesManager)PuzzleHUB.FindDifferencesManager.GetValue();
-        }
-    }
-    private static SearchObjectsManager puzzleSearchObjectsManager
-    {
-        get
-        {
-            return (SearchObjectsManager)PuzzleHUB.SearchObjectsManager.GetValue();
-        }
-    }
-    private static SpectralAnalysisManager puzzleSpectralAnalysisManager
-    {
-        get
-        {
-            return (SpectralAnalysisManager)PuzzleHUB.SpectralAnalysisManager.GetValue();
-        }
-    }
-    private static StarMapManager puzzleStarMapManager
-    {
-        get
-        {
-            return (StarMapManager)PuzzleHUB.StarMapManager.GetValue();
-        }
-    }
-    private static BossBattleManager puzzleBossBattleManager
-    {
-        get
-        {
-            return (BossBattleManager)PuzzleHUB.BossBattleManager.GetValue();
-        }
-    }
-    private static MapCanvasOperator mapCanvasOperator
-    {
-        get
-        {
-            return (MapCanvasOperator)ReadingRoomHUB.MapCanvasOperator.GetValue();
-        }
-    }
+    private static GameObject dialog => DialogHUB.DialogObject;
+    private static GameObject puzzleFindObject => PuzzleHUB.FindObject;
+    private static GameObject puzzleTetraQuestion => PuzzleHUB.TetraQuestion;
+    private static GameObject puzzleFindDifference => PuzzleHUB.FindDifference;
+    private static GameObject puzzleSearchObjects => PuzzleHUB.SearchObjects;
+    private static GameObject puzzleSpectralAnalysis => PuzzleHUB.SpectralAnalysis;
+    private static GameObject puzzleStarMap => PuzzleHUB.StarMap;
+    private static GameObject puzzleBossBattle => PuzzleHUB.BossBattle;
+
+    private static FindObjectManager puzzleFindObjectManager => (FindObjectManager)PuzzleHUB.FindObjectManager;
+    private static TetraQuestionManager puzzleTetraQuestionManager => (TetraQuestionManager)PuzzleHUB.TetraQuestionManager;
+    private static FindDifferencesManager puzzleFindDifferencesManager => (FindDifferencesManager)PuzzleHUB.FindDifferencesManager;
+    private static SearchObjectsManager puzzleSearchObjectsManager => (SearchObjectsManager)PuzzleHUB.SearchObjectsManager;
+    private static SpectralAnalysisManager puzzleSpectralAnalysisManager => (SpectralAnalysisManager)PuzzleHUB.SpectralAnalysisManager;
+    private static StarMapManager puzzleStarMapManager => (StarMapManager)PuzzleHUB.StarMapManager;
+    private static BossBattleManager puzzleBossBattleManager => (BossBattleManager)PuzzleHUB.BossBattleManager;
+    private static MapCanvasOperator mapCanvasOperator => (MapCanvasOperator)ReadingRoomHUB.MapCanvasOperator;
     #endregion
 
     //private CanvasManager canvasManager;
@@ -145,7 +50,7 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     public void SetAllInstance()
     {
         SingletoneCheck(this);
-        SceneHUB.ReadingRoomSceneManager.SetValue(this);
+        SceneHUB.ReadingRoomSceneManagerCell.SetValue(this);
     }
 
     public static void SwitchPanels(ReadingRoomMarks mark)

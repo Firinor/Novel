@@ -25,11 +25,5 @@ namespace Puzzle.TetraQuestion
 
             return questionVariant.Variants[GameMath.RandomCardFromTheDeck(questionVariant.Length)];
         }
-        //public Question GetRandomQuestion()
-        //{
-        //    int 
-
-        //    return questionVariant.Variants[GameMath.RandomCardFromTheDeck(questionVariant.Length)];
-        //}
     }
 }

@@ -15,21 +15,10 @@ namespace Puzzle.FindObject
         private Image image;
         [SerializeField]
         private int keyIngredientNumber;
-        
-        private Camera mainCamera
-        {
-            get
-            {
-                return SceneHUB.Camera.GetValue();
-            }
-        }
-        private FindObjectManager puzzleManager
-        {
-            get
-            {
-                return (FindObjectManager)PuzzleHUB.FindObjectManager.GetValue();
-            }
-        }
+
+        private Camera MainCamera => SceneHUB.Camera;
+        private FindObjectManager puzzleManager => (FindObjectManager)PuzzleHUB.FindObjectManager;
+
         private bool drag = false;
         private float timer;
         private const float FIFTH_SEC = 0.2f;
@@ -229,7 +218,7 @@ namespace Puzzle.FindObject
         internal void Success()
         {
             puzzleManager.Particles(
-                mainCamera.WorldToScreenPoint(transform.position) / CanvasManager.ScaleFactor,
+                MainCamera.WorldToScreenPoint(transform.position) / CanvasManager.ScaleFactor,
                 success: true);
             image.color = Color.white;
         }

@@ -16,10 +16,10 @@ namespace Dialog
 
         public void Awake()
         {
-            DialogHUB.DialogObject.SetValue(DialogObject);
-            DialogHUB.DialogManager.SetValue(DialogManager);
-            DialogHUB.DialogOperator.SetValue(DialogOperator);
-            DialogHUB.Canvas.SetValue(Canvas);
+            DialogHUB.DialogObjectCell.SetValue(DialogObject);
+            DialogHUB.DialogManagerCell.SetValue(DialogManager);
+            DialogHUB.DialogOperatorCell.SetValue(DialogOperator);
+            DialogHUB.CanvasCell.SetValue(Canvas);
             Destroy(this);
         }
     }

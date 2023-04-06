@@ -42,8 +42,8 @@ namespace Puzzle.FindObject
         private float forseToIngredient;
         private float acceleration = 0.025f;
         public float ForseToIngredient { get => forseToIngredient; }
-        public ParticleSystem successParticleSystem { get => AllPuzzleHUB.SuccessParticleSystem.GetValue(); }
-        public ParticleSystem errorParticleSystem { get => AllPuzzleHUB.ErrorParticleSystem.GetValue(); }
+        public ParticleSystem successParticleSystem { get => AllPuzzleHUB.SuccessParticleSystem; }
+        public ParticleSystem errorParticleSystem { get => AllPuzzleHUB.ErrorParticleSystem; }
 
         [HideInInspector]
         public bool PointerOnRecipe;

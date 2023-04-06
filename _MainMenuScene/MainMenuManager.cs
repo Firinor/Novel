@@ -19,7 +19,7 @@ public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
     public void SetAllInstance()
     {
         SingletoneCheck(this);//Singltone
-        SceneHUB.MenuSceneManager.SetValue(this);
+        SceneHUB.MenuSceneManagerCell.SetValue(this);
 
         mainMenuInformator = GetComponent<MainMenuInformator>();
         mainMenuInformator.SingletoneCheck(mainMenuInformator);

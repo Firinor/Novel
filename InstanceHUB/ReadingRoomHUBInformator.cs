@@ -12,9 +12,9 @@ public class ReadingRoomHUBInformator : SinglBehaviour<ReadingRoomHUBInformator>
 
     void Awake()
     {
-        ReadingRoomHUB.Map.SetValue(map);
-        ReadingRoomHUB.ReadingRoomManager.SetValue(readingRoomManager);
-        ReadingRoomHUB.MapCanvasOperator.SetValue(mapCanvasOperator);
+        ReadingRoomHUB.MapCell.SetValue(map);
+        ReadingRoomHUB.ReadingRoomManagerCell.SetValue(readingRoomManager);
+        ReadingRoomHUB.MapCanvasOperatorCell.SetValue(mapCanvasOperator);
         Destroy(this);
     }
 }

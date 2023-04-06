@@ -15,13 +15,8 @@ namespace Dialog
         protected List<DialogNode> Choices;
         private DialogProgressStatus dialogProgressStatus = DialogProgressStatus.Hiden;
 
-        protected static DialogOperator dialogOperator
-        {
-            get
-            {
-                return (DialogOperator)DialogHUB.DialogOperator.GetValue();
-            }
-        }
+        protected static DialogOperator dialogOperator => (DialogOperator)DialogHUB.DialogOperator;
+        
         protected StoryInformator.Characters Characters;
         protected StoryInformator.Backgrounds Backgrounds;
 

@@ -9,20 +9,20 @@ namespace Puzzle
     public abstract class PuzzleOperator : MonoBehaviour
     {
         protected Image background;
-        public Image Background { get => BackgroundHUB.Image.GetValue(); }
+        public Image Background { get => BackgroundHUB.Image; }
 
         [SerializeField]
         protected float leftTime = 120;
         protected bool theTimerIsRunning;
 
-        public GameObject HelpButtons { get => AllPuzzleHUB.HelpButtons.GetValue(); }
+        public GameObject HelpButtons { get => AllPuzzleHUB.HelpButtons; }
         private Button exitButton;
         public Button ExitButton
         {
             get
             {
                 if (exitButton == null)
-                    exitButton = AllPuzzleHUB.ExitButton.GetValue().GetComponent<Button>();
+                    exitButton = AllPuzzleHUB.ExitButton.GetComponent<Button>();
                 
                 return exitButton;
             }
@@ -33,17 +33,17 @@ namespace Puzzle
             get
             {
                 if (optionsButton == null)
-                    optionsButton = AllPuzzleHUB.OptionsButton.GetValue().GetComponent<Button>();
+                    optionsButton = AllPuzzleHUB.OptionsButton.GetComponent<Button>();
 
                 return optionsButton;
             }
         }
 
-        public GameObject FailButton { get => AllPuzzleHUB.FailButton.GetValue(); }
-        public GameObject VictoryButton { get => AllPuzzleHUB.VictoryButton.GetValue(); }
-        public GameObject RetryButton { get => AllPuzzleHUB.RetryButton.GetValue(); }
+        public GameObject FailButton { get => AllPuzzleHUB.FailButton; }
+        public GameObject VictoryButton { get => AllPuzzleHUB.VictoryButton; }
+        public GameObject RetryButton { get => AllPuzzleHUB.RetryButton; }
 
-        public TextMeshProUGUI TimerText { get => AllPuzzleHUB.TimerText.GetValue(); }
+        public TextMeshProUGUI TimerText { get => AllPuzzleHUB.TimerText; }
 
         protected virtual void OnEnable()
         {
