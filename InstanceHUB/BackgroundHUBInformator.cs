@@ -15,7 +15,7 @@ public class BackgroundHUBInformator : MonoBehaviour
 
     void Awake()
     {
-        if (BackgroundHUB.LoadingGIF == null)
+        if (BackgroundHUB.LoadingGIFCell.isValueNull())
         {
             BackgroundHUB.LoadingGIFCell.SetValue(loadingGIF);
             BackgroundHUB.ImageCell.SetValue(image);
