@@ -110,13 +110,18 @@ public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePane
     {
         //map.SetActive(false);
         dialog.SetActive(false);
-        puzzleFindObject.SetActive(false);
-        puzzleTetraQuestion.SetActive(false);
-        puzzleFindDifference.SetActive(false);
-        puzzleSearchObjects.SetActive(false);
-        puzzleSpectralAnalysis.SetActive(false);
-        puzzleStarMap.SetActive(false);
-        puzzleBossBattle.SetActive(false);
+        GameObject[] puzzles = PuzzleHUB.GetNotNullPuzzles();
+        for (int i = 0; i < puzzles.Length; i++)
+        {
+            puzzles[i].SetActive(false);
+        }
+        //puzzleFindObject.SetActive(false);
+        //puzzleTetraQuestion.SetActive(false);
+        //puzzleFindDifference.SetActive(false);
+        //puzzleSearchObjects.SetActive(false);
+        //puzzleSpectralAnalysis.SetActive(false);
+        //puzzleStarMap.SetActive(false);
+        //puzzleBossBattle.SetActive(false);
         SceneManager.DiactiveAllPanels();
     }
 

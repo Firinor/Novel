@@ -8,8 +8,7 @@ namespace Puzzle
 {
     public abstract class PuzzleOperator : MonoBehaviour
     {
-        protected Image background;
-        public Image Background { get => BackgroundHUB.Image; }
+        public Image background { get => BackgroundHUB.Image; }
 
         [SerializeField]
         protected float leftTime = 120;

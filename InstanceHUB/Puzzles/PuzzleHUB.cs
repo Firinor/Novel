@@ -12,6 +12,56 @@ namespace Puzzle
         public static GameObject SpectralAnalysis => SpectralAnalysisCell.GetValue();
         public static GameObject StarMap => StarMapCell.GetValue();
         public static GameObject BossBattle => BossBattleCell.GetValue();
+        public static GameObject[] GetNotNullPuzzles()
+        {
+            GameObject[] accumulator = new GameObject[7];
+            int count = 0;
+
+            if (!FindObjectCell.isValueNull())
+            {
+                accumulator[count] = FindObjectCell.GetValue();
+                count++;
+            }
+            if (!TetraQuestionCell.isValueNull())
+            {
+                accumulator[count] = TetraQuestionCell.GetValue();
+                count++;
+            }
+            if (!FindDifferenceCell.isValueNull())
+            {
+                accumulator[count] = FindDifferenceCell.GetValue();
+                count++;
+            }
+            if (!SearchObjectsCell.isValueNull())
+            {
+                accumulator[count] = SearchObjectsCell.GetValue();
+                count++;
+            }
+            if (!SpectralAnalysisCell.isValueNull())
+            {
+                accumulator[count] = SpectralAnalysisCell.GetValue();
+                count++;
+            }
+            if (!StarMapCell.isValueNull())
+            {
+                accumulator[count] = StarMapCell.GetValue();
+                count++;
+            }
+            if (!BossBattleCell.isValueNull())
+            {
+                accumulator[count] = BossBattleCell.GetValue();
+                count++;
+            }
+
+            GameObject[] result = new GameObject[count];
+            for(int i = 0; i < count; i++)
+            {
+                result[i] = accumulator[i];
+            }
+
+            return result;
+        }
+
         public static MonoBehaviour FindObjectManager => FindObjectManagerCell.GetValue();
         public static MonoBehaviour TetraQuestionManager => TetraQuestionManagerCell.GetValue();
         public static MonoBehaviour FindDifferencesManager => FindDifferencesManagerCell.GetValue();
