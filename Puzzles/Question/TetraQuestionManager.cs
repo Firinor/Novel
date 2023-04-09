@@ -137,15 +137,6 @@ namespace Puzzle.TetraQuestion
             else
                 LosePuzzle();
         }
-
-        public override void SuccessfullySolvePuzzle()
-        {
-            VictoryButton.SetActive(true);
-        }
-        public override void LosePuzzle()
-        {
-            FailButton.SetActive(true);
-        }
         public void SetPuzzleInformationPackage(TetraQuestionPackage tetraQuestion)
         {
             questionQueue = tetraQuestion.Questions; //GetRandomQuestion();

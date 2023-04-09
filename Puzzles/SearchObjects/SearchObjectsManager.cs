@@ -54,8 +54,10 @@ namespace Puzzle.SearchObjects
         protected override void OnEnable()
         {
             base.OnEnable();
+
             ClearPuzzle();
-            DeleteAllInProgressList(desiredObjectsToSearch);
+            SetRetryEvent(RetryPuzzle);
+
             CreateNewObjectsToSearch();
             PlayStartAnimations();
 
@@ -65,6 +67,11 @@ namespace Puzzle.SearchObjects
                 .Where(_ => theTimerIsRunning && leftTime > 0)
                 .Subscribe(_ => TimerTick())
                 .AddTo(disposables);
+        }
+
+        public override void RetryPuzzle()
+        {
+            CreateNewObjectsToSearch();
         }
 
         private void CreateNewObjectsToSearch()
@@ -116,20 +123,14 @@ namespace Puzzle.SearchObjects
         {
             animationManager.PlayStart();
         }
-
-        public override void LosePuzzle()
-        {
-            DeactivatePuzzle();
-            FailButton.SetActive(true);
-        }
         public override void ClearPuzzle()
         {
             base.ClearPuzzle();
             detectiveDeskOperator.ClearImage();
             DeleteAllDifference();
             differencesFound = 0;
+            DeleteAllInProgressList(desiredObjectsToSearch);
         }
-
         public void DeleteAllDifference()
         {
             detectiveDeskOperator.DeleteAllDifference();
@@ -151,11 +152,6 @@ namespace Puzzle.SearchObjects
             detectiveDeskOperator.CreateImage(imageWithDifferences, trashObjects, desiredObjects,
                 searchObjectsPrefab);
             theTimerIsRunning = leftTime > 0;
-        }
-        public override void SuccessfullySolvePuzzle()
-        {
-            DeactivatePuzzle();
-            VictoryButton.SetActive(true);
         }
         protected override void DeactivatePuzzle()
         {

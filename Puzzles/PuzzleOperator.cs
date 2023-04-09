@@ -15,6 +15,7 @@ namespace Puzzle
         protected bool theTimerIsRunning;
 
         public GameObject HelpButtons { get => AllPuzzleHUB.HelpButtons; }
+        
         private Button exitButton;
         public Button ExitButton
         {
@@ -26,6 +27,7 @@ namespace Puzzle
                 return exitButton;
             }
         }
+        
         private Button optionsButton;
         public Button OptionsButton
         {
@@ -35,6 +37,30 @@ namespace Puzzle
                     optionsButton = AllPuzzleHUB.OptionsButton.GetComponent<Button>();
 
                 return optionsButton;
+            }
+        }
+        
+        private Button skipButton;
+        public Button SkipButton
+        {
+            get
+            {
+                if (skipButton == null)
+                    skipButton = AllPuzzleHUB.SkipButton.GetComponent<Button>();
+
+                return skipButton;
+            }
+        }
+        
+        private Button bookButton;
+        public Button BookButton
+        {
+            get
+            {
+                if (bookButton == null)
+                    bookButton = AllPuzzleHUB.BookButton.GetComponent<Button>();
+
+                return bookButton;
             }
         }
 
@@ -52,10 +78,15 @@ namespace Puzzle
         private void PreparePuzzle()
         {
             HelpButtons.SetActive(true);
+            SkipButton.onClick.RemoveAllListeners();
+            SkipButton.onClick.AddListener(SuccessfullySolvePuzzle);
+            BookButton.onClick.RemoveAllListeners();
+            BookButton.onClick.AddListener(OpenHelpBook);
             ExitButton.onClick.RemoveAllListeners();
             ExitButton.onClick.AddListener(PuzzleExit);
             OptionsButton.onClick.RemoveAllListeners();
             OptionsButton.onClick.AddListener(Options);
+            SetRetryEvent();
             ResetTimer();
         }
 
@@ -68,11 +99,17 @@ namespace Puzzle
         }
         public virtual void LosePuzzle()
         {
+            DeactivatePuzzle();
             FailButton.SetActive(true);
+            RetryButton.SetActive(true);
         }
         public virtual void Options()
         {
             PuzzleManager.Options();
+        }
+        public virtual void OpenHelpBook()
+        {
+            
         }
         public virtual void ClearPuzzle()
         {
@@ -84,16 +121,25 @@ namespace Puzzle
         {
             VictoryButton.SetActive(false);
             FailButton.SetActive(false);
+            RetryButton.SetActive(false);
         }
         public virtual void StartPuzzle()
         {
 
         }
 
+        public virtual void RetryPuzzle()
+        {
+            ClearPuzzle();
+            ResetTimer();
+            StartPuzzle();
+        }
+
         public virtual void SuccessfullySolvePuzzle()
         {
             DeactivatePuzzle();
             VictoryButton.SetActive(true);
+            RetryButton.SetActive(true);
         }
 
         protected virtual void DeactivatePuzzle()
@@ -116,6 +162,14 @@ namespace Puzzle
             button.onClick.AddListener(PuzzleExit);
             if (failAction != null)
                 button.onClick.AddListener(failAction);
+        }
+        protected virtual void SetRetryEvent(UnityAction retryAction = null)
+        {
+            Button button = RetryButton.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(RetryPuzzle);
+            if (retryAction != null)
+                button.onClick.AddListener(retryAction);
         }
         protected virtual void SetBackground(Sprite sprite)
         {

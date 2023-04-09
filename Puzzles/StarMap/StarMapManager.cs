@@ -147,7 +147,7 @@ namespace Puzzle.StarMap
             gameObject.SetActive(false);
         }
 
-        public void OpenHelpMap()
+        public override void OpenHelpBook()
         {
             if (!helpMap.activeSelf)
             {

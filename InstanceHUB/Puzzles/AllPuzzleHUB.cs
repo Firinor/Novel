@@ -12,6 +12,8 @@ namespace Puzzle
 
         public static GameObject HelpButtons => HelpButtonsCell.GetValue();
         public static MonoBehaviour ExitButton => ExitButtonCell.GetValue();
+        public static MonoBehaviour SkipButton => SkipButtonCell.GetValue();
+        public static MonoBehaviour BookButton => BookButtonCell.GetValue();
         public static MonoBehaviour OptionsButton => OptionsButtonCell.GetValue();
 
         public static TextMeshProUGUI TimerText => TimerTextCell.GetValue();
@@ -26,6 +28,8 @@ namespace Puzzle
         public static InstanceCell<GameObject> RetryButtonCell = new InstanceCell<GameObject>();
 
         public static InstanceCell<GameObject> HelpButtonsCell = new InstanceCell<GameObject>();
+        public static InstanceCell<MonoBehaviour> SkipButtonCell = new InstanceCell<MonoBehaviour>();
+        public static InstanceCell<MonoBehaviour> BookButtonCell = new InstanceCell<MonoBehaviour>();
         public static InstanceCell<MonoBehaviour> ExitButtonCell = new InstanceCell<MonoBehaviour>();
         public static InstanceCell<MonoBehaviour> OptionsButtonCell = new InstanceCell<MonoBehaviour>();
 

@@ -20,6 +20,10 @@ namespace Puzzle
         private Button exitButton;
         [SerializeField, NullCheck]
         private Button optionsButton;
+        [SerializeField, NullCheck]
+        private Button skipButton;
+        [SerializeField, NullCheck]
+        private Button bookButton;
 
         [SerializeField, NullCheck]
         private TextMeshProUGUI timerText;
@@ -43,6 +47,8 @@ namespace Puzzle
             AllPuzzleHUB.HelpButtonsCell.SetValue(helpButtons);
             AllPuzzleHUB.ExitButtonCell.SetValue(exitButton);
             AllPuzzleHUB.OptionsButtonCell.SetValue(optionsButton);
+            AllPuzzleHUB.SkipButtonCell.SetValue(skipButton);
+            AllPuzzleHUB.BookButtonCell.SetValue(bookButton);
 
             AllPuzzleHUB.TimerTextCell.SetValue(timerText);
 

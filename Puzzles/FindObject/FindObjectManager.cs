@@ -71,10 +71,16 @@ namespace Puzzle.FindObject
             recipeOffset = recipeParent.sizeDelta.y - screenOffset;
         }
 
+        public override void RetryPuzzle()
+        {
+            OnEnable();
+        }
+
         protected override void OnEnable()
         {
             base.OnEnable();
             ClearPuzzle();
+            SetRetryEvent(RetryPuzzle);
             CreateNewRecipe();
             PlayStartAnimations();
         }
@@ -101,7 +107,7 @@ namespace Puzzle.FindObject
         public override void LosePuzzle()
         {
             DeleteIngredientsInList(allIngredients);
-            FailButton.SetActive(true);
+            base.LosePuzzle();
         }
         public override void ClearPuzzle()
         {
@@ -185,7 +191,7 @@ namespace Puzzle.FindObject
             CloseBox();
 
             await Task.Delay(500);
-            VictoryButton.SetActive(true);
+            base.SuccessfullySolvePuzzle();
         }
 
         private void CloseBox()
