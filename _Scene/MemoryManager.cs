@@ -1,15 +1,11 @@
+using FirEnum;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
-public enum SceneMarks
-{
-    menu, readingRoom, puzzles, dialog, allPuzzles,
-    findObject, tetraQuestion, findDifferences, searchObjects,
-    spectralAnalysis, DNA, nand, chemical, starMap, bossBattle
-};
+
 
 public static class MemoryManager
 {

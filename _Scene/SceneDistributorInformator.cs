@@ -1,3 +1,4 @@
+using FirEnum;
 using UnityEngine;
 
 public class SceneDistributorInformator : MonoBehaviour

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using FirEnum;
 using UnityEngine;
 
 public class CreditChallengeOperator : MonoBehaviour

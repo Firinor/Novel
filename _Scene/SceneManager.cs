@@ -1,10 +1,11 @@
 using FirUnityEditor;
+using FirEnum;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public enum ScenePosition { MapPosition, PuzzlePosition, Other }
+
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
     private IScenePanel readingRoomScene => (IScenePanel)SceneHUB.ReadingRoomSceneManager;

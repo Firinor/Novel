@@ -1,5 +1,5 @@
+using FirEnum;
 using FirUnityEditor;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,7 +1,6 @@
+using FirEnum;
 using System;
 using UnityEngine;
-
-public enum MenuMarks { baner, puzzles, credits, saves, options, off };
 
 public class MainMenuManager : SinglBehaviour<MainMenuManager>, IScenePanel
 {

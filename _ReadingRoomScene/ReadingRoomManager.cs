@@ -8,11 +8,7 @@ using Puzzle.StarMap;
 using Puzzle.SearchObjects;
 using Puzzle.BossBattle;
 using Puzzle.PortalBuild;
-
-public enum ReadingRoomMarks { map, dialog, options, off,
-    puzzleFindObject, puzzleTetraQuestion, puzzleFindDifferences, puzzleSearchObjects,
-    puzzleSpectralAnalysis, puzzleDNA, puzzleNand, puzzleChemical, puzzleStarMap, puzzleBossBattle
-};
+using FirEnum;
 
 public class ReadingRoomManager : SinglBehaviour<ReadingRoomManager>, IScenePanel, IReadingSceneManager
 {
