@@ -95,7 +95,6 @@ namespace Puzzle
             DeactivaButtons();
             background.enabled = false;
             gameObject.SetActive(false);
-            HelpButtons.SetActive(false);
         }
         public virtual void LosePuzzle()
         {

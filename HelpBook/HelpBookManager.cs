@@ -51,4 +51,9 @@ public class HelpBookManager : MonoBehaviour
             page.SetActive(false);
         }
     }
+
+    public void HelpBookButtonClick()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
 }
