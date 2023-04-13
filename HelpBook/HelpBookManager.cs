@@ -14,6 +14,15 @@ public class HelpBookManager : MonoBehaviour
     private void Awake()
     {
         listOfPages = new List<int>();
+        for(int i = 0; i < pages.Length; i++)
+        {
+            listOfPages.Add(i);
+        }
+    }
+
+    private void OnEnable()
+    {
+        ShowPage();
     }
 
     public void AddPage(int page)
@@ -24,12 +33,20 @@ public class HelpBookManager : MonoBehaviour
     public void PageForward()
     {
         pageIndex++;
+        if(pageIndex >= listOfPages.Count)
+        {
+            pageIndex = 0;
+        }
         ShowPage();
     }
 
     public void PageBackward()
     {
         pageIndex--;
+        if(pageIndex < 0)
+        {
+            pageIndex = listOfPages.Count-1;
+        }
         ShowPage();
     }
 
