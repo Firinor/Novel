@@ -1,6 +1,5 @@
 ﻿using FirParser;
 using FirSaveLoad;
-using ICSharpCode.NRefactory.Ast;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,22 +2,19 @@ using FirUnityEditor;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HelpBookManager : MonoBehaviour
+public class HelpBookManager : MonoBehaviour, IHelpBook
 {
     private List<int> listOfPages;
 
     [SerializeField, NullCheck]
     private GameObject[] pages;
     private int pageIndex;
-
+    [SerializeField, NullCheck]
+    private GameObject helpBookButton;
 
     private void Awake()
     {
         listOfPages = new List<int>();
-        for(int i = 0; i < pages.Length; i++)
-        {
-            listOfPages.Add(i);
-        }
     }
 
     private void OnEnable()
@@ -25,9 +22,21 @@ public class HelpBookManager : MonoBehaviour
         ShowPage();
     }
 
+    public void AddBookButton()
+    {
+        helpBookButton.SetActive(true);
+    }
+
     public void AddPage(int page)
     {
         listOfPages.Add(page);
+    }
+    public void AddPages(int[] pages)
+    {
+        foreach (int page in pages)
+        {
+            AddPage(page);
+        }
     }
 
     public void PageForward()

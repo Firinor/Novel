@@ -1,4 +1,7 @@
 using FirStory;
+using GluonGui.Dialog;
+using HelpBook;
+using System;
 using UnityEngine;
 
 namespace Dialog
@@ -37,8 +40,11 @@ namespace Dialog
                 dialogOperator.CleareAll();
                 dialogOperator.SetBackground(episode[incidentIndex].Background);
                 dialogOperator.SetCharacters(episode[incidentIndex].Characters);
-
-                if (episode[incidentIndex].Function == StoryInformator.instance.characters.Narrator)
+                if (IsInstantFunction(episode[incidentIndex].Function))
+                {
+                    //await nothing
+                }
+                else if (episode[incidentIndex].Function == StoryInformator.instance.characters.Narrator)
                 {
                     await dialogOperator.NarratorText(episode[incidentIndex].Text);
                 }
@@ -54,6 +60,22 @@ namespace Dialog
             }
 
             Fork();
+        }
+
+        private bool IsInstantFunction(string function)
+        {
+            bool result = false;
+
+            switch (function)
+            {
+                case "HelpBook":
+                    IHelpBook helpBook = (IHelpBook)HelpBookHUB.HelpBookManager;
+                    helpBook.AddBookButton();
+                    helpBook.AddPages(new int[]{0,1,2,3,4,5,6,7});
+                    break;
+            }
+
+            return result;
         }
 
         #region Non-removable garbage
