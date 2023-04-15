@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FirEnum;
 
 public interface IHelpBook
 {
     public void AddBookButton();
     public void AddPage(int page);
-    public void AddPages(int[] pages);
+    public void AddPage(HelpBookPages page);
 }

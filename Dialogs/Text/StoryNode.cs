@@ -1,3 +1,4 @@
+using FirEnum;
 using FirStory;
 using GluonGui.Dialog;
 using HelpBook;
@@ -16,6 +17,8 @@ namespace Dialog
         private Episode episode;
         private int incidentIndex;
         private int incidentCount;
+
+        private IHelpBook helpBook => (IHelpBook)HelpBookHUB.HelpBookManager;
 
         protected new void Awake()
         {
@@ -69,9 +72,14 @@ namespace Dialog
             switch (function)
             {
                 case "HelpBook":
-                    IHelpBook helpBook = (IHelpBook)HelpBookHUB.HelpBookManager;
                     helpBook.AddBookButton();
-                    helpBook.AddPages(new int[]{0,1,2,3,4,5,6,7});
+                    helpBook.AddPage(HelpBookPages.Title);
+                    helpBook.AddPage(HelpBookPages.Exam);
+                    result = true;
+                    break;
+                case "HelpBookPigpen":
+                    helpBook.AddPage(HelpBookPages.Pigpen);
+                    result = true;
                     break;
             }
 

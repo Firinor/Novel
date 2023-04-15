@@ -1,3 +1,4 @@
+using FirEnum;
 using FirUnityEditor;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,11 @@ using UnityEngine;
 public class HelpBookManager : MonoBehaviour, IHelpBook
 {
     private List<int> listOfPages;
+
+    [SerializeField, NullCheck]
+    private int[] ExamPages;
+    [SerializeField, NullCheck]
+    private int[] PigpenPages;
 
     [SerializeField, NullCheck]
     private GameObject[] pages;
@@ -31,11 +37,28 @@ public class HelpBookManager : MonoBehaviour, IHelpBook
     {
         listOfPages.Add(page);
     }
-    public void AddPages(int[] pages)
+
+    public void AddPage(HelpBookPages page)
     {
-        foreach (int page in pages)
+        switch (page)
         {
-            AddPage(page);
+            case HelpBookPages.Exam:
+                AddPages(ExamPages);
+                break;
+            case HelpBookPages.Pigpen:
+                AddPages(PigpenPages);
+                break;
+            default:
+                listOfPages.Add((int)page);
+                break;
+        }
+    }
+
+    private void AddPages(int[] pages)
+    {
+        foreach(int page in pages)
+        {
+            listOfPages.Add(page);
         }
     }
 
