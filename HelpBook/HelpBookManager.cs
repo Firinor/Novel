@@ -8,12 +8,12 @@ public class HelpBookManager : MonoBehaviour, IHelpBook
     private List<int> listOfPages;
 
     [SerializeField, NullCheck]
-    private int[] ExamPages;
+    private GameObject[] ExamPages;
     [SerializeField, NullCheck]
-    private int[] PigpenPages;
+    private GameObject[] PigpenPages;
 
     [SerializeField, NullCheck]
-    private GameObject[] pages;
+    private GameObject[] allPages;
     private int pageIndex;
     [SerializeField, NullCheck]
     private GameObject helpBookButton;
@@ -54,11 +54,18 @@ public class HelpBookManager : MonoBehaviour, IHelpBook
         }
     }
 
-    private void AddPages(int[] pages)
+    private void AddPages(GameObject[] pagesToAdd)
     {
-        foreach(int page in pages)
+        foreach(GameObject pageToAdd in pagesToAdd)
         {
-            listOfPages.Add(page);
+            for(int i = 0; i < allPages.Length; i++)
+            {
+                if (allPages[i] == pageToAdd)
+                {
+                    listOfPages.Add(i);
+                    break;
+                }
+            }
         }
     }
 
@@ -90,12 +97,12 @@ public class HelpBookManager : MonoBehaviour, IHelpBook
 
     private void EnablePage(int pageIndex)
     {
-        pages[listOfPages[pageIndex]].SetActive(true);
+        allPages[listOfPages[pageIndex]].SetActive(true);
     }
 
     private void DisableAllPages()
     {
-        foreach (var page in pages)
+        foreach (var page in allPages)
         {
             page.SetActive(false);
         }

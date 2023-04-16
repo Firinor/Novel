@@ -467,5 +467,10 @@ namespace Dialog
             OffBackground();
             gameObject.SetActive(false);
         }
+
+        public async Task AwaitPlayerInput()
+        {
+            await NarratorText();
+        }
     }
 }

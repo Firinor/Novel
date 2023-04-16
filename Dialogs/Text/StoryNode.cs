@@ -1,8 +1,6 @@
 using FirEnum;
 using FirStory;
-using GluonGui.Dialog;
 using HelpBook;
-using System;
 using UnityEngine;
 
 namespace Dialog
@@ -47,6 +45,10 @@ namespace Dialog
                 {
                     //await nothing
                 }
+                else if (episode[incidentIndex].Function == "SplitScreen")
+                {
+                    await dialogOperator.AwaitPlayerInput();
+                }
                 else if (episode[incidentIndex].Function == StoryInformator.instance.characters.Narrator)
                 {
                     await dialogOperator.NarratorText(episode[incidentIndex].Text);
@@ -67,6 +69,9 @@ namespace Dialog
 
         private bool IsInstantFunction(string function)
         {
+            if(string.IsNullOrEmpty(function)) 
+                return false;
+
             bool result = false;
 
             switch (function)

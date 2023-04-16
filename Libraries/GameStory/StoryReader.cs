@@ -311,6 +311,11 @@ namespace FirStory
 
         private static MultiText GetTexts(List<string> separateString)
         {
+            if (!string.IsNullOrEmpty(separateString[functionInt]))
+            {
+                return new MultiText(columnsLanguage.Count);
+            }
+
             if (string.IsNullOrEmpty(separateString[columnsLanguage[global::Languages.RU]]))
             {
                 return null;
