@@ -18,11 +18,6 @@ public class HelpBookManager : MonoBehaviour, IHelpBook
     [SerializeField, NullCheck]
     private GameObject helpBookButton;
 
-    private void Awake()
-    {
-        listOfPages = new List<int>();
-    }
-
     private void OnEnable()
     {
         ShowPage();
@@ -30,6 +25,7 @@ public class HelpBookManager : MonoBehaviour, IHelpBook
 
     public void AddBookButton()
     {
+        listOfPages = new List<int>();
         helpBookButton.SetActive(true);
     }
 
@@ -49,7 +45,7 @@ public class HelpBookManager : MonoBehaviour, IHelpBook
                 AddPages(PigpenPages);
                 break;
             default:
-                listOfPages.Add((int)page);
+                AddPage((int)page);
                 break;
         }
     }

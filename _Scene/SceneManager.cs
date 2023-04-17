@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+using Dialog;
 
 public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 {
@@ -218,6 +218,15 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         else
         {
             throw new Exception("Error on checking scene!");
+        }
+    }
+
+    public static void SkipButton()
+    {
+        if (!DialogHUB.DialogOperatorCell.isValueNull())
+        {
+            DialogOperator dialogOperator = (DialogOperator)DialogHUB.DialogOperator;
+            dialogOperator.DialogSkip();
         }
     }
 }
