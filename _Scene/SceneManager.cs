@@ -12,7 +12,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     private IScenePanel menuScene => (IScenePanel)SceneHUB.MenuSceneManager;
 
     [SerializeField]
-    private SceneMarks currentScene;
+    private List<SceneMarks> currentSceneQueue;
     [SerializeField]
     private GameObject currentSceneGameObject;
 
@@ -21,7 +21,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
     {
         get
         {
-            return instance.currentScene;
+            return instance.currentSceneQueue[instance.currentSceneQueue.Count - 1];
         }
     }
     private Dictionary<SceneMarks, GameObject> scenesObject = new Dictionary<SceneMarks, GameObject>();
@@ -62,9 +62,9 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
             }
         }
 
-        SetSceneObject(currentScene, currentSceneGameObject);
+        SetSceneObject(CurrentScene, currentSceneGameObject);
 
-        MemoryManager.InitializeSceneDictionary(currentScene);
+        MemoryManager.InitializeSceneDictionary(CurrentScene);
 
         CheckingTheScene();
 
@@ -134,11 +134,16 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     public void SetLoadSceneActive()
     {
-        scenesObject[currentScene].SetActive(false);
+        scenesObject[CurrentScene].SetActive(false);
         scenesObject[sceneToLoad].SetActive(true);
         //MemoryManager.UnloadScene(currentScene);
 
-        currentScene = sceneToLoad;
+        AddSceneToQueue(sceneToLoad);
+    }
+
+    private void AddSceneToQueue(SceneMarks sceneToLoad)
+    {
+        currentSceneQueue.Add(sceneToLoad);
     }
 
     public static void SwitchPanel(SceneDirection direction)
@@ -158,7 +163,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
                 ExitAction();
                 break;
             case SceneDirection.basic:
-                SceneMarks currentScene = instance.currentScene;
+                SceneMarks currentScene = instance.currentSceneQueue[instance.currentSceneQueue.Count - 1];
                 if (currentScene == SceneMarks.readingRoom || currentScene == SceneMarks.puzzles)
                 {
                     readingRoomScene.BasicPanelSettings();
@@ -175,12 +180,16 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     private static void ExitAction()
     {
-        SceneMarks currentScene = instance.currentScene;
+        int queueSceneIndex = instance.currentSceneQueue.Count - 1;
+        if(queueSceneIndex < 0)
+            throw new Exception("Error on exit button!");
+
+        SceneMarks currentScene = instance.currentSceneQueue[queueSceneIndex];
         if (currentScene == SceneMarks.readingRoom || currentScene == SceneMarks.puzzles)
         {
             //LoadScene("MainMenu");
         }
-        else if (currentScene == SceneMarks.menu)
+        else if (currentScene == SceneMarks.menu || queueSceneIndex == 0)
         {
 #if UNITY_EDITOR
             EditorApplication.isPlaying = false;
@@ -190,7 +199,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         }
         else
         {
-            throw new Exception("Error on exit button!");
+            instance.scenesObject[currentScene].SetActive(false);
         }
     }
 
@@ -201,7 +210,7 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
 
     public static void CheckingTheScene()
     {
-        SceneMarks currentScene = instance.currentScene;
+        SceneMarks currentScene = instance.currentSceneQueue[instance.currentSceneQueue.Count - 1];
         if (currentScene == SceneMarks.readingRoom || currentScene == SceneMarks.puzzles)
         {
             FindObjectOfType<ReadingRoomManager>().SetAllInstance();
