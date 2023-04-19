@@ -141,9 +141,9 @@ public class SceneManager : SinglBehaviour<SceneManager>, ILoadingManager
         AddSceneToQueue(sceneToLoad);
     }
 
-    private void AddSceneToQueue(SceneMarks sceneToLoad)
+    public static void AddSceneToQueue(SceneMarks sceneToLoad)
     {
-        currentSceneQueue.Add(sceneToLoad);
+        instance.currentSceneQueue.Add(sceneToLoad);
     }
 
     public static void SwitchPanel(SceneDirection direction)

@@ -25,6 +25,7 @@ namespace Dialog
         public static void ActivateDialog(RectTransform dialogButtonRectTransform)
         {
             backgroundCanvas.sortingOrder = instance.foregroundSortingOrder;
+            SceneManager.Add
             dialog.SetActive(true);
             cancellationTokenSource = new CancellationTokenSource();
             sceneManager.CheckMap(dialogButtonRectTransform);
